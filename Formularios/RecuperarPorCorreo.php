@@ -17,23 +17,25 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
 </head>
 
+
 <body>
-<div class="formulario">
+    <div class="formulario">
         <div class="welcome-back">
             <div class="message">
-                <h1 class="create-account text-white">RECUPERACIÓN DE CONTRASEÑA</h1>
-                <p class="text-white">¿Olvidaste tu contraseña?</p>
-                <p class="text-white">Selecciona el método por el cual te gustaría recuperarla.</p>
-                <a href="http://localhost/Prueba/Formularios/RecuperarPorCorreo.php">
-                    <button class="sign-up-btn">Vía correo electrónico</button>
-                </a> 
-                <a href="http://localhost/Prueba/Formularios/Registro.php">
-                    <button class="sign-up-btn">Vía preguntas secretas</button>
-                </a>
+                <h2 class="text-white d-flex justify-content-center">RECUPERACIÓN DE CONTRASEÑA</h2>
+                <div class="d-flex justify-content-center">
+                <img src="https://w7.pngwing.com/pngs/546/655/png-transparent-password-computer-icons-user-the-plain-style-miscellaneous-area-padlock.png" alt="recup-icon" style="height: 7rem" />
             </div>
-        </div>
-    </div>
-</body>
+            <br><br><p class="text-white fw-semibold">Ingrese su usuario:</p>
+            <input class="form-control bg-light" type="text" placeholder="Nombre de usuario" name="usuario" id="inputUser3" />
+            <div class="d-flex gap-1 justify-content-center mt-1">
+                <div id="btnEnviarContrasenia">
+                    <input type="submit" name="btnenviarcontrasenia" value="ENVIAR CONTRASEÑA" class="btn btn-info text-black w-100 mt-3 fw-semibold shadow-sm">
+                </div>
+            </div>
+        </div> 
+    </div> 
+</body> 
 
 </html>
 <?php ob_end_flush(); ?> 
