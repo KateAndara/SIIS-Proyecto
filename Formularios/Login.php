@@ -1,4 +1,5 @@
 <?php ob_start(); ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,6 +12,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  
   <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
   <title>Inicio de sesión</title>
   <!-- CSS only -->
@@ -24,18 +30,30 @@
     </div>
     <div class="container">
       <form class="form-horizontal" action="login.php" method="post">
-        <div class="input-group mt-4">
+        <div class="input-group mt-1">
           <div class="input-group-text bg-light">
-            <img src="https://icon-library.com/images/free-user-icon/free-user-icon-26.jpg" alt="username-icon" style="height: 2rem" />
+            <img src="https://icon-library.com/images/free-user-icon/free-user-icon-26.jpg" alt="username-icon" style="height: 2.5rem" />
           </div>
           <input class="form-control bg-light" type="text" placeholder="Usuario" name="usuario" id="inputUser3" />
         </div>
         <div class="input-group mt-1">
           <div class="input-group-text bg-light">
-            <img src="https://icon-library.com/images/show-password-icon/show-password-icon-7.jpg" alt="password-icon" style="height: 2rem" />
+          <button id="show_password" class="btn btn-dark"  type="button" style="width:40px" onclick="mostrarPassword()"> <span class="fa fa-eye-slash icon" ></span> </button>
           </div>
-          <input class="form-control bg-light" type="password" placeholder="Contraseña" name="password" id="inputPassword3" />
+          <input class="form-control bg-light" ID="txtPassword" type="Password" Class="form-control" placeholder="Contraseña" name="password">
         </div>
+        <script type="text/javascript">
+          function mostrarPassword(){
+              var cambio = document.getElementById("txtPassword");
+              if(cambio.type == "password"){
+                cambio.type = "text";
+                $('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+              }else{
+                cambio.type = "password";
+                $('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+              }
+            } 
+        </script>
         <br>
         <div class="pt-1">
           <a href="../Formularios/RecuperarContrasenia.php" class="text-decoration-none text-info fw-semibold fst-italic" style="font-size: 0.9rem">¿Olvidó su usuario y/o contraseña?</a>
