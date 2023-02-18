@@ -24,10 +24,10 @@
                 <h1 class="create-account text-white">RECUPERACIÓN DE CONTRASEÑA</h1>
                 <p class="text-white">¿Olvidaste tu contraseña?</p>
                 <p class="text-white">Selecciona el método por el cual te gustaría recuperarla.</p>
-                <a href="http://localhost/Prueba/Formularios/RecuperarPorCorreo.php">
+                <a href="http://localhost/SIIS-PROYECTO/Formularios/RecuperarPorCorreo.php">
                     <button class="sign-up-btn">Vía correo electrónico</button>
                 </a> 
-                <a href="http://localhost/Prueba/Formularios/Registro.php">
+                <a href="http://localhost/SIIS-PROYECTO/Formularios/Registro.php">
                     <button class="sign-up-btn">Vía preguntas secretas</button>
                 </a>
             </div>
