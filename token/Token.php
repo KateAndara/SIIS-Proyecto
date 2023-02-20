@@ -99,20 +99,9 @@ class ALLtoken
                 //comparar la data de vencimiento del token con la fecha actual
 
                 if ($datos_token->exp > time()) {
-                    echo "Token Valido"; 
-                    ?>
-                        <br><br>
-                        <label for="">Su token ha sido validado, para poder acceder al formulario de cambio de contraseña haga clic en el siguiente botón.</label><br><br>
-                        <a href="http://localhost/SIIS-PROYECTO/Formularios/CambiarContrasenia.php">
-                            <button class="sign-up-btn">Cambiar contraseña</button>
-                        </a> 
-                    <?php  
+                    echo "Token Valido";
                 } else {
                     echo "Token invalido, token vencido";
-                    ?>
-                        <br><br>
-                        <label for="">Su token ha expirado, solicite uno nuevo para poder reestablecer su contraseña.</label><br><br>
-                    <?php  
                 }
             } else {
                 echo "Token invalido";
