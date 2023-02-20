@@ -4,6 +4,8 @@ if (!empty($_POST["btniniciarSesion"])){
     $usuario=$_POST["usuario"];
     $clave=$_POST["password"];
     $sql=$conexion->query(" select * from tbl_ms_usuarios where Usuario='$usuario' and Contraseña='$clave' ");
+    session_start();
+    $_SESSION['usuario'] = $usuario;
 
     if ($usuario=="" ||$clave==""){ // Validación de campos vacíos.
       echo '<br>';
@@ -33,7 +35,7 @@ if (!empty($_POST["btniniciarSesion"])){
             $sql=$conexion->query(" select * from tbl_ms_usuarios where Usuario='$usuario' and Contraseña='$clave' and Estado='Nuevo' ");
             if ($datos=$sql->fetch_object()){ // Si el usuario es Nuevo.
           
-              header('Location: Preguntas.php'); //Gestión de preguntas del usuario.
+              header('Location: PreguntasUsuario.php'); //Gestión de preguntas del usuario.
             }else{ // Si el usuario está Bloqueado o Inactivo
               echo '<br>';
               echo '<div class="alert alert-danger">Usuario no activo. Debe solicitar al administrador activarlo.</div>';
@@ -42,7 +44,6 @@ if (!empty($_POST["btniniciarSesion"])){
     }else{ // Si los datos ingresados no existen en la base de datos.
       echo '<br>';
       echo '<div class="alert alert-danger">Acceso Denegado. Usuario/Contraseña inválidos.</div>';
-      session_start(); //Inicio de Sesión de Acceso Denegado.
       $sql=$conexion->query(" select * from tbl_ms_usuarios where Usuario='$usuario' and Estado='Activo' ");
       if ($datos=$sql->fetch_object()){ //Conteo de intentos siendo un usuario Activo.
       
@@ -80,9 +81,6 @@ if (!empty($_POST["btniniciarSesion"])){
 
           //Incrementar el contador de intentos
           $_SESSION['intentos'] = $intentos + 1;
-          }else{  //Usuario bloqueado por exceder de los intentos permitidos.
-            echo '<br>';
-            echo "Su usuario se ha bloqueado. Debe solicitar al administrador activarlo.";
           }
       }
     }
