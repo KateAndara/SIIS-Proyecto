@@ -82,8 +82,8 @@ try {
     $mail->isSMTP();                                            //Send using SMTP
     $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
     $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-    $mail->Username   = 'cazadores.software2022@gmail.com';                     //SMTP username
-    $mail->Password   = 'llwicaywpbiztvnr';                               //SMTP password
+    $mail->Username   = 'gabicruz0811@gmail.com';                     //SMTP username
+    $mail->Password   = 'kiunuzqpyhqwwzgq';                               //SMTP password
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
     $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
@@ -100,7 +100,7 @@ try {
     // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
 
 
-    $bodyHtml = 'Hola '.$nombre.', has solicitado cambiar tu contraseña, Presiona el botón';
+    $bodyHtml = 'Hola, '.$nombre.'. Has solicitado cambiar tu contraseña, para ello presiona el botón';
     $bodyHtml .= '<form action="http://localhost/SIIS-PROYECTO/pruebas.php" method="post">
       <input type="hidden" name="user" value='.$nombre.'>
     <input  type="hidden" name="token" value='.$token_generado.'>
