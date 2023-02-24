@@ -24,63 +24,96 @@
 
 
 <body>
-  <div class="bg-black p-5 rounded-5 text-secondary shadow" style="width: 25rem">
-    <div class="d-flex justify-content-center">
-      <img src="https://cdn-icons-png.flaticon.com/512/5087/5087579.png" alt="login-icon" style="height: 7rem" />
-    </div>
+  <div class="bg-black p-5 rounded-5 text-secondary shadow" style="width: 40rem">
     <div class="container">
+    <div class="d-flex justify-content-center">
+           <img src="https://cdn-icons-png.flaticon.com/512/5087/5087579.png" alt="login-icon" style="height: 7rem" />
+    </div>
       <form class="form-horizontal" action="" method="post">
-        <div class="input-group mt-4">
-          <div class="input-group-text bg-light">
-           <img src="https://icon-library.com/images/free-user-icon/free-user-icon-26.jpg" alt="username-icon" style="height: 2.5rem" />
-          </div>
-          <input class="form-control bg-light" type="text" placeholder="Usuario..." name="Usuario" id="inputUser3" maxlength="45" pattern="[A-Z]+" />
-        </div>
-		    <div class="input-group mt-4">
-          <div class="input-group-text bg-light">
-           <img src="https://icon-library.com/images/free-e-mail-icon/free-e-mail-icon-12.jpg" alt="username-icon" style="height: 2.5rem" />
-          </div>
-          <input class="form-control bg-light" type="email" placeholder="john@example.com" name="Email" id="floatingInputEmail" pattern="[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+" />
-        </div>
-        <br>
-        <div class="input-group mt-1">
-            <div class="input-group-text bg-light">
-                <button id="show_password" class="btn btn-dark"  type="button" style="width:40px" onclick="mostrarPassword()"> <span class="fa fa-eye-slash icon" ></span> </button>
+        <div class="row justify-content-center">
+            <div class="form-group col-md-6">
+               <label class="text-light">Usuario</label>
+               <div class="input-group-text bg-light ">
+                   <img src="https://icon-library.com/images/free-user-icon/free-user-icon-26.jpg" alt="username-icon" style="height: 2.5rem" />
+                   <input class="form-control bg-light" type="text" placeholder="Usuario..." name="Usuario" id="inputUser3" maxlength="45" />
+               </div>
+               
             </div>
-          <input class="form-control bg-light" type="password" placeholder="Contraseña..." name="Clave" id="txtPassword" maxlength="15" minlength="5"  />
+            
+             <div class="form-group col-md-6">
+                <label class="text-light">Nombre</label>
+                <div class="input-group-text bg-light ">
+                    <img src="https://icon-library.com/images/name-icon/name-icon-4.jpg" alt="username-icon" style="height: 2.5rem" />
+                    <input class="form-control bg-light" type="text" placeholder="Nombre..." name="Nombre" id="inputname" maxlength="60" />
+                </div>
+            
+             </div>
         </div>
-        <script type="text/javascript">
-          function mostrarPassword(){
-              var cambio = document.getElementById("txtPassword");
-              if(cambio.type == "password"){
-                cambio.type = "text";
-                $('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-              }else{
-                cambio.type = "password";
-                $('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-              }
-            } 
-        </script>
-        <br>
-		    <div class="input-group mt-1">
-            <div class="input-group-text bg-light">
-                <button id="show_password2" class="btn btn-dark"  type="button" style="width:40px" onclick="mostrarPassword2()"> <span class="fa fa-eye-slash icon" ></span> </button>
+       
+        <div class="row justify-content-center">
+             <div class="form-group col-md-6">
+                 <label class="text-light">DNI</label>
+                 <div class="input-group-text bg-light">
+                     <img src="https://icon-library.com/images/card-icon/card-icon-14.jpg" alt="username-icon" style="height: 2.5rem" />
+                     <input class="form-control bg-light" type="text" placeholder="0000-0000-00000" name="Dni" id="inputdni" maxlength="16" />
+                 </div>
+                 
+             </div>
+
+		         <div class="form-group col-md-6">
+                  <label class="text-light">Correo Electrónico</label>
+                  <div class="input-group-text bg-light ">
+                       <img src="https://icon-library.com/images/free-e-mail-icon/free-e-mail-icon-12.jpg" alt="username-icon" style="height: 2.5rem" />
+                       <input class="form-control bg-light" type="email" placeholder="john@example.com" name="Email" id="floatingInputEmail" maxlength="45" pattern="[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+" />
+                  </div>       
+             </div>
+            
+        </div>     
+  
+        <div class="row justify-content-center">
+            <div class="form-group col-md-6">
+                <label class="text-light">Contraseña</label>
+                <div class="input-group-text bg-light ">
+                    <button id="show_password" class="btn btn-dark"  type="button" style="width:40px" onclick="mostrarPassword()"> <span class="fa fa-eye-slash icon" ></span> </button>
+                    <input class="form-control bg-light" type="password" placeholder="xxxx..." name="Clave" id="txtPassword" maxlength="15" minlength="5"  />
+                </div>
+                
             </div>
-          <input class="form-control bg-light" type="password" placeholder="Confirmar contraseña..." name="Confirmacion" id="txtPassword2" maxlength="15" minlength="5"  />
-        </div>
-        <script type="text/javascript">
-          function mostrarPassword2(){
-              var cambio = document.getElementById("txtPassword2");
-              if(cambio.type == "password"){
-                cambio.type = "text";
-                $('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-              }else{
-                cambio.type = "password";
-                $('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-              }
-            } 
-        </script>
-        <br>
+            <script type="text/javascript">
+            function mostrarPassword(){
+                  var cambio = document.getElementById("txtPassword");
+                     if(cambio.type == "password"){
+                        cambio.type = "text";
+                        $('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+                     }else{
+                        cambio.type = "password";
+                        $('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+                     }
+                  } 
+            </script>
+          
+		        <div class="form-group col-md-6">
+                   <label class="text-light">Confirmar Contraseña</label>
+                   <div class="input-group-text bg-light">
+                       <button id="show_password2" class="btn btn-dark"  type="button" style="width:40px" onclick="mostrarPassword2()"> <span class="fa fa-eye-slash icon" ></span> </button>
+                       <input class="form-control bg-light" type="password" placeholder="xxxx..." name="Confirmacion" id="txtPassword2" maxlength="15" minlength="5"  />
+                   </div>
+                   
+            </div>
+            <script type="text/javascript">
+                 function mostrarPassword2(){
+                    var cambio = document.getElementById("txtPassword2");
+                    if(cambio.type == "password"){
+                         cambio.type = "text";
+                         $('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+                    }else{
+                         cambio.type = "password";
+                         $('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+                    }
+                  } 
+            </script>
+            <br>
+        </div>    
         <div class="formulario__grupo" id="grupo__terminos">
                    <label class="formulario__label">
                       <input class="formulario__checkbox" type="checkbox" name="terminos" id="terminos" required>
@@ -88,7 +121,7 @@
                     </label>             
         </div>
         <div class="d-flex gap-1 justify-content-center mt-1">
-          <div id="btnRegistrar">
+          <div id="btnIniciarSesion">
             <input type="submit" name="btnRegistrar" value="REGISTRARSE" class="btn btn-info text-white w-100 mt-4 fw-semibold shadow-sm">
           </div>
         </div>
