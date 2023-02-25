@@ -35,7 +35,7 @@ if (!empty($_POST["btniniciarSesion"])){
             $sql=$conexion->query(" select * from tbl_ms_usuarios where Usuario='$usuario' and Contraseña='$clave' and Estado='Nuevo' ");
             if ($datos=$sql->fetch_object()){ // Si el usuario es Nuevo.
           
-              header('Location: PreguntasUsuario.php'); //Gestión de preguntas del usuario.
+              header('Location: PreguntasUsuarioNuevo.php'); //Gestión de preguntas del usuario.
             }else{ // Si el usuario está Bloqueado o Inactivo
               echo '<br>';
               echo '<div class="alert alert-danger">Usuario no activo. Debe solicitar al administrador activarlo.</div>';
@@ -44,10 +44,17 @@ if (!empty($_POST["btniniciarSesion"])){
     }else{ // Si los datos ingresados no existen en la base de datos.
       echo '<br>';
       echo '<div class="alert alert-danger">Acceso Denegado. Usuario/Contraseña inválidos.</div>';
+      // Consulta SQL para obtener el valor del campo "Parametro".
+      $sql = "SELECT Valor FROM tbl_ms_parametros where Parametro='ADMIN_INTENTOS'"; 
+      $resultado = $conexion->query($sql);
+
+      // Recuperar el valor del campo "parametro"
+      $parametroIntentos = mysqli_fetch_assoc($resultado)['Valor'];
+
       $sql=$conexion->query(" select * from tbl_ms_usuarios where Usuario='$usuario' and Estado='Activo' ");
       if ($datos=$sql->fetch_object()){ //Conteo de intentos siendo un usuario Activo.
       
-        $max_intentos = 3; //Número máximo de intentos permitidos
+        $max_intentos = $parametroIntentos; //Número máximo de intentos permitidos.
           $intentos = isset($_SESSION['intentos']) ? $_SESSION['intentos'] : 1;
 
          if ($intentos >= $max_intentos) { //Si el usuario supera los intentos permitidos.
@@ -66,7 +73,7 @@ if (!empty($_POST["btniniciarSesion"])){
           $sql=$conexion->query(" select * from tbl_ms_usuarios where Usuario='$usuario' and Estado='Nuevo' ");
           if ($datos=$sql->fetch_object()){ //Conteo de intentos siendo un usuario Nuevo.
         
-            $max_intentos = 3; // número máximo de intentos permitidos
+            $max_intentos = $parametroIntentos; //Número máximo de intentos permitidos.
           $intentos = isset($_SESSION['intentos']) ? $_SESSION['intentos'] : 1;
 
          if ($intentos >= $max_intentos) { //Si el usuario supera los intentos permitidos.
