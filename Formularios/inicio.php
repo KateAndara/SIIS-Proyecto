@@ -1,11 +1,33 @@
 <?php
 
     session_start();
+    require_once("../config/conexion.php");
     $varsesion = $_SESSION['usuario'];
     if($varsesion == null || $varsesion ==''){
         header("location: index.html");
         die();
     }
+    // Consulta para obtener el id_rol del usuario.
+  $sql = "SELECT Id_Rol FROM tbl_ms_usuarios WHERE Usuario='$varsesion' LIMIT 1";
+  $resultado = $conexion->query($sql);
+  
+  // Almacenar el id_rol en la variable de sesión.
+  if ($resultado->num_rows == 1) {
+    $fila = $resultado->fetch_assoc();
+    $_SESSION['Id_Rol'] = $fila['Id_Rol'];
+    $id_rol=$_SESSION['Id_Rol'];
+  }
+
+  // Obtener el rol correspondiente al ID.
+  $sql = "SELECT * FROM tbl_ms_roles WHERE Id_Rol='$id_rol' LIMIT 1";
+  $resultado = $conexion->query($sql);
+  
+  // Almacenar el nombre del rol.
+  if ($resultado->num_rows == 1) {
+    $fila = $resultado->fetch_assoc();
+    $nombre_rol = $fila['Rol'];
+  }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -68,19 +90,23 @@
                             <a href="" class="dropdown-item">Kardex</a> 
                         </div>
                     </div>
+                    <?php
+                    if ($nombre_rol == 'Administrador') {
+                        echo'<div class="nav-item dropdown">';
+                        echo'<a href="" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-shield-halved"></i></i>SEGURIDAD</a>';
+                        echo '<div class="dropdown-menu bg-transparent border-0">';
+                           echo '<a href="" class="dropdown-item">Usuarios</a>';
+                            echo '<a href="" class="dropdown-item">Roles</a>';
+                            echo '<a href="" class="dropdown-item">Permisos</a>';
+                            echo '<a href="" class="dropdown-item">Bitácora</a>';
+                            echo '<a href="" class="dropdown-item">Parámetros</a>';
+                            echo '<a href="" class="dropdown-item">Preguntas</a>';
+                        echo '</div>';
+                    echo '</div>';
+                    }
+                    ?>
                     <div class="nav-item dropdown">
-                        <a href="" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-shield-halved"></i></i>SEGURIDAD</a>
-                        <div class="dropdown-menu bg-transparent border-0">
-                            <a href="" class="dropdown-item">Usuarios</a>
-                            <a href="" class="dropdown-item">Roles</a>
-                            <a href="" class="dropdown-item">Permisos</a>
-                            <a href="" class="dropdown-item">Bitácora</a>
-                            <a href="" class="dropdown-item">Parámetros</a>
-                            <a href="" class="dropdown-item">Preguntas</a>
-                        </div>
-                    </div>
-                    <div class="nav-item dropdown">
-                        <a href="" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-shield-halved"></i></i>MANTENIMIENTO</a>
+                        <a href="" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-screwdriver-wrench"></i></i>MANTENIMIENTO</a>
                         <div class="dropdown-menu bg-transparent border-0">
                             <a href="" class="dropdown-item">Cargos</a>
                             <a href="" class="dropdown-item">Estado de Venta</a>
