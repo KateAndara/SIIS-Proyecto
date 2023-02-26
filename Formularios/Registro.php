@@ -64,7 +64,7 @@
                   <label class="text-light">Correo Electrónico</label>
                   <div class="input-group-text bg-light ">
                        <img src="https://icon-library.com/images/free-e-mail-icon/free-e-mail-icon-12.jpg" alt="username-icon" style="height: 2.5rem" />
-                       <input class="form-control bg-light" type="email" placeholder="john@example.com" name="Email" id="floatingInputEmail" maxlength="45" pattern="[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+" />
+                       <input class="form-control bg-light" type="email" placeholder="john@example.com" name="Email" id="floatingInputEmail" maxlength="45"  />
                   </div>       
              </div>
             
