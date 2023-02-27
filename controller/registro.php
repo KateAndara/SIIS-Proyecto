@@ -88,27 +88,18 @@
             $sql1=$conexion->query(" select * from tbl_ms_roles where Rol='$rol' ");
             if ($datos=$sql1->fetch_object()){
               $sql2=$conexion->query(" select Id_Rol from tbl_ms_roles where Rol='$rol' ");
-              $id_rol=mysqli_fetch_assoc($sql2); // Id del rol en la BD
+              $id_rol=mysqli_fetch_assoc($sql2)['Id_Rol']; // Id del rol en la BD
               $id_rol= (int) $id_rol;
-            } else {
-              $sql2=$conexion -> query("insert into tbl_ms_roles(Rol,Descripcion)values('$rol','Rol por defecto')");
-              $sql3=$conexion->query(" select Id_Rol from tbl_ms_roles where Rol='$rol' ");
-              $id_rol=mysqli_fetch_assoc($sql3);  // Id del rol en la BD
-              $id_rol= (int) $id_rol;
-            }
+              
+            } 
             //Condicion para crear el cargo por defecto de los usuarios o selecionarlo
             $sql4=$conexion->query(" select * from tbl_cargos where Nombre_Cargo='$cargo' ");
             if ($datos=$sql4->fetch_object()){
               $sql5=$conexion->query(" select Id_Cargo from tbl_cargos where Nombre_Cargo='$cargo' ");
-              $id_cargo=mysqli_fetch_assoc($sql5); // Id del cargo en la BD
+              $id_cargo=mysqli_fetch_assoc($sql5)['Id_Cargo']; // Id del cargo en la BD
               $id_cargo=(int)$id_cargo;
               
-            } else {
-              $sql5=$conexion -> query("insert into tbl_cargos(Nombre_Cargo)values('$cargo')");
-              $sql6=$conexion->query(" select Id_Cargo from tbl_cargos where Nombre_Cargo='$cargo' ");
-              $id_cargo=mysqli_fetch_assoc($sql6); // Id del cargo en la BD
-              $id_cargo=(int)$id_cargo;
-            }
+            } 
 
             $usuario=$_POST["Usuario"];
             $nombre=$_POST["Nombre"];
