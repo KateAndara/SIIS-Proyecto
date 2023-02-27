@@ -95,7 +95,7 @@
                         echo'<div class="nav-item dropdown">';
                         echo'<a href="" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-shield-halved"></i></i>SEGURIDAD</a>';
                         echo '<div class="dropdown-menu bg-transparent border-0">';
-                           echo '<a href="" class="dropdown-item">Usuarios</a>';
+                           echo '<a href="Usuarios.php" class="dropdown-item">Usuarios</a>';
                             echo '<a href="" class="dropdown-item">Roles</a>';
                             echo '<a href="" class="dropdown-item">Permisos</a>';
                             echo '<a href="" class="dropdown-item">Bitácora</a>';
