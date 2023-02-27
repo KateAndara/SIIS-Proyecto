@@ -1,3 +1,44 @@
+<?php
+    session_start();
+    if (!empty($_POST["btnEditar"])){
+        include '../config/conexion2.php';
+        $Id_Usuario = $_POST['Id_Usuario'];
+        $Id_Rol = $_POST['Id_Rol'];
+        $Id_Cargo = $_POST['Id_Cargo'];
+        $Usuario = $_POST['Usuario'];
+        $Nombre = $_POST['Nombre'];
+        $Estado = $_POST['Estado'];
+        $Contraseña = $_POST['Contraseña'];
+        $Fecha_ultima_conexion = $_POST['Fecha_ultima_conexion'];
+        $Preguntas_contestadas = $_POST['Preguntas_contestadas'];
+        $Primer_ingreso = $_POST['Primer_ingreso'];
+        $Fecha_vencimiento = $_POST['Fecha_vencimiento'];
+        $DNI = $_POST['DNI'];
+        $Correo_Electronico = $_POST['Correo_Electronico'];
+        $Creado_por = $_POST['Creado_por'];
+        $Fecha_creacion = $_POST['Fecha_creacion'];
+        $Modificado_por = $_POST['Modificado_por'];
+        $Fecha_modificacion = $_POST['Fecha_modificacion'];
+      
+        $sql=$conexion->query(" select * from tbl_ms_usuarios");
+        session_start();
+        if ($Usuario=="" ||$Id_Rol=="" ||$Id_Cargo=="" ||$Nombre=="" ||$Estado=="" ||$Preguntas_contestadas=="" ||$Primer_ingreso=="" ||$DNI=="" ||$Correo_Electronico=="" ||$Modificado_por=="" ||$Fecha_modificacion==""){ // Validación de campos vacíos.
+          echo '<br>';
+          echo '<div class="alert alert-danger">Debe llenar el o los campos vacíos.</div>';
+        }else if ($Id_Rol<="" ||$Id_Cargo<=0 ||$Preguntas_contestadas<=0 ||$Primer_ingreso<0 ||$DNI<0){ // Validación de campos vacíos.
+          echo '<br>';
+          echo '<div class="alert alert-danger">Valor invalido.</div>';
+        }else if (strlen($Usuario)> 45){ // Validación de la cantidad de caracteres en el campo Usuario.
+          echo '<br>';
+          echo '<div class="alert alert-danger">El campo Usuario no puede exceder de 45 caracteres.</div>';
+        }else if(strpbrk($Usuario, " ")){ // Validación de espacios en blanco en el campo Usuario.
+          echo '<br>';
+          echo '<div class="alert alert-danger">El campo Usuario no puede contener espacios en blanco.</div>';
+        }
+    }
+
+?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -33,7 +74,7 @@
     header('Location: Usuarios.php?mensaje=error');
     exit();
     }
-    include_once '../config/conexion.php';
+    include_once '../config/conexion2.php';
     
     $Id_Usuario = $_GET['Id_Usuario'];
     $sentencia = $conexion->prepare("select * from tbl_ms_usuarios where Id_Usuario = ?;");
@@ -41,7 +82,7 @@
     $sentencia->execute([$Id_Usuario]);
     $usuario = $sentencia->fetch(PDO::FETCH_OBJ);
     //print_r($usuario);
-?>
+    ?>
 <div class="container mt-5" style="width: 100rem">
     <div class="row justify-content-center">
         <div class="col-md-4">
@@ -49,20 +90,20 @@
                 <div class="card-header">
                     Editar usuarios:
                 </div>
-                <form class="p-4" method="POST">
+                <form class="p-4" method="POST" action="../controller/editarUsuario.php">
                 <div class="mb-3">
                         <label class="form-label">Id Usuario: </label>
-                        <input type="number" class="form-control"  readonly name="Id_Usuario" autofocus required
+                        <input type="number" class="form-control"  readonly name="Id_Usuario"  required
                         value="<?php echo $usuario->Id_Usuario; ?>">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Id Rol: </label>
-                        <input type="number" class="form-control" name="Id_Rol" required 
-                        value="<?php echo $usuario->Id_Cargo; ?>">
+                        <input type="number" class="form-control" readonly name="Id_Rol" autofocus required 
+                        value="<?php echo $usuario->Id_Rol; ?>">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Id_Cargo: </label>
-                        <input type="number" class="form-control" name="Id_Cargo" autofocus required
+                        <input type="number" class="form-control" readonly name="Id_Cargo" autofocus required
                         value="<?php echo $usuario->Id_Cargo; ?>">
                     </div>
                     <div class="mb-3">
@@ -140,7 +181,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Fecha_modificacion: </label>
-                        <input type="date" class="form-control"  name="Fecha_modificacion" autofocus required
+                        <input type="date" class="form-control"   name="Fecha_modificacion" autofocus required
                         value="<?php echo $usuario->Fecha_modificacion; ?>">
                     </div>
                     <div class="d-grid">
@@ -149,7 +190,7 @@
                             <input type="submit" class="btn btn-primary" value="Editar">
                         </div>
                     </div>
-                    <?php require_once("../config/conexion.php");?>
+                    <?php require_once("../config/conexion2.php");?>
             </form>
             </div>
         </div>

@@ -4,7 +4,7 @@
         exit();
     }
 
-    include '../config/conexion.php';
+    include '../config/conexion2.php';
     $Id_Usuario = $_GET['Id_Usuario'];
 
     $sentencia = $conexion->prepare("DELETE FROM tbl_ms_usuarios where Id_Usuario = ?;");

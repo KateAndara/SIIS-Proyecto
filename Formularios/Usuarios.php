@@ -28,7 +28,7 @@
   <body>
 
 <?php
-    include_once "../config/conexion.php"; 
+    include_once "../config/conexion2.php"; 
     $sentencia = $conexion -> query("select * from tbl_ms_usuarios");
     $usuario = $sentencia->fetchAll(PDO::FETCH_OBJ);
     //print_r($usuario);
@@ -100,7 +100,7 @@
             ?> 
 
             <!-- fin alerta -->
-
+                
             <!--Noton que lleva a menu principal -->
             <a href="inicio.php" type="submit"  class="btn btn-warning">Menu principal</a>
 
