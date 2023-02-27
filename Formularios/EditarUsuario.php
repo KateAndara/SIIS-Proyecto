@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../style.css">
+
   <script src="../JS/script.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -49,7 +49,7 @@
                 <div class="card-header">
                     Editar usuarios:
                 </div>
-                <form class="p-4" method="POST" action="../controller/editarUsuario.php" action="../controller/editarUsuario.php">
+                <form class="p-4" method="POST">
                 <div class="mb-3">
                         <label class="form-label">Id Usuario: </label>
                         <input type="number" class="form-control"  readonly name="Id_Usuario" autofocus required

@@ -1,10 +1,9 @@
-@@ -0,0 +1,92 @@
   <?php
   ob_start(); 
 
     print_r($_POST);
     if(!isset($_POST['Id_Usuario'])){
-        header('Location: ../Formularios/Usuarios.php?mensaje=error');
+       
     }
     //Insertar edicion
     include '../config/conexion.php';
