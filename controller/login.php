@@ -77,7 +77,7 @@ if (!empty($_POST["btniniciarSesion"])){
 
              $idobjeto = substr($informacion, $posicion, -2);
 
-             echo $idobjeto . ' Usuario:' . $idusuario;
+             //echo $idobjeto . ' Usuario:' . $idusuario;
              $sql = $conexion->query("INSERT INTO tbl_ms_bitacora(Id_Usuario,Id_Objeto,Fecha,Accion,Descripcion) VALUES($idusuario,$idobjeto,now(),'Cambio de contraseña(Usuario Nuevo)','El usuario $usuario ha cambiado la contraseña') ");
 
             }else{ // Si el usuario está Bloqueado o Inactivo
