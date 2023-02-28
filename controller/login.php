@@ -29,6 +29,20 @@ if (!empty($_POST["btniniciarSesion"])){
       unset($_SESSION["intentos"]); // Inicio de la Sesión de Intentos.
       $sql=$conexion->query(" select * from tbl_ms_usuarios where Usuario='$usuario' and Contraseña='$clave' and Estado='Activo' ");
         if ($datos=$sql->fetch_object()){ // Si el Usuario está Activo.
+          // Consulta para obtener los ingresos a partir del nombre de usuario.
+          $sqlIngresos = "SELECT * FROM tbl_ms_usuarios WHERE Usuario = '$usuario'";
+          $resultado = mysqli_query($conexion, $sqlIngresos);
+          
+          // Verificar si se encontró el usuario y obtener los ingresos.
+          if (mysqli_num_rows($resultado) > 0) {
+            $fila = mysqli_fetch_assoc($resultado);
+            $ingresos_actuales = $fila["Primer_ingreso"];
+            $ingresos_nuevos = $ingresos_actuales + 1;
+            $sql=$conexion->query(" UPDATE tbl_ms_usuarios SET Primer_ingreso = '$ingresos_nuevos' where Usuario='$usuario'");
+          }
+
+          $fecha_actual = date('Y-m-d H:i:s');
+          $sql=$conexion->query(" UPDATE tbl_ms_usuarios SET Fecha_ultima_conexion = '$fecha_actual' where Usuario='$usuario'");
           header('Location: inicio.php'); //Acceso al sistema.
           //Bitácora
           $sql = $conexion->query("Select id_usuario from tbl_ms_usuarios where Usuario = '$usuario';");
@@ -54,8 +68,8 @@ if (!empty($_POST["btniniciarSesion"])){
 
 
         }else{
-            $sql=$conexion->query(" select * from tbl_ms_usuarios where Usuario='$usuario' and Contraseña='$clave' and Estado='Nuevo' ");
-            if ($datos=$sql->fetch_object()){ // Si el usuario es Nuevo.
+          $sql=$conexion->query(" select * from tbl_ms_usuarios where Usuario='$usuario' and Contraseña='$clave' and Estado='Nuevo' and Id_Rol !='3' ");
+          if ($datos=$sql->fetch_object()){ // Si el usuario es Nuevo y tiene rol asignado.
           
               header('Location: PreguntasUsuarioNuevo.php'); //Gestión de preguntas del usuario.
               //Bitácora
@@ -82,7 +96,7 @@ if (!empty($_POST["btniniciarSesion"])){
 
             }else{ // Si el usuario está Bloqueado o Inactivo
               echo '<br>';
-              echo '<div class="alert alert-danger">Usuario no activo. Debe solicitar al administrador activarlo.</div>';
+              echo '<div class="alert alert-danger">No puede acceder. Por favor, contacte al administrador.</div>';
             }
         }
     }else{ // Si los datos ingresados no existen en la base de datos.
