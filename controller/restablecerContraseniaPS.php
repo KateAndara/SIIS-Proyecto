@@ -36,6 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $query = "SELECT * FROM tbl_ms_usuarios WHERE Id_Usuario='$id_usuario'";
         $resultado = mysqli_query($conexion, $query);
         
+
         // Validar que la contraseña cumpla con los requisitos
         if(strpbrk($contrasenia, " ")){ // Validación de espacios en blanco en el campo Contraseña.
             echo '<br>';
@@ -43,7 +44,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           }else if (preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]{' . $parametroMinContrasenia . ',' . $parametroMaxContrasenia . '}$/', $contrasenia)) {
            // Insertar la contraseña en la tabla tbl_ms_usuarios
            $password=$contrasenia;
+             //Bitácora
+             $sql = $conexion->query("Select id_usuario from tbl_ms_usuarios where Usuario = '$usuario';");
+             $idusuario = $sql->fetch_object();
 
+
+             //limpiar datos
+             $informacion = json_encode($idusuario, true);
+             $posicion = strpos($informacion, ":") + 2;
+             $idusuario = substr($informacion, $posicion, -2);
+             $sql = $conexion->query("Select id_objeto from tbl_objetos where Objeto = 'cambio_contraPS';");
+             $idobjeto = $sql->fetch_object();
+
+             // limpiar datos 
+             $informacion = json_encode($idobjeto, true);
+
+             $posicion = strpos($informacion, ":") + 2;
+
+             $idobjeto = substr($informacion, $posicion, -2);
+
+             echo $idobjeto . ' Usuario:' . $idusuario;
+             $sql = $conexion->query("INSERT INTO tbl_ms_bitacora(Id_Usuario,Id_Objeto,Fecha,Accion,Descripcion) VALUES($idusuario,$idobjeto,now(),'Cambio de Contraseña exitoso','El usuario $usuario cambió la contraseña por medio de preguntas secretas') ");
             //Validar la confirmación de la contraseña.
             if ($confirmar_contrasenia != $password){
                 echo '<br>';
@@ -60,7 +81,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {// Si la contraseña no cumple con los requisitos.
         echo '<br>';
         echo '<div class="alert alert-danger">La contraseña debe contener al menos una letra minúscula, una letra mayúscula, un carácter especial, un número, ' . $parametroMinContrasenia . ' caracteres y máximo ' . $parametroMaxContrasenia . ' caracteres.</div> ';
-        }
+        //Bitácora
+        $sql = $conexion->query("Select id_usuario from tbl_ms_usuarios where Usuario = '$usuario';");
+        $idusuario = $sql->fetch_object();
+
+
+        //limpiar datos
+        $informacion = json_encode($idusuario, true);
+        $posicion = strpos($informacion, ":") + 2;
+        $idusuario = substr($informacion, $posicion, -2);
+        $sql = $conexion->query("Select id_objeto from tbl_objetos where Objeto = 'cambio_contraPS';");
+        $idobjeto = $sql->fetch_object();
+
+        // limpiar datos 
+        $informacion = json_encode($idobjeto, true);
+
+        $posicion = strpos($informacion, ":") + 2;
+
+        $idobjeto = substr($informacion, $posicion, -2);
+
+        echo $idobjeto . ' Usuario:' . $idusuario;
+        $sql = $conexion->query("INSERT INTO tbl_ms_bitacora(Id_Usuario,Id_Objeto,Fecha,Accion,Descripcion) VALUES($idusuario,$idobjeto,now(),'Cambio de Contraseña erróneo','El usuario $usuario no cumple con los requisitos necesarios para una contraseña segura') ");
+    }
     }       
 }
    

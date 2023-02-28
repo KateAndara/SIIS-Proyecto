@@ -101,7 +101,9 @@ if (!empty($_POST["btniniciarSesion"])){
         }
     }else{ // Si los datos ingresados no existen en la base de datos.
       echo '<br>';
+
       echo '<div class="alert alert-danger">Acceso Denegado. Usuario/Contraseña inválidos.</div>';
+      
       // Consulta SQL para obtener el valor del campo "Parametro".
       $sql = "SELECT Valor FROM tbl_ms_parametros where Parametro='ADMIN_INTENTOS'"; 
       $resultado = $conexion->query($sql);
