@@ -18,7 +18,7 @@
  
 
 
-             
+    <a href="GestionUsuario.php" type="submit"  class="btn btn-primary">Crear usuario</a>
 
 <table class="table table-sm table-dark" style="w" >
                         <thead>
@@ -33,6 +33,25 @@
                                 <th scope="col" colspan="2">Opciones</th>
                             </tr>
                         </thead>
+
+                        <?php 
+                                foreach($usuario as $dato){ 
+                         ?>
+                         <tr>
+                           <td scope="row"><?php echo $dato->Id_Usuario; ?></td>
+                           <td><?php echo $dato->Usuario; ?></td>
+                           <td><?php echo $dato->Nombre; ?></td>
+                           <td><?php echo $dato->Estado; ?></td>
+                           <td><?php echo $dato->Fecha_ultima_conexion; ?></td>
+                           <td><?php echo $dato->DNI; ?></td>
+                           <td><?php echo $dato->Correo_Electronico; ?></td>
+                           <td></td>
+                         </tr>
+
+                        <?php } ?>
+
+
+
 
 
 </div>                   
