@@ -33,7 +33,7 @@
         } 
         //Función para validar el campo email
         function valcorreo($email){      
-          $patron3 = "/^([a-zA-Z0-9\.]+@+[a-zA-Z]+(\.)+[a-zA-Z]{2,3})$/";
+          $patron3 = "/^([a-zA-Z0-9_.\.]+@+[a-zA-Z]+(\.)+[a-zA-Z]{2,3})$/";
           if(preg_match($patron3, $email)) {
               return true;
           }else{
@@ -100,22 +100,21 @@
               $id_cargo=(int)$id_cargo;
               
             } 
-
+            
+            $parametro="FEC_VENCIMIENTO";
+            $sql3=$conexion->query("select Valor from tbl_ms_parametros where Parametro='$parametro'");
+            $valor=mysqli_fetch_assoc($sql3)['Valor'];
+            $valor=(string)$valor;
             $usuario=$_POST["Usuario"];
             $nombre=$_POST["Nombre"];
             $dni=$_POST["Dni"];
             $contraseña=$_POST["Clave"];
             $correo=$_POST["Email"];
             $Fecha=date("Y-m-d");
+            $Fec_vencimiento=date("Y-m-d",strtotime("+30 days"));
             $estado="Nuevo";
-            $sql=$conexion -> query("insert into tbl_ms_usuarios(Id_Rol,Id_Cargo,Usuario,Nombre,Estado,Contraseña,DNI,Correo_Electronico, Fecha_creacion)values('$id_rol','$id_cargo','$usuario','$nombre','$estado','$contraseña','$dni','$correo','$Fecha')");
+            $sql=$conexion -> query("insert into tbl_ms_usuarios(Id_Rol,Id_Cargo,Usuario,Nombre,Estado,Contraseña,Fecha_vencimiento,DNI,Correo_Electronico, Fecha_creacion)values('$id_rol','$id_cargo','$usuario','$nombre','$estado','$contraseña','$Fec_vencimiento','$dni','$correo','$Fecha')");
             if ($sql==1){
-        
-                 $slq7=$conexion->query(" select Id_Usuario from tbl_ms_usuarios where Usuario='$usuario' ");
-                 $id_usuario=mysqli_fetch_assoc($slq7)['Id_Usuario'];
-                 $id_usuario=(int)$id_usuario;
-                 $fec_vencimiento=date("Y-m-d",strtotime("+ 1 month"));
-                 $sql8=$conexion->query("insert into tbl_ms_parametros(Id_Usuario,Parametro,Valor,Fecha_creacion)Values('$id_usuario','FEC_VENCIMIENTO','$fec_vencimiento','$Fecha')");
                  echo '<div class="alert alert-success">Usuario registrado correctamente</div> ';
                
               } else {
