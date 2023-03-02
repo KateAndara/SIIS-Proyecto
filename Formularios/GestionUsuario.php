@@ -53,6 +53,7 @@
                <div class="input-group-text bg-light ">
                    <img src="https://icon-library.com/images/free-user-icon/free-user-icon-26.jpg" alt="username-icon" style="height: 2.5rem" />
                    <input style=" text-transform: uppercase; " class="form-control bg-light" type="text" placeholder="Usuario..." name="Usuario" id="inputUser3" maxlength="45" />
+                   <input class="form-control bg-light" type="text" placeholder="Usuario..." name="Usuario" id="inputUser3" maxlength="45" />
                </div>
                
             </div>

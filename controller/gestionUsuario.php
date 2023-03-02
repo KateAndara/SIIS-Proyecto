@@ -10,28 +10,17 @@ error_reporting(E_ALL);
        } elseif ($_POST["Clave"] != $_POST["Confirmacion"]){
            echo '<div class="alert alert-danger">Los campos de contraseña no coinciden</div> ';
        } else {
+        $usuario=$_POST["Usuario"];
+        $contrasenia=$_POST["Clave"];
+        $nombre=$_POST["Nombre"];
         $usuario=strtoupper($_POST["Usuario"]);
         $clave=$_POST["Clave"];
         $nombre=strtoupper($_POST["Nombre"]);
         $dni=$_POST["Dni"];
-        $email=$_POST["Email"];
+        $correo=$_POST["Email"];
         $rol=$_POST["Rol"];
         $estado='Nuevo';
         $Fecha=date("Y-m-d");
-
-        $creadop = $_SESSION['usuario'];
-
-
-        $id_cargo=1;
-        $id_rol = $_POST["Rol"];
-        $contrasena = $_POST["Clave"];
-        $correo = $_POST["Email"];
-
- 
-        $parametro = $_POST["fecha_v"];
-
-
-        
 
         //Función para validar el campo de nombre
         function valnombre($nombre) {    
@@ -94,13 +83,13 @@ error_reporting(E_ALL);
         }else if(valdni($dni)==false){ // Validación de solo numeros en el campo del dni.
           echo '<br>';
           echo '<div class="alert alert-danger">El dni solo debe tener números y guión</div>';
-        }else if(valcorreo($email)==false){ // Validación del campo del correo con @ y punto.
+        }else if(valcorreo($correo)==false){ // Validación del campo del correo con @ y punto.
           echo '<br>';
           echo '<div class="alert alert-danger">El correo electrónico debe llevar una @ y un dominio(.com,.es,etc)</div>';
-        }else if(valcontraseña($clave)==false){ // Validación del campo del correo con @ y punto.
+        }else if(valcontraseña($contrasenia)==false){ // Validación del campo del correo con @ y punto.
           echo '<br>';
           echo '<div class="alert alert-danger">La contraseña debe tener minimo 1 carácter en mayúscula, minúscula y un carácter númerico </div>';
-        }else if(strpbrk($clave, " ")){ // Validación de espacios en blanco en el campo Contraseña.
+        }else if(strpbrk($contrasenia, " ")){ // Validación de espacios en blanco en el campo Contraseña.
           echo '<br>';
           echo '<div class="alert alert-danger">El campo Contraseña no puede contener espacios en blanco.</div>';
         }else{
@@ -110,6 +99,7 @@ error_reporting(E_ALL);
         }
 
       //insertar datos en la tabla 
+      $sql=$conexion -> query("insert into tbl_ms_usuarios(Id_Rol,Id_Cargo,Usuario,Nombre,Estado,Contraseña,DNI,Correo_Electronico, Fecha_creacion)values('$id_rol','$id_cargo','$usuario','$nombre','$estado','$contraseña','$dni','$correo','$Fecha')");
 
     
       } 
