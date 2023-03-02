@@ -135,7 +135,7 @@
 
                  $idobjeto = substr($informacion, $posicion, -2);
 
-                 echo $idobjeto . ' Usuario:' . $idusuario;
+                 
                  $sql = $conexion->query("INSERT INTO tbl_ms_bitacora(Id_Usuario,Id_Objeto,Fecha,Accion,Descripcion) VALUES($idusuario,$idobjeto,now(),'Auto registro','Se ha auto registrado el Usuario $usuario') ");
 
                
