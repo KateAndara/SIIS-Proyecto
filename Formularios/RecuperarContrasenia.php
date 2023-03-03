@@ -27,7 +27,7 @@
                 <a href="http://localhost/SIIS-PROYECTO/Formularios/RecuperarPorCorreo.php">
                     <button class="sign-up-btn">Vía correo electrónico</button>
                 </a> 
-                <a href="http://localhost/SIIS-PROYECTO/Formularios/ValidarUsuarioPS.php">
+                <a href="http://localhost/SIIS-PROYECTO/Formularios/Registro.php">
                     <button class="sign-up-btn">Vía preguntas secretas</button>
                 </a>
             </div>

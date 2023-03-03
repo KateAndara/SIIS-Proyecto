@@ -76,8 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     echo '<style>#respuesta { display:none; }</style>';
                     echo '<style>#preguntas { display:none; }</style>';
                 }else if ($contador =($parametroPreguntas) && isset($_POST["btnAceptar"])) { //Si se alcanza el número de preguntas contestadas.
-                     //Actualizar las preguntas contestadas.
-                     $sql=$conexion->query(" UPDATE tbl_ms_usuarios SET Preguntas_contestadas = '$parametroPreguntas' where Id_Usuario='$id_usuario'");
+
                     header('Location: NuevaContrasenia.php'); // Redireccionamiento a la configuración de una nueva contraseña.
                 }
 

@@ -70,17 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $sql=$conexion->query(" SELECT * FROM tbl_ms_usuarios WHERE Id_Usuario='$id_usuario' ");
                         //Actualizar la contraseña y el estado del usuario.
                         $sql=$conexion->query(" UPDATE tbl_ms_usuarios SET Contraseña = '$password', Estado = 'Activo' where Id_Usuario='$id_usuario'");
-                        
-                        echo '<style>#btnContrasenia { display:none; }</style>';
-                        echo '<style>#fila1 { display:none; }</style>';
-                        echo '<style>#fila2 { display:none; }</style>';
-                        echo '<style>#fila3 { display:none; }</style>';
-                        echo '<style>#miDiv { display:none; }</style>';
-                        echo '<br>';
-                        echo '<div class="alert alert-success">Los cambios se han guardado.</div> ';
-                        echo '<div class="pt-1">';
-                        echo '<a href="../Formularios/Login.php" class="text-decoration-none text-info fw-semibold fst-italic" style="font-size: 0.9rem">Ir a inicio de sesión</a>';
-                        echo '</div>';
+                        header('Location: Login.php'); // Redireccionamiento al Login.
                     }
                 }
             } else { // Si la contraseña no cumple con los requisitos.
