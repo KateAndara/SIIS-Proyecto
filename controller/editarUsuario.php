@@ -60,9 +60,6 @@ if (!empty($_POST["btnEditar"])){
   if ($Usuario=="" ||$Id_Rol=="" ||$Id_Cargo=="" ||$Nombre=="" ||$Estado=="" ||$Preguntas_contestadas=="" ||$Primer_ingreso=="" ||$DNI=="" ||$Correo_Electronico=="" ||$Modificado_por=="" ||$Fecha_modificacion==""){ // Validación de campos vacíos.
     echo '<br>';
     echo '<div class="alert alert-danger">Debe llenar el o los campos vacíos.</div>';
-  }else if ($Id_Rol<="" ||$Id_Cargo<=0 ||$Preguntas_contestadas<=0 ||$Primer_ingreso<0 ||$DNI<0){ // Validación de campos vacíos.
-    echo '<br>';
-    echo '<div class="alert alert-danger">Valor invalido.</div>';
   }else if (strlen($Usuario)> 45){ // Validación de la cantidad de caracteres en el campo Usuario.
     echo '<br>';
     echo '<div class="alert alert-danger">El campo Usuario no puede exceder de 45 caracteres.</div>';
@@ -72,19 +69,18 @@ if (!empty($_POST["btnEditar"])){
   }else if(!ctype_upper($Usuario)){ // Validación de solo mayúsculas en el campo Usuario.
     echo '<br>';
     echo '<div class="alert alert-danger">En el campo usuario solo se permiten mayúsculas.</div>';
-  }/*else if (strlen($clave)<5){ // Validación de la cantidad de caracteres minimo en el campo Contraseña.
+  }else if (strlen($Contraseña)<5){ // Validación de la cantidad de caracteres minimo en el campo Contraseña.
     echo '<br>';
     echo '<div class="alert alert-danger">El campo Contraseña no puede tener menos de 5 caracteres.</div>';
-  }else if (strlen($clave)> 15){ // Validación de la cantidad de caracteres maximo en el campo Contraseña.
+  }else if (strlen($Contraseña)> 15){ // Validación de la cantidad de caracteres maximo en el campo Contraseña.
     echo '<br>';
     echo '<div class="alert alert-danger">El campo Contraseña no puede exceder de 15 caracteres.</div>';
-  }else if(strpbrk($clave, " ")){ // Validación de espacios en blanco en el campo Contraseña.
+  }else if(strpbrk($Contraseña, " ")){ // Validación de espacios en blanco en el campo Contraseña.
     echo '<br>';
     echo '<div class="alert alert-danger">El campo Contraseña no puede contener espacios en blanco.</div>';
-  }else if (strlen($nombre)> 45){ // Validación de la cantidad de caracteres en el campo Nombre.
+  }else if (strlen($Nombre)> 45){ // Validación de la cantidad de caracteres en el campo Nombre.
     echo '<br>';
     echo '<div class="alert alert-danger">El campo Nombre no puede exceder de 60 caracteres.</div>';
-  } */
-  
+  }
 }
   ?> 

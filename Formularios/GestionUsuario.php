@@ -1,3 +1,4 @@
+<?phpinclude '../components/header.components.php';?>
 <?php ob_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,7 +17,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <title>Registro</title>
+  <title>Guaradar Usuario</title>
   <!-- CSS only -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
   
@@ -28,10 +29,24 @@
 <?php session_start();
     require_once("../config/conexion.php");
     $resultado = mysqli_query($conexion,"SELECT Id_Rol, Rol FROM tbl_ms_roles");
+     
+    $sql = "SELECT Valor FROM tbl_ms_parametros where Parametro='FEC_VENCIMIENTO'"; 
+    $resultado2 = $conexion->query($sql);
+
+    $parametroIntentos = mysqli_fetch_assoc($resultado2)['Valor'];
+    $fecha_actual = date("Y-m-d");
+    $parametro = date("Y-m-d",strtotime($fecha_actual."+ ".intval($parametroIntentos)." days"));
+
+
+
+    
   ?>  
 
   <div class="bg-black p-5 rounded-5 text-secondary shadow" style="width: 40rem">
     <div class="container">
+      <!--Boton regreasar a menu principal-->
+    <a href="GestionUsuarios.php" type="submit"  class="btn btn-primary">Regresar</a>
+
     <div class="d-flex justify-content-center">
            <img src="https://cdn-icons-png.flaticon.com/512/5087/5087579.png" alt="login-icon" style="height: 7rem" />
     </div>
@@ -41,16 +56,14 @@
                <label class="text-light">Usuario</label>
                <div class="input-group-text bg-light ">
                    <img src="https://icon-library.com/images/free-user-icon/free-user-icon-26.jpg" alt="username-icon" style="height: 2.5rem" />
-                   <input class="form-control bg-light" type="text" placeholder="Usuario..." name="Usuario" id="inputUser3" maxlength="45" />
+                   <input style=" text-transform: uppercase; " class="form-control bg-light" type="text" placeholder="Usuario..." name="Usuario" id="inputUser3" maxlength="45" />
                </div>
-               
             </div>
-            
              <div class="form-group col-md-6">
                 <label class="text-light">Nombre</label>
                 <div class="input-group-text bg-light ">
                     <img src="https://icon-library.com/images/name-icon/name-icon-4.jpg" alt="username-icon" style="height: 2.5rem" />
-                    <input class="form-control bg-light" type="text" placeholder="Nombre..." name="Nombre" id="inputname" maxlength="60" />
+                    <input style=" text-transform: uppercase; " class="form-control bg-light" type="text" placeholder="Nombre..." name="Nombre" id="inputname" maxlength="60" />
                 </div>
             
              </div>
@@ -81,7 +94,7 @@
                 <label class="text-light">Contraseña</label>
                 <div class="input-group-text bg-light ">
                     <button id="show_password" class="btn btn-dark"  type="button" style="width:40px" onclick="mostrarPassword()"> <span class="fa fa-eye-slash icon" ></span> </button>
-                    <input class="form-control bg-light" type="password" placeholder="xxxx..." name="Clave" id="txtPassword" maxlength="15" minlength="5"  />
+                    <input class="form-control bg-light" type="password" placeholder="xxxx..." name="Clave"  id="txtPassword" maxlength="15" minlength="5"  />
                 </div>
           </div>
             <script type="text/javascript">
@@ -121,25 +134,14 @@
         </div>    
 
         <div class="form-group col-md-6">
-                <label class="text-light">creado por:</label>
-                <div class="input-group-text bg-light ">
-                    <img src="https://icon-library.com/images/name-icon/name-icon-4.jpg" alt="username-icon" style="height: 2.5rem" />
-                    <input class="form-control bg-light" type="text" placeholder="Creado por" name="Creado_por" id="inputcreado" maxlength="60" />
-                </div>
-        </div> 
-
-        
-        <!--LIsta desplegable la cual muestra los estados del usuario-->
-        <div style="font-size: 25px">
-                <label for="estado">Estado del usuario</label>
-                <select name="Estado" id="estado">
-                    <option value="">-------</option>
-                    <option value="Activo">Activo</option>
-                    <option value="Inactivo">Inactivo</option>
-                    <option value="Bloqueado">Bloqueado</option>
-                    <option value="Nuevo">Nuevo</option>
-                </select>
+                   <label class="text-light">Fecha creación</label>
+                   <div class="input-group-text bg-light">
+                       <button id="show_password2" class="btn btn-dark"  type="button" style="width:40px" onclick="mostrarPassword2()"> <span class="fa fa-calendar-o icon" ></span> </button>
+                       <input readonly value=" <?php echo date("Y-m-d") ?>" class="form-control bg-light"   />
+                   </div>
+                   
         </div>
+         
 
         <!--Muestra los datos de la tabla roles en una lista desplegable-->
         <Table>     
@@ -159,11 +161,18 @@
             </td>
           </tr>
         </Table>
-        
+
+        <div class="form-group col-md-6">
+                   <label class="text-light">Fecha Vencimiento</label>
+                   <div class="input-group-text bg-light">
+                       <button id="show_password2" class="btn btn-dark"  type="button" style="width:40px" onclick="mostrarPassword2()"> <span class="fa fa-calendar-o icon" ></span> </button>
+                       <input name="fecha_v" readonly value=" <?php echo $parametro ?>" class="form-control bg-light"   />
+                   </div>      
+        </div>
 
         <div class="d-flex gap-1 justify-content-center mt-1">
           <div id="btnIniciarSesion">
-            <input type="submit" name="btnRegistrar" value="REGISTRARSE" class="btn btn-info text-white w-100 mt-4 fw-semibold shadow-sm">
+            <input type="submit" name="btnRegistrar" value="Guardar" class="btn btn-info text-white w-100 mt-4 fw-semibold shadow-sm">
           </div>
         </div>
 		    <br>
@@ -175,3 +184,4 @@
 
 </html>
 <?php ob_end_flush(); ?>
+<?php include '../components/footer.components.php' ?>

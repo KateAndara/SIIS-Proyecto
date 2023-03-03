@@ -1,4 +1,8 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
   if (!empty($_POST["btnRegistrar"])){
        // Validación de campos vacios 
        if (empty($_POST["Usuario"]) or empty($_POST["Nombre"]) or empty($_POST["Dni"]) or empty($_POST["Clave"]) or empty($_POST["Confirmacion"]) or empty($_POST["Email"])) {
@@ -6,16 +10,20 @@
        } elseif ($_POST["Clave"] != $_POST["Confirmacion"]){
            echo '<div class="alert alert-danger">Los campos de contraseña no coinciden</div> ';
        } else {
-        $usuario=$_POST["Usuario"];
-        $contrasenia=$_POST["Clave"];
-        $nombre=$_POST["Nombre"];
+        $usuario=strtoupper($_POST["Usuario"]);
+        $clave=$_POST["Clave"];
+        $nombre=strtoupper($_POST["Nombre"]);
         $dni=$_POST["Dni"];
-        $correo=$_POST["Email"];
+        $email=$_POST["Email"];
         $rol=$_POST["Rol"];
-        $estado=$_POST["Estado"];
+        $estado='Nuevo';
         $Fecha=date("Y-m-d");
-        $id_cargo=3;
-      
+        $creadop = $_SESSION['usuario'];
+        $id_cargo=1;
+        $id_rol = $_POST["Rol"];
+        $contrasena = $_POST["Clave"];
+        $correo = $_POST["Email"];
+        $parametro = $_POST["fecha_v"];
 
         //Función para validar el campo de nombre
         function valnombre($nombre) {    
@@ -72,49 +80,26 @@
         }else if(strpbrk($usuario, " ")){ // Validación de espacios en blanco en el campo Usuario.
           echo '<br>';
           echo '<div class="alert alert-danger">El campo Usuario no puede contener espacios en blanco.</div>';
-        }else if(!ctype_upper($usuario)){ // Validación de solo mayúsculas en el campo Usuario.
-          echo '<br>';
-          echo '<div class="alert alert-danger">En el campo usuario solo se permiten mayúsculas.</div>';
         }else if(valnombre($nombre)==false){ // Validación de solo texto en el campo nombre.
           echo '<br>';
           echo '<div class="alert alert-danger">El nombre del usuario debe contener solo texto.</div>';
         }else if(valdni($dni)==false){ // Validación de solo numeros en el campo del dni.
           echo '<br>';
           echo '<div class="alert alert-danger">El dni solo debe tener números y guión</div>';
-        }else if(valcorreo($correo)==false){ // Validación del campo del correo con @ y punto.
+        }else if(valcorreo($email)==false){ // Validación del campo del correo con @ y punto.
           echo '<br>';
           echo '<div class="alert alert-danger">El correo electrónico debe llevar una @ y un dominio(.com,.es,etc)</div>';
-        }else if(valcontraseña($contrasenia)==false){ // Validación del campo del correo con @ y punto.
+        }else if(valcontraseña($clave)==false){ // Validación del campo del correo con @ y punto.
           echo '<br>';
           echo '<div class="alert alert-danger">La contraseña debe tener minimo 1 carácter en mayúscula, minúscula y un carácter númerico </div>';
-        }else if(strpbrk($contrasenia, " ")){ // Validación de espacios en blanco en el campo Contraseña.
+        }else if(strpbrk($clave, " ")){ // Validación de espacios en blanco en el campo Contraseña.
           echo '<br>';
           echo '<div class="alert alert-danger">El campo Contraseña no puede contener espacios en blanco.</div>';
+        }else{
+          $sql=$conexion -> query("insert into tbl_ms_usuarios(Id_Rol,Id_Cargo,Usuario,Nombre,Estado,Contraseña,DNI,Correo_Electronico, Fecha_creacion, Creado_por, Fecha_vencimiento)values('$id_rol','$id_cargo','$usuario','$nombre','$estado','$contrasena','$dni','$correo','$Fecha', '$creadop', '$parametro')");
+          echo '<br>';
+          echo '<div class="alert alert-success">El Usuario se creo correctamente.</div>';
         }
-
-      //insertar datos en la tabla 
-      $sql=$conexion -> query("insert into tbl_ms_usuarios(Id_Rol,Id_Cargo,Usuario,Nombre,Estado,Contraseña,DNI,Correo_Electronico, Fecha_creacion)values('$id_rol','$id_cargo','$usuario','$nombre','$estado','$contrasenia','$dni','$correo','$Fecha')");
-        //Bitácora
-        $sql = $conexion->query("Select id_usuario from tbl_ms_usuarios where Usuario = '$usuario';");
-        $idusuario = $sql->fetch_object();
-
-
-        //limpiar datos
-        $informacion = json_encode($idusuario, true);
-        $posicion = strpos($informacion, ":") + 2;
-        $idusuario = substr($informacion, $posicion, -2);
-        $sql = $conexion->query("Select id_objeto from tbl_objetos where Objeto = 'creacionUsuario';");
-        $idobjeto = $sql->fetch_object();
-
-        // limpiar datos 
-        $informacion = json_encode($idobjeto, true);
-
-        $posicion = strpos($informacion, ":") + 2;
-
-        $idobjeto = substr($informacion, $posicion, -2);
-
-        
-        $sql = $conexion->query("INSERT INTO tbl_ms_bitacora(Id_Usuario,Id_Objeto,Fecha,Accion,Descripcion) VALUES($idusuario,$idobjeto,now(),'Usuario Creado','Se ha registrado el Usuario $usuario') ");
     
       } 
   }
