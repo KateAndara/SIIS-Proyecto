@@ -1,6 +1,6 @@
 <?php
     if(!isset($_GET['Id_Usuario'])){
-        header('Location:../Formularios/GestionUsuarios.php?mensaje=error');
+        header('Location:../Formularios/Usuarios.php?mensaje=error');
         exit();
     }
 
@@ -11,9 +11,9 @@
     $resultado = $sentencia->execute([$Id_Usuario]);
 
     if ($resultado === TRUE) {
-        header('Location:../Formularios/GestionUsuarios.php?mensaje=eliminado');
+        header('Location:../Formularios/Usuarios.php?mensaje=eliminado');
     } else {
-        header('Location:../Formularios/GestionUsuarios.php?mensaje=error');
+        header('Location:../Formularios/Usuarios.php?mensaje=error');
     }
 ?>
 

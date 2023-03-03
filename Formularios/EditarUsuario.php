@@ -1,20 +1,14 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
     session_start();
-    if (isset($_POST["btnEditar"])){
- 
+    if (!empty($_POST["btnEditar"])){
         include '../config/conexion2.php';
         $Id_Usuario = $_POST['Id_Usuario'];
         $Id_Rol = $_POST['Id_Rol'];
         $Id_Cargo = $_POST['Id_Cargo'];
-        $Usuario = strtoupper($_POST['Usuario']);
-        $Nombre = strtoupper($_POST['Nombre']);
+        $Usuario = $_POST['Usuario'];
+        $Nombre = $_POST['Nombre'];
         $Estado = $_POST['Estado'];
         $Contraseña = $_POST['Contraseña'];
-        $clave =  $_POST['Contraseña'];
         $Fecha_ultima_conexion = $_POST['Fecha_ultima_conexion'];
         $Preguntas_contestadas = $_POST['Preguntas_contestadas'];
         $Primer_ingreso = $_POST['Primer_ingreso'];
@@ -23,31 +17,15 @@ error_reporting(E_ALL);
         $Correo_Electronico = $_POST['Correo_Electronico'];
         $Creado_por = $_POST['Creado_por'];
         $Fecha_creacion = $_POST['Fecha_creacion'];
-        $Modificado_por = $_POST['Modificado_por']; 
-
-        // Funcion para validar contraseña
-        function valcontraseña($clave){
-            if (!preg_match('`[a-z]`',$clave)){
-              
-              return false;
-           }
-           if (!preg_match('`[A-Z]`',$clave)){
-              
-              return false;
-           }
-           if (!preg_match('`[0-9]`',$clave)){
-              
-              return false;
-           }
-           return true;
-          }
+        $Modificado_por = $_POST['Modificado_por'];
+        $Fecha_modificacion = $_POST['Fecha_modificacion'];
       
         $sql=$conexion->query(" select * from tbl_ms_usuarios");
- 
-        if ($Usuario=="" ||$Id_Rol=="" ||$Id_Cargo=="" ||$Nombre=="" ||$Estado=="" ||$DNI=="" ||$Correo_Electronico=="" ||$Modificado_por=="" ){ // Validación de campos vacíos.
+        session_start();
+        if ($Usuario=="" ||$Id_Rol=="" ||$Id_Cargo=="" ||$Nombre=="" ||$Estado=="" ||$Preguntas_contestadas=="" ||$Primer_ingreso=="" ||$DNI=="" ||$Correo_Electronico=="" ||$Modificado_por=="" ||$Fecha_modificacion==""){ // Validación de campos vacíos.
           echo '<br>';
           echo '<div class="alert alert-danger">Debe llenar el o los campos vacíos.</div>';
-        }else if ($Id_Rol<="" ||$Id_Cargo<=0 ||$DNI<0){ // Validación de campos vacíos.
+        }else if ($Id_Rol<="" ||$Id_Cargo<=0 ||$Preguntas_contestadas<=0 ||$Primer_ingreso<0 ||$DNI<0){ // Validación de campos vacíos.
           echo '<br>';
           echo '<div class="alert alert-danger">Valor invalido.</div>';
         }else if (strlen($Usuario)> 45){ // Validación de la cantidad de caracteres en el campo Usuario.
@@ -56,37 +34,6 @@ error_reporting(E_ALL);
         }else if(strpbrk($Usuario, " ")){ // Validación de espacios en blanco en el campo Usuario.
           echo '<br>';
           echo '<div class="alert alert-danger">El campo Usuario no puede contener espacios en blanco.</div>';
-        }else if(valcontraseña($clave)==false){ // Validación del campo del correo con @ y punto.
-            echo '<br>';
-            echo '<div class="alert alert-danger">La contraseña debe tener minimo 1 carácter en mayúscula, minúscula y un carácter númerico </div>';
-          }else if(strpbrk($clave, " ")){ // Validación de espacios en blanco en el campo Contraseña.
-            echo '<br>';
-            echo '<div class="alert alert-danger">El campo Contraseña no puede contener espacios en blanco.</div>';
-          }
-        
-        
-        
-        
-        
-        else{
-            $id = $_GET['Id_Usuario'];
-            $datesss = date("Y-m-d");
-            $sql=$conexion -> query("
-            UPDATE TBL_MS_USUARIOS SET 
-            Id_Rol = '$Id_Rol', 
-            Usuario = '$Usuario', 
-            Nombre = '$Nombre',
-            Estado = '$Estado',
-            Contraseña = '$Contraseña', 
-            DNI = '$DNI',
-            Correo_Electronico = '$Correo_Electronico',
-            Modificado_por = '$Modificado_por',
-            Fecha_modificacion = '$datesss' 
-
-            WHERE  Id_Usuario = $id");
-            echo '<br>';
-          echo '<div class="alert alert-success">El Usuario se creo correctamente.</div>';
-          header('Location: GestionUsuarios.php?mensaje=editado');
         }
     }
 
@@ -134,11 +81,6 @@ error_reporting(E_ALL);
 
     $sentencia->execute([$Id_Usuario]);
     $usuario = $sentencia->fetch(PDO::FETCH_OBJ);
-
-    require_once("../config/conexion.php");
-    $resultado = mysqli_query($conexion,"SELECT Id_Rol, Rol FROM tbl_ms_roles");
-
-    
     //print_r($usuario);
     ?>
 <div class="container mt-5" style="width: 100rem">
@@ -148,40 +90,17 @@ error_reporting(E_ALL);
                 <div class="card-header">
                     Editar usuarios:
                 </div>
-                <form class="p-4" method="POST" action="EditarUsuario.php?Id_Usuario=<?php echo $_GET['Id_Usuario'] ?>">
+                <form class="p-4" method="POST" action="../controller/editarUsuario.php">
                 <div class="mb-3">
                         <label class="form-label">Id Usuario: </label>
                         <input type="number" class="form-control"  readonly name="Id_Usuario"  required
                         value="<?php echo $usuario->Id_Usuario; ?>">
                     </div>
-
-                    
-
-
-
                     <div class="mb-3">
                         <label class="form-label">Id Rol: </label>
-                        <select name="Id_Rol" class="custom-select">
-                                <?php while ($fila = $resultado->fetch_assoc()):
-                                    $id_rol = $fila["Id_Rol"];
-                                    $rol = $fila["Rol"];
-                                     $s =  ($usuario->Id_Rol == $id_rol ) ? 'selected' : '';
-
-                                    echo "<option 
-                                      ".$s."
-                                    value='{$id_rol}'>{$rol}
-                                    
-                                    
-                                    </option>";
-                                    endwhile;  
-                                ?>  
-                        </select>
-
-
+                        <input type="number" class="form-control" readonly name="Id_Rol" autofocus required 
+                        value="<?php echo $usuario->Id_Rol; ?>">
                     </div>
-
-
-
                     <div class="mb-3">
                         <label class="form-label">Id_Cargo: </label>
                         <input type="number" class="form-control" readonly name="Id_Cargo" autofocus required
@@ -189,12 +108,12 @@ error_reporting(E_ALL);
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Usuario: </label>
-                        <input style=" text-transform: uppercase; " type="text" class="form-control" name="Usuario" autofocus required
+                        <input type="text" class="form-control" name="Usuario" autofocus required
                         value="<?php echo $usuario->Usuario; ?>">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Nombre: </label>
-                        <input style=" text-transform: uppercase; " type="text" class="form-control" name="Nombre" required 
+                        <input type="text" class="form-control" name="Nombre" required 
                         value="<?php echo $usuario->Nombre; ?>">
                     </div>
                     
@@ -202,10 +121,10 @@ error_reporting(E_ALL);
                         <div style="font-size: 20px">
                             <label for="Estado">Estado del usuario</label>
                             <select name="Estado" id="Estado">
-                                <option <?php echo ($usuario->Estado == 'Estado') ? 'selected' : '' ?> value="Activo">Activo</option>
-                                <option <?php echo ($usuario->Estado == 'Inactivo') ? 'selected' : '' ?> value="Inactivo">Inactivo</option>
-                                <option <?php echo ($usuario->Estado == 'Bloqueado') ? 'selected' : '' ?> value="Bloqueado">Bloqueado</option>
-                                <option <?php echo ($usuario->Estado == 'Nuevo') ? 'selected' : '' ?> value="Nuevo">Nuevo</option>
+                                <option value="Activo">Activo</option>
+                                <option value="Inactivo">Inactivo</option>
+                                <option value="Bloqueado">Bloqueado</option>
+                                <option value="Nuevo">Nuevo</option>
                             </select>
                         </div>
                         
@@ -222,12 +141,12 @@ error_reporting(E_ALL);
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Preguntas contestadas: </label>
-                        <input type="number" class="form-control" name="Preguntas_contestadas" autofocus 
+                        <input type="number" class="form-control" name="Preguntas_contestadas" autofocus required
                         value="<?php echo $usuario->Preguntas_contestadas; ?>">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Primer_ingreso: </label>
-                        <input type="number" class="form-control" name="Primer_ingreso" autofocus 
+                        <input type="number" class="form-control" name="Primer_ingreso" autofocus required
                         value="<?php echo $usuario->Primer_ingreso; ?>">
                     </div>
                     <div class="mb-3">
@@ -258,17 +177,17 @@ error_reporting(E_ALL);
                     <div class="mb-3">
                         <label class="form-label">Modificado_por: </label>
                         <input type="text" class="form-control" name="Modificado_por" autofocus required
-                        value="<?php echo $_SESSION['usuario']; ?>">
+                        value="<?php echo $usuario->Modificado_por; ?>">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Fecha_modificacion: </label>
-                        <input type="text" class="form-control"   name="Fecha_modificacion" autofocus readonly
-                        value="<?php echo date("Y-m-d"); ?>">
+                        <input type="date" class="form-control"   name="Fecha_modificacion" autofocus required
+                        value="<?php echo $usuario->Fecha_modificacion; ?>">
                     </div>
                     <div class="d-grid">
                         <input type="hidden" name="Id_Usuario" value="<?php echo $usuario->Id_Usuario; ?>">
-                        <div >
-                            <input name="btnEditar" type="submit" class="btn btn-primary" value="Editar">
+                        <div id="btnEditar">
+                            <input type="submit" class="btn btn-primary" value="Editar">
                         </div>
                     </div>
                     <?php require_once("../config/conexion2.php");?>

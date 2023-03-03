@@ -24,11 +24,8 @@ if (empty($_POST["usuario"])and empty($_POST["password"])){
       $idobjeto =  substr($informacion, $posicion, -2);
 
       echo $idobjeto.' Usuario:'.$idusuario;
-      $sql=$conexion->query("INSERT INTO tbl_ms_bitacora(Id_Usuario,Id_Objeto,Fecha,Accion,Descripcion) VALUES($idusuario,$idobjeto,now(),'Inicio de sesion','El usuario $usuario ha ingresado al sistema') ");
+      $sql=$conexion->query("INSERT INTO tbl_ms_bitacora(Id_Usuario,Id_Objeto,Fecha,Accion,Descripcion) VALUES($idusuario,$idobjeto,now(),'Inicio de sesión','El usuario $usuario ha ingresado al sistema') ");
       
-      
-      
-      header('Location: inicio.html');
     }else{
       $sql=$conexion->query("Select Id_Usuario from tbl_ms_usuarios where Usuario = '$usuario';");
       $Id_Usuario=$sql->fetch_object();
@@ -46,10 +43,8 @@ if (empty($_POST["usuario"])and empty($_POST["password"])){
       $posicion =  strpos($informacion, ":") + 2;
      
       $idobjeto =  substr($informacion, $posicion, -2);
-      $sql=$conexion->query("INSERT INTO tbl_ms_bitacora(Id_Usuario,Id_Objeto,Fecha,Accion,Descripcion) VALUES($Id_Usuario,$idobjeto,now(),'Inicio de sesion fallido','El usuario $usuario ha intentado ingresar al sistema') ");
-      
-      echo '<br>';
-      echo '<div class="alert alert-danger">Acceso Denegado. Usuario/Contraseña inválidos.</div>';
+      $sql=$conexion->query("INSERT INTO tbl_ms_bitacora(Id_Usuario,Id_Objeto,Fecha,Accion,Descripcion) VALUES($Id_Usuario,$idobjeto,now(),'Inicio de sesión fallido','El usuario $usuario ha intentado ingresar al sistema') ");
+
     }
 
   }
