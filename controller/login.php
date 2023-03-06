@@ -10,19 +10,10 @@ if (!empty($_POST["btniniciarSesion"])){
     if ($usuario=="" ||$clave==""){ // Validación de campos vacíos.
       echo '<br>';
       echo '<div class="alert alert-danger">Debe llenar el o los campos vacíos.</div>';
-    }else if (strlen($usuario)> 45){ // Validación de la cantidad de caracteres en el campo Usuario.
-      echo '<br>';
-      echo '<div class="alert alert-danger">El campo Usuario no puede exceder de 45 caracteres.</div>';
-    }else if(strpbrk($usuario, " ")){ // Validación de espacios en blanco en el campo Usuario.
-      echo '<br>';
-      echo '<div class="alert alert-danger">El campo Usuario no puede contener espacios en blanco.</div>';
     }else if(!ctype_upper($usuario)){ // Validación de solo mayúsculas en el campo Usuario.
       echo '<br>';
       echo '<div class="alert alert-danger">En el campo usuario solo se permiten mayúsculas.</div>';
-    }else if (strlen($clave)> 15){ // Validación de la cantidad de caracteres en el campo Contraseña.
-      echo '<br>';
-      echo '<div class="alert alert-danger">El campo Contraseña no puede exceder de 15 caracteres.</div>';
-    }else if(strpbrk($clave, " ")){ // Validación de espacios en blanco en el campo Contraseña.
+   }else if(strpbrk($clave, " ")){ // Validación de espacios en blanco en el campo Contraseña.
       echo '<br>';
       echo '<div class="alert alert-danger">El campo Contraseña no puede contener espacios en blanco.</div>';
     }else if ($datos=$sql->fetch_object()){ // Los datos ingresados son correctos.
@@ -117,15 +108,19 @@ if (!empty($_POST["btniniciarSesion"])){
         $max_intentos = $parametroIntentos; //Número máximo de intentos permitidos.
           $intentos = isset($_SESSION['intentos']) ? $_SESSION['intentos'] : 1;
 
-         if ($intentos >= $max_intentos) { //Si el usuario supera los intentos permitidos.
-             echo "Ha excedido el número máximo de intentos permitidos. Su usuario se ha bloqueado.";
-             $sql=$conexion->query(" UPDATE tbl_ms_usuarios SET Estado = 'Bloqueado' where Usuario='$usuario' ");
-            unset($_SESSION["intentos"]);
-           exit;
-         }
-
+        if ($intentos == $max_intentos) { //Si el usuario alcanza los intentos permitidos.
+            echo "Ha alcanzado el número máximo de intentos permitidos.";
+            echo '<style>#fila { display:none; }</style>';
+        }else{
+          if ($intentos > $max_intentos) { //Si el usuario supera los intentos permitidos.
+            echo "Ha excedido el número máximo de intentos permitidos. Su usuario se ha bloqueado.";
+            $sql=$conexion->query(" UPDATE tbl_ms_usuarios SET Estado = 'Bloqueado' where Usuario='$usuario' ");
+           unset($_SESSION["intentos"]);
+          exit;
+          }
+        }
           //El usuario aún tiene intentos disponibles
-          echo "Se ha registrado el intento fallido. Le queda ", $max_intentos - $intentos, " intento/s más.";
+          echo "<span id='fila'>Se ha registrado el intento fallido. Le queda ", $max_intentos - $intentos, " intento/s más.</span>";
 
           //Incrementar el contador de intentos
           $_SESSION['intentos'] = $intentos + 1;
@@ -133,18 +128,22 @@ if (!empty($_POST["btniniciarSesion"])){
           $sql=$conexion->query(" select * from tbl_ms_usuarios where Usuario='$usuario' and Estado='Nuevo' ");
           if ($datos=$sql->fetch_object()){ //Conteo de intentos siendo un usuario Nuevo.
         
-            $max_intentos = $parametroIntentos; //Número máximo de intentos permitidos.
+          $max_intentos = $parametroIntentos; //Número máximo de intentos permitidos.
           $intentos = isset($_SESSION['intentos']) ? $_SESSION['intentos'] : 1;
 
-         if ($intentos >= $max_intentos) { //Si el usuario supera los intentos permitidos.
-             echo "Ha excedido el número máximo de intentos permitidos. Su usuario se ha bloqueado.";
-             $sql=$conexion->query(" UPDATE tbl_ms_usuarios SET Estado = 'Bloqueado' where Usuario='$usuario' ");
-            unset($_SESSION["intentos"]);
-           exit;
-         }
-
-          //El usuario aún tiene intentos disponibles.
-          echo "Se ha registrado el intento fallido. Le queda ", $max_intentos - $intentos, " intento/s más.";
+          if ($intentos == $max_intentos) { //Si el usuario alcanza los intentos permitidos.
+            echo "Ha alcanzado el número máximo de intentos permitidos.";
+            echo '<style>#fila { display:none; }</style>';
+          }else{
+          if ($intentos > $max_intentos) { //Si el usuario supera los intentos permitidos.
+            echo "Ha excedido el número máximo de intentos permitidos. Su usuario se ha bloqueado.";
+            $sql=$conexion->query(" UPDATE tbl_ms_usuarios SET Estado = 'Bloqueado' where Usuario='$usuario' ");
+           unset($_SESSION["intentos"]);
+          exit;
+          }
+        }
+          //El usuario aún tiene intentos disponibles
+          echo "<span id='fila'>Se ha registrado el intento fallido. Le queda ", $max_intentos - $intentos, " intento/s más.</span>";
 
           //Incrementar el contador de intentos
           $_SESSION['intentos'] = $intentos + 1;

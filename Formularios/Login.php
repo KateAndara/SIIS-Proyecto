@@ -8,7 +8,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../style.css">
-  <script src="../JS/script.js"></script>
+  <script src="../JS/funciones.js"></script>
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
@@ -34,26 +35,14 @@
           <div class="input-group-text bg-light">
             <img src="https://icon-library.com/images/free-user-icon/free-user-icon-26.jpg" alt="username-icon" style="height: 2.5rem" />
           </div>
-          <input class="form-control bg-light" type="text" placeholder="Usuario" name="usuario" id="inputUser3" />
+          <input class="form-control bg-light" type="text" placeholder="Usuario" name="usuario" id="usuario" oninput="validarCampoUsuario()" />
         </div>
         <div class="input-group mt-1">
           <div class="input-group-text bg-light">
-          <button id="show_password" class="btn btn-dark"  type="button" style="width:40px" onclick="mostrarPassword()"> <span class="fa fa-eye-slash icon" ></span> </button>
+          <button id="show_password" class="btn btn-dark"  type="button" style="width:40px" onclick="mostrarPassword('password')"> <span class="fa fa-eye-slash icon" ></span> </button>
           </div>
-          <input class="form-control bg-light" ID="txtPassword" type="Password" Class="form-control" placeholder="Contraseña" name="password">
+          <input class="form-control bg-light" ID="password" type="Password" Class="form-control" placeholder="Contraseña" name="password" oninput="validarCampoContrasenia()">
         </div>
-        <script type="text/javascript">
-          function mostrarPassword(){
-              var cambio = document.getElementById("txtPassword");
-              if(cambio.type == "password"){
-                cambio.type = "text";
-                $('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-              }else{
-                cambio.type = "password";
-                $('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-              }
-            } 
-        </script>
         <br>
         <div class="pt-1">
           <a href="../Formularios/RecuperarContrasenia.php" class="text-decoration-none text-info fw-semibold fst-italic" style="font-size: 0.9rem">¿Olvidó su usuario y/o contraseña?</a>

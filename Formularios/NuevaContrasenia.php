@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../style.css">
-  <script src="../JS/script.js"></script>
+  <script src="../JS/funciones.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
@@ -41,65 +41,29 @@
             $usuario = $_SESSION['usuario']; // Almacena la sesión del usuario.
 
             require_once("../config/conexion.php");
-            echo "<span id='fila1' for='contraseñaActual'>Ingrese su actual contraseña:</span><br>";
+            echo "<span id='fila1'>Ingrese su actual contraseña:</span><br>";
             echo "<div id='miDiv' class='input-group mt-1'>";
             echo "<div class='input-group-text bg-light'>";
-            echo "<button id='how_password2' class='btn btn-dark'  type='button' style='width:40px' onclick='mostrarPassword1()'> <span class='fa fa-eye-slash icon' ></span> </button>";
+            echo "<button id='show_password' class='btn btn-dark'  type='button' style='width:40px' onclick=\"mostrarPassword('contraseñaActual')\"> <span class='fa fa-eye-slash icon' ></span> </button>";
             echo "</div>";
             echo "<input class='form-control bg-light' type='password'  name='contraseñaActual' id='contraseñaActual' placeholder='Contraseña actual' required><br>";
             echo "</div>";
-            echo "<script type='text/javascript'>";
-            echo "function mostrarPassword1(){";
-                echo "var cambio2 = document.getElementById('contraseñaActual');";
-                echo "if(cambio2.type == 'password'){";
-                  echo "cambio2.type = 'text';";
-                 echo "$('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');";
-                echo "}else{";
-                  echo "cambio2.type = 'password';";
-                  echo "$('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');";
-                echo "}";
-              echo "}"; 
-            echo "</script>";
             echo "<br>"; 
             echo "<span id='fila2' for='contraseña'>Ingrese la nueva contraseña:</span><br>";
             echo "<div id='miDiv' class='input-group mt-1'>";
             echo "<div class='input-group-text bg-light'>";
-            echo "<button id='how_password2' class='btn btn-dark'  type='button' style='width:40px' onclick='mostrarPassword2()'> <span class='fa fa-eye-slash icon' ></span> </button>";
+            echo "<button id='show_password' class='btn btn-dark'  type='button' style='width:40px' onclick=\"mostrarPassword('contraseña')\"> <span class='fa fa-eye-slash icon' ></span> </button>";
             echo "</div>";
             echo "<input class='form-control bg-light' type='password'  name='contraseña' id='contraseña' placeholder='Contraseña' required><br>";
             echo "</div>";
-            echo "<script type='text/javascript'>";
-            echo "function mostrarPassword2(){";
-                echo "var cambio2 = document.getElementById('contraseña');";
-                echo "if(cambio2.type == 'password'){";
-                  echo "cambio2.type = 'text';";
-                 echo "$('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');";
-                echo "}else{";
-                  echo "cambio2.type = 'password';";
-                  echo "$('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');";
-                echo "}";
-              echo "}"; 
-            echo "</script>";
             echo "<br>"; 
             echo "<span id='fila3' for='confirmarcontraseña'>Confirme la nueva contraseña:</span><br>";
             echo "<div id='miDiv' class='input-group mt-1'>";
             echo "<div class='input-group-text bg-light'>";
-            echo "<button id='how_password2' class='btn btn-dark'  type='button' style='width:40px' onclick='mostrarPassword3()'> <span class='fa fa-eye-slash icon' ></span> </button>";
+            echo "<button id='show_password' class='btn btn-dark'  type='button' style='width:40px' onclick=\"mostrarPassword('confirmarcontraseña')\"> <span class='fa fa-eye-slash icon' ></span> </button>";
             echo "</div>";
             echo "<input class='form-control bg-light' type='password'  name='confirmarcontraseña' id='confirmarcontraseña' placeholder='Contraseña' required><br>";
             echo "</div>";
-            echo "<script type='text/javascript'>";
-            echo "function mostrarPassword3(){";
-                echo "var cambio2 = document.getElementById('confirmarcontraseña');";
-                echo "if(cambio2.type == 'password'){";
-                  echo "cambio2.type = 'text';";
-                 echo "$('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');";
-                echo "}else{";
-                  echo "cambio2.type = 'password';";
-                  echo "$('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');";
-                echo "}";
-              echo "}"; 
-            echo "</script>";
             echo "<br>"; 
             echo "<div class='d-flex gap-1 justify-content-center mt-1'>";
             echo "<div id='btnContrasenia'>";
