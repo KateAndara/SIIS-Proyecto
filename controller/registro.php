@@ -10,36 +10,7 @@
        } else {
         $usuario=$_POST["Usuario"];
         $clave=$_POST["Clave"];
-        $nombre=$_POST["Nombre"];
-        $dni=$_POST["Dni"];
-        $email=$_POST["Email"];
-        //Función para validar el campo de nombre
-        function valnombre($nombre) {    
-          $patron = "/^[a-zA-Z \d]*$/";
-          if(preg_match($patron, $nombre)) {
-              return true;
-          }else{
-              return false;
-          }
-        }
-        //Función para validar el campo dni
-        function valdni($dni) {         
-          $patron2 = "/^[0-9-\d]*$/";
-          if(preg_match($patron2, $dni)) {
-              return true;
-          }else{
-              return false;
-          }
-        } 
-        //Función para validar el campo email
-        function valcorreo($email){      
-          $patron3 = "/^([a-zA-Z0-9_.\.]+@+[a-zA-Z]+(\.)+[a-zA-Z]{2,3})$/";
-          if(preg_match($patron3, $email)) {
-              return true;
-          }else{
-              return false;
-          }
-        }
+        
         // Funcion para validar contraseña
         function valcontraseña($clave){
           if (!preg_match('`[a-z]`',$clave)){
@@ -54,29 +25,18 @@
             
             return false;
          }
+         if (!preg_match('`[!#$%&*^@&_+-.]`',$clave)){
+            
+          return false;
+         }
          return true;
         }
         $sql=$conexion->query(" select * from tbl_ms_usuarios where Usuario='$usuario' ");
         if ($datos=$sql->fetch_object()){
             echo '<div class="alert alert-danger">Este nombre de usuario ya existe</div> ';
-        }else if(strpbrk($usuario, " ")){ // Validación de espacios en blanco en el campo Usuario.
-          echo '<br>';
-          echo '<div class="alert alert-danger">El campo Usuario no puede contener espacios en blanco.</div>';
-        }else if(!ctype_upper($usuario)){ // Validación de solo mayúsculas en el campo Usuario.
-          echo '<br>';
-          echo '<div class="alert alert-danger">En el campo usuario solo se permiten mayúsculas.</div>';
-        }else if(valnombre($nombre)==false){ // Validación de solo texto en el campo nombre.
-          echo '<br>';
-          echo '<div class="alert alert-danger">El nombre del usuario debe contener solo texto.</div>';
-        }else if(valdni($dni)==false){ // Validación de solo numeros en el campo del dni.
-          echo '<br>';
-          echo '<div class="alert alert-danger">El dni solo debe tener números y guión</div>';
-        }else if(valcorreo($email)==false){ // Validación del campo del correo con @ y punto.
-          echo '<br>';
-          echo '<div class="alert alert-danger">El correo electrónico debe llevar una @ y un dominio(.com,.es,etc)</div>';
         }else if(valcontraseña($clave)==false){ // Validación del campo del correo con @ y punto.
           echo '<br>';
-          echo '<div class="alert alert-danger">La contraseña debe tener minimo 1 carácter en mayúscula, minúscula y un carácter númerico </div>';
+          echo '<div class="alert alert-danger">La contraseña debe tener minimo un carácter en mayúscula, minúscula, carácter númerico y carácter especial(!#$%&*^@&_+-.)</div>';
         }else if(strpbrk($clave, " ")){ // Validación de espacios en blanco en el campo Contraseña.
           echo '<br>';
           echo '<div class="alert alert-danger">El campo Contraseña no puede contener espacios en blanco.</div>';
@@ -116,6 +76,7 @@
             $sql=$conexion -> query("insert into tbl_ms_usuarios(Id_Rol,Id_Cargo,Usuario,Nombre,Estado,Contraseña,Fecha_vencimiento,DNI,Correo_Electronico, Fecha_creacion)values('$id_rol','$id_cargo','$usuario','$nombre','$estado','$contraseña','$Fec_vencimiento','$dni','$correo','$Fecha')");
             if ($sql==1){
                  echo '<div class="alert alert-success">Usuario registrado correctamente</div> ';
+                
                  //Bitácora
                  $sql = $conexion->query("Select id_usuario from tbl_ms_usuarios where Usuario = '$usuario';");
                  $idusuario = $sql->fetch_object();
@@ -138,7 +99,8 @@
                  echo $idobjeto . ' Usuario:' . $idusuario;
                  $sql = $conexion->query("INSERT INTO tbl_ms_bitacora(Id_Usuario,Id_Objeto,Fecha,Accion,Descripcion) VALUES($idusuario,$idobjeto,now(),'Autoregistro','Se ha autoregistrado el Usuario $usuario') ");
 
-               
+                 
+                 
               } else {
                 echo '<div class="alert alert-danger">Error al ingresar al usuario</div> ';
               }
