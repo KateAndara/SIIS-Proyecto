@@ -1,0 +1,80 @@
+/********** Template CSS **********/
+:root {
+    --primary: #3616eb;
+    --secondary: #191C24;
+    --light: #6C7293;
+    --dark: #000000;
+    --prueba: #ae9c8f;
+
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 250px;
+    height: 100vh;
+    overflow-y: auto;
+    background: var(--secondary);
+    transition: 0.5s;
+    z-index: 999;
+}
+
+.sidebar .navbar .navbar-nav .nav-link:hover,
+.sidebar .navbar .navbar-nav .nav-link.active {
+    color: var(--secondary);
+    background: var(--prueba);
+    border-color: var(--secondary);
+}
+.sidebar .navbar .navbar-nav .nav-link i {
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    /* background: var(--dark); */
+    border-radius: 40px;
+}
+
+
+.cards-white{
+    background: #ae9c8f;
+    padding: 11px;
+    border-radius: 11px;
+}
+body {
+    background: #f2e8e1;  /* fondo */
+}
+
+a.dropdown-item { /* Letra del submenú desplegable */
+    color: rgb(255, 255, 255);
+    
+
+}
+
+.sidebar.pe-4.pb-3{ /* Segundo fondo del menú */
+    background: #7a695d;
+}
+.container{ /* Color de "Usuario Conectado" */
+    color: rgb(5, 5, 5);
+}
+
+.navbar{ /* Color de fondo de lado izquiero */
+    background: #7a695d; /* fondo */
+    width: 250px;
+    justify-content: center;
+    /* background: var(--dark); */
+}
+
+.container-fluid{ /* Color de fondo de lado superior horizontal */
+    background: #e5d2c4;    /* fondo */
+}
+
+a.nav-link.dropdown-toggle{ /* Color de letra del menú */
+    color: rgb(255, 255, 255);
+}
+
+a.nav-item.nav-link{ /* Color de letra de "Acerca de"*/
+    color: rgb(255, 255, 255);
+}

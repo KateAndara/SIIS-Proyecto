@@ -116,7 +116,28 @@ try {
     // $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
     $mail->send();
+      //Bitácora
+    $sql=$conexion->query("Select id_usuario from tbl_ms_usuarios where Usuario = '$nombre';");
+    $idusuario=$sql->fetch_object();
 
+
+    //limpiar datos
+    $informacion = json_encode($idusuario,true); 
+    $posicion =  strpos($informacion, ":") + 2;
+    $idusuario =  substr($informacion, $posicion, -2);
+    $sql=$conexion->query("Select id_objeto from tbl_objetos where Objeto = 'recuperacion_Correo';");
+    $idobjeto=$sql->fetch_object();
+
+    // limpiar datos 
+    $informacion = json_encode($idobjeto,true);
+   
+    $posicion =  strpos($informacion, ":") + 2;
+   
+    $idobjeto =  substr($informacion, $posicion, -2);
+
+    echo $idobjeto.' Usuario:'.$idusuario;
+    $sql=$conexion->query("INSERT INTO tbl_ms_bitacora(Id_Usuario,Id_Objeto,Fecha,Accion,Descripcion) VALUES($idusuario,$idobjeto,now(),'Cambio de contraseña por correo','El usuario $nombre ha solicitado un cambio de contraseña') ");
+    
    
    
     //insertarNumero
@@ -126,6 +147,28 @@ try {
 
 
 } catch (Exception $e) {
+    //Bitácora
+    $sql=$conexion->query("Select id_usuario from tbl_ms_usuarios where Usuario = '$nombre';");
+    $idusuario=$sql->fetch_object();
+
+
+    //limpiar datos
+    $informacion = json_encode($idusuario,true); 
+    $posicion =  strpos($informacion, ":") + 2;
+    $idusuario =  substr($informacion, $posicion, -2);
+    $sql=$conexion->query("Select id_objeto from tbl_objetos where Objeto = 'recuperacion_Correo';");
+    $idobjeto=$sql->fetch_object();
+
+    // limpiar datos 
+    $informacion = json_encode($idobjeto,true);
+ 
+    $posicion =  strpos($informacion, ":") + 2;
+ 
+    $idobjeto =  substr($informacion, $posicion, -2);
+
+    //echo $idobjeto.' Usuario:'.$idusuario;
+    $sql=$conexion->query("INSERT INTO tbl_ms_bitacora(Id_Usuario,Id_Objeto,Fecha,Accion,Descripcion) VALUES($idusuario,$idobjeto,now(),'Cambio de contraseña por correo fallido','El usuario $nombre ha intentado solicitar un cambio de contraseña') ");
+  
     echo " Error EN MENSAJE: {$mail->ErrorInfo}";
 }
 
