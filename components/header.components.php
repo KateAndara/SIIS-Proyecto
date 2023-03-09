@@ -40,7 +40,7 @@
     <meta content="" name="description">
     <script src="https://kit.fontawesome.com/f9fa9477bb.js" crossorigin="anonymous"></script>
     <link href="../bootstrap.min.css" rel="stylesheet">
-    <link href="../style2.css" rel="stylesheet">
+    <link href="../CSS/styleF.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
@@ -51,15 +51,17 @@
 </head>
 
     <body>
-            <div class="container-fluid bg-secondary navbar-dark">
+            <div class="container-fluid">
                 
                  
                         <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
                           <div class="container">
                                 <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
                                     <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0"></ul>
+                                    
                                     <div class="text-end">
-                                        <span>USUARIO CONECTADO <span style=" font-weight: 800; color: #b0b0b0; "><?php echo ucwords($_SESSION['usuario']);?></span> </span>
+                                    
+                                        <span><i class="fa-solid fa-user"></i>  USUARIO CONECTADO <span style=" font-weight: 800; color: #1621CB; "><?php echo ucwords($_SESSION['usuario']);?></span> </span>
                                         <a href="cerrar_sesion.php" type="button" class="btn btn-outline-danger me-2">Salir</a>
                                     </div>
                                 </div>
@@ -68,7 +70,7 @@
 
 
                         <div class="sidebar pe-4 pb-3">
-                            <nav class="navbar bg-secondary navbar-dark">
+                            <nav class="navbar">
                                 <a href="" class="navbar-brand mx-4 mb-3">
                                     <h2>SIIS</h2>
                                 </a>
