@@ -65,13 +65,14 @@
                 <div class="input-group-text bg-light ">
                     <img src="https://icon-library.com/images/name-icon/name-icon-4.jpg" alt="username-icon" style="height: 2.5rem" />
                     <input class="form-control bg-light" type="text" placeholder="Nombre..." name="Nombre"
-                     id="inputname" maxlength="60" onkeydown="this.value=Letras(this.value)" value="<?php if(isset($_POST["Nombre"])) echo $_POST["Nombre"]; ?>"
+                     id="inputname" maxlength="60" onkeyup="this.value=Letras(this.value)" 
+                     value="<?php if(isset($_POST["Nombre"])) echo $_POST["Nombre"]; ?>"
                      pattern="[a-zA-Z ]+" title="El nombre solo debe contener letras y espacio" required/>
                 </div>
               <script>
               function Letras(string){//Solo texto
               var out = '';
-              var filtro = 'abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ ';//Caracteres validos
+              var filtro = 'abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZáéíóú ';//Caracteres validos
 	
               //Recorrer el texto y verificar si el caracter se encuentra en la lista de validos 
               for (var i=0; i<string.length; i++)
@@ -81,7 +82,21 @@
 	
               //Retornar valor filtrado
                return out;
-               }   
+               } 
+               
+               // Funcion para permitir solo un espacio entre caracteres
+               document.getElementById("inputname").addEventListener("keydown", teclear);
+
+               var flag = false;
+               var teclaAnterior = "";
+
+               function teclear(event) {
+                   teclaAnterior = teclaAnterior + " " + event.keyCode;
+                   var arregloTA = teclaAnterior.split(" ");
+                   if (event.keyCode == 32 && arregloTA[arregloTA.length - 2] == 32) {
+                        event.preventDefault();
+                   }
+               }
               </script>
               
              </div>
@@ -110,7 +125,7 @@
 	
               //Retornar valor filtrado
                return out;
-}   
+              }   
               </script>   
              </div>
 
