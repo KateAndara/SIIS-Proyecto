@@ -35,8 +35,28 @@
           <div class="input-group-text bg-light">
             <img src="https://icon-library.com/images/free-user-icon/free-user-icon-26.jpg" alt="username-icon" style="height: 2.5rem" />
           </div>
-          <input class="form-control bg-light" type="text" placeholder="Usuario" name="usuario" id="usuario" oninput="validarCampoUsuario()" />
+          <input class="form-control bg-light" type="text" placeholder="Usuario" name="usuario" id="usuario" onkeydown="this.value=Mayus(this.value)" onkeyup="this.value=Mayusculas(this.value)" oninput="validarCampoUsuario()" />
         </div>
+        <script>
+                function Mayus(string){//Solo mayusculas
+                 var out = '';
+                 var filtro = 'ABCDEFGHIJKLMNÑOPQRSTUVWXYZ';//Caracteres validos
+	
+                //Recorrer el texto y verificar si el caracter se encuentra en la lista de validos 
+                  for (var i=0; i<string.length; i++)
+                  if (filtro.indexOf(string.charAt(i)) != -1) 
+                   //Se añaden a la salida los caracteres validos
+	                 out += string.charAt(i);
+	  
+                   //Retornar valor filtrado
+                   return out;
+                }
+              
+                function Mayusculas(tx){
+	                //Retornar valor convertido a mayusculas
+	                 return tx.toUpperCase();
+                }
+          </script>
         <div class="input-group mt-1">
           <div class="input-group-text bg-light">
           <button id="show_password" class="btn btn-dark"  type="button" style="width:40px" onclick="mostrarPassword('password')"> <span class="fa fa-eye-slash icon" ></span> </button>
