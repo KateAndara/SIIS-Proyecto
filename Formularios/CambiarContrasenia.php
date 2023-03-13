@@ -30,13 +30,11 @@
     </div>
     <br>
     <div class="container">
-      <form class="form-horizontal" action="" method="post">
+      <form class="form-horizontal" action="../controller/actualizarContrasenia.php" method="post">
 
             <?php 
             require_once("../config/conexion.php");
             echo "<form method='post'>";
-            echo "<label for='contraseña'>Ingrese su usuario:</label><br>";
-            echo "<input class='form-control bg-light' type='text'  name='user' id='user' placeholder='Usuario' required><br>";
             echo "<label for='contraseña'>Ingrese la nueva contraseña:</label><br>";
             echo "<div class='input-group mt-1'>";
             echo "<div class='input-group-text bg-light'>";
@@ -84,8 +82,7 @@
             echo "</div>";
             echo "</form>";
 
-            require_once("../controller/actualizarContrasenia.php");
-
+           // require_once("../controller/actualizarContrasenia.php");
             ?>
       </form>
     </div>

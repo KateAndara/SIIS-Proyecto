@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 /**
  * Funcion para requerir la conexion a la base de datos
@@ -6,11 +7,30 @@
 require_once("../../../config/conexion.php");
 include_once '../../../token/Token.php'; //incluir clase para generar tokens
 
-
-
 //obtencion del nombre del usuario por el metodo POST
  $nombre = htmlspecialchars( $_POST['usuario'],ENT_QUOTES,'UTF-8');
 
+//bitacora envio de correo
+   # Consulto el id Usuario
+    $consulta_Id="SELECT Id_Usuario FROM tbl_ms_usuarios where Usuario = '$nombre'";
+    $resultado_Id=mysqli_query( $conexion , $consulta_Id);
+    while ($otra_=mysqli_fetch_array( $resultado_Id )) {
+    # code...
+     $id=$otra_['Id_Usuario'];
+ }
+  #Consulto fecha
+  $fechaC = date('Y-m-d');
+
+  #consulto numero de id/filas
+  //id bitacora
+  $consulta_bita="SELECT * FROM tbl_ms_bitacora";
+  $resultado_bita= mysqli_query( $conexion , $consulta_bita );
+  $filas_bi = mysqli_num_rows( $resultado_bita );
+  $filas_bbitacora=$filas_bi+1;
+
+  $sql = $conexion->query("INSERT INTO tbl_ms_bitacora(Id_Usuario,Id_Objeto,Fecha,Accion,Descripcion) VALUES($id,5,now(),'Recuperar Contraseña','Se envio correo para cambio de contraseña') ");
+
+  //mysqli_query( $conexion , $insertarB );
 
 //busquedad del correo del usuario por el metodo post
  $sql=$conexion->query(" select Correo_Electronico from tbl_ms_usuarios where Usuario='$nombre'");
@@ -100,8 +120,8 @@ try {
     // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
 
 
-    $bodyHtml = 'Hola '.$nombre.', has solicitado cambiar tu contraseña, Presiona el botón';
-    $bodyHtml .= '<form action="http://localhost/SIIS-PROYECTO/pruebas.php" method="post">
+    $bodyHtml = 'Hola '.$nombre.', has solicitado reestablecer tu contraseña, para acceder al formulario de reestablecimiento presiona el siguiente botón';
+    $bodyHtml .= '<form action="http://localhost/SIIS-PROYECTO/Formularios/CambiarContrasenia.php" method="post">
       <input type="hidden" name="user" value='.$nombre.'>
     <input  type="hidden" name="token" value='.$token_generado.'>
     <br>
@@ -116,28 +136,7 @@ try {
     // $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
     $mail->send();
-      //Bitácora
-    $sql=$conexion->query("Select id_usuario from tbl_ms_usuarios where Usuario = '$nombre';");
-    $idusuario=$sql->fetch_object();
 
-
-    //limpiar datos
-    $informacion = json_encode($idusuario,true); 
-    $posicion =  strpos($informacion, ":") + 2;
-    $idusuario =  substr($informacion, $posicion, -2);
-    $sql=$conexion->query("Select id_objeto from tbl_objetos where Objeto = 'recuperacion_Correo';");
-    $idobjeto=$sql->fetch_object();
-
-    // limpiar datos 
-    $informacion = json_encode($idobjeto,true);
-   
-    $posicion =  strpos($informacion, ":") + 2;
-   
-    $idobjeto =  substr($informacion, $posicion, -2);
-
-    echo $idobjeto.' Usuario:'.$idusuario;
-    $sql=$conexion->query("INSERT INTO tbl_ms_bitacora(Id_Usuario,Id_Objeto,Fecha,Accion,Descripcion) VALUES($idusuario,$idobjeto,now(),'Cambio de contraseña por correo','El usuario $nombre ha solicitado un cambio de contraseña') ");
-    
    
    
     //insertarNumero
@@ -147,28 +146,6 @@ try {
 
 
 } catch (Exception $e) {
-    //Bitácora
-    $sql=$conexion->query("Select id_usuario from tbl_ms_usuarios where Usuario = '$nombre';");
-    $idusuario=$sql->fetch_object();
-
-
-    //limpiar datos
-    $informacion = json_encode($idusuario,true); 
-    $posicion =  strpos($informacion, ":") + 2;
-    $idusuario =  substr($informacion, $posicion, -2);
-    $sql=$conexion->query("Select id_objeto from tbl_objetos where Objeto = 'recuperacion_Correo';");
-    $idobjeto=$sql->fetch_object();
-
-    // limpiar datos 
-    $informacion = json_encode($idobjeto,true);
- 
-    $posicion =  strpos($informacion, ":") + 2;
- 
-    $idobjeto =  substr($informacion, $posicion, -2);
-
-    //echo $idobjeto.' Usuario:'.$idusuario;
-    $sql=$conexion->query("INSERT INTO tbl_ms_bitacora(Id_Usuario,Id_Objeto,Fecha,Accion,Descripcion) VALUES($idusuario,$idobjeto,now(),'Cambio de contraseña por correo fallido','El usuario $nombre ha intentado solicitar un cambio de contraseña') ");
-  
     echo " Error EN MENSAJE: {$mail->ErrorInfo}";
 }
 
