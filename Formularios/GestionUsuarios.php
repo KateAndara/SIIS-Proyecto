@@ -1,35 +1,24 @@
+<!--Buscador-->
 <?php 
 include '../components/header.components.php';
     include_once "../config/conexion2.php"; 
+    //Sentencia para buscar los datos de 1 usuario en la tabla usuarios
     if(isset($_GET["search"])){
       $sentencia = $conexion -> query("SELECT * from tbl_ms_usuarios WHERE usuario LIKE '%".$_GET["search"]."%' OR id_Usuario =  ".intval($_GET["search"])."");
     }else{
+      //Sentencia para jalar los datos de la tabla usuarios 
       $sentencia = $conexion -> query("SELECT * from tbl_ms_usuarios");
     }
     
     $usuario = $sentencia->fetchAll(PDO::FETCH_OBJ);
 ?>
 
-<div class="col-md-12 cards-white">
+<div class="col-md-12 cards-white" style="margin: 0 auto; width: 115%; max-width: none; margin-left: -20px;">
 
-
-
-<form method="GET" action="GestionUsuarios.php">
-   <div class="input-group mb-3">
-      <input name="search" type="text" 
-      value="<?php 
-        echo isset($_GET["search"]) ? $_GET["search"] : ''
-      ?>"
-      class="form-control" placeholder="Buscar Usuario" aria-label="Buscar Usuario" aria-describedby="button-addon2">
-      <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Buscar</button>
-      </div>
-    </div>
-</form>
     
 <!-- inicio alerta -->
-<?php 
-                if(isset($_GET['mensaje']) and $_GET['mensaje'] == 'falta'){
+            <?php 
+            if(isset($_GET['mensaje']) and $_GET['mensaje'] == 'falta'){
             ?>
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
             <strong>Error!</strong> Rellena todos los campos.
@@ -41,10 +30,10 @@ include '../components/header.components.php';
 
 
             <?php 
-                if(isset($_GET['mensaje']) and $_GET['mensaje'] == 'registrado'){
+                if(isset($_GET['mensaje']) and $_GET['mensaje'] == 'guardado'){
             ?>
             <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>Registrado!</strong> Se agregaron los datos.
+            <strong>Listo!</strong> Usuario guardado correctamente.
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             <?php 
@@ -70,7 +59,7 @@ include '../components/header.components.php';
                 if(isset($_GET['mensaje']) and $_GET['mensaje'] == 'editado'){
             ?>
             <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>Actualizado!</strong> Los datos fueron actualizados correctamente.
+            <strong>Actualizado!</strong> Los datos del usuario fueron actualizados correctamente.
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             <?php 
@@ -88,32 +77,53 @@ include '../components/header.components.php';
             <?php 
                 }
             ?> 
-
+  
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h3>
+                      Lista De Usuarios
+                    </h3>
+                </div>
+            </div>
+            <br>
             <!-- fin alerta -->
 
-
+  <!--Boton para crear usuario-->
+  <!--Bucador-->
+     <form method="GET" action="GestionUsuarios.php">
+      <div class="input-group mb-3">
+          <input name="search" type="text" 
+          value="<?php 
+            echo isset($_GET["search"]) ? $_GET["search"] : ''
+          ?>"
+          class="form-control" placeholder="Buscar Usuario" aria-label="Buscar Usuario" aria-describedby="button-addon2">
+          <div class="input-group-append" style="margin: 0 18px;">
+            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Buscar</button>
+            <button style="background-color:  #147c4c;"><a href="GestionUsuario.php" type="submit"  class="rounded" style="color: white; float: right; margin-left: 10px;">Agregar Usuario</a></button>
+             <button class="rounded" style="background-color: #fff; color: dark; float: right;"  onclick="PDFProductoTerminadoMP('+MisItems[i].Id_Producto_Terminado_Mp +')">Generar PDF</button>
+          </div>
+        </div>
+    </form>
+    
  
 
-
-<a href="GestionUsuario.php" type="submit"  class="btn btn-primary">Crear usuario</a>
-<table class="table table-sm table-dark" style="w" >
+<!--Tabla en la que se muetran todos los de la tabla usuario-->
+<table class="table table-hover " style="color:black; width: 70rem;" >
                         <thead>
                             <tr>
-                                <th scope="col">Id Usuario</th>
-                                <th scope="col">Usuario</th>
-                                <th scope="col">Nombre</th>
-                                <th scope="col">Estado</th>
-                                <th scope="col">Fecha de ultima conexión</th>
+                                <th scope="col">ID USUARIO</th>
+                                <th scope="col">USUARIO</th>
+                                <th scope="col">NOMBRE</th>
+                                <th scope="col">ESTADO</th>
+                                <th scope="col">FECHA DE ULTIMA CONEXCION</th>
                                 <th scope="col">DNI</th>
-                                <th scope="col">Correo electronico</th>
-                                <th scope="col" colspan="2">Opciones</th>
+                                <th scope="col">CORREO ELECTRONICO</th>
+                                <th scope="col" colspan="3">OPCIONES</th>
                             </tr>
                         </thead>
 
                         <?php  
-                                foreach($usuario as $dato){ 
-
-                                  
+                                foreach($usuario as $dato){       
                          ?>
                          <tr>
                            <td scope="row"><?php echo $dato->Id_Usuario; ?></td>
@@ -124,9 +134,10 @@ include '../components/header.components.php';
                            <td><?php echo $dato->DNI; ?></td>
                            <td><?php echo $dato->Correo_Electronico; ?></td>
                            <td>
-                           <a class="text-success" href="EditarUsuario.php?Id_Usuario=<?php echo $dato->Id_Usuario; ?>"><i class="bi bi-pencil-square"></i></a>
-                           <a onclick="return confirm('Estas seguro de eliminar el usuario?');" class="text-danger" href="../controller/DeleteUsuario.php?Id_Usuario=<?php echo $dato->Id_Usuario; ?>"><i class="bi bi-trash"></i></a>
-                           <a onclick="showModal(
+                           <td><a class="btn btn-outline-secondary"  style="background-color: #2D7AC0; color: white; display: inline-block; width: 68px;" href="EditarUsuario.php?Id_Usuario=<?php echo $dato->Id_Usuario; ?>">Editar</a></td>
+                           <td><a onclick="return confirm('Estas seguro de eliminar el usuario?');" class="btn btn-outline-secondary" style="background-color: #D6234A; color: white; display: inline-block; width: 80px;" href="../controller/DeleteUsuario.php?Id_Usuario=<?php echo $dato->Id_Usuario; ?>">Eliminar</a></td>
+                           <!--se mostraran los datos completos de los usuarios usando el modals-->
+                           <td> <a onclick="showModal(
                             '<?php echo $dato->Id_Usuario; ?>',
                             '<?php echo $dato->Id_Rol; ?>',
                                 '<?php echo $dato->Id_Cargo; ?>',
@@ -144,21 +155,15 @@ include '../components/header.components.php';
                                 '<?php echo $dato->Fecha_creacion; ?>',
                                 '<?php echo $dato->Modificado_por; ?>',
                                 '<?php echo $dato->Fecha_modificacion; ?>'
-                           )" class="text-success" ><i class="bi bi-view-list"></i></a>
-                           </td>
+                           )" class="btn btn-outline-secondary" style="background-color:  #147c4c; color: white; float: right; margin-left: 1px; width: 90px">Ver mas</a>
+                           </td></td>
                          </tr>
-
-                         
-
-                        <?php }  if(!$usuario) { ?>
-
-                        <tr>
-                          <td style=" text-align: center; " colspan="8">No se encontraron registros</td>
-                        </tr>
-                        <?php }  ?>
-
-
-
+              <!--Mostrara un mensaje cuando no se encuentre un usuario en el buscador-->
+              <?php }  if(!$usuario) { ?>
+              <tr>
+                <td style=" text-align: center; " colspan="8">No se encontraron registros</td>
+              </tr>
+              <?php }  ?>
 
  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -179,8 +184,7 @@ include '../components/header.components.php';
   </div>
 </div>                      
 
-
-
+<!--Mostrar los datos con el modal en la pantalla emergente-->
 <script>
   function showModal(Id_Usuario,Id_Rol,Id_Cargo, Usuario, Nombre, Estado, Contrasena, Fecha_ultima_conexion, Preguntas_contestadas, Primer_ingreso, Fecha_vencimiento, DNI, Correo_Electronico, Creado_por, Fecha_creacion, Modificado_por, Fecha_modificacion){
     let data = `<table>

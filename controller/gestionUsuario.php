@@ -1,4 +1,15 @@
 <?php
+//1= Produccion
+//0= Local
+$enviroment=0;
+
+//Usar las librerias 
+ use PHPMailer\PHPMailer\PHPMailer;
+ use PHPMailer\PHPMailer\Exception;
+ require '../Libraries/phpmailer/Exception.php';
+ require '../Libraries/phpmailer/PHPMailer.php';
+ require '../Libraries/phpmailer/SMTP.php';
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -98,10 +109,68 @@ error_reporting(E_ALL);
         }else{
           $sql=$conexion -> query("insert into tbl_ms_usuarios(Id_Rol,Id_Cargo,Usuario,Nombre,Estado,Contraseña,DNI,Correo_Electronico, Fecha_creacion, Creado_por, Fecha_vencimiento)values('$id_rol','$id_cargo','$usuario','$nombre','$estado','$contrasena','$dni','$correo','$Fecha', '$creadop', '$parametro')");
           echo '<br>';
-          echo '<div class="alert alert-success">El Usuario se creo correctamente.</div>';
+          header('Location:../Formularios/GestionUsuarios.php?mensaje=guardado');
+        
+          //ENVIAR CORREO 
+          if ($enviroment==1) {
+            $asunto = "BIENVENIDO A SIIS";
+            $emailDestino = $correo;
+            $empresa = "SIIS";
+            $remitente = "cazadores.software2022@gmail.com";
+            
+            //ENVIO DE CORREO
+            $de = "MIME-Version: 1.0\r\n";
+            $de .= "Content-type: text/html; charset=UTF-8\r\n";
+            $de .= "From: {$empresa} <{$remitente}>\r\n";
+            ob_start();
+            require_once("email.php");
+            $mensaje = ob_get_clean();
+            $send = mail($emailDestino, $asunto, $mensaje, $de);
+            return $send;
+          }else{
+            //Create an instance; passing `true` enables exceptions
+          $mail = new PHPMailer(true);
+          ob_start();
+          require_once("email.php");
+          $mensaje = ob_get_clean();
+
+          try {
+              //Server settings
+              $mail->SMTPDebug =  0;                      //Enable verbose debug output
+              $mail->isSMTP();                                            //Send using SMTP
+              $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+              $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+              $mail->Username   = 'cazadores.software2022@gmail.com';          //SMTP username
+              $mail->Password   = 'fwdlqnylsvjgvdiv';                               //SMTP password
+              $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
+              $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+              //Recipients
+              $mail->setFrom('cazadores.software2022@gmail.com', 'Servidor Local SIIS');
+              $mail->addAddress($correo);     //Add a recipient
+              if(!empty($correo)){
+                  $mail->addBCC($correo);
+              }
+              $mail->CharSet = 'UTF-8';
+              //Content
+              $mail->isHTML(true);                                  //Set email format to HTML
+              $mail->Subject = "BIENVENIDO A SIIS";
+              $mail->Body    = $mensaje;
+              
+              $mail->send();
+              echo '<br>';
+              header('Location:../Formularios/GestionUsuarios.php?mensaje=guardado');
+              return true;
+          } catch (Exception $e) {
+              return false;
+          } 
+          }
         }
     
       } 
   }
   
 ?>
+
+
+
