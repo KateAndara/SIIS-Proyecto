@@ -24,19 +24,36 @@ include '../components/header.components.php';
                 </div>
             </div>
             <div style="margin: 0 18px;">
-            <input type="text" class="rounded" style="border: 2px solid black;" placeholder="Id Producto Terminado" id="input-busqueda">
-            <button style="background-color: black; color: white;" class="rounded" id="btn-busqueda">Buscar</button>
-            <button class="rounded" style="background-color:  #147c4c; color: white; float: right; margin-left: 10px;" onclick="BuscarProductoTerminadoMP('+MisItems[i].Id_Producto_Terminado_Mp +')">Agregar</button>
+            <form id="form-busqueda" autocomplete="off">
+                <input type="text" class="rounded" style="border: 2px solid black;" placeholder=" Id producto o Producto" id="input-busqueda">
+                <button style="background-color: black; color: white;" class="rounded" id="btn-busqueda" type="submit">Buscar</button>
+            </form>
+            <button class="rounded" style="background-color:  #147c4c; color: white; float: right; margin-left: 10px;" onclick="mostrarFormulario()">Agregar</button>
             <button class="rounded" style="background-color: #fff; color: dark; float: right;"  onclick="PDFProductoTerminadoMP('+MisItems[i].Id_Producto_Terminado_Mp +')">Generar PDF</button>
             </div>
+
             <script>
-            $(document).ready(function(){
-                $('#btn-busqueda').click(function(){
-                    var busqueda = $('#input-busqueda').val();
-                    BuscarProductoTerminadoMP(busqueda);
+                $(document).ready(function(){          //Lee la búsqueda
+                    $('#form-busqueda').submit(function(event){ 
+                        event.preventDefault(); 
+
+                        var busqueda = $('#input-busqueda').val();
+                        if(busqueda == "") {
+                            CargarProductosTerminadosMP();
+                        } else {
+                            BuscarProductoTerminadoMP(busqueda);
+                        }
+                    });
                 });
-            });
             </script>
+
+            <script>
+            function mostrarFormulario() {
+            var formulario = document.querySelector('.Formulario'); //Muestra el formulario de agregar y actualizar.
+            formulario.style.display = 'block';
+            }
+            </script>
+            
             <div class="box-body">
                 <div class="table table-responsive">
                     <table class="table table-hover">
@@ -54,6 +71,31 @@ include '../components/header.components.php';
                             
                         </tbody>
                     </table>
+                </div>
+            </div>
+        </div>
+        <div class="Formulario" style="display: none;">
+            <div class="row">
+                <div class="Col-12" id="titulo">
+                    <h3>
+                        Agregar Producto Terminado
+                    </h3>
+                </div>
+                <div class="col-12">
+                    <form class="InsertProductoTerminado">
+                        <label for="Id_Producto_Terminado_Mp" hidden>ID PRODUCTO TERMINADO</label>
+                        <input type="number" id="Id_Producto_Terminado_Mp" class="form-control" placeholder="Ingrese el código del producto terminado"hidden>
+                        <label for="">ID PRODUCTO</label>
+                        <input type="number" id="Id_Producto" class="form-control" placeholder="Ingrese el código del producto">
+                        <label for="">ID PROCESO DE PRODUCCIÓN</label>
+                        <input type="number" id="Id_Proceso_Produccion" class="form-control" placeholder="Ingrese el código del proceso de producción">
+                        <label for="">CANTIDAD</label>
+                        <input type="number" id="Cantidad" class="form-control" placeholder="Ingrese ingrese la cantidad del producto">
+                        <hr>
+                        <div id="btnagregarProductoTerminado">
+                            <input type="submit" id="btnagregar" onclick="AgregarProductoTerminadoMP()" value="Agregar Producto Terminado" class="btn btn-success">
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
