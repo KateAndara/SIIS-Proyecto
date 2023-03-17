@@ -54,7 +54,7 @@
             echo "</select><br>";
             echo "<label for='respuesta'>Ingresa la respuesta:</label><br>";
             echo "<input class='form-control bg-light' type='text' name='respuesta' id='respuesta' placeholder='Respuesta' required><br>";
-           // echo "<div id='btnEnviarRespuesta'>";
+            echo "<div id='btnEnviarRespuesta'>";
             echo "<input id='btnValidarRespuesta' type='submit' name='btnValidarRespuesta' value='Comprobar respuesta' class='btn btn-info text-white w-100 mt-4 fw-semibold shadow-sm'>";
             echo "</div>";
             echo "</div>";

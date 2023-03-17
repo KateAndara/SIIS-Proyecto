@@ -35,39 +35,75 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (strlen($respuestas)> 100){ // Validación de la cantidad de caracteres en el campo Respuesta definido en la base de datos.
                 echo '<br>';
                 echo '<div class="alert alert-danger">El campo Respuesta no puede exceder de 100 caracteres.</div>';  
-            }else{
+            }else{                
                 //Consultar la tabla "tbl_ms_preguntas_usuarios" para verificar que la pregunta seleccionada sea una pregunta configurada.
                 $query = "SELECT Id_Pregunta FROM tbl_ms_preguntas_usuarios WHERE Id_Usuario='$id_usuario' AND Id_Pregunta = '$preguntas'";
                 $resultado = mysqli_query($conexion, $query);
-
+                               
                 // Si la pregunta seleccionada es una pregunta configurada.
                 if (mysqli_num_rows($resultado) > 0) {
-                    //Consultar la tabla "tbl_ms_preguntas_usuarios" para verificar que la respuesta es correcta.
+                    //Consultar la tabla "tbl_ms_preguntas_usuarios" para verificar que la respuesta es correcta.                  
                     $query = "SELECT * FROM tbl_ms_preguntas_usuarios WHERE Id_Usuario='$id_usuario' AND Id_Pregunta = '$preguntas' AND Respuesta='$respuestas'";
                     $resultado = mysqli_query($conexion, $query);
 
                     // Si la respuesta es correcta.
                     if (mysqli_num_rows($resultado) > 0) {
                         //Se controla el número de preguntas a contestar.
-                        if ($contador=0 && isset($_POST["btnValidarRespuesta"])) {
+                        if ($contador=0 &&  isset($_POST["btnValidarRespuesta"])) {
                             //Se incrementa el parámetro que almacena el contador.
-                            $contador = $contador + 1;
+                           $contador = $contador + 1;
                         }else if ($contador =1 && isset($_POST["btnValidarRespuesta"])) { //Si se alcanza el número de preguntas contestadas.
 
                             header('Location: ../Formularios/RecuperacionContraseniaPS.php'); // Redireccionamiento a la configuración de una nueva contraseña.
-                        } 
+                        }                    
                     }else{
-                        echo '<style>#btnValidarRespuesta { display:none; }</style>';
+                     // Consulta SQL para obtener el valor del campo "Parametro".
+                     $sql = "SELECT Valor FROM tbl_ms_parametros where Parametro='ADMIN_INTENTOS'"; 
+                     $resultado = $conexion->query($sql);
+
+                     // Recuperar el valor del campo "parametro"
+                     $parametroIntentos = mysqli_fetch_assoc($resultado)['Valor'];
+
+                     $sql=$conexion->query(" select * from tbl_ms_usuarios where Usuario='$usuario' "); //and Estado='Activo' ");
+                     if($datos=$sql->fetch_object()){
+                         $max_intentos = $parametroIntentos;
+                         $intentos = isset($_SESSION['intentos']) ? $_SESSION['intentos'] : 1;
+                         if($intentos == $max_intentos){
+                             echo "Ha alcanzado el número máximo de intentos permitidos.";
+                             echo '<style>#fila { display:none; }</style>';
+                         }else{
+                             if($intentos > $max_intentos){
+                                 echo "Ha excedido el número máximo de intentos permitidos. Su usuario se ha bloqueado.";
+                                 $sql=$conexion->query(" UPDATE tbl_ms_usuarios SET Estado = 'Bloqueado' where Usuario='$usuario' ");
+                                 unset($_SESSION["intentos"]);  
+                                 header('Location: ../Formularios/index.html');                               
+                                 //echo "<div class='d-flex gap-1 justify-content-center mt-1'>";
+                                 //echo "<a href='http://localhost/SIIS-PROYECTO/Formularios/index.html'>";
+                                 //echo "<button class='btn btn-info text-white w-100 mt-4 fw-semibold shadow-sm'>Ir a la página principal</button>";
+                                 //echo "</a>";
+                                 exit;
+                             }
+                         }
+                        //El usuario aún tiene intentos disponibles
+                        echo "<span id='fila'>Se ha registrado el intento fallido. Le queda ", $max_intentos - $intentos, " intento/s más.</span>";
+
+                        //Incrementar el contador de intentos
+                        $_SESSION['intentos'] = $intentos + 1;
+                    }
+                    
+                    
+                        /*echo '<style>#btnValidarRespuesta { display:none; }</style>';
                         echo '<br>';
-                        echo '<div class="alert alert-danger">Intento de recuperación de contraseña fallido. Su usuario se ha bloqueado. Contacte al administrador.</div>';  
+                        echo '<div class="alert alert-danger">Intento de recuperación de contraseña fallido. Su usuario se ha bloqueado. Contacte al administrador.</div>';               
                         $sql=$conexion->query(" UPDATE tbl_ms_usuarios SET Estado = 'Bloqueado' where Usuario='$usuario' ");
                         echo "<div class='d-flex gap-1 justify-content-center mt-1'>";
                         echo "<a href='http://localhost/SIIS-PROYECTO/Formularios/index.html'>";
                         echo "<button class='btn btn-info text-white w-100 mt-4 fw-semibold shadow-sm'>Ir a la página principal</button>";
                         echo "</a>";
-                        echo "</div>";
+                        echo "</div>";*/
                     }
-                }else{
+                        
+                }else{                    
                     echo '<br>';
                     echo '<div class="alert alert-danger">La pregunta seleccionada no ha sido configurada. Elija una pregunta que ya haya configurado anteriormente.</div>'; 
                 }
@@ -75,5 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 }
+
+
 ob_end_flush();
 ?>

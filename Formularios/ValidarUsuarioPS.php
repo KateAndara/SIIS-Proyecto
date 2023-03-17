@@ -28,7 +28,28 @@
             </div>
         <form class="form-horizontal" method="post">
             <br><br><p class="text-white fw-semibold">Ingrese su usuario</p>
-            <input class="form-control bg-light" type="text" placeholder="Usuario" name="usuario" id="inputUser3" /> 
+            <input class="form-control bg-light" type="text" placeholder="Usuario" name="usuario" id="inputUser3" onkeydown="this.value=Mayus(this.value)" onkeyup="this.value=Mayusculas(this.value)" oninput="validarCampoUsuario()" /> 
+            <script>
+                function Mayus(string){//Solo mayusculas
+                 var out = '';
+                 var filtro = 'ABCDEFGHIJKLMNÑOPQRSTUVWXYZ';//Caracteres validos
+	
+                //Recorrer el texto y verificar si el caracter se encuentra en la lista de validos 
+                  for (var i=0; i<string.length; i++)
+                  if (filtro.indexOf(string.charAt(i)) != -1) 
+                   //Se añaden a la salida los caracteres validos
+	                 out += string.charAt(i);
+	  
+                   //Retornar valor filtrado
+                   return out;
+                }
+              
+                function Mayusculas(tx){
+	                //Retornar valor convertido a mayusculas
+	                 return tx.toUpperCase();
+                }
+          </script>
+            
             <div class="d-flex gap-1 justify-content-center mt-1">
                 <div id="btnComprobarUsuario">
                     <input type="submit" name="btnComprobarUsuario" value="Comprobar Usuario" class="btn btn-info text-white w-100 mt-4 fw-semibold shadow-sm">
