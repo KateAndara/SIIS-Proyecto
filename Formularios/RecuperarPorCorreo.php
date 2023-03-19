@@ -28,10 +28,30 @@
             </div>
             <form action="../mailer/PHPMailer/src/enviarcorreo.php" method="post">
             <br><br><p class="text-white fw-semibold">Ingrese su usuario:</p>
-            <input class="form-control bg-light" type="text" placeholder="Nombre de usuario" name="usuario" id="inputUser3" />
+            <input class="form-control bg-light" type="text" placeholder="Usuario" name="usuario" id="inputUser3"  onkeydown="this.value=Mayus(this.value)" onkeyup="this.value=Mayusculas(this.value)" oninput="validarCampoUsuario()" /> 
+            <script>
+                function Mayus(string){//Solo mayusculas
+                 var out = '';
+                 var filtro = 'ABCDEFGHIJKLMNÑOPQRSTUVWXYZ';//Caracteres validos
+	
+                //Recorrer el texto y verificar si el caracter se encuentra en la lista de validos 
+                  for (var i=0; i<string.length; i++)
+                  if (filtro.indexOf(string.charAt(i)) != -1) 
+                   //Se añaden a la salida los caracteres validos
+	                 out += string.charAt(i);
+	  
+                   //Retornar valor filtrado
+                   return out;
+                }
+              
+                function Mayusculas(tx){
+	                //Retornar valor convertido a mayusculas
+	                 return tx.toUpperCase();
+                }
+          </script>
             <div class="d-flex gap-1 justify-content-center mt-1">
                 <div id="btnEnviarContrasenia">
-                    <input type="submit" name="btnenviarcontrasenia" value="ENVIAR CONTRASEÑA" class="btn btn-info text-black w-100 mt-3 fw-semibold shadow-sm">
+                    <input type="submit" name="btnenviarcontrasenia" value="ENVIAR CORREO" class="btn btn-info text-black w-100 mt-3 fw-semibold shadow-sm">
                 </div>
                 </form>
             </div>
@@ -40,4 +60,4 @@
 </body> 
 
 </html>
-<?php ob_end_flush(); ?> 
+<?php ob_end_flush(); ?>

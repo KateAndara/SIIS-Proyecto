@@ -6,6 +6,7 @@ session_start();
  */
 require_once("../../../config/conexion.php");
 include_once '../../../token/Token.php'; //incluir clase para generar tokens
+//include ("./token/Token.php");
 
 //obtencion del nombre del usuario por el metodo POST
  $nombre = htmlspecialchars( $_POST['usuario'],ENT_QUOTES,'UTF-8');
@@ -120,8 +121,10 @@ try {
     // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
 
 
-    $bodyHtml = 'Hola '.$nombre.', has solicitado reestablecer tu contraseña, para acceder al formulario de reestablecimiento presiona el siguiente botón';
-    $bodyHtml .= '<form action="http://localhost/SIIS-PROYECTO/Formularios/CambiarContrasenia.php" method="post">
+
+    
+    $bodyHtml = '¡Hola, '.$nombre.'! Has solicitado recuperar tu contraseña. En caso de no haber sido tú, ignora este correo electrónico. De lo contrario, presiona el siguiente botón para acceder al formulario de restablecimiento de contraseña.';
+    $bodyHtml .= '<form action="http://localhost/SIIS-PROYECTO/pruebas.php" method="post">
       <input type="hidden" name="user" value='.$nombre.'>
     <input  type="hidden" name="token" value='.$token_generado.'>
     <br>
@@ -137,7 +140,6 @@ try {
 
     $mail->send();
 
-   
    
     //insertarNumero
 

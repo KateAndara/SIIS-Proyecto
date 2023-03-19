@@ -26,7 +26,7 @@
       <img src="https://cdn-icons-png.flaticon.com/512/5087/5087579.png" alt="login-icon" style="height: 7rem" />
     </div>
     <div class="d-flex justify-content-center">
-    <label for='titulo'>Usted ha solicitado reestablecer su contraseña, por favor complete los siguientes campos..</label><br>
+    <label for='titulo'>Usted ha solicitado restablecer su contraseña, por favor complete los siguientes campos..</label><br>
     </div>
     <br>
     <div class="container">

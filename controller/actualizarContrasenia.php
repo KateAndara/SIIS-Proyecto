@@ -94,7 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                       //header('Location: Login.php'); // Redireccionamiento al Login.
                       ?>
                       <script> 
-                         alert("Conraseña Cambiada con exito.");
+                         alert("Contraseña actualizada con éxito.");
                          location.href= "../Formularios/Login.php";
                       </SCRipt><?php
                   }
