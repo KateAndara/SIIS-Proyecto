@@ -92,6 +92,7 @@ error_reporting(E_ALL);
             echo '<br>';
           echo '<div class="alert alert-success">El Usuario se creo correctamente.</div>';
           header('Location: GestionUsuarios.php?mensaje=editado');
+          
         }
     }
 
@@ -191,7 +192,7 @@ error_reporting(E_ALL);
                     <div class="row justify-content-center">
                         <!--Muestra los datos traidos desde la base de datos de los roles que hay-->
                         <div class="form-group col-md-6">
-                            <label class="form-label">Id Cargo: </label>
+                            <label class="text-light">Id Cargo: </label>
                             <select name="Id_Cargo" class="custom-select">
                                     <?php while ($fila = $resultado1->fetch_assoc()):
                                         $id_Cargo = $fila["Id_Cargo"];
@@ -208,7 +209,7 @@ error_reporting(E_ALL);
                         </div>
 
                         <div class="form-group col-md-6">
-                            <label class="form-label">Usuario: </label>
+                            <label class="text-light">Usuario: </label>
                             <input style=" text-transform: uppercase; " type="text" class="form-control" name="Usuario" maxlength="45" autofocus required
                             value="<?php echo $usuario->Usuario; ?>">
                         </div>
@@ -216,14 +217,14 @@ error_reporting(E_ALL);
 
                     <div class="row justify-content-center">
                         <div class="form-group col-md-6">
-                            <label class="form-label">Nombre: </label>
+                            <label class="text-light">Nombre: </label>
                             <input style=" text-transform: uppercase; " type="text" class="form-control" name="Nombre" maxlength="60" autofocus required 
                             value="<?php echo $usuario->Nombre; ?>">
                         </div>
                         
                         <div class="form-group col-md-6">
                             <div style="font-size: 20px">
-                                <label for="Estado">Estado del usuario</label>
+                                <label class="text-light" for="Estado">Estado del usuario</label>
                                 <select name="Estado" id="Estado">
                                     <option <?php echo ($usuario->Estado == 'Estado') ? 'selected' : '' ?> value="Activo">Activo</option>
                                     <option <?php echo ($usuario->Estado == 'Inactivo') ? 'selected' : '' ?> value="Inactivo">Inactivo</option>
@@ -236,12 +237,12 @@ error_reporting(E_ALL);
 
                     <div class="row justify-content-center">
                         <div class="form-group col-md-6">
-                            <label class="form-labesl">Contraseña: </label>
+                            <label class="text-light">Contraseña: </label>
                             <input type="text" class="form-control" name="Contraseña" maxlength="15" minlength="5" autofocus required
                             value="<?php echo $usuario->Contraseña; ?>">
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="form-label">Ultima fecha de conexion: </label>
+                            <label class="text-light">Ultima fecha de conexion: </label>
                             <input type="date" class="form-control" readonly name="Fecha_ultima_conexion" 
                             value="<?php echo $usuario->Fecha_ultima_conexion; ?>">
                         </div>
@@ -249,12 +250,12 @@ error_reporting(E_ALL);
 
                     <div class="row justify-content-center">
                         <div class="form-group col-md-6">
-                            <label class="form-label">Preguntas contestadas: </label>
+                            <label class="text-light">Preguntas contestadas: </label>
                             <input type="number" class="form-control" name="Preguntas_contestadas"   readonly
                             value="<?php echo $usuario->Preguntas_contestadas; ?>">
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="form-label">Primer ingreso: </label>
+                            <label class="text-light">Primer ingreso: </label>
                             <input type="number" class="form-control" name="Primer_ingreso" autofocus autofocus readonly
                             value="<?php echo $usuario->Primer_ingreso; ?>">
                         </div>
@@ -262,12 +263,12 @@ error_reporting(E_ALL);
 
                     <div class="row justify-content-center">
                         <div class="form-group col-md-6">
-                            <label class="form-label">Fecha vencimiento: </label>
+                            <label class="text-light">Fecha vencimiento: </label>
                             <input type="date" class="form-control" readonly name="Fecha_vencimiento" autofocus required  readonly
                             value="<?php echo $usuario->Fecha_vencimiento; ?>">
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="form-label">DNI: </label>
+                            <label class="text-light">DNI: </label>
                             <input type="text" class="form-control" name="DNI" maxlength="16" autofocus required readonly
                             value="<?php echo $usuario->DNI; ?>">
                         </div>
@@ -275,12 +276,12 @@ error_reporting(E_ALL);
 
                     <div class="row justify-content-center">
                         <div class="form-group col-md-6">
-                            <label class="form-label">Correo Electronico: </label>
+                            <label class="text-light">Correo Electronico: </label>
                             <input type="Email" class="form-control" name="Correo_Electronico" autofocus required
                             value="<?php echo $usuario->Correo_Electronico; ?>">
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="form-label">Creado por: </label>
+                            <label class="text-light">Creado por: </label>
                             <input type="text" class="form-control" readonly name="Creado_por" autofocus required
                             value="<?php echo $usuario->Creado_por; ?>">
                         </div>
@@ -288,12 +289,12 @@ error_reporting(E_ALL);
 
                     <div class="row justify-content-center">
                         <div class="form-group col-md-6">
-                            <label class="form-label">Fecha de creación: </label>
+                            <label class="text-light">Fecha de creación: </label>
                             <input type="date" class="form-control" readonly name="Fecha_creacion" autofocus required
                             value="<?php echo $usuario->Fecha_creacion; ?>">
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="form-label">Modificado por: </label>
+                            <label class="text-light">Modificado por: </label>
                             <input type="text" class="form-control" name="Modificado_por" autofocus required readonly
                             value="<?php echo $_SESSION['usuario']; ?>">
                         </div>
@@ -301,7 +302,7 @@ error_reporting(E_ALL);
 
                     <div class="row justify-content-center">
                         <div class="form-group col-md-6">
-                            <label class="form-label">Fecha de modificacion: </label>
+                            <label class="text-light">Fecha de modificacion: </label>
                             <input type="text" class="form-control"   name="Fecha_modificacion" autofocus readonly
                             value="<?php echo date("Y-m-d"); ?>">
                         </div>

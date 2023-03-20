@@ -53,8 +53,6 @@ if (!empty($_POST["btniniciarSesion"])){
           $posicion = strpos($informacion, ":") + 2;
 
           $idobjeto = substr($informacion, $posicion, -2);
-
-          echo $idobjeto . ' Usuario:' . $idusuario;
           $sql = $conexion->query("INSERT INTO tbl_ms_bitacora(Id_Usuario,Id_Objeto,Fecha,Accion,Descripcion) VALUES($idusuario,$idobjeto,now(),'Inicio de Sesión','El usuario $usuario ha ingresado al sistema') ");
 
 
@@ -72,7 +70,7 @@ if (!empty($_POST["btniniciarSesion"])){
              $informacion = json_encode($idusuario, true);
              $posicion = strpos($informacion, ":") + 2;
              $idusuario = substr($informacion, $posicion, -2);
-             $sql = $conexion->query("Select id_objeto from tbl_objetos where Objeto = 'cambio_contra';");
+             $sql = $conexion->query("Select id_objeto from tbl_objetos where Objeto = 'PreguntasSecretas';");
              $idobjeto = $sql->fetch_object();
 
              // limpiar datos 
@@ -83,7 +81,7 @@ if (!empty($_POST["btniniciarSesion"])){
              $idobjeto = substr($informacion, $posicion, -2);
 
              //echo $idobjeto . ' Usuario:' . $idusuario;
-             $sql = $conexion->query("INSERT INTO tbl_ms_bitacora(Id_Usuario,Id_Objeto,Fecha,Accion,Descripcion) VALUES($idusuario,$idobjeto,now(),'Cambio de contraseña(Usuario Nuevo)','El usuario $usuario ha cambiado la contraseña') ");
+             $sql = $conexion->query("INSERT INTO tbl_ms_bitacora(Id_Usuario,Id_Objeto,Fecha,Accion,Descripcion) VALUES($idusuario,$idobjeto,now(),'Configurar Preguntas Secretas','El usuario $usuario ha configurado sus preguntas secretas') ");
 
             }else{ // Si el usuario está Bloqueado o Inactivo
               echo '<br>';
@@ -118,6 +116,26 @@ if (!empty($_POST["btniniciarSesion"])){
            unset($_SESSION["intentos"]);
           exit;
           }
+          //Bitácora
+          $sql = $conexion->query("Select id_usuario from tbl_ms_usuarios where Usuario = '$usuario';");
+          $idusuario = $sql->fetch_object();
+
+
+          //limpiar datos
+          $informacion = json_encode($idusuario, true);
+          $posicion = strpos($informacion, ":") + 2;
+          $idusuario = substr($informacion, $posicion, -2);
+          $sql = $conexion->query("Select id_objeto from tbl_objetos where Objeto = 'bloqueo';");
+          $idobjeto = $sql->fetch_object();
+
+          // limpiar datos 
+          $informacion = json_encode($idobjeto, true);
+
+          $posicion = strpos($informacion, ":") + 2;
+
+          $idobjeto = substr($informacion, $posicion, -2);
+          $sql = $conexion->query("INSERT INTO tbl_ms_bitacora(Id_Usuario,Id_Objeto,Fecha,Accion,Descripcion) VALUES($idusuario,$idobjeto,now(),'Usuario Bloqueado','El usuario $usuario se ha bloqueado por exceder los intentos de ingreso al sistema') ");
+
         }
           //El usuario aún tiene intentos disponibles
           echo "<span id='fila'>Se ha registrado el intento fallido. Le queda ", $max_intentos - $intentos, " intento/s más.</span>";
@@ -141,6 +159,27 @@ if (!empty($_POST["btniniciarSesion"])){
            unset($_SESSION["intentos"]);
           exit;
           }
+           //Bitácora
+           $sql = $conexion->query("Select id_usuario from tbl_ms_usuarios where Usuario = '$usuario';");
+           $idusuario = $sql->fetch_object();
+ 
+ 
+           //limpiar datos
+           $informacion = json_encode($idusuario, true);
+           $posicion = strpos($informacion, ":") + 2;
+           $idusuario = substr($informacion, $posicion, -2);
+           $sql = $conexion->query("Select id_objeto from tbl_objetos where Objeto = 'bloqueo';");
+           $idobjeto = $sql->fetch_object();
+ 
+           // limpiar datos 
+           $informacion = json_encode($idobjeto, true);
+ 
+           $posicion = strpos($informacion, ":") + 2;
+ 
+           $idobjeto = substr($informacion, $posicion, -2);
+
+           $sql = $conexion->query("INSERT INTO tbl_ms_bitacora(Id_Usuario,Id_Objeto,Fecha,Accion,Descripcion) VALUES($idusuario,$idobjeto,now(),'Usuario Bloqueado','El usuario $usuario se ha bloqueado por exceder los intentos de ingreso al sistema') ");
+ 
         }
           //El usuario aún tiene intentos disponibles
           echo "<span id='fila'>Se ha registrado el intento fallido. Le queda ", $max_intentos - $intentos, " intento/s más.</span>";

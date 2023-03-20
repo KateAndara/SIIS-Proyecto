@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
              $idobjeto = substr($informacion, $posicion, -2);
 
              echo $idobjeto . ' Usuario:' . $idusuario;
-             $sql = $conexion->query("INSERT INTO tbl_ms_bitacora(Id_Usuario,Id_Objeto,Fecha,Accion,Descripcion) VALUES($idusuario,$idobjeto,now(),'Cambio de Contraseña exitoso','El usuario $usuario cambió la contraseña por medio de preguntas secretas') ");
+             $sql = $conexion->query("INSERT INTO tbl_ms_bitacora(Id_Usuario,Id_Objeto,Fecha,Accion,Descripcion) VALUES($idusuario,$idobjeto,now(),'Contraseña actualizada con éxito','El usuario $usuario cambió la contraseña por medio de preguntas secretas') ");
             //Validar la confirmación de la contraseña.
             if ($confirmar_contrasenia != $password){
                 echo '<br>';

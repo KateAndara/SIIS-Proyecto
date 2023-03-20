@@ -29,7 +29,7 @@ include_once '../../../token/Token.php'; //incluir clase para generar tokens
   $filas_bi = mysqli_num_rows( $resultado_bita );
   $filas_bbitacora=$filas_bi+1;
 
-  $sql = $conexion->query("INSERT INTO tbl_ms_bitacora(Id_Usuario,Id_Objeto,Fecha,Accion,Descripcion) VALUES($id,5,now(),'Recuperar Contraseña','Se envio correo para cambio de contraseña') ");
+  $sql = $conexion->query("INSERT INTO tbl_ms_bitacora(Id_Usuario,Id_Objeto,Fecha,Accion,Descripcion) VALUES($id,8,now(),'Recuperar Contraseña','Se envio correo para cambio de contraseña al usuario $nombre') ");
 
   //mysqli_query( $conexion , $insertarB );
 

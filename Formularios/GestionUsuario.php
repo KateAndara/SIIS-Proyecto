@@ -209,7 +209,7 @@
             <tr>
               <td>
               <div style="font-size: 25px">
-                  <label for="estado">Rol del usuario</label>
+                  <label class="text-light" for="estado">Rol del usuario</label>
                   <select name="Rol" id="rol">
                     <?php while ($fila = $resultado->fetch_assoc()):
                       $id_rol = $fila["Id_Rol"];

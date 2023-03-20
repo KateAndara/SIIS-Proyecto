@@ -21,6 +21,27 @@ if (!empty($_POST["btnComprobarUsuario"])){
     }
     
     else if ($datos=$sql->fetch_object()){ // Los datos ingresados son correctos.
+      $sql = $conexion->query("Select id_usuario from tbl_ms_usuarios where Usuario = '$usuario';");
+      $idusuario = $sql->fetch_object();
+  
+  
+     //limpiar datos
+     $informacion = json_encode($idusuario, true);
+     $posicion = strpos($informacion, ":") + 2;
+     $idusuario = substr($informacion, $posicion, -2);
+     $sql = $conexion->query("Select id_objeto from tbl_objetos where Objeto = 'recuperacion_Preguntas';");
+     $idobjeto = $sql->fetch_object();
+  
+     // limpiar datos 
+     $informacion = json_encode($idobjeto, true);
+  
+     $posicion = strpos($informacion, ":") + 2;
+  
+     $idobjeto = substr($informacion, $posicion, -2);
+  
+     //echo $idobjeto . ' Usuario:' . $idusuario;
+     $sql = $conexion->query("INSERT INTO tbl_ms_bitacora(Id_Usuario,Id_Objeto,Fecha,Accion,Descripcion) VALUES($idusuario,$idobjeto,now(),'Recuperar contraseña','El usuario $usuario ha solicitado cambiar la contraseña por medio de preguntas secretas') ");
+      
         header('Location: RecuperacionPreguntas.php');
     }else{ // Si los datos ingresados no existen en la base de datos.
       echo '<br>';
