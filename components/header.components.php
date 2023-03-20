@@ -78,13 +78,14 @@
                                     <div class="nav-item dropdown">
                                         <a href="" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-hand-holding-dollar"></i></i>VENTAS</a>
                                         <div class="dropdown-menu bg-transparent border-0">
-                                            <a href="" class="dropdown-item">Nueva Venta</a>
-                                            <a href="" class="dropdown-item">Descuentos</a>
-                                            <a href="" class="dropdown-item">Promociones</a>
-                                            <a href="" class="dropdown-item">Detalle de Venta</a>
-                                            <a href="" class="dropdown-item">Descuentos Aplicados</a>
-                                            <a href="" class="dropdown-item">Promociones Aplicadas</a>
-                                            <a href="" class="dropdown-item">Clientes</a>
+                                            <a href="../Formularios/NuevaVenta.php" class="dropdown-item">Nueva Venta</a>
+                                            <a href="../Formularios/Ventas.php" class="dropdown-item">Proceso de ventas</a>
+                                            <a href="../Formularios/Descuentos.php" class="dropdown-item">Descuentos</a>
+                                            <a href="../Formularios/PromocionesVentas.php" class="dropdown-item">Promociones</a>
+                                            <a href="../Formularios/DetalleVenta.php" class="dropdown-item">Detalle de Venta</a>
+                                            <a href="../Formularios/DescuentosAplicados.php" class="dropdown-item">Descuentos Aplicados</a>
+                                            <a href="../Formularios/PromocionesAplicadas.php" class="dropdown-item">Promociones Aplicadas</a>
+                                            <a href="../Formularios/Clientes.php" class="dropdown-item">Clientes</a>
                                         </div>
                                     </div>
                                     <div class="nav-item dropdown">
