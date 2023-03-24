@@ -4,9 +4,12 @@ var UrlInsertarProductoTerminadoMP = 'http://localhost/SIIS-PROYECTO/controller/
 var UrlActualizarProductoTerminadoMP = 'http://localhost/SIIS-PROYECTO/controller/productoTerminadoMP.php?opc=UpdateProductoTerminadoMP'; // Editar
 var UrlEliminarProductoTerminadoMP = 'http://localhost/SIIS-PROYECTO/controller/productoTerminadoMP.php?opc=DeleteProductoTerminadoMP'; // Eliminar
 var UrlProductoTerminadoMPeditar = 'http://localhost/SIIS-PROYECTO/controller/productoTerminadoMP.php?opc=GetProductoTerminadoMPeditar'; // Traer el dato a editar
+//Si se necesita traer datos de otra tabla para una lista desplegable
+var UrlProductos = 'http://localhost/SIIS-PROYECTO/controller/productoTerminadoMP.php?opc=GetProductos'; 
 
 $(document).ready(function(){
    CargarProductosTerminadosMP();
+   CargarProductos();
 });
 
 function CargarProductosTerminadosMP(){
@@ -21,7 +24,7 @@ function CargarProductosTerminadosMP(){
             
             for(i=0; i<MisItems.length; i++){
                 Valores+= '<tr>'+
-                '<td>'+ MisItems[i].Id_Producto_Terminado_Mp  +'</td>'+ 
+                '<td>'+ MisItems[i].Id_Producto_Terminado_Mp +'</td>'+
                 '<td>'+ MisItems[i].Nombre +'</td>'+
                 '<td>'+ MisItems[i].Id_Proceso_Produccion +'</td>'+
                 '<td>'+ MisItems[i].Cantidad +'</td>'+
@@ -41,7 +44,8 @@ function CargarProductosTerminadosMP(){
 function BuscarProductoTerminadoMP(NombreProducto){
     var datosProducto = {
         Nombre: isNaN(NombreProducto) ? NombreProducto : null,
-        Id_Producto_Terminado_Mp: isNaN(NombreProducto) ? null : parseInt(NombreProducto)
+        Id_Producto_Terminado_Mp: isNaN(NombreProducto) ? null : parseInt(NombreProducto),
+        Cantidad:isNaN(NombreProducto) ? null : parseInt(NombreProducto)
     };
     var datosProductoJson = JSON.stringify(datosProducto);
 
@@ -57,7 +61,7 @@ function BuscarProductoTerminadoMP(NombreProducto){
             
             for(i=0; i<MisItems.length; i++){
                 Valores+= '<tr>'+
-                '<td>'+ MisItems[i].Id_Producto_Terminado_Mp  +'</td>'+ 
+                '<td>'+ MisItems[i].Id_Producto_Terminado_Mp +'</td>'+
                 '<td>'+ MisItems[i].Nombre +'</td>'+
                 '<td>'+ MisItems[i].Id_Proceso_Produccion +'</td>'+
                 '<td>'+ MisItems[i].Cantidad +'</td>'+
@@ -76,7 +80,7 @@ function BuscarProductoTerminadoMP(NombreProducto){
 
 function AgregarProductoTerminadoMP(){
     var datosProductoTerminadoMP = {
-    Id_Producto: $('#Id_Producto').val(),
+    Id_Producto: $('#Select_Producto').val(),
     Id_Proceso_Produccion: $('#Id_Proceso_Produccion').val(),
     Cantidad: $('#Cantidad').val()
     };
@@ -119,18 +123,20 @@ function CargarProductoTerminadoMP(idProducto){ //Función que trae los campos q
             $('label[for="Id_Producto_Terminado_Mp"]').removeAttr('hidden'); //Título
         
             $('#Id_Producto_Terminado_Mp').val(MisItems[0].Id_Producto_Terminado_Mp).prop('readonly', true);  // Propiedad para que no se pueda modificar el campo.
-            $('#Id_Producto').val(MisItems[0].Id_Producto);
+            $('#Select_Producto').val(MisItems[0].Id_Producto);
             $('#Id_Proceso_Produccion').val(MisItems[0].Id_Proceso_Produccion);
             $('#Cantidad').val(MisItems[0].Cantidad);
             //Usar el mismo botón de agregar con la funcionalidad de actualizar.
             var btnactualizar = '<input type="submit" id="btn_actualizar" onclick="ActualizarProductoTerminadoMP(' +MisItems[0].Id_Producto_Terminado_Mp+')"'+
-            'value="Actualizar Producto" class="btn btn-primary"></input>';
+            'value="Actualizar Producto" class="btn btn-primary"> <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button></input>';
             $('#btnagregarProductoTerminado').html(btnactualizar);
+            $('#btncancelar').click(function(){ //Cancela la acción
+                location.href = "http://localhost/SIIS-PROYECTO/Formularios/ProductoTerminadoMP.php";
+             });
             //Cambiar el título del formulario.
             var titulo = '<div class="Col-12" id="titulo">'+
             '<h3>Editar Producto Terminado</h3></div>';
-            $('#titulo').html(titulo);
-            
+            $('#titulo').html(titulo); 
         }
     });
 }
@@ -138,7 +144,7 @@ function CargarProductoTerminadoMP(idProducto){ //Función que trae los campos q
 function ActualizarProductoTerminadoMP(idProducto){
     var datosProductoTerminadoMP={
     Id_Producto_Terminado_Mp: idProducto,
-    Id_Producto: $('#Id_Producto').val(),
+    Id_Producto: $('#Select_Producto').val(),
     Id_Proceso_Produccion: $('#Id_Proceso_Produccion').val(),
     Cantidad: $('#Cantidad').val()
     };
@@ -163,30 +169,60 @@ function ActualizarProductoTerminadoMP(idProducto){
 }
 
 function EliminarProductoTerminadoMP(idProducto){
-    var datosProductoTerminadoMP={
-        Id_Producto_Terminado_Mp:idProducto
-    };
+    var confirmacion = confirm("¿Está seguro de que desea eliminar el producto?");
 
-    var datosProductoTerminadoJson= JSON.stringify(datosProductoTerminadoMP);
+    if (confirmacion == true) {
+        var datosProductoTerminadoMP={
+            Id_Producto_Terminado_Mp:idProducto
+        };
 
+        var datosProductoTerminadoJson= JSON.stringify(datosProductoTerminadoMP);
+
+        $.ajax({
+            url: UrlEliminarProductoTerminadoMP,
+            type: 'DELETE',
+            data: datosProductoTerminadoJson,
+            datatype: 'JSON',
+            contentType: 'application/json',
+            success: function(reponse){
+                console.log(reponse);
+                alert('Producto Eliminado');
+                CargarProductosTerminadosMP(); 
+            },
+
+            error: function(textStatus, errorThrown){
+                alert('Error al eliminar Producto' + textStatus + errorThrown);
+            }
+        });
+
+    } else {
+        alert("La eliminación del producto ha sido cancelada.");
+    }
+}
+
+//Función para traer los datos de otra tabla para poder ser seleccionados en una lista desplegable
+function CargarProductos(){
     $.ajax({
-        url: UrlEliminarProductoTerminadoMP,
-        type: 'DELETE',
-        data: datosProductoTerminadoJson,
+        url : UrlProductos,
+        type: 'GET',
         datatype: 'JSON',
-        contentType: 'application/json',
-        success: function(reponse){
-            console.log(reponse);
-            alert('Producto Eliminado');
-        },
-
-        error: function(textStatus, errorThrown){
-            alert('Error al eliminar Producto' + textStatus + errorThrown);
+        success: function(response){
+            var MisItems = response;
+            var opciones='';
+            
+            for(i=0; i<MisItems.length; i++){ //Muestra Id y nombre
+                opciones += '<option value="' + MisItems[i].Id_Producto + '">' + ' ID ' + MisItems[i].Id_Producto + ' - ' + MisItems[i].Nombre + '</option>';
+            }
+            $('#Select_Producto').html(opciones);
         }
     });
-    alert('Aviso');
-    CargarProductosTerminadosMP();
 }
+
+
+
+
+
+
 
 
 

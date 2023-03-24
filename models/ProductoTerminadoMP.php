@@ -31,30 +31,23 @@
             return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
         }*/
         
-        public function get_productoTerminadoMP($busqueda){  //Buscar por nombre y id               
+        public function get_productoTerminadoMP($busqueda){  //Buscar por cualquier campo
             $conectar = parent::Conexion();
             parent::set_names();
         
-            // Verificar si la búsqueda es un número o una cadena
-            if (is_numeric($busqueda)) {
-                $sql = "SELECT tbl_producto_terminado_mp.*, tbl_productos.Nombre 
-                        FROM tbl_producto_terminado_mp 
-                        INNER JOIN tbl_productos 
-                        ON tbl_producto_terminado_mp.Id_Producto = tbl_productos.Id_Producto 
-                        WHERE tbl_producto_terminado_mp.Id_Producto_Terminado_Mp=?";
-                $sql = $conectar->prepare($sql);
-                $sql->bindvalue(1, $busqueda);
-            } else {
-                $sql = "SELECT tbl_producto_terminado_mp.*, tbl_productos.Nombre 
-                        FROM tbl_producto_terminado_mp 
-                        INNER JOIN tbl_productos 
-                        ON tbl_producto_terminado_mp.Id_Producto = tbl_productos.Id_Producto 
-                        WHERE tbl_productos.Nombre=?";
-                $sql = $conectar->prepare($sql);
-                $sql->bindvalue(1, $busqueda);
-            }
+            $sql = "SELECT tbl_producto_terminado_mp.*, tbl_productos.Nombre 
+                    FROM tbl_producto_terminado_mp 
+                    INNER JOIN tbl_productos 
+                    ON tbl_producto_terminado_mp.Id_Producto = tbl_productos.Id_Producto 
+                    WHERE tbl_producto_terminado_mp.Id_Producto_Terminado_Mp LIKE :busqueda OR 
+                          tbl_productos.Nombre LIKE :busqueda OR 
+                          tbl_producto_terminado_mp.Id_Proceso_Produccion LIKE :busqueda OR 
+                          tbl_producto_terminado_mp.Cantidad LIKE :busqueda";
         
+            $sql = $conectar->prepare($sql);
+            $sql->bindValue(':busqueda', "%$busqueda%");
             $sql->execute();
+        
             return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
         }
         public function get_productoTerminadoMPeditar($Id_Producto_Terminado_Mp){       //Trae los datos de la fila que se quiere editar.           
@@ -103,6 +96,15 @@
             $sql = "DELETE FROM tbl_producto_terminado_mp WHERE Id_Producto_Terminado_Mp =?";
             $sql=$conectar->prepare($sql);
             $sql->bindvalue(1, $Id_Producto_Terminado_Mp);
+            $sql->execute();
+            return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
+        }
+        //Si se necesita traer datos de otra tabla para seleccionarlos como entrada
+        public function get_productos(){    
+            $conexion= parent::Conexion();
+            parent::set_names();
+            $sql="SELECT * FROM tbl_productos";          
+            $sql= $conexion->prepare($sql);
             $sql->execute();
             return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
         }

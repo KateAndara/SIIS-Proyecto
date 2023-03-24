@@ -15,7 +15,7 @@ include '../components/header.components.php';
 </head>
 <body>
     <div class="col-md-12 cards-white" style="margin: 0 auto; width: 110%; max-width: none; margin-left: -20px;">
-        <div class="consulta mt-4">
+        <div class="consulta mt-4" id="consulta">
             <div class="row">
                 <div class="col-12 text-center">
                     <h3>
@@ -25,11 +25,11 @@ include '../components/header.components.php';
             </div>
             <div style="margin: 0 18px;">
             <form id="form-busqueda" autocomplete="off">
-                <input type="text" class="rounded" style="border: 2px solid black;" placeholder=" Id producto o Producto" id="input-busqueda">
+                <input type="text" class="rounded" style="border: 2px solid black;" placeholder="" id="input-busqueda">
                 <button style="background-color: black; color: white;" class="rounded" id="btn-busqueda" type="submit">Buscar</button>
-            </form>
-            <button class="rounded" style="background-color:  #147c4c; color: white; float: right; margin-left: 10px;" onclick="mostrarFormulario()">Agregar</button>
+                <button class="rounded" style="background-color:  #147c4c; color: white; float: right; margin-left: 10px;" onclick="mostrarFormulario()">Agregar</button>
             <button class="rounded" style="background-color: #fff; color: dark; float: right;"  onclick="PDFProductoTerminadoMP('+MisItems[i].Id_Producto_Terminado_Mp +')">Generar PDF</button>
+            </form>
             </div>
 
             <script>
@@ -51,6 +51,8 @@ include '../components/header.components.php';
             function mostrarFormulario() {
             var formulario = document.querySelector('.Formulario'); //Muestra el formulario de agregar y actualizar.
             formulario.style.display = 'block';
+            var consultaDiv = document.getElementById("consulta"); //Oculta el formulario de la tabla.
+            consultaDiv.style.display = "none";
             }
             </script>
             
@@ -85,8 +87,10 @@ include '../components/header.components.php';
                     <form class="InsertProductoTerminado">
                         <label for="Id_Producto_Terminado_Mp" hidden>ID PRODUCTO TERMINADO</label>
                         <input type="number" id="Id_Producto_Terminado_Mp" class="form-control" placeholder="Ingrese el código del producto terminado"hidden>
-                        <label for="">ID PRODUCTO</label>
-                        <input type="number" id="Id_Producto" class="form-control" placeholder="Ingrese el código del producto">
+                        <label for="">SELECCIONE UN PRODUCTO</label> 
+                        <select id="Select_Producto" class="form-control">
+                            <option value="">Seleccione un producto</option>
+                        </select>
                         <label for="">ID PROCESO DE PRODUCCIÓN</label>
                         <input type="number" id="Id_Proceso_Produccion" class="form-control" placeholder="Ingrese el código del proceso de producción">
                         <label for="">CANTIDAD</label>
@@ -94,8 +98,14 @@ include '../components/header.components.php';
                         <hr>
                         <div id="btnagregarProductoTerminado">
                             <input type="submit" id="btnagregar" onclick="AgregarProductoTerminadoMP()" value="Agregar Producto Terminado" class="btn btn-success">
+                            <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button>
                         </div>
                     </form>
+                    <script> //Cancela la acción
+                    document.getElementById("btncancelar").onclick = function() {
+                        location.href = "http://localhost/SIIS-PROYECTO/Formularios/ProductoTerminadoMP.php";
+                    };
+                    </script>
                 </div>
             </div>
         </div>

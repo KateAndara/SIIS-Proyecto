@@ -24,15 +24,10 @@
                 $datos=$productosTerminadosMP->get_productosTerminadosMP();
                 echo json_encode($datos);
             break;
-            case "GetProductoTerminadoMP":  //Busca los datos por nombre y id
-                $busqueda = isset($body["Nombre"]) ? $body["Nombre"] : $body["Id_Producto_Terminado_Mp"];
-                
-                // Verificar si la búsqueda es un número o una cadena
-                if (is_numeric($busqueda)) {
-                    $datos = $productosTerminadosMP->get_productoTerminadoMP($busqueda, "Id_Producto_Terminado_Mp");
-                } else {
-                    $datos = $productosTerminadosMP->get_productoTerminadoMP($busqueda, "Nombre");
-                }
+            case "GetProductoTerminadoMP": //Buscar por cualquier campo 
+                $busqueda = isset($body["Nombre"]) ? $body["Nombre"] : (isset($body["Id_Producto_Terminado_Mp"]) ? $body["Id_Producto_Terminado_Mp"] : '');
+            
+                $datos = $productosTerminadosMP->get_productoTerminadoMP($busqueda);
             
                 echo json_encode($datos);
             break;
@@ -51,6 +46,11 @@
             case "DeleteProductoTerminadoMP":
                 $datos=$productosTerminadosMP->delete_productoTerminadoMP($body["Id_Producto_Terminado_Mp"]);
                 echo json_encode("Producto Eliminado");
+            break;
+            //Datos de otra tabla
+            case "GetProductos":
+                $datos=$productosTerminadosMP->get_productos();
+                echo json_encode($datos);
             break;
         }
 
