@@ -100,7 +100,7 @@
                                     <div class="nav-item dropdown">
                                         <a href="" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-piggy-bank"></i></i>PRODUCCIÓN</a>
                                         <div class="dropdown-menu bg-transparent border-0">
-                                            <a href="" class="dropdown-item">Proceso de Producción</a>
+                                            <a href="../Formularios/ProcesoProduccion.php" class="dropdown-item">Proceso de Producción</a>
                                             <a href="../Formularios/ProductoTerminadoMP.php" class="dropdown-item">Producto terminado de la<br> Materia Prima</a>
                                             <a href="" class="dropdown-item">Producto Terminado Final</a> 
                                         </div>
