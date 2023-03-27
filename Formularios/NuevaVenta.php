@@ -130,7 +130,7 @@ include '../components/header.components.php';
                                       $("#btnCrear").click(function(event) {
 
                                       //Fetch form to apply custom Bootstrap validation
-                                      var form = $("#formLogin")
+                                      var form = $("#formVenta")
  
                                       if (form[0].checkValidity() === false) {
                                            event.preventDefault()

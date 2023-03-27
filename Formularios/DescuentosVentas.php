@@ -7,11 +7,11 @@ include '../components/header.components.php';
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Promociones</title>
+    <title>Descuentos</title>
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="../JS/Promociones.js"></script>
+    <script src="../JS/Descuentos.js"></script>
 </head>
 <body>
     <div class="col-md-12 cards-white" style="margin: 0 auto; width: 110%; max-width: none; margin-left: -20px;">
@@ -19,17 +19,17 @@ include '../components/header.components.php';
             <div class="row">
                 <div class="col-12 text-center">
                     <h3>
-                        Lista de Promociones en las Ventas
+                    Lista de Descuentos para las Ventas
                     </h3>
                 </div>
             </div>
             <div style="margin: 0 18px;">
             <form id="form-busqueda" autocomplete="off">
-                <input type="text" class="rounded" style="border: 2px solid black;" placeholder=" Id Promocion o Promocion" id="input-busqueda">
+                <input type="text" class="rounded" style="border: 2px solid black;" placeholder=" Buscar..." id="input-busqueda">
                 <button style="background-color: black; color: white;" class="rounded" id="btn-busqueda" type="submit">Buscar</button>
             </form>
             <button class="rounded" style="background-color:  #147c4c; color: white; float: right; margin-left: 10px;" onclick="mostrarFormulario()">Agregar</button>
-            <button class="rounded" style="background-color: #fff; color: dark; float: right;"  onclick="PDFPromocion('+MisItems[i].Id_Promocion +')">Generar PDF</button>
+            <button class="rounded" style="background-color: #fff; color: dark; float: right;"  onclick="PDFDescuento('+MisItems[i].Id_Descuento +')">Generar PDF</button>
             </div>
 
             <script>
@@ -39,9 +39,9 @@ include '../components/header.components.php';
 
                         var busqueda = $('#input-busqueda').val();
                         if(busqueda == "") {
-                            CargarPromociones();
+                            CargarDescuentos();
                         } else {
-                            BuscarPromociones(busqueda);
+                            BuscarDescuentos(busqueda);
                         }
                     });
                 });
@@ -61,16 +61,14 @@ include '../components/header.components.php';
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th>ID PROMOCION</th>
-                                <th>NOMBRE</th>
-                                <th>PRECIO DE VENTA</th>
-                                <th>FECHA INICIO</th>
-                                <th>FECHA FINAL</th>
+                                <th>ID </th>
+                                <th>NOMBRE DEL DESCUENTO</th>
+                                <th>PORCENTAJE</th>
                                 <th>OPCIONES</th>
                             </tr>
                         </thead>
 
-                        <tbody id="DataPromociones">
+                        <tbody id="DataDescuentos">
                             
                         </tbody>
                     </table>
@@ -81,30 +79,26 @@ include '../components/header.components.php';
             <div class="row">
                 <div class="Col-12" id="titulo">
                     <h3>
-                        Agregar Promoción
+                        Agregar Descuentos
                     </h3>
                 </div>
                 <div class="col-12">
-                    <form class="InsertPromocion">
+                    <form class="InsertDescuento">
                         <label for="Id_Promocion" hidden>ID PROMOCION</label>
-                        <input type="number" id="Id_Promocion" class="form-control" placeholder="Ingrese el código de la promoción"hidden>
-                        <label for="">NOMBRE DE LA PROMOCION</label>
-                        <input type="text" id="Nombre_Promocion" class="form-control" placeholder="Oferta de Primavera...">
-                        <label for="">PRECIO DE VENTA</label>
-                        <input type="number" id="Precio_Venta" class="form-control" placeholder="100.00,200.00,300.00, etc. ">
-                        <label for="">FECHA DE INICIO DE LA OFERTA</label>
-                        <input type="date" id="Fecha_inicio" class="form-control">
-                        <label for="">FECHA FINAL DE LA OFERTA</label>
-                        <input type="date" id="Fecha_final" class="form-control">
+                        <input type="number" id="Id_Descuento" class="form-control" placeholder="Ingrese el código del descuento"hidden>
+                        <label for="">NOMBRE DEL DESCUENTO</label>
+                        <input type="text" id="Nombre_descuento" class="form-control" placeholder="Oferta de Primavera...">
+                        <label for="">PORCENTAJE A DESCONTAR</label>
+                        <input type="number" id="Porcentaje_a_descontar" class="form-control" placeholder="1,2,3,4,5... etc. ">
                         <hr>
-                        <div id="btnagregarPromocion">
-                            <input type="submit" id="btnagregar" onclick="AgregarPromocion()" value="Agregar Promocion" class="btn btn-success">
+                        <div id="btnagregarDescuento">
+                            <input type="submit" id="btnagregar" onclick="AgregarDescuento()" value="Agregar Descuento" class="btn btn-success">
                             <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button>
                         </div>
                     </form>
                     <script> //Cancela la acción
                     document.getElementById("btncancelar").onclick = function() {
-                        location.href = "http://localhost/SIIS-PROYECTO/Formularios/PromocionesVentas.php";
+                        location.href = "http://localhost/SIIS-PROYECTO/Formularios/DescuentosVentas.php";
                     };
                     </script>
                 </div>

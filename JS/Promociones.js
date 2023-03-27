@@ -1,6 +1,6 @@
-var UrlPromociones = 'http://localhost/SIIS-PROYECTO/controller/promociones.php?opc=GetPromocionesP'; //Traer todos los datos
+var UrlPromociones = 'http://localhost/SIIS-PROYECTO/controller/promociones.php?opc=GetPromociones'; //Traer todos los datos
 var UrlPromocion = 'http://localhost/SIIS-PROYECTO/controller/promociones.php?opc=GetPromocion';     //Traer los datos de búsqueda
-var UrlInsertarPromociones = 'http://localhost/SIIS-PROYECTO/controller/promocionesP.php?opc=InsertPromocion'; // Insertrar
+var UrlInsertarPromociones = 'http://localhost/SIIS-PROYECTO/controller/promociones.php?opc=InsertPromocion'; // Insertrar
 var UrlActualizarPromociones = 'http://localhost/SIIS-PROYECTO/controller/promociones.php?opc=UpdatePromocion'; // Editar
 var UrlEliminarPromociones = 'http://localhost/SIIS-PROYECTO/controller/promociones.php?opc=DeletePromocion'; // Eliminar
 var UrlPromocioneditar = 'http://localhost/SIIS-PROYECTO/controller/promociones.php?opc=GetPromocioneditar'; // Traer el dato a editar

@@ -38,13 +38,13 @@ if(isset($_GET["search"])){
             </div>
             <div style="margin: 0 18px;">
             <form id="form-busqueda" method="GET" action="Descuentos.php">
-                <div class="form-group col-md-3">
-                    <input name="search" type="text" class="form-control" 
+                
+                    <input name="search" type="text" class="rounded" style="border: 2px solid black;" 
                        value="<?php 
                        echo isset($_GET["search"]) ? $_GET["search"] : ''
-                     ?>">
+                     ?>" placeholder="Buscar...">
                    <button style="background-color: black; color: white;" class="rounded" id="btn-busqueda" type="submit">Buscar</button>
-                </div>
+                
             </form>
 
             <a  type="submit" class="btn btn-success btn-lg float-right" href="../Formularios/CrearDescuentos.php" style="background-color:  #147c4c; color: white; float: right; margin-left: 10px;" >Agregar</a>
@@ -113,7 +113,7 @@ if(isset($_GET["search"])){
                              <?php
                                 include "../config/conexion.php";
                                 if(isset($_GET["search"])){
-                                    $sql = $conexion -> query("SELECT Id_Descuento, Nombre_descuento, concat(Porcentaje_a_descontar,' ', '%') as Porcentaje from tbl_descuentos WHERE Nombre_descuento LIKE '%".$_GET["search"]."%' OR id_Descuento =  ".intval($_GET["search"])."");
+                                    $sql = $conexion -> query("SELECT Id_Descuento, Nombre_descuento, concat(Porcentaje_a_descontar,' ', '%') as Porcentaje from tbl_descuentos WHERE Nombre_descuento LIKE '%".$_GET["search"]."%' OR Id_Descuento =  ".intval($_GET["search"])."");
                                   }else{
                                 $sql=$conexion->query("select Id_Descuento, Nombre_descuento, concat(Porcentaje_a_descontar,' ', '%') as Porcentaje  from tbl_descuentos");
                                   }

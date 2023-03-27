@@ -80,7 +80,7 @@
                                         <div class="dropdown-menu bg-transparent border-0">
                                             <a href="../Formularios/NuevaVenta.php" class="dropdown-item">Nueva Venta</a>
                                             <a href="../Formularios/Ventas.php" class="dropdown-item">Proceso de ventas</a>
-                                            <a href="../Formularios/Descuentos.php" class="dropdown-item">Descuentos</a>
+                                            <a href="../Formularios/DescuentosVentas.php" class="dropdown-item">Descuentos</a>
                                             <a href="../Formularios/PromocionesVentas.php" class="dropdown-item">Promociones</a>
                                             <a href="../Formularios/DetalleVenta.php" class="dropdown-item">Detalle de Venta</a>
                                             <a href="../Formularios/DescuentosAplicados.php" class="dropdown-item">Descuentos Aplicados</a>
