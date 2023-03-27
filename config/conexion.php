@@ -1,6 +1,6 @@
 <?php
 //Opción 1
-$conexion=new mysqli("localhost", "root","","proyecto-siis", "3306");
+$conexion=new mysqli("localhost", "SIIS2","12345","proyecto-siis", "3306");
 $conexion->set_charset("utf8");
 // Opción 2
 /*$host = "localhost";
