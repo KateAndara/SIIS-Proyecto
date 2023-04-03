@@ -45,7 +45,7 @@
             break;
             case "DeleteRol":
                 $datos=$roles->delete_rol($body["Id_Rol"]);
-                echo json_encode("RolEliminado");
+                echo json_encode("Rol Eliminado");
             break;
         }
 
