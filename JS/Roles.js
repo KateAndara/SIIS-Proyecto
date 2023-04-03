@@ -17,33 +17,28 @@ function CargarRoles(){
         datatype: 'JSON',
         success: function(reponse){
             var MisItems = reponse;
-            // Si la tabla ya ha sido inicializada previamente, destruye la instancia
-            if ($.fn.DataTable.isDataTable('#TablaRoles')) {
-                $('#TablaRoles').DataTable().destroy();
-               }
-               $('#TablaRoles').DataTable({
-                   processing: true,
-                   data: MisItems,
-                   "language": {
-                       "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
-                     },
-                     columns: [
-                       { data: 'Id_Rol' },
-                       { data: 'Rol' },
-                       { data: 'Descripcion' },
-                       { 
-                           data: null, 
-                           render: function ( data, type, row ) {
-                             return '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarRol(\'' + row.Id_Rol + '\'); mostrarFormulario();">Editar</button>' +
-                                    '<button class="rounded" style="background-color: #FF0000; color: white; display: inline-block; width: 67px;" onclick="EliminarRol(\'' + row.Id_Rol + '\')">Eliminar</button>';
-                           }
-                         }                ]
-               });
-           }
-       });
-   }
+            var Valores='';
+            
+            for(i=0; i<MisItems.length; i++){
+                Valores+= '<tr>'+
+                '<td>'+ MisItems[i].Id_Rol +'</td>'+
+                '<td>'+ MisItems[i].Rol +'</td>'+
+                '<td>'+ MisItems[i].Descripcion +'</td>'+
+                '<td>'+ 
+                '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick=" CargarRol('+MisItems[i].Id_Rol +'); mostrarFormulario();">Editar</button>'+ 
+                '<button class="rounded" style="background-color: #D6234A; color: white; display: inline-block; width: 67px;"  onclick="EliminarRol('+MisItems[i].Id_Rol +')">Eliminar</button>'+
+                '</td>'+
+            '</tr>';
+            }
+            $('#DataRoles').html(Valores);
+        }
 
-/*
+    });
+}
+
+
+
+
 function BuscarRol(NombreRol){
     var datosRol = {
         Nombre: isNaN(NombreRol) ? NombreRol : null,
@@ -76,7 +71,7 @@ function BuscarRol(NombreRol){
             $('#DataRoles').html(Valores);
         }
     });
-}*/
+}
 
 
 function AgregarRol(){

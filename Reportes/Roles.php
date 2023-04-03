@@ -1,6 +1,5 @@
 <?php
 require('../fpdf/fpdf.php');
-require_once('../config/conexion4.php');
 //require_once '../controller/roles.php';
 //require_once '../models/Roles.php';
 
@@ -10,32 +9,13 @@ class PDF extends FPDF {
     // Cabecera de página
     
         function Header() {
-            require_once('../config/conexion.php');
-              // Ejecutar consulta para obtener el logo
-              $sql = "SELECT Valor FROM tbl_ms_parametros where Parametro='LOGO'"; 
-              $resultado = $conexion->query($sql);
-              if ($resultado->num_rows > 0) {
-                  while($fila = $resultado->fetch_assoc()) {
-                    $logo = $fila["Valor"];
-                  }
-              }
-            $this->SetFont('Times', 'B', 12);
-            $this->Image($logo, 170,8,35); //imagen(archivo, png/jpg || x,y,tamaño)
+            $this->SetFont('Times', 'B', 20);
+            $this->Image('../img/logo.jpg', 170,8,35); //imagen(archivo, png/jpg || x,y,tamaño)
             $this->setXY(60, 15);
             $this->setXY(50,20);
-            
-            // Ejecutar consulta para obtener el nombre
-            $sql = "SELECT Valor FROM tbl_ms_parametros where Parametro='NOMBRE_EMPRESA'"; 
-            $resultado = $conexion->query($sql);
-            if ($resultado->num_rows > 0) {
-                while($fila = $resultado->fetch_assoc()) {
-                  $nombre = $fila["Valor"];
-                }
-            }
-            $conexion->close();
-            $this->Cell(100,12,utf8_decode($nombre),0,0,'C',0);  //C=Center, R=right, L=left
+            $this->Cell(100,8,utf8_decode('Empresa de servicios múltiples jóvenes '),0,0,'C',0);  //C=Center, R=right, L=left
             $this->setXY(50,20);
-            //$this->Cell(100,20,utf8_decode('profesionales  de La Sierra de la Paz'),0,0,'C',0);  //C=Center, R=right, L=left
+            $this->Cell(100,20,utf8_decode('profesionales  de La Sierra de la Paz'),0,0,'C',0);  //C=Center, R=right, L=left
            
         }
     
@@ -185,14 +165,10 @@ class PDF extends FPDF {
     }
 
 //------------------OBTENES LOS DATOS DE LA BASE DE DATOS-------------------------
-
+ require_once('../config/conexion4.php');
  $sql = "SELECT * FROM tbl_ms_roles";
  $resultado = mysqli_query($conn, $sql);
-
-
- 
- 
-
+    
 
 //--------------TERMINA BASE DE DATOS-----------------------------------------------
 
@@ -205,7 +181,6 @@ $pdf->SetAutoPageBreak(true, 20); //salto de pagina automatico
 
     // -----------ENCABEZADO------------------
     $pdf->setXY(50,26);
-    $pdf->SetFont('Helvetica','B',15); //Definir tipo de letra y tamaño B=Negrita
     $pdf->SetTextColor(220,50,50); //Color rojo
     $pdf->Cell(100,55,utf8_decode('Reporte de Roles'),0,0,'C',0);//Nombre del reporte 
     $pdf->SetFont('Helvetica','B',15); //Definir tipo de letra y tamaño B=Negrita
@@ -233,8 +208,6 @@ $pdf->SetWidths(array(15, 70, 100)); //???
     $pdf->Cell(70,8, ucwords(strtolower(utf8_decode($fila['Rol']))),1,0,'C',0);
     $pdf->Cell(100,8, ucwords(strtolower(utf8_decode($fila['Descripcion']))),1,1,'C',0);
  }
-
-
 
 
 // cell(ancho, largo, contenido,borde?, salto de linea?)*/
