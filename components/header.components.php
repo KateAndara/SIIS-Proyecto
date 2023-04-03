@@ -109,9 +109,9 @@
                                     <div class="nav-item dropdown">
                                         <a href="" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-list"></i></i>INVENTARIO</a>
                                         <div class="dropdown-menu bg-transparent border-0">
-                                            <a href="" class="dropdown-item">Inventario</a>
-                                            <a href="" class="dropdown-item">Productos</a>
-                                            <a href="" class="dropdown-item">Kardex</a> 
+                                            <a href="../Formularios/Inventario.php" class="dropdown-item">Inventario</a>
+                                            <a href="../Formularios/Productos.php" class="dropdown-item">Productos</a>
+                                            <a href="../Formularios/Kardex.php" class="dropdown-item">Kardex</a> 
                                         </div>
                                     </div>
                                     <?php
