@@ -108,9 +108,9 @@
                                     <div class="nav-item dropdown">
                                         <a href="" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-list"></i></i>INVENTARIO</a>
                                         <div class="dropdown-menu bg-transparent border-0">
-                                            <a href="" class="dropdown-item">Inventario</a>
-                                            <a href="" class="dropdown-item">Productos</a>
-                                            <a href="" class="dropdown-item">Kardex</a> 
+                                            <a href="../Formularios/Inventario.php" class="dropdown-item">Inventario</a>
+                                            <a href="../Formularios/Productos.php" class="dropdown-item">Productos</a>
+                                            <a href="../Formularios/Kardex.php" class="dropdown-item">Kardex</a> 
                                         </div>
                                     </div>
                                     <?php
@@ -119,11 +119,12 @@
                                         echo'<a href="" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-shield-halved"></i></i>SEGURIDAD</a>';
                                         echo '<div class="dropdown-menu bg-transparent border-0">';
                                         echo '<a href="GestionUsuarios.php" class="dropdown-item">Usuarios</a>';
-                                            echo '<a href="" class="dropdown-item">Roles</a>';
-                                            echo '<a href="" class="dropdown-item">Permisos</a>';
-                                            echo '<a href="" class="dropdown-item">Bitácora</a>';
-                                            echo '<a href="" class="dropdown-item">Parámetros</a>';
-                                            echo '<a href="" class="dropdown-item">Preguntas</a>';
+                                        echo '<a href="../Formularios/Roles.php" class="dropdown-item">Roles</a>';
+                                        echo '<a href="../Formularios/Permisos.php" class="dropdown-item">Permisos</a>';
+                                        echo '<a href="../Formularios/Bitacora.php" class="dropdown-item">Bitácora</a>';
+                                        echo '<a href="../Formularios/Parametros.php" class="dropdown-item">Parámetros</a>';
+                                        echo '<a href="../Formularios/Preguntas.php" class="dropdown-item">Preguntas</a>';
+                                        echo '<a href="../Formularios/Objetos.php" class="dropdown-item">Objetos</a>';
                                         echo '</div>';
                                     echo '</div>';
                                     }
@@ -141,7 +142,14 @@
                                             <a href="" class="dropdown-item">Tipo de Movimiento</a>
                                         </div>
                                     </div>
-                                    <a href="" class="nav-item nav-link"><i class="fa fa-table me-2"></i>ACERCA DE</a>
+                                    <div class="nav-item dropdown">
+                                        <a href="" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-regular fa-folder-open"></i></i>ADMINISTRACIÓN</a>
+                                        <div class="dropdown-menu bg-transparent border-0">
+                                            <a href="" class="dropdown-item">Mi Perfil</a>
+                                            <a href="" class="dropdown-item">Acerca de</a>
+                                            <a href="" class="dropdown-item">Backup</a>
+                                        </div>
+                                    </div>
                                 </div>
                             </nav>
 
