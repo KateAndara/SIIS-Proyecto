@@ -23,11 +23,6 @@
             case "GetInventarios":
                 $datos=$Inventarios->get_Inventarios();
                 echo json_encode($datos);
-            break;
-            case "GetInventario":
-                $busqueda = isset($body["Nombre"]) ? $body["Nombre"] : (isset($body["Id_Inventario"]) ? $body["Id_Inventario"] : '');
-                $datos=$Inventarios->get_Inventario($busqueda);
-                echo json_encode($datos);
-            break;          
+            break;            
         }
 ?>   

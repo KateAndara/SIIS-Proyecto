@@ -11,7 +11,16 @@ include '../components/header.components.php';
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Agregar jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <!-- Agregar DataTables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.css"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.js"></script>
+
     <script src="../JS/Inventario.js"></script>
+    <link href="../CSS/datatable.css" rel="stylesheet">
+
 </head>
 <body>
     <div class="col-md-12 cards-white" style="margin: 0 auto; width: 110%; max-width: none; margin-left: -20px;">
@@ -24,23 +33,12 @@ include '../components/header.components.php';
                 </div>
             </div>
             <div style="margin: 0 18px;">
-                <input type="text" class="rounded" style="border: 2px solid black;" placeholder="" id="input-busqueda">
-                <button style="background-color: black; color: white;" class="rounded" id="btn-busqueda" type="submit">Buscar</button>
                 <button class="rounded" style="background-color: #fff; color: dark; float: right;"  onclick="PDFInventarios('+MisItems[i].Id_Inventario +')">Generar PDF</button>
             </div>
 
-            <script>
-                 $(document).ready(function(){
-                $('#btn-busqueda').click(function(){
-                    var busqueda = $('#input-busqueda').val();
-                    BuscarProductoTerminadoMP(busqueda);
-                });
-            });
-            </script>
-
             <div class="box-body">
                 <div class="table table-responsive">
-                    <table class="table table-hover">
+                    <table class="table table-hover" id="TablaInventario">
                         <thead>
                             <tr>
                                 <th>ID INVENTARIO</th>
