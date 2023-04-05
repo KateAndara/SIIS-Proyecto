@@ -1,5 +1,4 @@
 var UrlKardexs = 'http://localhost/SIIS-PROYECTO/controller/kardex.php?opc=GetKardexs';
-var UrlKardex  = 'http://localhost/SIIS-PROYECTO/controller/kardex.php?opc=GetKardex';
 
 $(document).ready(function(){
    CargarKardexs();
@@ -13,51 +12,25 @@ function CargarKardexs(){
         datatype: 'JSON',
         success: function(reponse){
             var MisItems = reponse;
-            var Valores='';
-            
-            for(i=0; i<MisItems.length; i++){
-                Valores+= '<tr>'+
-                '<td>'+ MisItems[i].Id_Kardex+'</td>'+   
-                '<td>'+ MisItems[i].Nombre +'</td>'+
-                '<td>'+ MisItems[i].Descripcion+'</td>'+  
-                '<td>'+ MisItems[i].Cantidad +'</td>'+ 
-                '<td>'+ MisItems[i].Fecha_hora +'</td>'+                         
-                '<td>'+ 
-            '</tr>';
-            }
-            $('#DataKardex').html(Valores);
+             // Si la tabla ya ha sido inicializada previamente, destruye la instancia
+             if ($.fn.DataTable.isDataTable('#TablaKardex')) {
+                $('#TablaKardex').DataTable().destroy();
+             }
+             $('#TablaKardex').DataTable({
+                processing: true,
+                data: MisItems,
+                "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+                },
+                columns: [
+                  { data: 'Id_Kardex' },
+                  { data: 'Nombre' },
+                  { data: 'Descripcion' },
+                  { data: 'Cantidad' },
+                  { data: 'Fecha' },
+                         ]
+            });
         }
 
-    });
-}
-
-function BuscarKardex(idKardex){
-    var datosKardex= {
-        Id_Kardex:idKardex
-    };
-    var datosKardexJson=JSON.stringify(datosKardex);
-
-    $.ajax({
-        url: UrlKardex,
-        type: 'POST',
-        data: datosKardexJson,
-        datatype: 'JSON',
-        contentType: 'application/json',
-        success: function(reponse){
-            var MisItems = reponse;
-            var Valores='';
-            
-            for(i=0; i<MisItems.length; i++){
-                Valores+= '<tr>'+
-                '<td>'+ MisItems[i].Id_Kardex+'</td>'+                     
-                '<td>'+ MisItems[i].Nombre +'</td>'+
-                '<td>'+ MisItems[i].Descripcion+'</td>'+ 
-                '<td>'+ MisItems[i].Cantidad +'</td>'+ 
-                '<td>'+ MisItems[i].Fecha_hora +'</td>'+                         
-                '<td>'+ 
-            '</tr>';            
-            }
-            $('#DataKardex').html(Valores);
-        }
     });
 }

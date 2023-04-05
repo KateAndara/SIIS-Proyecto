@@ -1,5 +1,4 @@
 var UrlInventarios = 'http://localhost/SIIS-PROYECTO/controller/inventario.php?opc=GetInventarios';
-var UrlInventario  = 'http://localhost/SIIS-PROYECTO/controller/inventario.php?opc=GetInventario';
 
 $(document).ready(function(){
    CargarInventarios();
@@ -13,51 +12,29 @@ function CargarInventarios(){
         datatype: 'JSON',
         success: function(reponse){
             var MisItems = reponse;
-            var Valores='';
-            
-            for(i=0; i<MisItems.length; i++){
-                Valores+= '<tr>'+
-                '<td>'+ MisItems[i].Id_Inventario +'</td>'+
-                '<td>'+ MisItems[i].Nombre +'</td>'+
-                '<td>'+ MisItems[i].Existencia +'</td>'+                
-                '<td>'+             
-                '<button class="rounded" style="background-color: #008000; color: white; float: center; " onclick="BuscarInventario('+MisItems[i].Id_Inventario +')">Ver más</button>'+ 
-            '</tr>';
-            }
-            $('#DataInventario').html(Valores);
+
+             // Si la tabla ya ha sido inicializada previamente, destruye la instancia
+             if ($.fn.DataTable.isDataTable('#TablaInventario')) {
+                $('#TablaInventario').DataTable().destroy();
+               }
+               $('#TablaInventario').DataTable({
+                   processing: true,
+                   data: MisItems,
+                   "language": {
+                       "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+                     },
+                     columns: [
+                       { data: 'Id_Inventario' },
+                       { data: 'Nombre' },
+                       { data: 'Existencia' },
+                       { 
+                           data: null, 
+                           render: function ( data, type, row ) {
+                             return '<button class="rounded" style="background-color: #008000; color: white; display: inline-block; width: 90px;" onclick="CargarInventario(\'' + row.Id_Inventario + '\');">Ver más</button>'
+                           }
+                        }                ]
+               });
         }
 
-    });
-}
-
-function BuscarInventario(NombreInventario){
-    var datosInventario = {
-        Nombre : isNaN(NombreInventario) ? NombreInventario : null,
-        Id_inventario : isNaN(NombreInventario) ? null : parseint(NombreInventario),
-        Existencia:isNaN(NombreInventario) ? null : parseInt(NombreInventario)
-    };
-    var datosInventarioJson=JSON.stringify(datosInventario);
-
-    $.ajax({
-        url: UrlInventario,
-        type: 'POST',
-        data: datosInventarioJson,
-        datatype: 'JSON',
-        contentType: 'application/json',
-        success: function(reponse){
-            var MisItems = reponse;
-            var Valores='';
-            
-            for(i=0; i<MisItems.length; i++){
-                Valores+= '<tr>'+
-                '<td>'+ MisItems[i].Id_Inventario +'</td>'+
-                '<td>'+ MisItems[i].Nombre +'</td>'+
-                '<td>'+ MisItems[i].Existencia +'</td>'+  
-                '<td>'+ 
-                '<button class="rounded" style="background-color: #008000; color: white; float: center; " onclick="BuscarInventario('+MisItems[i].Id_Inventario +')">Ver más</button>'+ 
-            '</tr>';
-            }
-            $('#DataInventario').html(Valores);
-        }
     });
 }
