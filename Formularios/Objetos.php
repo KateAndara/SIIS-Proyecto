@@ -39,13 +39,13 @@ include '../components/header.components.php';
                 </div>
             </div>
             <div style="margin: 0 18px;">
-            <form>
+            <form id="form-busqueda" autocomplete="off">
                 <button class="rounded" style="background-color:  #147c4c; color: white; float: right; margin-left: 10px;" onclick="mostrarFormulario()">Agregar</button>
                 <button class="rounded" style="background-color: #fff; color: dark; float: right;"onclick="generarReporte('TablaObjetos','REPORTE DE OBJETOS',60)">Generar PDF</button>
 
             </form>
             </div>
-            <!--<script>
+            <script>
                 $(document).ready(function(){          //Lee la búsqueda
                     $('#form-busqueda').submit(function(event){ 
                         event.preventDefault(); 
@@ -58,7 +58,7 @@ include '../components/header.components.php';
                         }
                     });
                 });
-            </script>-->
+            </script>
             </script>
 
             <script>

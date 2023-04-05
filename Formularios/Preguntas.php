@@ -43,7 +43,7 @@ include '../components/header.components.php';
             <button class="rounded" style="background-color: #fff; color: dark; float: right;"onclick="generarReporte('TablaPreguntas','REPORTE DE PREGUNTAS',60)">Generar PDF</button>
             </form>
             </div>
-            <!--<script>
+            <script>
                 $(document).ready(function(){          //Lee la búsqueda
                     $('#form-busqueda').submit(function(event){ 
                         event.preventDefault(); 
@@ -57,7 +57,7 @@ include '../components/header.components.php';
                     });
                        
                 });
-            </script>-->
+            </script>
 
             <script>
             function mostrarFormulario() {

@@ -43,7 +43,7 @@ include '../components/header.components.php';
                 <button class="rounded" style="background-color:  #147c4c; color: white; float: right; margin-left: 10px;" onclick="mostrarFormulario()">Agregar</button>
                 <button class="rounded" style="background-color: #fff; color: dark; float: right;"onclick="generarReporte('TablaRoles','REPORTE DE ROLES',60)">Generar PDF</button>            </form>
             </div>
-            <!--<script>
+            <script>
                 $(document).ready(function(){          //Lee la búsqueda
                     $('#form-busqueda').submit(function(event){ 
                         event.preventDefault(); 
@@ -56,7 +56,7 @@ include '../components/header.components.php';
                         }
                     });
                 });
-            </script>-->
+            </script>
             <script>
             function mostrarFormulario() {
             var formulario = document.querySelector('.Formulario'); //Muestra el formulario de agregar y actualizar.
@@ -92,7 +92,7 @@ include '../components/header.components.php';
                     </h3>
                 </div>
                 <div class="col-12">
-                    <form class="InsertRol">
+                    <form class="InsertRol"   onsubmit="validarFormulario()">
                         <label for="Id_Rol" hidden>ID ROL</label>
                         <input type="number" id="Id_Rol" class="form-control" placeholder="Ingrese el código del rol"hidden>
                         <label for="">ROL</label>
@@ -114,7 +114,6 @@ include '../components/header.components.php';
             </div>
         </div>
     </div>
-      
 
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
