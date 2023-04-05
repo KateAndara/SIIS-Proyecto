@@ -37,10 +37,10 @@ function CargarPermisos(){
                        { data: 'Id_Permisos' },
                        { data: 'Rol' },
                        { data: 'Objeto' },
-                       { data: 'Permiso_insercion' },
-                       { data: 'Permiso_eliminacion' },
-                       { data: 'Permiso_actualizacion' },
-                       { data: 'Permiso_consultar' },
+                       { data: 'Insertar' },
+                       { data: 'Eliminar' },
+                       { data: 'Actualizar' },
+                       { data: 'Visualizar' },
                        { 
                            data: null, 
                            render: function ( data, type, row ) {

@@ -7,8 +7,16 @@
         public function get_permisos(){                 //Si se nececita mostrar nombre en vez de ID.         
             $conexion= parent::Conexion();
             parent::set_names();
-            $sql="SELECT t1.*, t2.Rol, t3.Objeto
-            FROM tbl_permisos t1                              
+            $sql="SELECT 
+            t1.*, 
+            t2.Rol, 
+            t3.Objeto,
+            CASE WHEN t1.Permiso_insercion = 1 THEN 'Sí' ELSE 'No' END AS Insertar,
+            CASE WHEN t1.Permiso_eliminacion = 1 THEN 'Sí' ELSE 'No' END AS Eliminar,
+            CASE WHEN t1.Permiso_actualizacion = 1 THEN 'Sí' ELSE 'No' END AS Actualizar,
+            CASE WHEN t1.Permiso_consultar = 1 THEN 'Sí' ELSE 'No' END AS Visualizar
+        FROM 
+            tbl_permisos t1
             JOIN tbl_ms_roles t2 ON t1.Id_Rol = t2.Id_Rol
             JOIN tbl_objetos t3 ON t1.Id_Objeto = t3.Id_Objeto";
             $sql= $conexion->prepare($sql);
