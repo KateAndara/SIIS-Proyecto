@@ -23,6 +23,13 @@ include '../components/header.components.php';
 
     <script src="../JS/Kardex.js"></script>
     <link href="../CSS/datatable.css" rel="stylesheet">
+    <!-- Última versión de jspdf -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
+    <!-- Última versión de AutoTable -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.26/jspdf.plugin.autotable.min.js"></script>
+
+    <script src="../Reportes/Reporte.js"></script>
 </head>
 <body>
     <div class="col-md-12 cards-white" style="margin: 0 auto; width: 110%; max-width: none; margin-left: -20px;">
@@ -35,8 +42,8 @@ include '../components/header.components.php';
                 </div>
             </div>
             
-            <div style="margin: 0 18px;">
-            <button class="rounded" style="background-color: #fff; color: dark; float: right;"  onclick="PDFInventarios('+MisItems[i].Id_Inventario +')">Generar PDF</button>
+            <div style="margin: 0 18px;">            
+            <button class="rounded" style="background-color: #fff; color: dark; float: right;"onclick="generarReporte('TablaKardex','REPORTE DE KARDEX',60)">Generar PDF</button>
             </div>
 
             <div class="box-body">

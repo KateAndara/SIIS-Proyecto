@@ -22,6 +22,17 @@
 
             case "GetKardexs":
                 $datos=$Kardexs->get_Kardexs();
+
+                for ($i=0; $i < count($datos) ; $i++) 
+                {               
+                    $badge="";
+                   if ($datos[$i]['Id_Tipo_Movimiento']==1) {
+                        $datos[$i]['badge'] = '<span class="badge text-bg-success">COMPRA</span>';
+                   }else {
+                    $datos[$i]['badge'] = '<span class="badge text-bg-primary">VENTA</span>';
+                   }                    
+                }
+                
                 echo json_encode($datos);
             break;
             case "GetKardex":

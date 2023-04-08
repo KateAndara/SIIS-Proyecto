@@ -21,8 +21,54 @@ include '../components/header.components.php';
     <script src="../JS/Inventario.js"></script>
     <link href="../CSS/datatable.css" rel="stylesheet">
 
+    <!-- Última versión de jspdf -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
+    <!-- Última versión de AutoTable -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.26/jspdf.plugin.autotable.min.js"></script>
+
+    <script src="../Reportes/Reporte.js"></script>
+
 </head>
 <body>
+ 
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="ModalTitle" style="color:black">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <div class="table table-responsive">
+      <button class="rounded" style="background-color: #fff; color: dark; float: right;"onclick="generarReporte('tableMovimientos','REPORTE DE KARDEX',60)">Generar PDF</button>
+
+                    <table class="table table-hover" id="tableMovimientos" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>ID KARDEX</th>
+                                <th>NOMBRE PRODUCTO</th>
+                                <th>MOVIMIENTO</th>  
+                                <th>CANTIDAD</th>
+                                <th>FECHA</th>               
+
+                            </tr>
+                        </thead>
+
+                        <tbody id="">
+                            
+                        </tbody>
+                    </table>
+                </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
     <div class="col-md-12 cards-white" style="margin: 0 auto; width: 110%; max-width: none; margin-left: -20px;">
         <div class="consulta mt-4">
             <div class="row">
@@ -33,7 +79,7 @@ include '../components/header.components.php';
                 </div>
             </div>
             <div style="margin: 0 18px;">
-                <button class="rounded" style="background-color: #fff; color: dark; float: right;"  onclick="PDFInventarios('+MisItems[i].Id_Inventario +')">Generar PDF</button>
+                <button class="rounded" style="background-color: #fff; color: dark; float: right;"onclick="generarReporte('TablaInventario','REPORTE DE INVENTARIO',60)">Generar PDF</button>
             </div>
 
             <div class="box-body">
@@ -44,6 +90,7 @@ include '../components/header.components.php';
                                 <th>ID INVENTARIO</th>
                                 <th>NOMBRE PRODUCTO</th>
                                 <th>EXISTENCIA</th>  
+                                <th>PORCENTAJE</th>  
                                 <th>OPCIONES</th>                          
                             </tr>
                         </thead>

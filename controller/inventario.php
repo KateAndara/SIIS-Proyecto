@@ -22,6 +22,41 @@
 
             case "GetInventarios":
                 $datos=$Inventarios->get_Inventarios();
+
+                for ($i=0; $i < count($datos) ; $i++) 
+                {
+                   $cantidadMaxima=$datos[$i]['Cantidad_maxima'];
+                   $cantidadMinima=$datos[$i]['Cantidad_minima'];
+                   $existencia=$datos[$i]['Existencia'];
+                    $badge="";
+                   if ($existencia<$cantidadMinima) {
+                        $porcentaje= number_format(($existencia/$cantidadMaxima)*100,2);
+                        $datos[$i]['badge'] = '<span class="badge text-bg-danger">'.$porcentaje.'%</span>';
+                   }else if($existencia>=$cantidadMinima && $existencia<=$cantidadMaxima){
+                    $porcentaje= number_format(($existencia/$cantidadMaxima)*100,2);
+                        $datos[$i]['badge'] = '<span class="badge text-bg-warning">'.$porcentaje.'%</span>';
+                   }else if ($existencia>$cantidadMaxima){
+                    $porcentaje="100%";
+                    $datos[$i]['badge'] = '<span class="badge text-bg-success">'.$porcentaje.'</span>';
+                   }                    
+                }
+          
+                echo json_encode($datos);
+            break;        
+            case "GetMovimientos":
+                $idProducto=$body['Id_Producto'];
+                $datos=$Inventarios->getMovimientos($idProducto);
+                
+                for ($i=0; $i < count($datos) ; $i++) 
+                {               
+                    $badge="";
+                   if ($datos[$i]['Id_Tipo_Movimiento']==1) {
+                        $datos[$i]['badge'] = '<span class="badge text-bg-success">COMPRA</span>';
+                   }else {
+                    $datos[$i]['badge'] = '<span class="badge text-bg-primary">VENTA</span>';
+                   }                   
+                }
+          
                 echo json_encode($datos);
             break;            
         }
