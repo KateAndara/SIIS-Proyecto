@@ -42,6 +42,9 @@
       .wd15{
         width: 15%;   
     }
+    .wd20{
+        width: 20%;   
+    }
       .wd38{
           width: 38%;
       }
@@ -75,14 +78,14 @@
    <table class="tbl-hader" style="margin-bottom: 50rem;">
        <tbody>
            <tr>
-               <td class="wd45">
+               <td class="wd20">
                <img src="http://localhost/SIIS-PROYECTO/img/logo.jpg" width="125" alt="Logo">
                 </td>
             <td class="text-center">
-                <h1><strong><?=  $data['DatosEmpresa'][0]['Valor']  ?></strong></h1>
+                <h4><strong><?=  $data['DatosEmpresa'][0]['Valor']  ?></strong></h4>
                 
             </td>
-            <td class="text-right wd38">
+            <td class="text-right wd20">
             <h4>No. Compra: <strong><?= $Compra['Id_Compra'] ?></strong><br>
             
                 </h4>
@@ -129,8 +132,8 @@
          $subtotal = $subtotal + $importe; */
        ?>
        <tr>
-           <td><?= $producto['Id_Detalle_Compra']?></td>
-           <td class="wd15 text-center"><?='L. '.($producto['Nombre']) ?></td>
+           <td><?= $producto['Id_Producto']?></td>
+           <td class="wd15 text-center"><?=' '.($producto['Nombre']) ?></td>
            <td class="wd15 text-center"><?= $producto['Cantidad']?></td>
            <td class="wd15 text-right"><?='L. '. $producto['Precio_libra'] ?></td>
            <td class="wd15 text-right"><?=' '. $producto[0]['Especie'] ?></td>

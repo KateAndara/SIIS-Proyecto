@@ -153,9 +153,6 @@
             $sql->bindvalue(1, $productoid);
             $sql->execute();
             $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
-
-         
-
             $existencia=$resultado[0]['existencia']+$cantidad;
 
             $sql="UPDATE `tbl_inventario` SET `Existencia` = '$existencia' WHERE `tbl_inventario`.`Id_Producto` = $productoid;";
