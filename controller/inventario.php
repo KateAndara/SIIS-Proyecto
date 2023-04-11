@@ -51,9 +51,9 @@
                 {               
                     $badge="";
                    if ($datos[$i]['Id_Tipo_Movimiento']==1) {
-                        $datos[$i]['badge'] = '<span class="badge text-bg-success">COMPRA</span>';
+                        $datos[$i]['badge'] = '<span class="badge text-bg-success">ENTRADA</span>';
                    }else {
-                    $datos[$i]['badge'] = '<span class="badge text-bg-primary">VENTA</span>';
+                    $datos[$i]['badge'] = '<span class="badge text-bg-primary">SALIDA</span>';
                    }                   
                 }
           

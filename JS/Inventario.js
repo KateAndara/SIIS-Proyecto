@@ -1,5 +1,6 @@
 var UrlInventarios = 'http://localhost/SIIS-PROYECTO/controller/inventario.php?opc=GetInventarios';
-var urlMovimientos = 'http://localhost/SIIS-PROYECTO/controller/inventario.php?opc=GetMovimientos';
+var urlMovimientos = 'http://localhost/SIIS-PROYECTO/Formularios/movimientos.php?id=';
+var urlGetMovimiento = 'http://localhost/SIIS-PROYECTO/controller/inventario.php?opc=GetMovimientos';
 
 $(document).ready(function(){
    CargarInventarios();
@@ -48,12 +49,16 @@ function CargarInventarios(){
 }
 
 function CargarInventario(Id_Producto) {
+  window.location.href = urlGetMovimiento + Id_Producto;
+}
+
+function cargarTabla(idProducto) {
   var dataProducto = {
-    Id_Producto: Id_Producto,
+    Id_Producto: idProducto,
   };
   var dataProducto = JSON.stringify(dataProducto);
    $.ajax({
-     url: urlMovimientos,
+     url: urlGetMovimiento,
      type: "POST",
      data: dataProducto,
      datatype: "JSON",
@@ -71,16 +76,15 @@ function CargarInventario(Id_Producto) {
            url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json",
          },
          columns: [
-           { data: "Id_Kardex" },
-           { data: "Nombre" },
-           { data: "badge" },
-           { data: "Cantidad" },
-           { data: "Fecha" },
+          { data: 'Id_Kardex' },
+          { data: 'Nombre' },
+          { data: "badge" },
+          { data: "Cantidad" },
+          { data: "Fecha_hora" },
          ],
        });
-       document.querySelector("#ModalTitle").innerHTML ="Movimientos del Producto "+ MisItems[0]["Nombre"];
-     },
-     
+       document.querySelector("#tituloPrincipal").innerHTML =
+       "Movimientos del Producto " + MisItems[0]["Nombre"];     
+      },     
    });
-   $("#exampleModal").modal("show");
 }
