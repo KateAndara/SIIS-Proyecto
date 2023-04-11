@@ -17,26 +17,32 @@ function CargarDescuentos(){
         datatype: 'JSON',
         success: function(reponse){
             var MisItems = reponse;
-            var Valores='';
-            
-            for(i=0; i<MisItems.length; i++){
-                Valores+= '<tr>'+
-                '<td>'+ MisItems[i].Id_Descuento  +'</td>'+ 
-                '<td>'+ MisItems[i].Nombre_descuento +'</td>'+
-                '<td>'+ MisItems[i].Porcentaje +'</td>'+
-                '<td>'+ 
-                '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick=" CargarDescuento('+MisItems[i].Id_Descuento +'); mostrarFormulario();">Editar</button>'+ 
-                '<button class="rounded" style="background-color: #D6234A; color: white; display: inline-block; width: 67px;"  onclick="EliminarDescuento('+MisItems[i].Id_Descuento +')">Eliminar</button>'+
-                '</td>'+
-            '</tr>';
+            // Si la tabla ya ha sido inicializada previamente, destruye la instancia
+            if ($.fn.DataTable.isDataTable('#TablaDescuentos')) {
+             $('#TablaDescuentos').DataTable().destroy();
             }
-            $('#DataDescuentos').html(Valores);
+            $('#TablaDescuentos').DataTable({
+                processing: true,
+                data: MisItems,
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+                  },
+                  columns: [
+                    { data: 'Id_Descuento' },
+                    { data: 'Nombre_descuento' },
+                    { data: 'Porcentaje' },
+                    { 
+                        data: null, 
+                        render: function ( data, type, row ) {
+                          return '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarDescuento(\'' + row.Id_Descuento + '\'); mostrarFormulario();">Editar</button>' +
+                                 '<button class="rounded" style="background-color: #FF0000; color: white; display: inline-block; width: 67px;" onclick="EliminarDescuento(\'' + row.Id_Descuento + '\')">Eliminar</button>';
+                        }
+                      }                ]
+            });
         }
-
     });
 }
-
-
+/*
 function BuscarDescuentos(Nombredescuento){
     var datosDescuento = {
         Nombre_descuento: isNaN(Nombredescuento) ? Nombredescuento : null,
@@ -70,7 +76,7 @@ function BuscarDescuentos(Nombredescuento){
     });
 }
 
-
+*/
 
 function AgregarDescuento(){
     var datosDescuento = {

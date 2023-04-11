@@ -48,7 +48,7 @@
                 $datos=$descuentos->update_descuento($body["Id_Descuento"],$body["Nombre_descuento"],$body["Porcentaje_a_descontar"]);
                 echo json_encode("Descuento Actualizado");
             break;
-            case "DeletePromocion":
+            case "DeleteDescuento":
                 $datos=$descuentos->delete_descuento($body["Id_Descuento"]);
                 echo json_encode("Descuento Eliminado");
             break;

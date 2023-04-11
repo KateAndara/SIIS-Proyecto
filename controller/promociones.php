@@ -40,8 +40,19 @@
                 $datos=$promociones->get_promocioneditar($body["Id_Promocion"]);
                 echo json_encode($datos);
             break;
+            case "GetProductos":
+                $datos=$promociones->getProductos();
+            
+                echo json_encode($datos);
+            break;    
             case "InsertPromocion":
-                $datos=$promociones->insert_promocion($body["Nombre_Promocion"],$body["Precio_Venta"],$body["Fecha_inicio"],$body["Fecha_final"]);
+                $datos=$promociones->insert_promocion(
+                    $body["Nombre_Promocion"],
+                    $body["Select_Producto"],
+                    $body["Precio_Venta"],
+                    $body["Fecha_inicio"],
+                    $body["Fecha_final"]);
+               
                 echo json_encode("Se agregó la promoción");
             break;
             case "UpdatePromocion":
@@ -52,6 +63,7 @@
                 $datos=$promociones->delete_promocion($body["Id_Promocion"]);
                 echo json_encode("Promoción Eliminada");
             break;
+            
         }
 
 ?>   

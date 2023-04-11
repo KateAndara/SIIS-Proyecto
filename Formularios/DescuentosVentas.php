@@ -11,10 +11,26 @@ include '../components/header.components.php';
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+     <!-- Agregar jQuery -->
+     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <!-- Agregar DataTables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.css"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.js"></script>
     <script src="../JS/Descuentos.js"></script>
+    <script src="../Reportes/Reporte.js"></script>
+    <link href="../CSS/datatable.css" rel="stylesheet">
+     <!-- Última versión de jspdf -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
+    <!-- Última versión de AutoTable -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.26/jspdf.plugin.autotable.min.js"></script>
+
+
 </head>
 <body>
-    <div class="col-md-12 cards-white" style="margin: 0 auto; width: 110%; max-width: none; margin-left: -20px;">
+    <div class="col-md-12 cards-white" style="margin: 0 auto; width: 110%; max-width: none; margin-left: auto; margin-right: auto">
         <div class="consulta mt-4" id="consulta">
             <div class="row">
                 <div class="col-12 text-center">
@@ -25,11 +41,9 @@ include '../components/header.components.php';
             </div>
             <div style="margin: 0 18px;">
             <form id="form-busqueda" autocomplete="off">
-                <input type="text" class="rounded" style="border: 2px solid black;" placeholder=" Buscar..." id="input-busqueda">
-                <button style="background-color: black; color: white;" class="rounded" id="btn-busqueda" type="submit">Buscar</button>
+               <button class="rounded" style="background-color:  #147c4c; color: white; float: right; margin-left: 10px;" onclick="mostrarFormulario()">Agregar</button>
+               <button class="rounded" style="background-color: #fff; color: dark; float: right;"  onclick="generarReporte('TablaDescuentos','REPORTE DE DESCUENTOS',60)">Generar PDF</button>
             </form>
-            <button class="rounded" style="background-color:  #147c4c; color: white; float: right; margin-left: 10px;" onclick="mostrarFormulario()">Agregar</button>
-            <button class="rounded" style="background-color: #fff; color: dark; float: right;"  onclick="PDFDescuento('+MisItems[i].Id_Descuento +')">Generar PDF</button>
             </div>
 
             <script>
@@ -58,7 +72,7 @@ include '../components/header.components.php';
             
             <div class="box-body">
                 <div class="table table-responsive">
-                    <table class="table table-hover">
+                    <table id="TablaDescuentos" class="table table-hover">
                         <thead>
                             <tr>
                                 <th>ID </th>
