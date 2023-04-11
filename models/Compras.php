@@ -132,7 +132,7 @@
         public function insertKardex($productoid,$movimiento,$cantidad,$idPersona){
             $conectar= parent::conexion();
             parent::set_names();
-            $sql="INSERT INTO `tbl_kardex` ( `Id_Producto`, `Id_Tipo_Movimiento`, `Cantidad`,`Id_Usuario`) VALUES (?,?,?,?);";
+            $sql="INSERT INTO `tbl_kardex` ( `Id_Producto`, `Id_Tipo_Movimiento`, `Cantidad`,`Id_Usuario`,`Fecha_hora`) VALUES (?,?,?,?,CURRENT_TIMESTAMP());";
             $sql=$conectar->prepare($sql);
        
             $sql->bindValue(1, $productoid);
