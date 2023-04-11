@@ -24,11 +24,12 @@ function CargarKardexs(){
                 },
                 columns: [
                   { data: 'Id_Kardex' },
+                  { data: 'Usuario' },
                   { data: 'Nombre' },
                   { data: 'Descripcion' },
                   { data: 'Cantidad' },
-                  { data: 'Fecha' },
-                         ]
+                  { data: 'Fecha_hora' },
+                ]
             });
         }
 

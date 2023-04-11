@@ -8,13 +8,16 @@
         die();
     }
     // Consulta para obtener el id_rol del usuario.
-  $sql = "SELECT Id_Rol FROM tbl_ms_usuarios WHERE Usuario='$varsesion' LIMIT 1";
-  $resultado = $conexion->query($sql);
+    $sql = "SELECT * FROM tbl_ms_usuarios WHERE Usuario='$varsesion' LIMIT 1";
+    $resultado = $conexion->query($sql);
   
   // Almacenar el id_rol en la variable de sesión.
   if ($resultado->num_rows == 1) {
     $fila = $resultado->fetch_assoc();
     $_SESSION['Id_Rol'] = $fila['Id_Rol'];
+    $_SESSION['Id_Usuario'] = $fila['Id_Usuario'];
+    $_SESSION['nombre'] = $fila['Nombre'];
+
     $id_rol=$_SESSION['Id_Rol'];
   }
 
