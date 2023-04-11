@@ -128,14 +128,14 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                                     </div>
                                     <div class="col-6">
                                         <label for="">PESO VIVO</label>
-                                        <input type="number" id="PesoVivo" class="form-control" placeholder="Ingrese el peso vivo">
+                                        <input type="number" id="PesoVivo" onkeyup="calcularRendimiento()" class="form-control" placeholder="Ingrese el peso vivo">
                                     </div>
                                 </div>
 
                                 <div class="col-12 mt-2 row">
                                     <div class="col-6">
                                     <label for="">CANAL</label>
-                                        <input type="number" id="Canal" class="form-control" placeholder="Ingrese el canal">
+                                        <input type="number" id="Canal" onkeyup="calcularRendimiento()" class="form-control" placeholder="Ingrese el canal">
                                     </div>
                                     <div class="col-6">
                                        

@@ -115,6 +115,20 @@ function cancelarCompra(idCompra) {
 }
 
 
+
+function calcularRendimiento() {
+  peso = document.querySelector("#PesoVivo").value;
+  canal = document.querySelector("#Canal").value;
+  rendimiento = (canal * 100) / peso;
+
+  console.log(peso);
+  console.log(canal);
+
+  console.log(rendimiento);
+
+  document.querySelector("#Rendimiento").value = rendimiento;
+}
+
 function verCompra(idCompra){
 
     location.href = "http://localhost/SIIS-PROYECTO/Formularios/verCompra.php?id="+idCompra;

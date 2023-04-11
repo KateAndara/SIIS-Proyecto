@@ -22,8 +22,12 @@ include '../components/header.components.php';
     <link href="
 https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
 " rel="stylesheet">
+       <!-- Última versión de jspdf -->
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 
-
+        <!-- Última versión de AutoTable -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.26/jspdf.plugin.autotable.min.js"></script>
+        <script src="../Reportes/Reporte.js"></script>
 </head>
 <body>
     <div class="col-md-12 cards-white" style="margin: 0 auto; width: 110%; max-width: none; margin-left: auto; margin-right: auto">
@@ -38,7 +42,8 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
             <div style="margin: 0 18px;">
             <form id="form-busqueda" autocomplete="off">
                 <button class="rounded" style="background-color:  #147c4c; color: white; float: right; margin-left: 10px;" > <a style="text-decoration: none; background-color:  #147c4c; color: white; float: right; margin-left: 0px;" href="NuevaCompra.php">Agregar</a></button>
-                <button class="rounded" style="background-color: #fff; color: dark; float: right;"  target="_blank" onclick="window.open('../Reportes/Compras.php');" >Generar PDF</button>            </form>
+                <button class="rounded" style="background-color: #fff; color: dark; float: right;"onclick="generarReporte('TablaCompras','REPORTE DE COMPRAS',60)">Generar PDF</button>          
+            </form>
             </div>
             <script>
                 $(document).ready(function(){          //Lee la búsqueda

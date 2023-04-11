@@ -129,15 +129,17 @@
            return $resultado;
         }
 
-        public function insertKardex($productoid,$movimiento,$cantidad){
+        public function insertKardex($productoid,$movimiento,$cantidad,$idPersona){
             $conectar= parent::conexion();
             parent::set_names();
-            $sql="INSERT INTO `tbl_kardex` ( `Id_Producto`, `Id_Tipo_Movimiento`, `Cantidad`) VALUES (?,?,?);";
+            $sql="INSERT INTO `tbl_kardex` ( `Id_Producto`, `Id_Tipo_Movimiento`, `Cantidad`,`Id_Usuario`) VALUES (?,?,?,?);";
             $sql=$conectar->prepare($sql);
        
             $sql->bindValue(1, $productoid);
             $sql->bindValue(2, $movimiento);
             $sql->bindValue(3, $cantidad);
+            $sql->bindValue(4, $idPersona);
+
             $sql->execute();
              $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
              $resultado = $conectar->lastInsertId();

@@ -25,7 +25,7 @@
         switch($_GET["opc"]){
             case "getCompras":
                 $datos=$compras->get_compras();
-                
+            
                 echo json_encode($datos);
             break;
             case "getCompra":
@@ -172,7 +172,10 @@
                 $fechaCompra=$body['fechaCompra'];
                 $total=$body['total'];
                 $observacion=$body['observacion'];
-                $idPersona=$_SESSION['Id_Rol'];
+                $idPersona=$_SESSION['Id_Usuario'];
+                $nombre=$_SESSION['nombre'];
+                
+         
                 
                 
                 if (!empty($_SESSION['compraDetalle'])) {
@@ -180,7 +183,7 @@
                                                                 $fechaCompra,
                                                                 $total,
                                                                 $observacion,
-                                                                $idPersona);
+                                                                $nombre);
 
 
                     if ($request_compra>0){
@@ -192,7 +195,7 @@
                             $cantidad = $producto['cantidad'];                            
                             $detalleCompra=$compras->insertDetalle($idCompra,$productoid,$precio,$cantidad);
 
-                            $insertKardex=$compras->insertKardex($productoid,1,$cantidad);
+                            $insertKardex=$compras->insertKardex($productoid,1,$cantidad,$idPersona);
                             $updateInventario=$compras->updateInventario($productoid,$cantidad);
 
                             $especie = $producto['especie'];
