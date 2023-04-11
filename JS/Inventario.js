@@ -49,7 +49,7 @@ function CargarInventarios(){
 }
 
 function CargarInventario(Id_Producto) {
-  window.location.href = urlGetMovimiento + Id_Producto;
+  window.location.href = urlMovimientos + Id_Producto;
 }
 
 function cargarTabla(idProducto) {
