@@ -136,14 +136,15 @@
                                     <div class="nav-item dropdown">
                                         <a href="" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-screwdriver-wrench"></i></i>MANTENIMIENTO</a>
                                         <div class="dropdown-menu bg-transparent border-0">
-                                            <a href="" class="dropdown-item">Cargos</a>
-                                            <a href="" class="dropdown-item">Estado de Venta</a>
-                                            <a href="" class="dropdown-item">Tipo de Producto</a>
+                                            <a href="CargosMM.php" class="dropdown-item">Cargos</a>
+                                            <a href="EstadoVentaMM.php" class="dropdown-item">Estado de Venta</a>
+                                            <a href="TipoProductoMM.php" class="dropdown-item">Tipo de Producto</a>
                                             <a href="" class="dropdown-item">Talonario</a>
-                                            <a href="" class="dropdown-item">Contactos de Proveedores</a>
-                                            <a href="" class="dropdown-item">Contactos de Clientes</a>
-                                            <a href="" class="dropdown-item">Tipo de Contacto</a>
-                                            <a href="" class="dropdown-item">Tipo de Movimiento</a>
+                                            <a href="ContactoProveedorMM.php" class="dropdown-item">Contactos de Proveedores</a>
+                                            <a href="ContactoClienteMM.php" class="dropdown-item">Contactos de Clientes</a>
+                                            <a href="TipoContactoMM.php" class="dropdown-item">Tipo de Contacto</a>
+                                            <a href="TipoMovimientoMM.php" class="dropdown-item">Tipo de Movimiento</a>
+                                            <a href="EstadoProcesoMM.php" class="dropdown-item">Estado del Proceso</a>
                                         </div>
                                     </div>
                                     <div class="nav-item dropdown">
