@@ -81,8 +81,7 @@
                                     <div class="nav-item dropdown">
                                         <a href="" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-hand-holding-dollar"></i></i>VENTAS</a>
                                         <div class="dropdown-menu bg-transparent border-0">
-                                            <a href="../Formularios/Nueva_Venta.php" class="dropdown-item">Nueva Venta</a>
-                                            <a href="../Formularios/Ventas.php" class="dropdown-item">Proceso de ventas</a>
+                                            <a href="../Formularios/Ventas.php" class="dropdown-item">Ventas</a>
                                             <a href="../Formularios/DescuentosVentas.php" class="dropdown-item">Descuentos</a>
                                             <a href="../Formularios/PromocionesVentas.php" class="dropdown-item">Promociones</a>
                                             <a href="../Formularios/DetalleVenta.php" class="dropdown-item">Detalle de Venta</a>
