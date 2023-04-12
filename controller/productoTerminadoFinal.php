@@ -12,22 +12,22 @@
         header('Content-Type: application/json');
 
         require_once '../config/conexion3.php';
-        require_once '../models/ProductoTerminadoMP.php';
+        require_once '../models/ProductoTerminadoFinal.php';
 
-        $productosTerminadosMP = new ProductoTerminadoMP();
+        $productosTerminadosFinal = new ProductoTerminadoFinal();
 
         $body = json_decode(file_get_contents("php://input"), true);
 
         switch($_GET["opc"]){
 
-            case "GetProductosTerminadosMP":
-                $datos=$productosTerminadosMP->get_productosTerminadosMP();
+            case "GetProductosTerminadosFinal":
+                $datos=$productosTerminadosFinal->get_productosTerminadosFinal();
                 echo json_encode($datos);
             break;
-            case "DeleteProductoTerminadoMP":
-                $datos=$productosTerminadosMP->delete_productoTerminadoMP($body["Id_Producto_Terminado_Mp"]);
+        
+            case "DeleteProductoTerminadoFinal":
+                $datos=$productosTerminadosFinal->delete_productoTerminadoFinal($body["Id_Producto_Terminado_Final"]);
                 echo json_encode("Producto Eliminado");
             break;
         }
-
-?>   
+?>  
