@@ -12,7 +12,7 @@
         header('Content-Type: application/json');
 
         require_once '../config/conexion3.php';
-        require_once '../models/ProcesoProduccion.php';
+        require_once '../models/NuevoProcesoProduccion.php';
 
         $proceso = new ProcesoProduccion();
 
@@ -26,16 +26,20 @@
             break;
 
             case "InsertProductoTerminadoMP":
-                $datos=$proceso->insert_productoTerminadoMP($body["Id_Producto"],$body["Id_Proceso_Produccion"],$body["Cantidad"]);
+                $datos = $proceso->insert_productoTerminadoMP($body["Id_Producto"], $body["Cantidad"]);
                 echo json_encode("Se agregó el producto terminado");
             break;
             case "InsertProductoTerminadoFinal":
-                $datos=$proceso->insert_productoTerminadoFinal($body["Id_Producto"],$body["Id_Proceso_Produccion"],$body["Cantidad"]);
+                $datos=$proceso->insert_productoTerminadoFinal($body["Id_Producto"],$body["Cantidad"]);
                 echo json_encode("Se agregó el producto terminado");
             break;
             //Datos de otra tabla
-            case "GetProductos":
-                $datos=$proceso->get_productos();
+            case "GetProductosMP":
+                $datos=$proceso->get_productosMP();
+                echo json_encode($datos);
+            break;
+            case "GetProductosTerminados":
+                $datos=$proceso->get_productosTerminados();
                 echo json_encode($datos);
             break;
             case "GetEstadoProceso":

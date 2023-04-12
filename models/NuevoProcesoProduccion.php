@@ -1,0 +1,118 @@
+<?php
+session_start();
+    class ProcesoProduccion extends Conectar{
+
+        public function insert_productoTerminadoMP($Id_Producto, $Cantidad){
+            $conectar = parent::conexion();
+            parent::set_names();
+        
+            // Obtener el último registro de la tabla "tbl_proceso_produccion"
+            $sql_ultimo_proceso = "SELECT Id_Proceso_Produccion FROM tbl_proceso_produccion ORDER BY Id_Proceso_Produccion DESC LIMIT 1";
+            $stmt_ultimo_proceso = $conectar->prepare($sql_ultimo_proceso);
+            $stmt_ultimo_proceso->execute();
+            $ultimo_proceso = $stmt_ultimo_proceso->fetch(PDO::FETCH_ASSOC);
+            $id_ultimo_proceso = $ultimo_proceso['Id_Proceso_Produccion'];
+        
+            // Insertar el registro en tbl_producto_terminado_mp
+            $sql_producto_terminado = "INSERT INTO tbl_producto_terminado_mp(Id_Producto, Id_Proceso_Produccion, Cantidad)
+                    VALUES (?,?,?);";
+            $stmt_producto_terminado = $conectar->prepare($sql_producto_terminado);
+            $stmt_producto_terminado->bindValue(1, $Id_Producto);
+            $stmt_producto_terminado->bindValue(2, $id_ultimo_proceso);
+            $stmt_producto_terminado->bindValue(3, $Cantidad);
+            $stmt_producto_terminado->execute();
+        
+            // Insertar el registro en tbl_kardex
+            $idPersona=$_SESSION['Id_Usuario'];
+            $id_tipo_movimiento = 2;
+
+            $sql_kardex = "INSERT INTO tbl_kardex(Id_Usuario, Id_Tipo_Movimiento, Id_Producto, Cantidad, Fecha_hora)
+                        VALUES (?,?,?,?,CURRENT_TIMESTAMP());";
+            $stmt_kardex = $conectar->prepare($sql_kardex);
+            $stmt_kardex->bindValue(1, $idPersona);
+            $stmt_kardex->bindValue(2, $id_tipo_movimiento);
+            $stmt_kardex->bindValue(3, $Id_Producto);
+            $stmt_kardex->bindValue(4, $Cantidad);
+            $stmt_kardex->execute();
+
+            return $resultado = $stmt_kardex->fetchAll(PDO::FETCH_ASSOC);
+
+        }
+
+        public function insert_productoTerminadoFinal($Id_Producto, $Cantidad){
+            $conectar = parent::conexion();
+            parent::set_names();
+        
+            // Obtener el último registro de la tabla "tbl_proceso_produccion"
+            $sql_ultimo_proceso = "SELECT Id_Proceso_Produccion FROM tbl_proceso_produccion ORDER BY Id_Proceso_Produccion DESC LIMIT 1";
+            $stmt_ultimo_proceso = $conectar->prepare($sql_ultimo_proceso);
+            $stmt_ultimo_proceso->execute();
+            $ultimo_proceso = $stmt_ultimo_proceso->fetch(PDO::FETCH_ASSOC);
+            $id_ultimo_proceso = $ultimo_proceso['Id_Proceso_Produccion'];
+        
+            // Insertar el registro en tbl_producto_terminado_mp
+            $sql_producto_terminado = "INSERT INTO tbl_producto_terminado_final(Id_Producto, Id_Proceso_Produccion, Cantidad)
+                    VALUES (?,?,?);";
+            $stmt_producto_terminado = $conectar->prepare($sql_producto_terminado);
+            $stmt_producto_terminado->bindValue(1, $Id_Producto);
+            $stmt_producto_terminado->bindValue(2, $id_ultimo_proceso);
+            $stmt_producto_terminado->bindValue(3, $Cantidad);
+            $stmt_producto_terminado->execute();
+        
+            // Insertar el registro en tbl_kardex
+            $idPersona=$_SESSION['Id_Usuario'];
+            $id_tipo_movimiento = 1;
+
+            $sql_kardex = "INSERT INTO tbl_kardex(Id_Usuario, Id_Tipo_Movimiento, Id_Producto, Cantidad, Fecha_hora)
+                        VALUES (?,?,?,?,CURRENT_TIMESTAMP());";
+            $stmt_kardex = $conectar->prepare($sql_kardex);
+            $stmt_kardex->bindValue(1, $idPersona);
+            $stmt_kardex->bindValue(2, $id_tipo_movimiento);
+            $stmt_kardex->bindValue(3, $Id_Producto);
+            $stmt_kardex->bindValue(4, $Cantidad);
+            $stmt_kardex->execute();
+
+            return $resultado = $stmt_kardex->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        public function insert_procesoProduccion($Id_Estado_Proceso, $Fecha){
+            $conectar= parent::conexion();
+            parent::set_names();
+            $sql="INSERT INTO tbl_proceso_produccion(Id_Estado_Proceso, Fecha)
+            VALUES (?,?);";
+            $sql=$conectar->prepare($sql);
+            $sql->bindValue(1, $Id_Estado_Proceso);
+            $sql->bindValue(2, $Fecha);
+            $sql->execute();
+            return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
+        }
+
+        //Si se necesita traer datos de otra tabla para seleccionarlos como entrada
+        public function get_productosMP(){    
+            $conexion= parent::Conexion();
+            parent::set_names();
+            $sql = "SELECT * FROM tbl_productos WHERE Id_Tipo_Producto = 2"; //El "2" es porque el tipo de producto 2, es de materia prima.          
+            $sql= $conexion->prepare($sql);
+            $sql->execute();
+            return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
+        }
+
+        public function get_productosTerminados(){    
+            $conexion= parent::Conexion();
+            parent::set_names();
+            $sql = "SELECT * FROM tbl_productos WHERE Id_Tipo_Producto = 1"; //El "1" es porque el tipo de producto 1, es Terminado.          
+            $sql= $conexion->prepare($sql);
+            $sql->execute();
+            return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
+        }
+
+        public function get_estadoProceso(){    
+            $conexion= parent::Conexion();
+            parent::set_names();
+            $sql="SELECT * FROM tbl_estado_proceso";          
+            $sql= $conexion->prepare($sql);
+            $sql->execute();
+            return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
+        }
+    }
+?>
