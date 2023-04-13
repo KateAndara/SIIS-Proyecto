@@ -42,7 +42,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                 <a class="nav-link" id="nav4" data-toggle="tab" href="#pestaña4" style="color:black">Descuentos</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="nav5"  href="#pestaña5" style="color:black">Total de la venta</a>
+                <a class="nav-link" id="nav5" data-toggle="tab" href="#pestaña5" style="color:black">Total de la venta</a>
             </li>
         </ul>
 
@@ -59,8 +59,12 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                             </div>
                             <div class="col-6">
                                 <form class="InsertCliente">
-                                    <label for="">NOMBRE DEL CLIENTE</label> 
-                                    <input type="text" id="Nombre" name="Nombre" class="form-control" placeholder="Roberto...">
+            
+                                    <label for="">SELECCIONE UN CLIENTE</label> 
+                                <select id="Select_Cliente" name="Select_Cliente" class="form-control">
+                                    <option value="">Seleccione un producto</option>
+                                    
+                                </select>
                                     <label for="Fecha">FECHA DE NACIMIENTO</label>
                                     <input type="date" id="FechaNacimiento" name="FechaNacimiento" class="form-control" pattern="\d{4}/\d{2}/\d{2}">
                                     <label for="">DNI DEL CLIENTE</label>
@@ -275,20 +279,50 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                         </div>
                         <div class="col-12">
                             <form class="InsertVenta">
-                                <label for="">ESTADO DE VENTA</label> 
-                                <select id="Select_Estado" name="Select_Estado" class="form-control">
-                                    <option value="">Seleccione un estado de venta</option>
-                                </select>
-                                <label for=""><P>SUBTOTAL</P></label>
-                                <input type="number" id="Subtotal" class="form-control" onkeyup="calcularTotal()" placeholder="Subtotal...">
-                                <label for=""><P>IMPUESTO</P></label>
-                                <input type="number" id="Impuesto" class="form-control" onkeyup="calcularTotal()" placeholder="Impuesto...">
-                                <label for="">TOTAL</label>
-                                <input type="number" id="Total" class="form-control" placeholder="Total...">
+                              <div class="row">
+                                <div class="col-6">
+                                    <label for="">ESTADO DE VENTA</label> 
+                                    <select id="Select_Estado" name="Select_Estado" class="form-control">
+                                        <option value="">Seleccione un estado de venta</option>
+                                    </select>
+                                </div>
+                                <div class="col-6">
+                                  <label for="">SUBTOTAL</label>
+                                  <input type="number" id="Subtotal" class="form-control" onkeyup="calcularTotal()" placeholder="Subtotal...">
+                                </div>
+                             </div> 
+                                <br>
+                             <div class="row">
+                                <div class="col-6">
+                                   <label for="">IMPUESTO</label>
+                                   <input type="number" id="Impuesto" class="form-control" onkeyup="calcularTotal()" placeholder="Impuesto...">
+                                </div>
+                                <div class="col-6">
+                                   <label for="">RTN</label>
+                                   <input type="text" id="RTN" class="form-control" placeholder="RTN...">
+                                </div>
+                             </div>   
+                                <br>
+                             <div class="row">   
+                                <div class="col-6">
+                                   <label for="">TOTAL</label>
+                                   <input type="number" id="Total" class="form-control" placeholder="Total...">
+                                </div>   
+                             </div>   
+                                <hr>
+                                <label for="">NUMERO DE FACTURA</label>
+                                <div class="row">
+                                  <div class="col-4">
+                                    <input type="button" id="GenerarFactura" value="Generar Factura" class="btn btn-secondary">      
+                                  </div>
+                                  <div class="col-4">
+                                    <input type="number" id="Numero_factura" class="form-control" placeholder="Factura...">
+                                  </div>
+                                </div>
                                 <hr>
                                 <div id="btnagregarVenta">
                                     <input type="button" id="btnAtras" onclick="atras4()" value="Atras" class="btn btn-warning mr-2">
-                                    <input type="submit" id="btnagregarVenta" onclick="AgregarVenta()" value="Agregar" class="btn btn-success">
+                                    <input type="submit" id="btnagregarVenta" onclick="AgregarVenta()" value="Finalizar Venta" class="btn btn-info">
                                 </div>
                             </form>
                         </div>

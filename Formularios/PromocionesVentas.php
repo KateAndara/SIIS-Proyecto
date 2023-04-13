@@ -96,8 +96,9 @@ include '../components/header.components.php';
                         Agregar Promoción
                     </h3>
                 </div>
-                <div class="col-12">
+                <div class="col-6">
                     <form class="InsertPromocion">
+                       
                         <label for="Id_Promocion" hidden>ID PROMOCION</label>
                         <input type="number" id="Id_Promocion" class="form-control" placeholder="Ingrese el código de la promoción"hidden>
                         <label for="">NOMBRE DE LA PROMOCION</label>
@@ -106,6 +107,8 @@ include '../components/header.components.php';
                                 <select id="Select_Producto" name="Select_Producto" class="form-control">
                                     <option value="">Seleccione una promocion</option>
                                 </select>
+                        <label for="">CANTIDAD A PROMOCIONAR</label>
+                        <input type="number" id="Cantidad" name="Cantidad" class="form-control" placeholder="1,3,10, etc. ">       
                         <label for="">PRECIO DE VENTA</label>
                         <input type="number" id="Precio_Venta" class="form-control" placeholder="100.00,200.00,300.00, etc. ">
                         <label for="">FECHA DE INICIO DE LA OFERTA</label>

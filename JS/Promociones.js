@@ -111,9 +111,11 @@ function AgregarPromocion(){
     var datosPromocion = {
     Nombre_Promocion: $('#Nombre_Promocion').val(),
     Select_Producto: $('#Select_Producto').val(),
+    Cantidad: $('#Cantidad').val(),
     Precio_Venta: $('#Precio_Venta').val(),
     Fecha_inicio: $('#Fecha_inicio').val(),
-    Fecha_final: $('#Fecha_final').val()
+    Fecha_final: $('#Fecha_final').val(),
+    
     };
     var datosPromocionJson= JSON.stringify(datosPromocion );
 

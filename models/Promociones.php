@@ -56,16 +56,17 @@
             return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
         }
         
-        public function insert_promocion($Nombre_Promocion,$IdProducto, $Precio_Venta, $Fecha_inicio, $Fecha_final){
+        public function insert_promocion($Nombre_Promocion,$IdProducto, $Precio_Venta, $Fecha_inicio, $Fecha_final,$Cantidad){
             $conectar= parent::conexion();
             parent::set_names();
-            $sql="CALL INS_PROMOCION(?,?,?,?,?);";
+            $sql="CALL INS_PROMOCION(?,?,?,?,?,?);";
             $sql=$conectar->prepare($sql);
             $sql->bindValue(1, $Nombre_Promocion);
             $sql->bindValue(2, $Precio_Venta);
             $sql->bindValue(3, $Fecha_inicio);
             $sql->bindValue(4, $Fecha_final);
             $sql->bindValue(5, $IdProducto);
+            $sql->bindValue(6, $Cantidad);
             $sql->execute();
             $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
             $resultado = $conectar->lastInsertId();

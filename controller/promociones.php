@@ -51,7 +51,9 @@
                     $body["Select_Producto"],
                     $body["Precio_Venta"],
                     $body["Fecha_inicio"],
-                    $body["Fecha_final"]);
+                    $body["Fecha_final"],
+                    $body["Cantidad"]);
+                    
                
                 echo json_encode("Se agregó la promoción");
             break;
