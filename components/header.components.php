@@ -136,7 +136,7 @@
                                             <a href="CargosMM.php" class="dropdown-item">Cargos</a>
                                             <a href="EstadoVentaMM.php" class="dropdown-item">Estado de Venta</a>
                                             <a href="TipoProductoMM.php" class="dropdown-item">Tipo de Producto</a>
-                                            <a href="" class="dropdown-item">Talonario</a>
+                                            <a href="Talonario.php" class="dropdown-item">Talonario</a>
                                             <a href="ContactoProveedorMM.php" class="dropdown-item">Contactos de Proveedores</a>
                                             <a href="ContactoClienteMM.php" class="dropdown-item">Contactos de Clientes</a>
                                             <a href="TipoContactoMM.php" class="dropdown-item">Tipo de Contacto</a>

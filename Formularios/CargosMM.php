@@ -26,7 +26,7 @@ include '../components/header.components.php';
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.26/jspdf.plugin.autotable.min.js"></script>
 
     <script src="../Reportes/Reporte.js"></script>
-
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="col-md-12 cards-white" style="margin: 0 auto; width: 80%; max-width: none; margin-left: -20px;">
@@ -95,12 +95,12 @@ include '../components/header.components.php';
                     </h3>
                 </div>
                 <div class="col-12">
-                    <form class="InsertCargos">
+                    <form class="InsertCargos" onsubmit="validarFormulario()">
                         <label for="Id_Cargo" hidden>ID CARGOS</label>
                         <input type="number" id="Id_Cargo" class="form-control" placeholder="Ingrese el código del  cargo"hidden>
                         
                         <label for="">NOMBRE DEL CARGO</label>
-                        <input type="text" id="Nombre_cargo"  autofocus require class="form-control" placeholder="Ingrese El Nombre Del Cargo">
+                        <input type="text" id="Nombre_cargo"  autofocus require class="form-control" placeholder="Ingrese El Nombre Del Cargo" oninput="validarEntrada(this)">
                         <hr>
 
                         <div id="btnagregarCargo">
@@ -121,6 +121,24 @@ include '../components/header.components.php';
 
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+
+<script>
+  function validarEntrada(input) { 
+
+  const patron = /^[A-Z-a-z]+$/;
+  const valor = input.value;
+  if (!patron.test(valor)) {
+    swal.fire('Error','Solo se permite ingresar letras', 'error');
+    input.value = input.value.slice(0, -1);
+  } else {
+  
+  }
+
+}
+
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
 </body>
 </html>
  
