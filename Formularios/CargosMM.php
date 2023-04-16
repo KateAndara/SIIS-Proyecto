@@ -104,7 +104,7 @@ include '../components/header.components.php';
                         <hr>
 
                         <div id="btnagregarCargo">
-                            <input type="submit" id="btnagregar" onclick="AgregarCargoMM()" value="Agregar Cargo" class="btn btn-success">
+                            <a  id="btnagregar" onclick="AgregarCargoMM()" value="Agregar Cargo" class="btn btn-success">Agregar Cargo</a>
                             <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button>
                         </div>
                     </form>

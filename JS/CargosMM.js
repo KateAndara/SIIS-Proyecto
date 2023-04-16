@@ -74,7 +74,7 @@ function AgregarCargoMM(){
           icon: "success",
           confirmButtonText: "Aceptar",
           closeOnConfirm: false,
-          timer: 4000,
+          timer: 3000,
           willClose: () => {
             window.location.reload();
           },
@@ -127,8 +127,8 @@ function CargarCargoMM(idCargo){ //Función que trae los campos que se eligieron
             $('#Nombre_cargo').val(MisItems[0].Nombre_cargo);
 
             //Usar el mismo botón de agregar con la funcionalidad de actualizar.
-            var btnactualizar = '<input type="submit" id="btn_actualizar" onclick="ActualizarCargoMM(' +MisItems[0].Id_Cargo+')"'+
-            'value="Actualizar Cargo" class="btn btn-primary"> <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button></input>';
+            var btnactualizar = '<a  id="btn_actualizar" onclick="ActualizarCargoMM(' +MisItems[0].Id_Cargo+')"'+
+            'value="Actualizar Cargo" class="btn btn-primary">Actualizar Cargo </a> <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button></input>';
             $('#btnagregarCargo').html(btnactualizar);
             $('#btncancelar').click(function(){ //Cancela la acción
                 location.href = "http://localhost/SIIS-PROYECTO/Formularios/CargosMM.php";
@@ -212,7 +212,7 @@ function EliminarCargoMM(idCargo) {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Si, Eliminar!",
-    }).then((result) => {
+    }).then((result) => { 
       if (result.isConfirmed) {
         var datosCargo = {
             Id_Cargo: idCargo,

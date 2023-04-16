@@ -9,6 +9,34 @@
             $sql->execute();
             return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);                
         }
+
+        public function selectCargo($nombreCargo){  //Buscar por cualquier campo
+            $conectar = parent::Conexion();
+            parent::set_names();
+        
+            $sql = "SELECT * FROM tbl_cargos 
+                    WHERE Nombre_cargo =?"; 
+            $sql = $conectar->prepare($sql);
+            $sql->bindValue(1, $nombreCargo);
+            $sql->execute();
+        
+            return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        public function selectCargo2($nombreCargo,$idCargo){  //Buscar por cualquier campo
+            $conectar = parent::Conexion();
+            parent::set_names();
+        
+            $sql = "SELECT * FROM tbl_cargos 
+                    WHERE Nombre_cargo =? && Id_Cargo!=?"; 
+            $sql = $conectar->prepare($sql);
+            $sql->bindValue(1, $nombreCargo);
+            $sql->bindValue(2, $idCargo);
+
+            $sql->execute();
+        
+            return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+        }
         
         public function get_CargoMM($busqueda){      //Si se nececita mostrar nombre en vez de ID. 
             $conectar = parent::Conexion();
@@ -42,7 +70,7 @@
             return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
         }
 
-        public function update_CargoMM($Id_Cargo,$Nombre_cargo){
+        public function update_CargoMM($Nombre_cargo,$Id_Cargo){
             $conectar= parent::conexion();
             parent::set_names();
             $sql="UPDATE tbl_cargos SET Nombre_cargo=? WHERE Id_Cargo=?;";

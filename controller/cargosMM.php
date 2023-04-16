@@ -1,4 +1,6 @@
 <?php
+    session_start();
+
     if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
         header('Access-Control-Allow-Origin: *');
         header('Access-Control-Allow-Methods: POST, GET, DELETE, PUT, PATCH, OPTIONS');
@@ -34,12 +36,58 @@
                 echo json_encode($datos);
             break;
             case "InsertCargoMM":
-                $datos=$cargosMM->insert_CargoMM($body["Nombre_cargo"]);
-                echo json_encode("Se agregó el  Cargo");
+
+                //validar Nombre Cargo
+
+                $selectCargo=$cargosMM->selectCargo($body['Nombre_cargo']);
+
+
+                if (count($selectCargo)>0) {
+                    $arrResponse = array("status" => false, "msg" => 'El cargo ya existe');
+                }else{
+                    $datos=$cargosMM->insert_CargoMM($body["Nombre_cargo"]);
+                    $arrResponse = array("status" => true, "msg" => 'Se agregó el  Cargo');
+
+                }
+
+
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+                
             break;
             case "UpdateCargoMM":
-                $datos=$cargosMM->update_CargoMM($body["Id_Cargo"],$body["Nombre_cargo"]);
-                echo json_encode("Cargo Actualizado");
+                //$datos=$cargosMM->update_CargoMM($body["Id_Cargo"],$body["Nombre_cargo"]);
+                //echo json_encode("Cargo Actualizado");
+
+                $nombrecargo=$body['Nombre_cargo'];
+                $idCargo=$body['Id_Cargo'];
+
+
+               
+                
+                $selectCargo=$cargosMM->selectCargo2($nombrecargo,$idCargo);
+
+               
+                if (count($selectCargo)>=1) {
+
+                    $arrResponse = array("status" => false, "msg" => 'El cargo ya existe');
+
+                 
+                    
+    
+                }else{
+                    $datos=$cargosMM->update_CargoMM($nombrecargo,$idCargo);
+                    //$datos=$cargosMM->update_CargoMM($body["Id_Cargo"],$body["Nombre_cargo"]);
+
+
+                    
+                    $arrResponse = array("status" => true, "msg" => 'Cargo Actualizado Correctamente');
+
+                }
+
+
+
+               
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
             break;
             case "DeleteCargoMM":
                 $datos=$cargosMM->delete_CargoMM($body["Id_Cargo"]);
