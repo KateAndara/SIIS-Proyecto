@@ -65,16 +65,44 @@ function AgregarCargoMM(){
         data: datosCargoMMJson,
         datatype: 'JSON',
         contentType: 'application/json',
-        success: function(reponse){
-            console.log(reponse);
-            alert('Cargo Agregado');
+        success: function(reponse){  
+        console.log(reponse.status);
+      if (reponse.status) {
+        swal.fire({
+          title: "LISTO!",
+          text: reponse.msg,
+          icon: "success",
+          confirmButtonText: "Aceptar",
+          closeOnConfirm: false,
+          timer: 4000,
+          willClose: () => {
+            window.location.reload();
+          },
+        });
+      } else {
+        swal.fire({
+          title: "Error!",
+          text: reponse.msg,
+          icon: "error",
+          confirmButtonText: "Aceptar",
+          closeOnConfirm: false,
+        
+        });
+      }
         },
 
         error: function(textStatus, errorThrown){
-            alert('Error al agregar el cargo' + textStatus + errorThrown);
-        }
+            swal.fire({
+                title: "Error!",
+                text: "Error al guardar el Cargo",
+                icon: "error",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                timer: 4000,
+               
+              });
+        },
     });
-    alert('Aviso');
 }
 
 function CargarCargoMM(idCargo){ //Función que trae los campos que se eligieron editar.
@@ -114,6 +142,14 @@ function CargarCargoMM(idCargo){ //Función que trae los campos que se eligieron
 }
 
 function ActualizarCargoMM(idCargo){
+    nombreCargo=document.querySelector("#Nombre_cargo").value;
+    console.log(nombreCargo);
+
+    if ( nombreCargo == "" ) {
+         swal.fire("Atención", "Todos los campos son obligatorios.", "error");
+         return false;
+      }
+
     var datosCargoMM={
     Id_Cargo: idCargo,
     Nombre_cargo: $('#Nombre_cargo').val()
@@ -127,18 +163,44 @@ function ActualizarCargoMM(idCargo){
         datatype: 'JSON',
         contentType: 'application/json',
         success: function(reponse){
-            console.log(reponse);
-            alert('Cargo Actualizado');
+            if (reponse.status) {
+         swal.fire({
+           title: "LISTO!",
+           text: reponse.msg,
+           icon: "success",
+           confirmButtonText: "Aceptar",
+           closeOnConfirm: false,
+           timer: 3000,
+           willClose: () => {
+             window.location.reload();
+           },
+         });
+       } else {
+         swal.fire({
+           title: "Error!",
+           text: reponse.msg,
+           icon: "error",
+           confirmButtonText: "Aceptar",
+           closeOnConfirm: false,
+         });
+       }
         },
 
         error: function(textStatus, errorThrown){
-            alert('Error al actualizar el cargo' + textStatus + errorThrown);
-        }
+            swal.fire({
+                title: "Error!",
+                text: reponse,
+                icon: "success",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                timer: 3000,
+                willClose: () => {
+                  window.location.reload();
+                },
+              });       
+             },
     });
-    alert('Aviso');
 }
-
-    
 
 
 function EliminarCargoMM(idCargo) {

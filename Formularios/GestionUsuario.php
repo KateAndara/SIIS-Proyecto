@@ -1,251 +1,281 @@
-<?phpinclude '../components/header.components.php';?>
-<?php ob_start(); ?>
+<?php 
+include '../components/header.components.php';
+date_default_timezone_set('America/Tegucigalpa');
+
+?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../style3.css">
-  <script src="../JS/script.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roles</title>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+     <!-- Agregar jQuery -->
+     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <title>Guardar Usuario</title>
-  <!-- CSS only -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-  
+    <!-- Agregar DataTables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.css"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.js"></script>
+    <script src="../JS/Usuario.js"></script>
+    <link href="../CSS/datatable.css" rel="stylesheet">
+    <!-- Última versión de jspdf -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
+    <!-- Última versión de AutoTable -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.26/jspdf.plugin.autotable.min.js"></script>
+
+    <script src="../Reportes/Reporte.js"></script>
+    <link href="
+https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
+" rel="stylesheet">
 </head>
-
-
 <body>
 
-<?php session_start();
-    require_once("../config/conexion.php");
-    //Sentencia que trae los datos de la tabla roles 
-    $resultado = mysqli_query($conexion,"SELECT Id_Rol, Rol FROM tbl_ms_roles");
-     //Sentecia que trae los la fecha limite deesde la tabla parametros
-    $sql = "SELECT Valor FROM tbl_ms_parametros where Parametro='FEC_VENCIMIENTO'"; 
-    $resultado2 = $conexion->query($sql);
-
-    //Se le agrega la fecha del parametro 
-    $parametroIntentos = mysqli_fetch_assoc($resultado2)['Valor'];
-    $fecha_actual = date("Y-m-d");
-    $parametro = date("Y-m-d",strtotime($fecha_actual."+ ".intval($parametroIntentos)." days"));
-  ?>  
-
-  <div class="bg-black p-5 rounded-5 text-secondary shadow" style="width: 40rem">
-      <div class="container">
-          <div class="d-flex justify-content-center">
-            <img src="https://cdn-icons-png.flaticon.com/512/5087/5087579.png" alt="login-icon" style="height: 7rem" />
-          </div>
-  <form class="form-horizontal" action="gestionUsuario.php" method="post">
-
-      <div class="row justify-content-center">
-          <!--<div class="form-group col-md-6">
-              <label class="text-light">Usuario</label>
-              <div class="input-group-text bg-light ">
-                  <img src="https://icon-library.com/images/free-user-icon/free-user-icon-26.jpg" alt="username-icon" style="height: 2.5rem" />
-                  <input style=" text-transform: uppercase; " class="form-control bg-light" type="text" placeholder="Usuario" name="Usuario" id="inputUser3" maxlength="45" autofocus required/>
-              </div>
-          </div>-->
-
-          <div class="form-group col-md-6">
-              <label class="text-light">Usuario</label>
-              <div class="input-group-text bg-light ">
-                  <img src="https://icon-library.com/images/free-user-icon/free-user-icon-26.jpg" alt="username-icon" style="height: 2.5rem" />
-                  <input class="form-control bg-light"  type="text" placeholder="Usuario..." name="Usuario"  style=" text-transform: uppercase;
-                  id="inputUser3 maxlength="45" onkeydown="this.value=Mayus(this.value)" value="<?php if(isset($_POST["Usuario"])) echo $_POST["Usuario"]; ?>"
-                  autofocus required/>
-              </div>
-
-          </div>
-
-          <div class="form-group col-md-6">
-                <label class="text-light">Nombre</label>
-                <div class="input-group-text bg-light ">
-                    <img src="https://icon-library.com/images/name-icon/name-icon-4.jpg" alt="username-icon" style="height: 2.5rem" />
-                    <input class="form-control bg-light" type="text" placeholder="Nombre..." name="Nombre"
-                     id="inputname" maxlength="60" onkeyup="this.value=Letras(this.value)" 
-                     value="<?php if(isset($_POST["Nombre"])) echo $_POST["Nombre"]; ?>"
-                     pattern="[a-zA-Z ]+" title="El nombre solo debe contener letras y espacio"  required/>
-                </div>
-              <script>
-              function Letras(string){//Solo texto
-              var out = '';
-              var filtro = 'abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZáéíóú ';//Caracteres validos
-	
-              //Recorrer el texto y verificar si el caracter se encuentra en la lista de validos 
-              for (var i=0; i<string.length; i++)
-              if (filtro.indexOf(string.charAt(i)) != -1) 
-             //Se añaden a la salida los caracteres validos
-	            out += string.charAt(i);
-	
-              //Retornar valor filtrado
-               return out;
-               } 
-               
-               // Funcion para permitir solo un espacio entre caracteres
-               document.getElementById("inputname").addEventListener("keydown", teclear);
-
-               var flag = false;
-               var teclaAnterior = "";
-
-               function teclear(event) {
-                   teclaAnterior = teclaAnterior + " " + event.keyCode;
-                   var arregloTA = teclaAnterior.split(" ");
-                   if (event.keyCode == 32 && arregloTA[arregloTA.length - 2] == 32) {
-                        event.preventDefault();
-                   }
-               }
-              </script>
-             </div>
-
+        <!-- Modal -->
+    <!-- Modal -->
+        <div class="modal fade" id="modalUsuario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel" style="color:black">Usuario</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                    <td>USUARIO:</td>
+                    <td id="celUsuario"></td>
+                    </tr>
+                    <tr>
+                    <td>Nombre:</td>
+                    <td id="celNombre"></td>
+                    </tr>
+                    <tr>
+                    <td>Correo:</td>
+                    <td id="celCorreo"></td>
+                    </tr>
+                    <tr>
+                    <td>Estado:</td>
+                    <td id="celEstado">Larry</td>
+                    </tr>
+                    <tr>
+                    <td>DNI:</td>
+                    <td id="celDNI">Larry</td>
+                    </tr>
+                    <tr>
+                    <td>ROL:</td>
+                    <td id="celRol">Larry</td>
+                    </tr> 
+                    <tr>
+                    <td>Cargo:</td>
+                    <td id="celCargo">Larry</td>
+                    </tr> 
+                    <tr>
+                    <td>Fecha Creación:</td>
+                    <td id="celFCreacion">Larry</td>
+                    </tr> 
+                    <tr>
+                    <td>Creado Por:</td>
+                    <td id="celCreado">Larry</td>
+                    </tr>
+                    <tr>
+                    <td>Fecha Modificación:</td>
+                    <td id="celFModificación">Larry</td>
+                    </tr>
+                    <tr>
+                    <td>Modificado Por::</td>
+                    <td id="celModificado">Larry</td>
+                    </tr>
+                    <tr>
+                    <td>Fecha Vencimiento:</td>
+                    <td id="celFVencimiento">Larry</td>
+                    </tr>
+                    <tr>
+                    <td>Ultima Conexión:</td>
+                    <td id="celConexion">Larry</td>
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                
+            </div>
+            </div>
         </div>
-        
-        <div class="row justify-content-center">
-             <div class="form-group col-md-6">
-                 <label class="text-light">DNI</label>
-                 <div class="input-group-text bg-light">
-                     <img src="https://icon-library.com/images/card-icon/card-icon-14.jpg" alt="username-icon" style="height: 2.5rem" />
-                     <input class="form-control bg-light" type="text" placeholder="0000-0000-00000" 
-                     name="Dni" value="<?php if(isset($_POST["Dni"])) echo $_POST["Dni"]; ?>"
-                    id="inputdni" maxlength="16" onkeydown="this.value=Numeros(this.value)"
-                    pattern="[0-9-]+" title="Solo se permiten números y guión" required/>
-                 </div>
-              <script>
-              function Numeros(string){//Solo numeros
-              var out = '';
-              var filtro = '0123456789-';//Caracteres validos
-	
-              //Recorrer el texto y verificar si el caracter se encuentra en la lista de validos 
-              for (var i=0; i<string.length; i++)
-              if (filtro.indexOf(string.charAt(i)) != -1) 
-             //Se añaden a la salida los caracteres validos
-	            out += string.charAt(i);
-	
-              //Retornar valor filtrado
-               return out;
-              }   
-              </script>   
-             </div>
+        </div>
 
-             <div class="form-group col-md-6">
-                  <label class="text-light">Correo Electrónico</label>
-                  <div class="input-group-text bg-light ">
-                       <img src="https://icon-library.com/images/free-e-mail-icon/free-e-mail-icon-12.jpg" alt="username-icon" style="height: 2.5rem" />
-                       <input class="form-control bg-light"  type="email" placeholder="john@example.com"
-                        name="Email" id="floatingInputEmail" maxlength="45" value="<?php if(isset($_POST["Email"])) echo $_POST["Email"]; ?>"
-                        pattern="[a-zA-Z0-9!#$%&'*_+-]([\.]?[a-zA-Z0-9!#$%&'*_+-])+@[a-zA-Z0-9]([^@&%$\/()=?¿!.,:;]|\d)+[a-zA-Z0-9][\.][a-zA-Z]{2,4}([\.][a-zA-Z]{2})?"
-                         title="El email debe contener un @ y un dominio (.com,.es,etc)" required/>
-                  </div>       
-             </div>
-              
-            </div>     
-    
-          <div class="row justify-content-center">
-              <div class="form-group col-md-6">
-                  <label class="text-light">Contraseña</label>
-                  <div class="input-group-text bg-light ">
-                      <button id="show_password" class="btn btn-dark"  type="button" style="width:40px" onclick="mostrarPassword()"> <span class="fa fa-eye-slash icon" ></span> </button>
-                      <input class="form-control bg-light" type="password" placeholder="xxxx..." name="Clave"  id="txtPassword" maxlength="15" minlength="5"  autofocus required/>
-                  </div>
-            </div>
-              <script type="text/javascript">
-              function mostrarPassword(){
-                    var cambio = document.getElementById("txtPassword");
-                      if(cambio.type == "password"){
-                          cambio.type = "text";
-                          $('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-                      }else{
-                          cambio.type = "password";
-                          $('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-                      }
-                    } 
-              </script>
-            
-              <div class="form-group col-md-6">
-                   <label class="text-light">Confirmar Contraseña</label>
-                   <div class="input-group-text bg-light">
-                       <button id="show_password2" class="btn btn-dark"  type="button" style="width:40px" onclick="mostrarPassword2()"> <span class="fa fa-eye-slash icon" ></span> </button>
-                       <input class="form-control bg-light" type="password" placeholder="xxxx..."
-                       name="Confirmacion" value="<?php if(isset($_POST["Confirmacion"])) echo $_POST["Confirmacion"]; ?>"
-                       id="txtPassword2" maxlength="15" minlength="5"  required/>
+
+
+    <div class="col-md-12 cards-white" style="margin: 0 auto; width: 110%; max-width: none; margin-left: auto; margin-right: auto">
+        <div class="consulta mt-4" id="consulta">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h3>
+                        Lista de Usuarios
+                    </h3>
                 </div>
-          </div>
-              <script type="text/javascript">
-                  function mostrarPassword2(){
-                      var cambio = document.getElementById("txtPassword2");
-                      if(cambio.type == "password"){
-                          cambio.type = "text";
-                          $('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
-                      }else{
-                          cambio.type = "password";
-                          $('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
-                      }
-                    } 
-              </script>
-              <br>
-          </div>    
+            </div>
+            <div style="margin: 0 18px;">
+            <form id="form-busqueda" autocomplete="off">
+                <button class="rounded" style="background-color:  #147c4c; color: white; float: right; margin-left: 10px;" onclick="mostrarFormulario()">Agregar</button>
+                <button class="rounded" style="background-color: #fff; color: dark; float: right;"onclick="generarReporte('TablaUsuarios','REPORTE DE USUARIOS',60)">Generar PDF</button>            </form>
+            </div>
+            <script>
+                $(document).ready(function(){          //Lee la búsqueda
+                    $('#form-busqueda').submit(function(event){ 
+                        event.preventDefault(); 
 
-          <div class="form-group col-md-6">
-                    <label class="text-light">Fecha creación</label>
-                    <div class="input-group-text bg-light">
-                        <button id="show_password2" class="btn btn-dark"  type="button" style="width:40px" onclick="mostrarPassword2()"> <span class="fa fa-calendar-o icon" ></span> </button>
-                        <input readonly value=" <?php date_default_timezone_set('America/Tegucigalpa'); echo date("Y-m-d") ?>" class="form-control bg-light"  autofocus required />
-                    </div>
+                        var busqueda = $('#input-busqueda').val();
+                        if(busqueda == "") {
+                            CargarRoles();
+                        } else {
+                            BuscarRol(busqueda);
+                        }
+                    });
+                });
+            </script>
+            <script>
+            function mostrarFormulario() {
+            var formulario = document.querySelector('.Formulario'); //Muestra el formulario de agregar y actualizar.
+            formulario.style.display = 'block';
+            var consultaDiv = document.getElementById("consulta"); //Oculta el formulario de la tabla.
+            consultaDiv.style.display = "none";
+            }
+            </script>
+            <div class="box-body">
+                <div class="table table-responsive">
+                    <table class="table table-hover" id="TablaUsuarios">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>USUARIO</th>
+                                <th>NOMBRE</th>
+                                <th>DNI</th>
+
+                                <th>ESTADO</th>
+                                <th>ROL</th>
+                                <th>CORREO</th>
+                                <th>OPCIONES</th>
+
+
+
+                            </tr>
+                        </thead>
+
+                        <tbody id="DataRoles">
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="Formulario" style="display: none;">
+            <div class="row">
+                <div class="Col-12" id="titulo">
+                    <h3>
+                        Agregar Usuario
+                    </h3>
+                </div>
+                <div class="col-12">
+                    <form class="InsertUsuario"  id="InsertUsuario"  onsubmit="validarFormulario()">
+                    <input type="number" id="Id_Usuario" class="form-control" placeholder="Ingrese el código del rol" hidden>
+                      <div class="col-12 mt-2 row">
+                          <div class="col-6">
+                             
+                            <label for="">USUARIO</label>
+                            <input type="text" id="usuario" onkeyup="javascript:this.value=this.value.toUpperCase();" name="usuario" class="form-control " placeholder="Ingrese el Usuario">
+                          </div>
+
+                          <div class="col-6">
+                            <label for="">NOMBRE</label>
+                            <input type="text" id="nombre" name="Nombre" class="form-control valid validText" placeholder="Ingrese el Nombre">
+                          </div>
+                      </div>
+
+                      <div class="col-12 mt-2 row">
+                          <div class="col-6">
+                             
+                            <label for="">DNI</label>
+                            <input type="text" id="DNI" name="DNI" class="form-control valid validNumberDni" placeholder="Ingrese el DNI">
+                          </div>
+
+                          <div class="col-6">
+                            <label for="">Correo Electronico</label>
+                            <input type="text" id="correo" name="correo" class="form-control valid validEmail" placeholder="Ingrese el Correo Electronico">
+                          </div>
+                      </div>
+
+                      <div class="col-12 mt-2 row">
+                          <div class="col-6">
+                             
+                            <label for="">Contraseña</label>
+                            <input type="password" name="contraseña " id="contraseña" class="form-control valid ValidContra" placeholder="Ingrese la contraseña ">
+                          </div>
+
+                          <div class="col-6">
+                            <label for="">Confirmar Contraseña</label>
+                            <input type="password" id="confirmContraseña" name="confirmContraseña" class="form-control valid ValidContra" placeholder="Ingrese la confirmación de la contraseña ">
+                          </div>
+                      </div>
+
+                      <div class="col-12 mt-2 row">
+                          <div class="col-6">
+                             
+                            <label for="">Rol</label>
+                            <select name="rolSelect" id="rolSelect" class="form-select"></select>
+                          </div>
+
+                          <div class="col-6">
+                             
+                             <label for="">Cargo</label>
+                             <select name="cargoSelect" id="cargoSelect" class="form-select"></select>
+                           </div>
+                      </div>
+
+                      
+                      <div class="col-12 mt-2 row">
+                          <div class="col-6">
+                            <label for="">Fecha Vencimiento</label>
+                            <input type="date" readonly  value=<?php $hoy=date("Y-m-d"); echo date("Y-m-d",strtotime($hoy."+ 30 days"));?> id="fechaVencimiento" name="fechaVencimiento" class="form-control" placeholder="Ingrese la confirmación de la contraseña">
+                          </div>
+
+                          <div class="col-6">
+                            <label for="">Estado</label>
+                            <select name="selecEstado"  id="selecEstado" class="form-select">
+                                <option value="Activo">Activo</option>
+                                <option value="Inactivo">Inactivo</option>
+
+                            </select>
+
+                          </div>
+                      </div>
+                        <hr>
+                        <div id="btnAgregarUsuario">
+                            <a type="submit" id="btnagregar" onclick="AgregarUsuario()" value="" class="btn btn-success"> Agregar Usuario</a>
+                            <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button>
+                        </div>
+                        
+                    </form>
+                    <script> //Cancela la acción
+                    document.getElementById("btncancelar").onclick = function() {
+                        location.href = "http://localhost/SIIS-PROYECTO/Formularios/GestionUsuario.php";
+                    };
+                    </script>
                     
-          </div>
-          
-
-          <!--Muestra los datos de la tabla roles en una lista desplegable-->
-          <Table>     
-            <tr>
-              <td>
-              <div style="font-size: 25px">
-                  <label class="text-light" for="estado">Rol del usuario</label>
-                  <select name="Rol" id="rol">
-                    <?php while ($fila = $resultado->fetch_assoc()):
-                      $id_rol = $fila["Id_Rol"];
-                      $rol = $fila["Rol"];
-                      echo "<option value='{$id_rol}'>{$rol}</option>";
-                      endwhile;  
-                    ?>  
-                  </select>
                 </div>
-              </td>
-            </tr>
-          </Table>
-
-          <div class="form-group col-md-6">
-                    <label class="text-light">Fecha Vencimiento</label>
-                    <div class="input-group-text bg-light">
-                        <button id="show_password2" class="btn btn-dark"  type="button" style="width:40px" onclick="mostrarPassword2()"> <span class="fa fa-calendar-o icon" ></span> </button>
-                        <input name="fecha_v" readonly value=" <?php echo $parametro ?>" class="form-control bg-light"   />
-                    </div>      
-          </div>
-
-          <div class="d-flex gap-1 justify-content-center mt-1">
-            <div id="btnIniciarSesion">
-              <input href="GestionUsuarios.php" type="submit" name="btnRegistrar" href="GestionUsuarios.php" value="Guardar" class="btn btn-info text-white w-100 mt-4 fw-semibold shadow-sm">
-              <br>
-              <br>
-              <a href="GestionUsuarios.php" type="submit"  class="btn btn-warning">Cancelar</a>
             </div>
-          </div>
-          <br>
-          <?php require_once("../config/conexion.php");
-          require_once("../controller/gestionUsuario.php"); ?>
-    </form>
+        </div>
     </div>
-</body>
 
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+<script src="
+https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js
+"></script>
+</body>
 </html>
-<?php ob_end_flush(); ?>
-<?php include '../components/footer.components.php' ?>
