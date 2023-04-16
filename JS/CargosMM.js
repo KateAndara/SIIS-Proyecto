@@ -45,6 +45,15 @@ function CargarCargosMM(){
 }
 
 function AgregarCargoMM(){
+
+    nombreCargo=document.querySelector("#Nombre_cargo").value;
+    console.log(nombreCargo);
+
+    if ( nombreCargo == "" ) {
+         swal.fire("Atención", "Todos los campos son obligatorios.", "error");
+         return false;
+      }
+
     var datosCargoMM = {
         Nombre_cargo: $('#Nombre_cargo').val()
     };
@@ -129,34 +138,41 @@ function ActualizarCargoMM(idCargo){
     alert('Aviso');
 }
 
-function EliminarCargoMM(idCargo){
-    var confirmacion = confirm("¿Está seguro de que desea eliminar el cargo?");
+    
 
-    if (confirmacion == true) {
-        var datosCargoMM = {
-            Id_Cargo:idCargo
+
+function EliminarCargoMM(idCargo) {
+    Swal.fire({
+      title: "¿Eliminar cargo?",
+      text: "Estas Seguro que quieres Eliminar el Cargo, esta acción es irreversible",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, Eliminar!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        var datosCargo = {
+            Id_Cargo: idCargo,
         };
-        var datosCargoMMJson=JSON.stringify(datosCargoMM);
-        
-
+        var datosCargo = JSON.stringify(datosCargo);
         $.ajax({
-            url: UrlEliminarCargoMM,
-            type: 'DELETE',
-            data: datosCargoMMJson,
-            datatype: 'JSON',
-            contentType: 'application/json',
-            success: function(reponse){
-                console.log(reponse);
-                alert('Cargo Eliminado');
-                CargarCargosMM(); 
-            },
-
-            error: function(textStatus, errorThrown){
-                alert('Error al eliminar el cargo' + textStatus + errorThrown);
-            }
+          url: UrlEliminarCargoMM,
+          type: "DELETE",
+          data: datosCargo,
+          datatype: "JSON",
+          success: function (response) {
+            Swal.fire({
+              title: "Eliminado",
+              text: "Cargo eliminado Correctamente.",
+              icon: "success",
+              timer: 4000,
+              willClose: () => {
+                location.reload();
+              },
+            });
+          },
         });
-
-    } else {
-        alert("La eliminación del cargo ha sido cancelada.");
-    }
-}
+      }
+    });
+  }

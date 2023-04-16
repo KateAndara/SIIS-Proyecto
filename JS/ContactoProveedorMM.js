@@ -65,9 +65,20 @@ function AgregarContactoProveedorMM(){
         data: datosContactoProveedorMMJson,
         datatype: 'JSON',
         contentType: 'application/json',
-        success: function(reponse){
-            console.log(reponse);
-            alert('Contacto del proveedor Agregado');
+        success: function(response){
+            var MisItems = response;
+
+            swal.fire({
+                title: "LISTO! ",
+                text:"LISTO! Contacto del proveedor Agregado" ,
+                icon: "success",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                timer: 3000,
+                willClose: () => {
+                  window.location.reload();
+                },
+              });
         },
 
         error: function(textStatus, errorThrown){
@@ -152,7 +163,7 @@ function EliminarContactoProveedorMM(idContacto){
         var datosContactoProveedorMMJson=JSON.stringify(datosContactoProveedorMM);
 
         $.ajax({
-            url: UrlEliminarContactoProveedorM,
+            url: UrlEliminarContactoProveedorMM,
             type: 'DELETE',
             data: datosContactoProveedorMMJson,
             datatype: 'JSON',
