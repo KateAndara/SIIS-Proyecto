@@ -77,32 +77,46 @@ function BuscarRol(NombreRol){
         }
     });
 }*/
+function AgregarRol() {
+    var Rol = $('#Rol').val();
+    var Descripcion = $('#Descripcion').val();
+    //Permitir letras y espacios
+    var patron = /^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/;
+    //validar que no hayan campos vacíos 
+    if (Rol.trim() == "" || Descripcion.trim() == "") {
+        alert("Por favor, complete todos los campos.");
+        return false;
+    } else if (!patron.test(Rol) || !patron.test(Descripcion)) {
+        alert("Por favor, ingrese solo letras y espacios en los campos.");
+        return false;
+    }
 
-
-function AgregarRol(){
     var datosRol = {
-    Rol: $('#Rol').val(),
-    Descripcion: $('#Descripcion').val(),
+        Rol: Rol,
+        Descripcion: Descripcion
     };
-    var datosRolJson= JSON.stringify(datosRol);
+
+    var datosRolJson = JSON.stringify(datosRol);
 
     $.ajax({
-        url:UrlInsertarRol,
+        url: UrlInsertarRol,
         type: 'POST',
         data: datosRolJson,
         datatype: 'JSON',
         contentType: 'application/json',
-        success: function(reponse){
+        success: function (reponse) {
             console.log(reponse);
-            alert('Rol Agregado');
+            alert('Rol agregado correctamente.');
+            CargarTablaRoles();
         },
-
-        error: function(textStatus, errorThrown){
-            alert('Error al agregar rol' + textStatus + errorThrown);
+        error: function (textStatus, errorThrown) {
+            alert('Error al agregar el rol: ' + textStatus + ' ' + errorThrown);
         }
     });
-    alert('Aviso');
+
+    return false;
 }
+
 function CargarRol(idRol){ //Función que trae los campos que se eligieron editar.
     var datosRol = {
         Id_Rol:idRol
@@ -140,10 +154,26 @@ function CargarRol(idRol){ //Función que trae los campos que se eligieron edita
 }
 
 function ActualizarRol(idRol){
-    var datosRol={
-    Id_Rol: idRol,
-    Rol: $('#Rol').val(),
-    Descripcion: $('#Descripcion').val()
+    var rol = $('#Rol').val();
+    var descripcion = $('#Descripcion').val();
+    
+    // Validar campos vacíos
+    if (rol.trim() === '' || descripcion.trim() === '') {
+        alert('Por favor completa todos los campos');
+        return;
+    }
+    
+    // Validar solo letras y espacios
+    var regex = /^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/;
+    if (!regex.test(rol) || !regex.test(descripcion)) {
+        alert('Por favor utiliza solo letras y espacios');
+        return;
+    }
+    
+    var datosRol = {
+        Id_Rol: idRol,
+        Rol: rol,
+        Descripcion: descripcion
     };
     var datosRolJson = JSON.stringify(datosRol);
 
@@ -164,6 +194,7 @@ function ActualizarRol(idRol){
     });
     alert('Aviso');
 }
+
 
 function EliminarRol(idRol){
     var confirmacion = confirm("¿Está seguro de que desea eliminar el rol?");

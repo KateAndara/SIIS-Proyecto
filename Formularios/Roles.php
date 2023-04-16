@@ -92,7 +92,7 @@ include '../components/header.components.php';
                     </h3>
                 </div>
                 <div class="col-12">
-                    <form class="InsertRol"   onsubmit="validarFormulario()">
+                    <form class="InsertRol" >
                         <label for="Id_Rol" hidden>ID ROL</label>
                         <input type="number" id="Id_Rol" class="form-control" placeholder="Ingrese el código del rol"hidden>
                         <label for="">ROL</label>
@@ -117,5 +117,6 @@ include '../components/header.components.php';
 
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+
 </body>
 </html>
