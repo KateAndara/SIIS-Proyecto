@@ -44,12 +44,8 @@ function CargarTalonario() {
             data: null,
             render: function (data, type, row) {
               return (
-                '<button class="rounded mr-2" style=" background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarEditarTalonario(\'' +
-                row.Id_Talonario +
-                "'); mostrarFormulario();\">Editar</button>" +
-                '<button class="rounded" style="background-color: #FF0000; color: white; display: inline-block; width: 67px;" onclick="EliminarTalonario(\'' +
-                row.Id_Talonario +
-                "')\">Eliminar</button>"
+                '<button class="rounded mr-2" style=" background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarEditarTalonario(\'' + row.Id_Talonario +"'); mostrarFormulario();\">Editar</button>" +
+                '<button class="rounded" style="background-color: #FF0000; color: white; display: inline-block; width: 67px;" onclick="EliminarTalonario(\'' + row.Id_Talonario +"')\">Eliminar</button>"
               );
             },
           },
