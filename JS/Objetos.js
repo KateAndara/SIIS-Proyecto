@@ -21,24 +21,26 @@ function CargarObjetos(){
             if ($.fn.DataTable.isDataTable('#TablaObjetos')) {
              $('#TablaObjetos').DataTable().destroy();
             }
-            $('#TablaObjetos').DataTable({
-                processing: true,
-                data: MisItems,
-                "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
-                  },
-                  columns: [
-                    { data: 'Id_Objeto' },
-                    { data: 'Objeto' },
-                    { data: 'Descripcion' },
-                    { data: 'Tipo_objeto' },
-                    { 
+            $("#TablaObjetos").DataTable({
+              processing: true,
+              data: MisItems,
+              language: {
+                url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json",
+              },
+              columns: [
+                { data: "Id_Objeto" },
+                { data: "Objeto" },
+                { data: "Descripcion" },
+                { data: "Tipo_objeto" },
+                { data: "options" },
+                /* { 
                         data: null, 
                         render: function ( data, type, row ) {
                           return '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarObjeto(\'' + row.Id_Objeto + '\'); mostrarFormulario();">Editar</button>' +
                                  '<button class="rounded" style="background-color: #FF0000; color: white; display: inline-block; width: 67px;" onclick="EliminarObjeto(\'' + row.Id_Objeto + '\')">Eliminar</button>';
                         }
-                      }                ]
+                      }  */
+              ],
             });
         }
     });
@@ -125,9 +127,9 @@ function CargarObjeto(idObjeto){ //Función que trae los campos que se eligieron
             $('label[for="Id_Objeto"]').removeAttr('hidden'); //Título
         
             $('#Id_Objeto').val(MisItems[0].Id_Objeto).prop('readonly', true);  // Propiedad para que no se pueda modificar el campo.
-            $('#Objeto').val(MisItems[0].Objeto);
+            $('#Objeto').val(MisItems[0].Objeto).prop('readonly', true); ;
             $('#Descripcion').val(MisItems[0].Descripcion);
-            $('#Tipo_objeto').val(MisItems[0].Tipo_objeto);
+            $('#Tipo_objeto').val(MisItems[0].Tipo_objeto).prop('readonly', true); ;
             //Usar el mismo botón de agregar con la funcionalidad de actualizar.
             var btnactualizar = '<input type="submit" id="btn_actualizar" onclick="ActualizarObjeto(' +MisItems[0].Id_Objeto+')"'+
             'value="Actualizar Objeto" class="btn btn-primary"> <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button></input>';
