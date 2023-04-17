@@ -24,6 +24,24 @@
             return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);                
         }
 
+        public function get_permisos2($idRol){              
+            $conexion= parent::Conexion();
+            parent::set_names();
+            $sql="SELECT p.Id_Permisos,p.Id_Rol,p.Id_Objeto, o.Objeto,p.Permiso_insercion as c, p.Permiso_eliminacion as d, p.Permiso_actualizacion as u, p.Permiso_consultar as r   FROM `tbl_permisos` p INNER JOIN tbl_objetos o on o.Id_Objeto=p.Id_Objeto where p.`Id_Rol`=?";
+            $sql= $conexion->prepare($sql);
+            $sql->bindvalue(1, $idRol);
+
+            $sql->execute();
+            
+            $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);
+
+            for ($i=0; $i < count($resultado); $i++) { 
+				$arrPermisos[$resultado[$i]['Id_Objeto']] = $resultado[$i];
+			}
+            
+            return $arrPermisos;   
+        }
+
         public function get_permiso($busqueda){  //Buscar por cualquier campo
             $conectar = parent::Conexion();
             parent::set_names();

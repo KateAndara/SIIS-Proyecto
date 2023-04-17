@@ -49,6 +49,36 @@ $enviroment=0;
 
             case "GetUsuarios":
                 $datos=$usuarios->get_Usuarios();
+
+                //ciclo for para insertar los botontes en cada opción
+                for ($i=0; $i < count($datos); $i++) { 
+
+                    //variable de los botones
+                    $btnView = '';
+                    $btnEdit = '';
+                    $btnDelete = '';
+
+                    
+                    if($_SESSION['permisosMod']['r']){
+                        $btnView = '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="verUsuario(\'' .$datos[$i]['Id_Usuario']."'); \">Ver +</button>'";
+                    }
+                    //si permisos es igual a Permiso_actualizacion de update crea el boton
+                    if($_SESSION['permisosMod']['u']){
+                        $btnEdit = '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarUsuario(\'' .$datos[$i]['Id_Usuario']."'); mostrarFormulario();\">Editar</button>'";
+                    }
+                        //si permisos es igual a Permiso_eliminacion de delete crea el boton
+
+                    if($_SESSION['permisosMod']['d']){
+                        $btnDelete='<button class="rounded" style="background-color: #FF0000; color: white; display: inline-block; width: 67px;" onclick="EliminarUsuario(\'' .$datos[$i]['Id_Usuario']."')\">Eliminar</button>'";
+                    }
+                
+                    
+                    //unimos los botontes
+                    $datos[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
+
+                }
+
+
                 
                 echo json_encode($datos);
             break;

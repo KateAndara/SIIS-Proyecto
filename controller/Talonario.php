@@ -24,7 +24,31 @@
 
             case "GetTalonarios":
                 $datos=$talonario->get_Talonarios();
-            
+            //ciclo for para insertar los botontes en cada opción
+            for ($i=0; $i < count($datos); $i++) { 
+
+                //variable de los botones
+                $btnView = '';
+                $btnEdit = '';
+                $btnDelete = '';
+
+                
+
+                //si permisos es igual a Permiso_actualizacion de update crea el boton
+                if($_SESSION['permisosMod']['u']){
+                    $btnEdit = '<button class="rounded mr-2" style=" background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarEditarTalonario(\'' .$datos[$i]['Id_Talonario']."'); mostrarFormulario();\">Editar</button>'";
+                }
+                    //si permisos es igual a Permiso_eliminacion de delete crea el boton
+
+                if($_SESSION['permisosMod']['d']){
+                    $btnDelete='<button class="rounded" style="background-color: #FF0000; color: white; display: inline-block; width: 67px;" onclick="EliminarTalonario(\'' .$datos[$i]['Id_Talonario']."')\">Eliminar</button>'";
+                }
+              
+                
+                //unimos los botontes
+                $datos[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
+
+            }
                 echo json_encode($datos);
             break;
             case "urlEditarTalonario": //Trae la fila que se va a editar

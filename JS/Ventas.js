@@ -37,30 +37,39 @@ function CargarVentas(){
           if ($.fn.DataTable.isDataTable('#TableVentas')) {
            $('#TableVentas').DataTable().destroy();
           }
-          $('#TableVentas').DataTable({
-              processing: true,
-              data: MisItems,
-              "language": {
-                  "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+          $("#TableVentas").DataTable({
+            processing: true,
+            data: MisItems,
+            language: {
+              url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json",
+            },
+            columns: [
+              { data: "Id_Venta" },
+              { data: "Nombre" },
+              { data: "Usuario" },
+              { data: "Nombre_estado" },
+              { data: "Subtotal" },
+              { data: "Impuesto" },
+              { data: "Total" },
+              { data: "Fecha" },
+              { data: "RTN" },
+              { data: "Numero_factura" },
+              { data: "options" },
+
+            /*   {
+                data: null,
+                render: function (data, type, row) {
+                  return (
+                    '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarVenta(\'' +
+                    row.Id_Venta +
+                    "'); mostrarFormulario();\">Editar</button>" +
+                    '<button class="rounded" style="background-color: #FF0000; color: white; display: inline-block; width: 67px;" onclick="EliminarVenta(\'' +
+                    row.Id_Venta +
+                    "')\">Eliminar</button>"
+                  );
                 },
-                columns: [
-                  { data: 'Id_Venta' },
-                  { data: 'Nombre' },
-                  { data: 'Usuario' },
-                  { data: 'Nombre_estado' },
-                  { data: 'Subtotal' },
-                  { data: 'Impuesto' },
-                  { data: 'Total' },
-                  { data: 'Fecha' },
-                  { data: 'RTN' },
-                  { data: 'Numero_factura' },
-                  { 
-                      data: null, 
-                      render: function ( data, type, row ) {
-                        return '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarVenta(\'' + row.Id_Venta + '\'); mostrarFormulario();">Editar</button>' +
-                               '<button class="rounded" style="background-color: #FF0000; color: white; display: inline-block; width: 67px;" onclick="EliminarVenta(\'' + row.Id_Venta + '\')">Eliminar</button>';
-                      }
-                    }                ]
+              }, */
+            ],
           });
       }
   });

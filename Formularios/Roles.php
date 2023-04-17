@@ -1,5 +1,22 @@
 <?php 
-include '../components/header.components.php';
+   ob_start();
+   include '../components/header.components.php';
+    getPermisos(MROLES);
+  
+
+    
+    //si no exite el permiso de consultar vuelve a la pagina de inicio
+    if(empty($_SESSION['permisosMod']['r'])){
+        header('Location: inicio.php');
+    }
+    ob_start();
+
+function getModal(string $nameModal, $data)
+{
+  $view_modal = "{$nameModal}.php";
+  require_once $view_modal;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,7 +43,70 @@ include '../components/header.components.php';
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.26/jspdf.plugin.autotable.min.js"></script>
 
     <script src="../Reportes/Reporte.js"></script>
+   <style>
+    .switch {
+			position: relative;
+			display: inline-block;
+			width: 60px;
+			height: 34px;
+		}
 
+		.switch input {
+			opacity: 0;
+			width: 0;
+			height: 0;
+		}
+
+		.slider {
+			position: absolute;
+			cursor: pointer;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background-color: #ccc;
+			-webkit-transition: .4s;
+			transition: .4s;
+		}
+
+		.slider:before {
+			position: absolute;
+			content: "";
+			height: 26px;
+			width: 26px;
+			left: 4px;
+			bottom: 4px;
+			background-color: white;
+			-webkit-transition: .4s;
+			transition: .4s;
+		}
+
+		input:checked+.slider {
+			background-color: #2196F3;
+		}
+
+		input:focus+.slider {
+			box-shadow: 0 0 1px #2196F3;
+		}
+
+		input:checked+.slider:before {
+			-webkit-transform: translateX(26px);
+			-ms-transform: translateX(26px);
+			transform: translateX(26px);
+		}
+
+		/* Rounded sliders */
+		.slider.round {
+			border-radius: 34px;
+		}
+
+		.slider.round:before {
+			border-radius: 50%;
+		}
+
+   </style>
+
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="col-md-12 cards-white" style="margin: 0 auto; width: 110%; max-width: none; margin-left: auto; margin-right: auto">
@@ -40,7 +120,14 @@ include '../components/header.components.php';
             </div>
             <div style="margin: 0 18px;">
             <form id="form-busqueda" autocomplete="off">
+                
+
+                <?php
+                if ($_SESSION['permisosMod']['c']) {
+                    # code...
+                    ?>
                 <button class="rounded" style="background-color:  #147c4c; color: white; float: right; margin-left: 10px;" onclick="mostrarFormulario()">Agregar</button>
+                <?php } ?>
                 <button class="rounded" style="background-color: #fff; color: dark; float: right;"onclick="generarReporte('TablaRoles','REPORTE DE ROLES',60)">Generar PDF</button>            </form>
             </div>
             <script>
@@ -64,6 +151,14 @@ include '../components/header.components.php';
             var consultaDiv = document.getElementById("consulta"); //Oculta el formulario de la tabla.
             consultaDiv.style.display = "none";
             }
+
+            function mostrarFormulario2() {
+            var formulario = document.querySelector('.Formulario2'); //Muestra el formulario de agregar y actualizar.
+            formulario.style.display = 'block';
+            var consultaDiv = document.getElementById("consulta"); //Oculta el formulario de la tabla.
+            consultaDiv.style.display = "none";
+            }
+
             </script>
             <div class="box-body">
                 <div class="table table-responsive">
@@ -113,10 +208,29 @@ include '../components/header.components.php';
                 </div>
             </div>
         </div>
+
+
+        
+        <div class="Formulario2" style="display: none;">
+                    <div class="row">
+                        <div class="Col-12" id="titulo">
+                            <h3>
+                                Permisos
+                            </h3>
+                        </div>
+                        <div class="col-12" id="getPermisos" >
+                            
+                        
+                        </div>
+                    </div>
+                </div>
+
     </div>
 
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
-
+<script src="
+https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js
+"></script>
 </body>
 </html>

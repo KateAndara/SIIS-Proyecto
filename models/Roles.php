@@ -68,5 +68,70 @@
             $sql->execute();
             return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
         }
+
+
+
+
+        //Permisos
+
+
+        public function selectModulos(){       
+            $conectar = parent::Conexion();
+            parent::set_names();
+            $sql = "SELECT * FROM tbl_objetos where Tipo_objeto='Permiso'";
+            $sql = $conectar->prepare($sql);
+            $sql->execute();
+            return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        public function selectRol($idRol){       
+            $conectar = parent::Conexion();
+            parent::set_names();
+            $sql = "SELECT * FROM tbl_ms_roles WHERE Id_Rol=?";
+            $sql = $conectar->prepare($sql);
+            $sql->bindvalue(1, $idRol);
+            $sql->execute();
+            return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        public function selectPermisosRol($idRol){       
+            $conectar = parent::Conexion();
+            parent::set_names();
+            $sql = "SELECT * FROM `tbl_permisos` WHERE `Id_Rol`=?";
+            $sql = $conectar->prepare($sql);
+            $sql->bindvalue(1, $idRol);
+            $sql->execute();
+            return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        public function deletePermisos($idRol)
+        {
+            $conectar = parent::Conexion();
+            parent::set_names();
+            $sql = "DELETE FROM tbl_permisos WHERE `Id_Rol`=?";
+            $sql = $conectar->prepare($sql);
+       
+            $sql->bindvalue(1, $idRol);
+            $sql->execute();
+            return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        public function insertPermisos($intIdrol, $idModulo, $r, $w, $u, $d)
+        {
+            $conectar = parent::Conexion();
+            parent::set_names();
+            $sql = "INSERT INTO `tbl_permisos` (`Id_Rol`, `Id_Objeto`, `Permiso_insercion`, `Permiso_eliminacion`, `Permiso_actualizacion`, `Permiso_consultar`) VALUES (?, ?, ?, ?, ?, ?);";
+            $sql = $conectar->prepare($sql);
+            $sql->bindvalue(1, $intIdrol);
+            $sql->bindvalue(2, $idModulo);
+            $sql->bindvalue(3, $w);
+            $sql->bindvalue(4, $d);
+            $sql->bindvalue(5, $u);
+            $sql->bindvalue(6, $r);
+            $sql->execute();
+            return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+
     }
 ?>

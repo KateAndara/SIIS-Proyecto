@@ -1,4 +1,5 @@
 <?php
+session_start();
     if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
         header('Access-Control-Allow-Origin: *');
         header('Access-Control-Allow-Methods: POST, GET, DELETE, PUT, PATCH, OPTIONS');
@@ -22,6 +23,33 @@
 
             case "GetProductos":
                 $datos=$productos->get_productos();
+
+
+                  //ciclo for para insertar los botontes en cada opción
+                  for ($i=0; $i < count($datos); $i++) { 
+
+                    //variable de los botones
+                    $btnView = '';
+                    $btnEdit = '';
+                    $btnDelete = '';
+
+                    
+
+                    //si permisos es igual a Permiso_actualizacion de update crea el boton
+                    if($_SESSION['permisosMod']['u']){
+                        $btnEdit = '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarProducto(\''  .$datos[$i]['Id_Producto']. '\'); mostrarFormulario();">Editar</button>';
+                    }
+                        //si permisos es igual a Permiso_eliminacion de delete crea el boton
+
+                    if($_SESSION['permisosMod']['d']){
+                        $btnDelete='<button class="rounded" style="background-color: #FF0000; color: white; display: inline-block; width: 67px;" onclick="EliminarProducto(\'' .$datos[$i]['Id_Producto']. '\')">Eliminar</button>';
+                    }
+                  
+                    
+                    //unimos los botontes
+                    $datos[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
+
+                }
                 echo json_encode($datos);
             break;
             case "GetProducto": //Buscar por cualquier campo 

@@ -26,25 +26,26 @@ function CargarContactoProveedoresMM(){
             if ($.fn.DataTable.isDataTable('#TablaContactoProveedores')) {
                 $('#TablaContactoProveedores').DataTable().destroy();
                }
-               $('#TablaContactoProveedores').DataTable({
-                   processing: true,
-                   data: MisItems,
-                   "language": {
-                       "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
-                     },
-                     columns: [
-                       { data: 'Id_Proveedores_Contacto' },
-                       { data: 'Nombre_tipo_contacto' },
-                       { data: 'Nombre' },
-                       { data: 'Contacto' },
-                       { 
+               $("#TablaContactoProveedores").DataTable({
+                 processing: true,
+                 data: MisItems,
+                 language: {
+                   url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json",
+                 },
+                 columns: [
+                   { data: "Id_Proveedores_Contacto" },
+                   { data: "Nombre_tipo_contacto" },
+                   { data: "Nombre" },
+                   { data: "Contacto" },
+                   { data: "options" },
+                   /*  { 
                            data: null, 
                            render: function ( data, type, row ) {
                              return '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarContactoProveedorMM(\'' + row.Id_Proveedores_Contacto + '\'); mostrarFormulario();">Editar</button>' +
                                     '<button class="rounded" style="background-color: #FF0000; color: white; display: inline-block; width: 67px;" onclick="EliminarContactoProveedorMM(\'' + row.Id_Proveedores_Contacto + '\')">Eliminar</button>';
                            }
-                        }                
-                    ]
+                        }     */
+                 ],
                });
         }
 

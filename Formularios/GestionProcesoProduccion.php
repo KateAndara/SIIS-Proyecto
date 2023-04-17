@@ -1,5 +1,15 @@
 <?php 
-include '../components/header.components.php';
+   ob_start();
+   include '../components/header.components.php';
+    getPermisos(MPROCESOPRODUCCION);
+  
+
+    
+    //si no exite el permiso de consultar vuelve a la pagina de inicio
+    if(empty($_SESSION['permisosMod']['r'])){
+        header('Location: inicio.php');
+    }
+    ob_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -47,9 +57,14 @@ include '../components/header.components.php';
             </div>
             <div style="margin: 0 18px;">
             <form id="form-busqueda" autocomplete="off">
+            <?php
+                if ($_SESSION['permisosMod']['c']) {
+                    # code...
+                    ?>
                 <button class="rounded" style="background-color: #147c4c; color: white; float: right; margin-left: 10px;" type="button" onclick="location.href='../Formularios/NuevoProcesoProduccion.php'">
                     Nuevo Proceso
                 </button>
+                <?php } ?>
                 <button class="rounded" style="background-color: #fff; color: dark; float: right;"  onclick="generarReporte('TablaProcesosProduccion','REPORTE DE PROCESOS DE PRODUCCION',60)">Generar PDF</button>
             </form>
             </div>

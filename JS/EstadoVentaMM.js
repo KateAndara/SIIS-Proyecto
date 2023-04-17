@@ -21,23 +21,30 @@ function CargarEstadosVentaMM(){
             if ($.fn.DataTable.isDataTable('#TablaEstadosVenta')) {
                 $('#TablaEstadosVenta').DataTable().destroy();
                }
-               $('#TablaEstadosVenta').DataTable({
-                   processing: true,
-                   data: MisItems,
-                   "language": {
-                       "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
+               $("#TablaEstadosVenta").DataTable({
+                 processing: true,
+                 data: MisItems,
+                 language: {
+                   url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json",
+                 },
+                 columns: [
+                   { data: "Id_Estado_Venta" },
+                   { data: "Nombre_estado" },
+                   { data: "options" },
+                   /* {
+                     data: null,
+                     render: function (data, type, row) {
+                       return (
+                         '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarEstadoVentaMM(\'' +
+                         row.Id_Estado_Venta +
+                         "'); mostrarFormulario();\">Editar</button>" +
+                         '<button class="rounded" style="background-color: #FF0000; color: white; display: inline-block; width: 67px;" onclick="EliminarEstadoVentaMM(\'' +
+                         row.Id_Estado_Venta +
+                         "')\">Eliminar</button>"
+                       );
                      },
-                     columns: [
-                       { data: 'Id_Estado_Venta' },
-                       { data: 'Nombre_estado' },
-                       { 
-                           data: null, 
-                           render: function ( data, type, row ) {
-                             return '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarEstadoVentaMM(\'' + row.Id_Estado_Venta + '\'); mostrarFormulario();">Editar</button>' +
-                                    '<button class="rounded" style="background-color: #FF0000; color: white; display: inline-block; width: 67px;" onclick="EliminarEstadoVentaMM(\'' + row.Id_Estado_Venta + '\')">Eliminar</button>';
-                           }
-                        }                
-                    ]
+                   }, */
+                 ],
                });
         }
 

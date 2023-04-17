@@ -20,17 +20,19 @@ function CargarProcesos(){
             if ($.fn.DataTable.isDataTable('#TablaProcesosProduccion')) {
                 $('#TablaProcesosProduccion').DataTable().destroy();
                }
-               $('#TablaProcesosProduccion').DataTable({
-                   processing: true,
-                   data: MisItems,
-                   "language": {
-                       "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
-                     },
-                     columns: [
-                       { data: 'Id_Proceso_Produccion' },
-                       { data: 'Descripcion' },
-                       { data: 'Fecha' },
-                       { 
+               $("#TablaProcesosProduccion").DataTable({
+                 processing: true,
+                 data: MisItems,
+                 language: {
+                   url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json",
+                 },
+                 columns: [
+                   { data: "Id_Proceso_Produccion" },
+                   { data: "Descripcion" },
+                   { data: "Fecha" },
+                   { data: "options" },
+
+                   /* { 
                            data: null, 
                            render: function ( data, type, row ) {
                             return '<div style="display: flex; align-items: center;">' + 
@@ -42,7 +44,8 @@ function CargarProcesos(){
                             "')\">Cancelar</button>"+"</div>"
                    
                            }
-                         }                ]
+                         }     */
+                 ],
                });
         }
 

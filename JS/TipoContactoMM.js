@@ -21,23 +21,24 @@ function CargarTipoContactosMM(){
             if ($.fn.DataTable.isDataTable('#TablaTipoContactos')) {
                 $('#TablaTipoContactos').DataTable().destroy();
                }
-               $('#TablaTipoContactos').DataTable({
-                   processing: true,
-                   data: MisItems,
-                   "language": {
-                       "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
-                     },
-                     columns: [
-                       { data: 'Id_Tipo_Contacto' },
-                       { data: 'Nombre_tipo_contacto' },
-                       { 
+               $("#TablaTipoContactos").DataTable({
+                 processing: true,
+                 data: MisItems,
+                 language: {
+                   url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json",
+                 },
+                 columns: [
+                   { data: "Id_Tipo_Contacto" },
+                   { data: "Nombre_tipo_contacto" },
+                   { data: "options" },
+                   /*    { 
                            data: null, 
                            render: function ( data, type, row ) {
                              return '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarTipoContactoMM(\'' + row.Id_Tipo_Contacto + '\'); mostrarFormulario();">Editar</button>' +
                                     '<button class="rounded" style="background-color: #FF0000; color: white; display: inline-block; width: 67px;" onclick="EliminarTipoContactoMM(\'' + row.Id_Tipo_Contacto + '\')">Eliminar</button>';
                            }
-                        }                
-                    ]
+                        }  */
+                 ],
                });
         }
 

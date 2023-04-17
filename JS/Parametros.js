@@ -21,22 +21,25 @@ function CargarParametros(){
             if ($.fn.DataTable.isDataTable('#TablaParametros')) {
                 $('#TablaParametros').DataTable().destroy();
                }
-               $('#TablaParametros').DataTable({
-                   processing: true,
-                   data: MisItems,
-                   "language": {
-                       "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
-                     },
-                     columns: [
-                       { data: 'Id_Parametro' },
-                       { data: 'Parametro' },
-                       { data: 'Valor' },
-                       { 
+               $("#TablaParametros").DataTable({
+                 processing: true,
+                 data: MisItems,
+                 language: {
+                   url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json",
+                 },
+                 columns: [
+                   { data: "Id_Parametro" },
+                   { data: "Parametro" },
+                   { data: "Valor" },
+                   { data: "options" },
+
+                   /*  { 
                            data: null, 
                            render: function ( data, type, row ) {
                              return '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarParametro(\'' + row.Id_Parametro + '\'); mostrarFormulario();">Editar</button>';
                            }
-                         }                ]
+                         }   */
+                 ],
                });
            }
        });
