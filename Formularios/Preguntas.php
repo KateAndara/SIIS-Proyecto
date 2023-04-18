@@ -1,6 +1,17 @@
 <?php 
-include '../components/header.components.php';
+   ob_start();
+   include '../components/header.components.php';
+    getPermisos(MPREGUNTAS);
+  
+
+    
+    //si no exite el permiso de consultar vuelve a la pagina de inicio
+    if(empty($_SESSION['permisosMod']['r'])){
+        header('Location: inicio.php');
+    }
+    ob_start();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,6 +37,7 @@ include '../components/header.components.php';
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.26/jspdf.plugin.autotable.min.js"></script>
 
     <script src="../Reportes/Reporte.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
 </head>
 <body>
     <div class="col-md-12 cards-white" style="margin: 0 auto; width: 110%; max-width: none; margin-left: auto; margin-right: auto">
@@ -39,7 +51,12 @@ include '../components/header.components.php';
             </div>
             <div style="margin: 0 18px;">
             <form id="form-busqueda" autocomplete="off">
+            <?php
+            if ($_SESSION['permisosMod']['c']) {
+                # code...
+                ?>
                 <button class="rounded" style="background-color:  #147c4c; color: white; float: right; margin-left: 10px;" onclick="mostrarFormulario()">Agregar</button>
+                <?php } ?>
             <button class="rounded" style="background-color: #fff; color: dark; float: right;"onclick="generarReporte('TablaPreguntas','REPORTE DE PREGUNTAS',60)">Generar PDF</button>
             </form>
             </div>
@@ -114,7 +131,7 @@ include '../components/header.components.php';
         </div>
     </div>
       
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 </body>

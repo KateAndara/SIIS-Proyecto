@@ -1,5 +1,15 @@
 <?php 
-include '../components/header.components.php';
+   ob_start();
+   include '../components/header.components.php';
+    getPermisos(MVENTAS);
+  
+
+    
+    //si no exite el permiso de consultar vuelve a la pagina de inicio
+    if(empty($_SESSION['permisosMod']['r'])){
+        header('Location: inicio.php');
+    }
+    ob_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">

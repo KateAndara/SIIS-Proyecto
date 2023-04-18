@@ -50,8 +50,9 @@ function CargarCompras() {
           { data: "nombreProveedor" },
           { data: "Fecha_compra" },
           { data: "Total" },
+          { data: "options" },
 
-          {
+          /*  {
             data: null,
             render: function (data, type, row) {
               return (
@@ -65,7 +66,7 @@ function CargarCompras() {
                 "')\">Cancelar</button></div>'"+"</div>"
               );
             },
-          },
+          }, */
         ],
       });
     },
@@ -455,7 +456,7 @@ function finalizarCompra() {
          closeOnConfirm: false,
          timer: 3000,
          willClose: () => {
-           window.location.reload();
+          window.location.href = "../Formularios/Compras.php";
          },
        });
      },

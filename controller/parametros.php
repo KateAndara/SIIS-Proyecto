@@ -1,4 +1,5 @@
 <?php
+session_start();
     if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
         header('Access-Control-Allow-Origin: *');
         header('Access-Control-Allow-Methods: POST, GET, DELETE, PUT, PATCH, OPTIONS');
@@ -22,6 +23,31 @@
 
             case "GetParametros":
                 $datos=$Parametros->get_parametros();
+                //ciclo for para insertar los botontes en cada opción
+                for ($i=0; $i < count($datos); $i++) { 
+
+                    //variable de los botones
+                    $btnView = '';
+                    $btnEdit = '';
+                    $btnDelete = '';
+
+                    
+
+                    //si permisos es igual a Permiso_actualizacion de update crea el boton
+                    if($_SESSION['permisosMod']['u']){
+                        $btnEdit = '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarParametro(\'' .$datos[$i]['Id_Parametro']. '\'); mostrarFormulario();">Editar</button>';
+                    }
+                  
+                
+                    
+                    //unimos los botontes
+                    $datos[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
+
+                }
+
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($Parametros->get_user($varsesion));
+                $Parametros->registrar_bitacora($Id_Usuario, 40, 'Ingresar', 'Se ingresó a la pantalla de parámetros');
                 echo json_encode($datos);
             break;
             case "GetParametro":
@@ -31,6 +57,7 @@
             break;
             case "GetParametroeditar": //Trae la fila que se va a editar
                 $datos=$Parametros->get_parametroeditar($body["Id_Parametro"]);
+                
                 echo json_encode($datos);
             break;
             /*case "InsertParametro":
@@ -39,6 +66,9 @@
             break;*/
             case "UpdateParametro":
                 $datos=$Parametros->update_parametro($body["Id_Parametro"],$body["Parametro"],$body["Valor"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($Parametros->get_user($varsesion));
+                $Parametros->registrar_bitacora($Id_Usuario, 40, 'Actualizar', 'Se actualizó un parámetro');
                 echo json_encode("Parámetro Actualizado");
             break;
             /*case "DeleteParametro":

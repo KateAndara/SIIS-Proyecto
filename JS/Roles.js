@@ -4,6 +4,10 @@ var UrlInsertarRol = 'http://localhost/SIIS-PROYECTO/controller/roles.php?opc=In
 var UrlActualizarRol = 'http://localhost/SIIS-PROYECTO/controller/roles.php?opc=UpdateRol'; // Editar
 var UrlEliminarRol = 'http://localhost/SIIS-PROYECTO/controller/roles.php?opc=DeleteRol'; // Eliminar
 var UrlRoleditar = 'http://localhost/SIIS-PROYECTO/controller/roles.php?opc=GetRoleditar'; // Traer el dato a editar
+var urlPermisos = 'http://localhost/SIIS-PROYECTO/Formularios/EditarPermisos.php'; // Traer el dato a editar
+var urlPermisoRol= 'http://localhost/SIIS-PROYECTO/controller/roles.php?opc=GetPermisos'; // Traer el dato a editar
+var urlPermisosInsert= 'http://localhost/SIIS-PROYECTO/controller/roles.php?opc=setPermisos'; // Traer el dato a editar
+
 
 $(document).ready(function(){
    CargarRoles();
@@ -21,27 +25,87 @@ function CargarRoles(){
             if ($.fn.DataTable.isDataTable('#TablaRoles')) {
                 $('#TablaRoles').DataTable().destroy();
                }
-               $('#TablaRoles').DataTable({
-                   processing: true,
-                   data: MisItems,
-                   "language": {
-                       "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
-                     },
-                     columns: [
-                       { data: 'Id_Rol' },
-                       { data: 'Rol' },
-                       { data: 'Descripcion' },
-                       { 
+               $("#TablaRoles").DataTable({
+                 processing: true,
+                 data: MisItems,
+                 language: {
+                   url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json",
+                 },
+                 columns: [
+                   { data: "Id_Rol" },
+                   { data: "Rol" },
+                   { data: "Descripcion" },
+                   { data: "options" },
+                   /*  { 
                            data: null, 
                            render: function ( data, type, row ) {
-                             return '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarRol(\'' + row.Id_Rol + '\'); mostrarFormulario();">Editar</button>' +
+                             return '<button  style="background-color: #2D7AC0; color: white; display: inline-block; width: 80px;" class="rounded bg-success"  onclick="CargarPermiso(\'' + row.Id_Rol + '\'); mostrarFormulario2();">Permisos</button>'+ '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarRol(\'' + row.Id_Rol + '\'); mostrarFormulario();">Editar</button>' +
                                     '<button class="rounded" style="background-color: #FF0000; color: white; display: inline-block; width: 67px;" onclick="EliminarRol(\'' + row.Id_Rol + '\')">Eliminar</button>';
                            }
-                         }                ]
+                         }  */
+                 ],
                });
            }
        });
    }
+
+
+
+function CargarPermiso(idRol) {
+  var datosRol = {
+    idRol: idRol,
+  };
+    var datosRolJson=JSON.stringify(datosRol);
+
+    $.ajax({
+      url: urlPermisoRol,
+      type: "POST",
+      data: datosRolJson,
+      datatype: "JSON",
+      contentType: "application/json",
+      success: function (reponse) {
+
+            var MisItems = reponse;
+
+   
+        document.querySelector("#getPermisos").innerHTML = MisItems.htmlPermisos;
+      },
+    });
+}
+
+function gurdarPermisos() {
+  
+    formPermisos = document.querySelector("#formPermisos");
+        
+
+
+   let request = (window.XMLHttpRequest) ? 
+                         new XMLHttpRequest() : 
+                         new ActiveXObject('Microsoft.XMLHTTP');
+    let ajaxUrl = urlPermisosInsert;
+
+    let formData = new FormData(formPermisos);
+    request.open("POST",ajaxUrl,true);
+    request.send(formData);
+    request.onreadystatechange=function(){
+        if(request.readyState !=4) return;
+        if(request.status == 200){
+        let objData = JSON.parse(request.responseText);
+            swal.fire({
+              title: "LISTO!",
+              text: objData.msg,
+              icon: "success",
+              confirmButtonText: "Aceptar",
+              closeOnConfirm: false,
+              timer: 3000,
+              /* willClose: () => {
+                window.location.reload();
+              }, */
+            });
+        }
+    }
+}
+
 
 /*
 function BuscarRol(NombreRol){

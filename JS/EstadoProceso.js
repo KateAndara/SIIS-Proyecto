@@ -21,23 +21,24 @@ function CargarEstadoProcesosMM(){
             if ($.fn.DataTable.isDataTable('#TablaEstadoProcesos')) {
                 $('#TablaEstadoProcesos').DataTable().destroy();
                }
-               $('#TablaEstadoProcesos').DataTable({
-                   processing: true,
-                   data: MisItems,
-                   "language": {
-                       "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
-                     },
-                     columns: [
-                       { data: 'Id_Estado_Proceso' },
-                       { data: 'Descripcion' },
-                       { 
+               $("#TablaEstadoProcesos").DataTable({
+                 processing: true,
+                 data: MisItems,
+                 language: {
+                   url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json",
+                 },
+                 columns: [
+                   { data: "Id_Estado_Proceso" },
+                   { data: "Descripcion" },
+                   { data: "options" },
+                   /* { 
                            data: null, 
                            render: function ( data, type, row ) {
                              return '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarEstadoProcesoMM(\'' + row.Id_Estado_Proceso + '\'); mostrarFormulario();">Editar</button>' +
                                     '<button class="rounded" style="background-color: #FF0000; color: white; display: inline-block; width: 67px;" onclick="EliminarEstadoProcesoMM(\'' + row.Id_Estado_Proceso + '\')">Eliminar</button>';
                            }
-                        }                
-                    ]
+                        }   */
+                 ],
                });
         }
 

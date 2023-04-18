@@ -39,8 +39,9 @@ function CargarTalonario() {
           { data: "Rango_final" },
           { data: "Rango_actual" },
           { data: "Fecha_Vencimiento" },
+          { data: "options" },
 
-          {
+          /* {
             data: null,
             render: function (data, type, row) {
               return (
@@ -48,7 +49,7 @@ function CargarTalonario() {
                 '<button class="rounded" style="background-color: #FF0000; color: white; display: inline-block; width: 67px;" onclick="EliminarTalonario(\'' + row.Id_Talonario +"')\">Eliminar</button>"
               );
             },
-          },
+          }, */
         ],
       });
     },

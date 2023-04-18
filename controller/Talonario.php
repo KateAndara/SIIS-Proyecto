@@ -24,7 +24,34 @@
 
             case "GetTalonarios":
                 $datos=$talonario->get_Talonarios();
-            
+            //ciclo for para insertar los botontes en cada opción
+            for ($i=0; $i < count($datos); $i++) { 
+
+                //variable de los botones
+                $btnView = '';
+                $btnEdit = '';
+                $btnDelete = '';
+
+                
+
+                //si permisos es igual a Permiso_actualizacion de update crea el boton
+                if($_SESSION['permisosMod']['u']){
+                    $btnEdit = '<button class="rounded mr-2" style=" background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarEditarTalonario(\'' .$datos[$i]['Id_Talonario']."'); mostrarFormulario();\">Editar</button>'";
+                }
+                    //si permisos es igual a Permiso_eliminacion de delete crea el boton
+
+                if($_SESSION['permisosMod']['d']){
+                    $btnDelete='<button class="rounded" style="background-color: #FF0000; color: white; display: inline-block; width: 67px;" onclick="EliminarTalonario(\'' .$datos[$i]['Id_Talonario']."')\">Eliminar</button>'";
+                }
+              
+                
+                //unimos los botontes
+                $datos[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
+
+            }
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($talonario->get_user($varsesion));
+                $talonario->registrar_bitacora($Id_Usuario, 45, 'Ingresar', 'Se ingresó a la pantalla de talonario');
                 echo json_encode($datos);
             break;
             case "urlEditarTalonario": //Trae la fila que se va a editar
@@ -61,7 +88,9 @@
                     $arrResponse = array("status" => true, "msg" => 'Talonario Guardado Correctamente');
 
                 }
-               
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($talonario->get_user($varsesion));
+                $talonario->registrar_bitacora($Id_Usuario, 45, 'Insertar', 'Se insertó un nuevo registro de Talonario');
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
             break;
             case "UpdateTalonario": 
@@ -100,12 +129,17 @@
 
 
 
-               
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($talonario->get_user($varsesion));
+                $talonario->registrar_bitacora($Id_Usuario, 45, 'Actualizar', 'Se actualizó un registro de Talonario');
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
 
             break;
             case "deleteTalonario":
                 $datos=$talonario->delete_Talonario($body["idTalonario"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($talonario->get_user($varsesion));
+                $talonario->registrar_bitacora($Id_Usuario, 45, 'Eliminar', 'Se eliminó un registro de Talonario');
                 echo json_encode("Talonario Eliminado Correctamente");
             break;
         }

@@ -49,7 +49,39 @@ $enviroment=0;
 
             case "GetUsuarios":
                 $datos=$usuarios->get_Usuarios();
+
+                //ciclo for para insertar los botontes en cada opción
+                for ($i=0; $i < count($datos); $i++) { 
+
+                    //variable de los botones
+                    $btnView = '';
+                    $btnEdit = '';
+                    $btnDelete = '';
+
+                    
+                    if($_SESSION['permisosMod']['r']){
+                        $btnView = '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="verUsuario(\'' .$datos[$i]['Id_Usuario']."'); \">Ver +</button>'";
+                    }
+                    //si permisos es igual a Permiso_actualizacion de update crea el boton
+                    if($_SESSION['permisosMod']['u']){
+                        $btnEdit = '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarUsuario(\'' .$datos[$i]['Id_Usuario']."'); mostrarFormulario();\">Editar</button>'";
+                    }
+                        //si permisos es igual a Permiso_eliminacion de delete crea el boton
+
+                    if($_SESSION['permisosMod']['d']){
+                        $btnDelete='<button class="rounded" style="background-color: #FF0000; color: white; display: inline-block; width: 67px;" onclick="EliminarUsuario(\'' .$datos[$i]['Id_Usuario']."')\">Eliminar</button>'";
+                    }
                 
+                    
+                    //unimos los botontes
+                    $datos[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
+
+                }
+
+
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($usuarios->get_user($varsesion));
+                $usuarios->registrar_bitacora($Id_Usuario, 36, 'Ingresar', 'Se ingresó a la pantalla de usuarios');
                 echo json_encode($datos);
             break;
            
@@ -153,7 +185,9 @@ $enviroment=0;
                 }
 
 
-               
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($usuarios->get_user($varsesion));
+                $usuarios->registrar_bitacora($Id_Usuario, 36, 'Insertar', 'Se insertó un usuario');
                
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
             break;
@@ -201,12 +235,19 @@ $enviroment=0;
                         $arrResponse = array("status" => true, "msg" => 'Usuario Actualizado Con exito');
                     }
                 }
+                
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($usuarios->get_user($varsesion));
+                $usuarios->registrar_bitacora($Id_Usuario, 36, 'Actualizar', 'Se actualizó un usuario');
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
 
             break;
             case "deleteUsuario":
                 $datos=$usuarios->delete_rol($body["idUsuario"]);
                 $arrResponse = array("status" => true, "msg" => 'Usuario Eliminado Correctamente');
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($usuarios->get_user($varsesion));
+                $usuarios->registrar_bitacora($Id_Usuario, 36, 'Eliminar', 'Se eliminó un usuario');
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
 
             break;

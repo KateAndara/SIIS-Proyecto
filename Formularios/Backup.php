@@ -1,5 +1,15 @@
 <?php 
-include '../components/header.components.php';
+   ob_start();
+   include '../components/header.components.php';
+    getPermisos(MBACKUP);
+  
+
+    
+    //si no exite el permiso de consultar vuelve a la pagina de inicio
+    if(empty($_SESSION['permisosMod']['r'])){
+        header('Location: inicio.php');
+    }
+    ob_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,7 +30,11 @@ include '../components/header.components.php';
     
 <h1 style="color: black">Gestión de Base de Datos</h1><br>
 
-
+<?php
+	if (!empty($_SESSION['permisosMod']['c'])) {
+		
+	
+?>
 <div class="border border-3 p-3">
   <h2 style="color: black">Realizar Backup</h2>
 
@@ -31,8 +45,16 @@ include '../components/header.components.php';
     </div>
   </form>
 </div>
+<?php } ?>
+
 <br>
 <br>
+
+<?php
+	if (!empty($_SESSION['permisosMod']['u'])) {
+		
+	
+?>
 <div class="border border-3 p-3">
 <h2 style="color: black;">Realizar Restore</h2>
 <div class="row justify-content-center">
@@ -55,6 +77,7 @@ include '../components/header.components.php';
 		</div>
 	</div>
 </div>
+<?php } ?>
 <br>
 <br>
 

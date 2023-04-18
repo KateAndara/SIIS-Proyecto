@@ -21,23 +21,24 @@ function CargarTipoProductosMM(){
             if ($.fn.DataTable.isDataTable('#TablaTiposProducto')) {
                 $('#TablaTiposProducto').DataTable().destroy();
                }
-               $('#TablaTiposProducto').DataTable({
-                   processing: true,
-                   data: MisItems,
-                   "language": {
-                       "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
-                     },
-                     columns: [
-                       { data: 'Id_Tipo_Producto' },
-                       { data: 'Nombre_tipo' },
-                       { 
+               $("#TablaTiposProducto").DataTable({
+                 processing: true,
+                 data: MisItems,
+                 language: {
+                   url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json",
+                 },
+                 columns: [
+                   { data: "Id_Tipo_Producto" },
+                   { data: "Nombre_tipo" },
+                   { data: "options" },
+                   /*  { 
                            data: null, 
                            render: function ( data, type, row ) {
                              return '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarTipoProductoMM(\'' + row.Id_Tipo_Producto + '\'); mostrarFormulario();">Editar</button>' +
                                     '<button class="rounded" style="background-color: #FF0000; color: white; display: inline-block; width: 67px;" onclick="EliminarTipoProductoMM(\'' + row.Id_Tipo_Producto + '\')">Eliminar</button>';
                            }
-                        }                
-                    ]
+                        } */
+                 ],
                });
         }
 

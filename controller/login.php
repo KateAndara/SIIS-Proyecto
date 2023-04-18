@@ -6,7 +6,7 @@ if (!empty($_POST["btniniciarSesion"])){
     $sql=$conexion->query(" select * from tbl_ms_usuarios where Usuario='$usuario' and Contraseña='$clave' ");
     session_start();
     $_SESSION['usuario'] = $usuario;
-
+    
     if ($usuario=="" ||$clave==""){ // Validación de campos vacíos.
       echo '<br>';
       echo '<div class="alert alert-danger">Debe llenar el o los campos vacíos.</div>';
@@ -54,7 +54,7 @@ if (!empty($_POST["btniniciarSesion"])){
 
           $idobjeto = substr($informacion, $posicion, -2);
           $sql = $conexion->query("INSERT INTO tbl_ms_bitacora(Id_Usuario,Id_Objeto,Fecha,Accion,Descripcion) VALUES($idusuario,$idobjeto,now(),'Inicio de Sesión','El usuario $usuario ha ingresado al sistema') ");
-
+      
 
         }else{
           $sql=$conexion->query(" select * from tbl_ms_usuarios where Usuario='$usuario' and Contraseña='$clave' and Estado='Nuevo' and Id_Rol !='3' ");

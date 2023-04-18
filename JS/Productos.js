@@ -23,27 +23,30 @@ function CargarProductos(){
             if ($.fn.DataTable.isDataTable('#TablaProductos')) {
                 $('TablaProductos').DataTable().destroy();
                }
-               $('#TablaProductos').DataTable({
-                   processing: true,
-                   data: MisItems,
-                   "language": {
-                       "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
-                     },
-                     columns: [
-                       { data: 'Id_Producto' },
-                       { data: 'Nombre_tipo' },
-                       { data: 'Nombre' },
-                       { data: 'Unidad_medida' },
-                       { data: 'Precio' },
-                       { data: 'Cantidad_maxima' },
-                       { data: 'Cantidad_minima' },
-                       { 
+               $("#TablaProductos").DataTable({
+                 processing: true,
+                 data: MisItems,
+                 language: {
+                   url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json",
+                 },
+                 columns: [
+                   { data: "Id_Producto" },
+                   { data: "Nombre_tipo" },
+                   { data: "Nombre" },
+                   { data: "Unidad_medida" },
+                   { data: "Precio" },
+                   { data: "Cantidad_maxima" },
+                   { data: "Cantidad_minima" },
+                   { data: "options" },
+
+                   /* { 
                            data: null, 
                            render: function ( data, type, row ) {
                              return '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarProducto(\'' + row.Id_Producto + '\'); mostrarFormulario();">Editar</button>' +
                                     '<button class="rounded" style="background-color: #FF0000; color: white; display: inline-block; width: 67px;" onclick="EliminarProducto(\'' + row.Id_Producto + '\')">Eliminar</button>';
                            }
-                         }                ]
+                         } */
+                 ],
                });
         }
 

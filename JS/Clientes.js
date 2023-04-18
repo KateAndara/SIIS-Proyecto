@@ -21,24 +21,26 @@ function CargarClientes(){
             if ($.fn.DataTable.isDataTable('#TablaClientes')) {
              $('#TablaClientes').DataTable().destroy();
             }
-            $('#TablaClientes').DataTable({
-                processing: true,
-                data: MisItems,
-                "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
-                  },
-                  columns: [
-                    { data: 'Id_Cliente' },
-                    { data: 'Nombre' },
-                    { data: 'Fecha_nacimiento' },
-                    { data: 'DNI' },
-                    { 
+            $("#TablaClientes").DataTable({
+              processing: true,
+              data: MisItems,
+              language: {
+                url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json",
+              },
+              columns: [
+                { data: "Id_Cliente" },
+                { data: "Nombre" },
+                { data: "Fecha_nacimiento" },
+                { data: "DNI" },
+                { data: "options"},
+                /* { 
                         data: null, 
                         render: function ( data, type, row ) {
                           return '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarCliente(\'' + row.Id_Cliente + '\'); mostrarFormulario();">Editar</button>' +
                                  '<button class="rounded" style="background-color: #FF0000; color: white; display: inline-block; width: 67px;" onclick="EliminarCliente(\'' + row.Id_Cliente + '\')">Eliminar</button>';
                         }
-                      }                ]
+                      } */
+              ],
             });
         }
     });

@@ -24,6 +24,36 @@
 
             case "GetCargosMM":
                 $datos=$cargosMM->get_CargosMM();
+
+                //ciclo for para insertar los botontes en cada opción
+                for ($i=0; $i < count($datos); $i++) { 
+
+                    //variable de los botones
+                    $btnView = '';
+                    $btnEdit = '';
+                    $btnDelete = '';
+
+                    
+
+                    //si permisos es igual a Permiso_actualizacion de update crea el boton
+                    if($_SESSION['permisosMod']['u']){
+                        $btnEdit = '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarCargoMM(\''.$datos[$i]['Id_Cargo']. '\'); mostrarFormulario();">Editar</button>';
+                    }
+                        //si permisos es igual a Permiso_eliminacion de delete crea el boton
+
+                    if($_SESSION['permisosMod']['d']){
+                        $btnDelete='<button class="rounded" style="background-color: #FF0000; color: white; display: inline-block; width: 67px;" onclick="EliminarCargoMM(\'' .$datos[$i]['Id_Cargo']. '\')">Eliminar</button>';
+                    }
+                  
+                    
+                    //unimos los botontes
+                    $datos[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
+
+                }
+
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($cargosMM->get_user($varsesion));
+                $cargosMM->registrar_bitacora($Id_Usuario, 42, 'Ingresar', 'Se ingresó a la pantalla de cargos');
                 echo json_encode($datos);
             break;
             case "GetCargoMM": //Buscar por cualquier campo 
@@ -50,7 +80,9 @@
 
                 }
 
-
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($cargosMM->get_user($varsesion));
+                $cargosMM->registrar_bitacora($Id_Usuario, 42, 'Insertar', 'Se insertó un cargo');
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
                 
             break;
@@ -86,11 +118,16 @@
 
 
 
-               
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($cargosMM->get_user($varsesion));
+                $cargosMM->registrar_bitacora($Id_Usuario, 42, 'Actualizar', 'Se actualizó un cargo');
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
             break;
             case "DeleteCargoMM":
                 $datos=$cargosMM->delete_CargoMM($body["Id_Cargo"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($cargosMM->get_user($varsesion));
+                $cargosMM->registrar_bitacora($Id_Usuario, 42, 'Eliminar', 'Se eliminó un cargo');
                 echo json_encode("Cargo Eliminado");
             break;
         }

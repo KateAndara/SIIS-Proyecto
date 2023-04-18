@@ -82,10 +82,10 @@
                <img src="http://localhost/SIIS-PROYECTO/img/logo.jpg" width="125" alt="Logo">
                 </td>
             <td class="text-center">
-                <h4><strong><?=  $data['DatosEmpresa'][0]['Valor']  ?></strong></h4>
-                
+                <h3><strong><?=  $data['DatosEmpresa'][0]['Valor']  ?></strong></h3><br><br>
+                <h2>Ficha de compra</h2>
             </td>
-            <td class="text-right wd20">
+            <td class="text-right wd14">
             <h4>No. Compra: <strong><?= $Compra['Id_Compra'] ?></strong><br>
             
                 </h4>
@@ -113,14 +113,14 @@
 <table class="tbl-detalle">
    <thead>
        <tr>
-           <th class="wd1'">Codigo</th>
-           <th class="wd15 text-center">Nombre</th>
-           <th class="wd10 text-center">Cantidad</th>
-           <th class="wd10 text-right">Precio</th>
-           <th class="wd10 text-right">Especie</th>
-           <th class="wd10 text-right">Peso Vivo</th>
-           <th class="wd10 text-right">Canal</th>
-          <!--  <th class="wd10 text-right">Rendimiento</th> -->
+           <th class="wd13'">Codigo</th>
+           <th class="wd13 text-center">Nombre</th>
+           <th class="wd13 text-center">Cantidad</th>
+           <th class="wd13 text-right">Precio</th>
+           <th class="wd13 text-right">Especie</th>
+           <th class="wd13 text-right">Peso Vivo</th>
+           <th class="wd13 text-right">Canal</th>
+          <th class="wd13 text-right">Rendimiento</th> 
 
        </tr>
    </thead>
@@ -133,13 +133,13 @@
        ?>
        <tr>
            <td><?= $producto['Id_Producto']?></td>
-           <td class="wd15 text-center"><?=' '.($producto['Nombre']) ?></td>
-           <td class="wd15 text-center"><?= $producto['Cantidad']?></td>
-           <td class="wd15 text-right"><?='L. '. $producto['Precio_libra'] ?></td>
-           <td class="wd15 text-right"><?=' '. $producto[0]['Especie'] ?></td>
-           <td class="wd15 text-right"><?=' '. $producto[0]['Peso_vivo'] ?></td>
-           <td class="wd15 text-right"><?=' '. $producto[0]['Canal'] ?></td>
-           <!-- <td class="wd15 text-right"><?=' '. $producto[0]['Rendimiento'] ?></td> -->
+           <td class="wd10 text-center"><?=' '.($producto['Nombre']) ?></td>
+           <td class="wd10 text-center"><?= $producto['Cantidad']?></td>
+           <td class="wd10 text-right"><?='L. '. $producto['Precio_libra'] ?></td>
+           <td class="wd10 text-right"><?=' '. $producto[0]['Especie'] ?></td>
+           <td class="wd10 text-right"><?=' '. $producto[0]['Peso_vivo'] ?></td>
+           <td class="wd10 text-right"><?=' '. $producto[0]['Canal'] ?></td>
+           <td class="wd10 text-right"><?=' '. $producto[0]['Rendimiento'] ?></td> 
 
 
        </tr>

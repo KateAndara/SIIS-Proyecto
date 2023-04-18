@@ -1,4 +1,5 @@
 <?php
+session_start();
     if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
         header('Access-Control-Allow-Origin: *');
         header('Access-Control-Allow-Methods: POST, GET, DELETE, PUT, PATCH, OPTIONS');
@@ -22,6 +23,43 @@
 
             case "GetProcesosProduccion":
                 $datos=$procesos->get_procesosProduccion();
+
+                 //ciclo for para insertar los botontes en cada opción
+                 for ($i=0; $i < count($datos); $i++) { 
+
+                    //variable de los botones
+                    $btnView = '';
+                    $btnEdit = '';
+                    $btnDelete = '';
+
+                    //si permisos es igual a Permiso_actualizacion de update crea el boton
+                    if($_SESSION['permisosMod']['u']){
+                        $btnEdit = '<div style="display: flex; align-items: center;">' . '<button class="rounded" style="background-color: #2D7AC0; color: white; width: 73px; margin-right: 4px;" onclick="CargarProcesoProduccion(\'' .$datos[$i]['Id_Proceso_Produccion']. '\'); mostrarDiv();">Editar</button>';
+                    }
+
+                    //si permisos es igual a Permiso_visualizacion crea el boton
+                    if($_SESSION['permisosMod']['c']){
+                        $btnView = '<button class="rounded" style="background-color: #FF0000; color: white; width: 80px; margin-right: 4px;" onclick="procesoProduccionPDF(\''  .$datos[$i]['Id_Proceso_Produccion']."')\">PDF ".'<i class="fa-regular fa-file-pdf"></i>'."</button>'";
+                    }
+                        //si permisos es igual a Permiso_eliminacion de delete crea el boton
+
+                    if($_SESSION['permisosMod']['d']){
+                        $btnDelete='<button class="rounded" style="background-color: #FF0000; color: white; width: 80px; margin-right: 4px;" onclick="cancelarCompra(\''.$datos[$i]['Id_Proceso_Produccion']."')\">Cancelar</button>"."</div>'";
+                    }
+                  
+                    
+                    //unimos los botontes
+                    $datos[$i]['options'] = '<div class="text-center">'.$btnEdit.' '.$btnView.' '.$btnDelete.'</div>';
+
+                }
+
+
+
+
+
+
+
+
                 echo json_encode($datos);
             break;
             //Datos de otra tabla

@@ -1,4 +1,5 @@
 <?php
+session_start();
     if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
         header('Access-Control-Allow-Origin: *');
         header('Access-Control-Allow-Methods: POST, GET, DELETE, PUT, PATCH, OPTIONS');
@@ -22,6 +23,36 @@
 
             case "GetProductos":
                 $datos=$productos->get_productos();
+
+
+                  //ciclo for para insertar los botontes en cada opción
+                  for ($i=0; $i < count($datos); $i++) { 
+
+                    //variable de los botones
+                    $btnView = '';
+                    $btnEdit = '';
+                    $btnDelete = '';
+
+                    
+
+                    //si permisos es igual a Permiso_actualizacion de update crea el boton
+                    if($_SESSION['permisosMod']['u']){
+                        $btnEdit = '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarProducto(\''  .$datos[$i]['Id_Producto']. '\'); mostrarFormulario();">Editar</button>';
+                    }
+                        //si permisos es igual a Permiso_eliminacion de delete crea el boton
+
+                    if($_SESSION['permisosMod']['d']){
+                        $btnDelete='<button class="rounded" style="background-color: #FF0000; color: white; display: inline-block; width: 67px;" onclick="EliminarProducto(\'' .$datos[$i]['Id_Producto']. '\')">Eliminar</button>';
+                    }
+                  
+                    
+                    //unimos los botontes
+                    $datos[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
+
+                }
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($productos->get_user($varsesion));
+                $productos->registrar_bitacora($Id_Usuario, 34, 'Ingresar', 'Se ingresó a la pantalla de Productos');
                 echo json_encode($datos);
             break;
             case "GetProducto": //Buscar por cualquier campo 
@@ -35,14 +66,23 @@
             break;
             case "InsertProducto":
                 $datos=$productos->insert_producto($body["Id_Tipo_Producto"],$body["Nombre"],$body["Unidad_medida"],$body["Precio"],$body["Cantidad_maxima"],$body["Cantidad_minima"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($productos->get_user($varsesion));
+                $productos->registrar_bitacora($Id_Usuario, 34, 'Insertar', 'Se insertó un Producto');
                 echo json_encode("Se agregó el producto");
             break;
             case "UpdateProducto":
                 $datos=$productos->update_producto($body["Id_Producto"],$body["Id_Tipo_Producto"],$body["Nombre"],$body["Unidad_medida"],$body["Precio"],$body["Cantidad_maxima"],$body["Cantidad_minima"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($productos->get_user($varsesion));
+                $productos->registrar_bitacora($Id_Usuario, 34, 'Actualizar', 'Se actualizó un Producto');
                 echo json_encode("Producto actualizado");
             break;
             case "DeleteProducto":
                 $datos=$productos->delete_producto($body["Id_Producto"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($productos->get_user($varsesion));
+                $productos->registrar_bitacora($Id_Usuario, 34, 'Eliminar', 'Se eliminó un Producto');
                 echo json_encode("Producto eliminado");
             break;
             //Datos de otra tabla

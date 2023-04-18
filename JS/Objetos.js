@@ -21,24 +21,26 @@ function CargarObjetos(){
             if ($.fn.DataTable.isDataTable('#TablaObjetos')) {
              $('#TablaObjetos').DataTable().destroy();
             }
-            $('#TablaObjetos').DataTable({
-                processing: true,
-                data: MisItems,
-                "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
-                  },
-                  columns: [
-                    { data: 'Id_Objeto' },
-                    { data: 'Objeto' },
-                    { data: 'Descripcion' },
-                    { data: 'Tipo_objeto' },
-                    { 
+            $("#TablaObjetos").DataTable({
+              processing: true,
+              data: MisItems,
+              language: {
+                url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json",
+              },
+              columns: [
+                { data: "Id_Objeto" },
+                { data: "Objeto" },
+                { data: "Descripcion" },
+                { data: "Tipo_objeto" },
+                { data: "options" },
+                /* { 
                         data: null, 
                         render: function ( data, type, row ) {
                           return '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarObjeto(\'' + row.Id_Objeto + '\'); mostrarFormulario();">Editar</button>' +
                                  '<button class="rounded" style="background-color: #FF0000; color: white; display: inline-block; width: 67px;" onclick="EliminarObjeto(\'' + row.Id_Objeto + '\')">Eliminar</button>';
                         }
-                      }                ]
+                      }  */
+              ],
             });
         }
     });
@@ -80,11 +82,21 @@ function BuscarObjeto(NombreObjeto){
     });
 }
 */
-function AgregarObjeto(){
+function AgregarObjeto() {
+    var objeto = $('#Objeto').val();
+    var descripcion = $('#Descripcion').val();
+    var tipoObjeto = $('#Tipo_objeto').val();
+    
+    // validar que no haya campos vacíos 
+    if (objeto.trim() == "" || descripcion.trim() == "" || tipoObjeto.trim() == "") {
+        alert("Por favor, complete todos los campos.");
+        return false;
+    }
+
     var datosObjeto = {
-    Objeto: $('#Objeto').val(),
-    Descripcion: $('#Descripcion').val(),
-    Tipo_objeto: $('#Tipo_objeto').val()
+        Objeto: objeto,
+        Descripcion: descripcion,
+        Tipo_objeto: tipoObjeto
     };
     var datosObjetoJson= JSON.stringify(datosObjeto );
 
@@ -125,9 +137,9 @@ function CargarObjeto(idObjeto){ //Función que trae los campos que se eligieron
             $('label[for="Id_Objeto"]').removeAttr('hidden'); //Título
         
             $('#Id_Objeto').val(MisItems[0].Id_Objeto).prop('readonly', true);  // Propiedad para que no se pueda modificar el campo.
-            $('#Objeto').val(MisItems[0].Objeto);
+            $('#Objeto').val(MisItems[0].Objeto).prop('readonly', true); ;
             $('#Descripcion').val(MisItems[0].Descripcion);
-            $('#Tipo_objeto').val(MisItems[0].Tipo_objeto);
+            $('#Tipo_objeto').val(MisItems[0].Tipo_objeto).prop('readonly', true); ;
             //Usar el mismo botón de agregar con la funcionalidad de actualizar.
             var btnactualizar = '<input type="submit" id="btn_actualizar" onclick="ActualizarObjeto(' +MisItems[0].Id_Objeto+')"'+
             'value="Actualizar Objeto" class="btn btn-primary"> <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button></input>';
@@ -144,12 +156,23 @@ function CargarObjeto(idObjeto){ //Función que trae los campos que se eligieron
 }
 
 function ActualizarObjeto(idObjeto){
+    var objeto = $('#Objeto').val().trim();
+    var descripcion = $('#Descripcion').val().trim();
+    var tipoObjeto = $('#Tipo_objeto').val().trim();
+
+    // validar que no hayan campos vacíos 
+    if (objeto === "" || descripcion === "" || tipoObjeto === "") {
+        alert("Por favor, complete todos los campos.");
+        return false;
+    }
+
     var datosObjeto={
-    Id_Objeto: idObjeto,
-    Objeto: $('#Objeto').val(),
-    Descripcion: $('#Descripcion').val(),
-    Tipo_objeto: $('#Tipo_objeto').val()
+        Id_Objeto: idObjeto,
+        Objeto: objeto,
+        Descripcion: descripcion,
+        Tipo_objeto: tipoObjeto
     };
+
     var datosObjetoJson = JSON.stringify(datosObjeto);
 
     $.ajax({
@@ -167,8 +190,10 @@ function ActualizarObjeto(idObjeto){
             alert('Error al actualizar objeto' + textStatus + errorThrown);
         }
     });
+
     alert('Aviso');
 }
+
 
 function EliminarObjeto(idObjeto){
     var confirmacion = confirm("¿Está seguro de que desea eliminar el objeto?");

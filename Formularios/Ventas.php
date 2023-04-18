@@ -1,5 +1,20 @@
 <?php 
-include '../components/header.components.php';
+/*    require_once("../config/conexion.php");
+   require_once("../config/helpers.php") ;
+
+   session_start(); */
+   //obtener permisos del modulo ventas
+   ob_start();
+   include '../components/header.components.php';
+    getPermisos(MVENTAS);
+  
+
+    
+    //si no exite el permiso de consultar vuelve a la pagina de inicio
+    if(empty($_SESSION['permisosMod']['r'])){
+        header('Location: inicio.php');
+    }
+    ob_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,11 +34,11 @@ include '../components/header.components.php';
     <!-- Agregar DataTables -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.js"></script>
-    <script src="../JS/Ventas.js"></script>
+    
     <link href="../CSS/datatable.css" rel="stylesheet">
     <!-- Última versión de AutoTable -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.26/jspdf.plugin.autotable.min.js"></script>
-<script src="../Reportes/ReporteH.js"></script>
+<script src="../Reportes/ReporteOH.js"></script>
     <!-- Sweetalert -->
     <link href="
 https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
@@ -42,7 +57,16 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
             </div>
             <div style="margin: 0 18px;">
             <form id="form-busqueda" autocomplete="off">
+                <?php
+                    //si el permiso crear del modulo es igual a 1 muestra el boton
+                    if ($_SESSION['permisosMod']['c']) {
+                        # code...
+                        ?>
                 <button class="rounded" style="background-color:  #147c4c; color: white; float: right; margin-left: 10px;" ><a style="text-decoration: none; background-color:  #147c4c; color: white; float: right; margin-left: 0px;" href="Nueva_Venta.php">Agregar</a></button>
+                    <?php
+                    }
+                    ?>
+
                 <button class="rounded" style="background-color: #fff; color: dark; float: right;"onclick="generarReporte('TableVentas','REPORTE DE Ventas',60)">Generar PDF</button>
 
             </form>
@@ -83,5 +107,6 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
 <script src="
 https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js
 "></script>
+<script src="../JS/Ventas.js"></script>
 </body>
 </html>

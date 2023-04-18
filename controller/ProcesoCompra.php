@@ -25,7 +25,40 @@
         switch($_GET["opc"]){
             case "getCompras":
                 $datos=$compras->get_compras();
-            
+                
+                //ciclo for para insertar los botontes en cada opción
+                for ($i=0; $i < count($datos); $i++) { 
+
+                    //variable de los botones
+                    $btnView = '';
+                    $btnEdit = '';
+                    $btnDelete = '';
+
+                    //si permisos es igual a Permiso_actualizacion de update crea el boton
+                    if($_SESSION['permisosMod']['r']){
+                        $btnView = '<div class="d-flex"><div  style="margin-right: 4px;"><button class="rounded" style=" background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="verCompra(\'' .$datos[$i]['Id_Compra']."');\">Ver ".'<i class="fa-solid fa-eye"></i>'."</button></div>'";
+                    }
+
+                    //si permisos es igual a Permiso_actualizacion de update crea el boton
+                    if($_SESSION['permisosMod']['r']){
+                        $btnEdit = '<div style="margin-right: 4px;"><button class="rounded" style="background-color: #FF0000; color: white; display: inline-block; width: 80px;" onclick="compraPDF(\''.$datos[$i]['Id_Compra']."')\">PDF ".'<i class="fa-regular fa-file-pdf"></i>'."</button></div>";
+                    }
+                        //si permisos es igual a Permiso_eliminacion de delete crea el boton
+
+                    if($_SESSION['permisosMod']['d']){
+                        $btnDelete='<div><button class="rounded" style="background-color: #FF0000; color: white; display: inline-block; width: 80px;" onclick="cancelarCompra(\''.$datos[$i]['Id_Compra']."')\">Cancelar</button></div>'"."</div>";
+                    }
+                
+                    
+                    //unimos los botontes
+                    $datos[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
+
+                }
+
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($compras->get_user($varsesion));
+                $compras->registrar_bitacora($Id_Usuario, 29, 'Ingresar', 'Se ingresó a la pantalla de Compras');
+
                 echo json_encode($datos);
             break;
             case "getCompra":
@@ -37,7 +70,9 @@
             case "deleteCompra":
                 $idCompra=$body['idCompra'];
                 $datos=$compras->deleteCompra($idCompra);
-                
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($compras->get_user($varsesion));
+                $compras->registrar_bitacora($Id_Usuario, 29, 'Eliminar', 'Se eliminó una compra');
                 echo json_encode($datos);
             break;
             case "GetProveedores":

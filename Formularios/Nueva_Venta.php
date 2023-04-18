@@ -1,5 +1,12 @@
 <?php 
 include '../components/header.components.php';
+//unset($_SESSION['ventaDetalle']);
+function getModal(string $nameModal, $data)
+{
+  $view_modal = "{$nameModal}.php";
+  require_once $view_modal;
+}
+$data='';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,6 +27,10 @@ include '../components/header.components.php';
 https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
 " rel="stylesheet">
 
+
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <style>
         .item1 {
             display: none;
@@ -35,9 +46,9 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
             <li class="nav-item">
                 <a class="nav-link" id="nav2"  data-toggle="tab" href="#pestaña2" style="color:black">Detalle de venta</a>
             </li>
-            <li class="nav-item">
+           <!--  <li class="nav-item">
                 <a class="nav-link" id="nav3" data-toggle="tab" href="#pestaña3" style="color:black">Promociones del Producto</a>
-            </li>
+            </li> -->
             <li class="nav-item">
                 <a class="nav-link" id="nav4" data-toggle="tab" href="#pestaña4" style="color:black">Descuentos</a>
             </li>
@@ -61,32 +72,20 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                                 <form class="InsertCliente">
             
                                     <label for="">SELECCIONE UN CLIENTE</label> 
-                                <select id="Select_Cliente" name="Select_Cliente" class="form-control">
-                                    <option value="">Seleccione un producto</option>
+                                <select id="Select_Cliente" readonly name="Select_Cliente" onchange="changeCliente()" class="form-control js-example-basic-single">
+                                    <!-- <option value="">Seleccione un producto</option> -->
                                     
                                 </select>
                                     <label for="Fecha">FECHA DE NACIMIENTO</label>
-                                    <input type="date" id="FechaNacimiento" name="FechaNacimiento" class="form-control" pattern="\d{4}/\d{2}/\d{2}">
+                                    <input type="date" id="FechaNacimiento" readonly name="FechaNacimiento" class="form-control" pattern="\d{4}/\d{2}/\d{2}">
                                     <label for="">DNI DEL CLIENTE</label>
-                                    <input type="number" id="Dni" name="Dni" class="form-control" placeholder="0000-0000-000000">
+                                    <input type="number"  readonly id="Dni" name="Dni" class="form-control" placeholder="0000-0000-000000">
                                     <hr>
                                     <div id="btnagregarNuevoCliente">
                                         <input type="button" id="btnCancelar" onclick="Cancelar()" value="Cancelar" class="btn btn-danger">
-                                        <input type="button" id="btnagregarNuevoCliente" onclick="siguiente1()" value="Siguiente" class="btn btn-success">
+                                        <input type="button" id="btnagregarNuevoCliente" onclick="siguiente1()"  value="Siguiente" class="btn btn-success">
                                     </div>
                                     <hr>
-                                    <div class="row">
-                                    <label for="">DESCUENTO: </label> 
-                                    </div> 
-                                    <div class="row">
-                                    <label for="">SUBTOTAL: </label>
-                                    </div>
-                                    <div class="row">
-                                    <label for="">IMPUESTO: </label>
-                                    </div>
-                                    <div class="row">
-                                    <label for="">TOTAL: </label>
-                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -105,55 +104,56 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                         <div class="col-12">
                             <form class="InsertDetalleVenta" id="FormDetalle">
                                 <label for="">SELECCIONE UN PRODUCTO</label> 
-                                <select id="Select_Producto" name="Select_Producto" class="form-control">
-                                    <option value="">Seleccione un producto</option>
+                                <br>
+
+                                <select id="Select_Producto" name="Select_Producto" onchange="changeProducto()" style="width: 100%" class="form-control js-example-basic-single">
+                                    <!-- <option value="">Seleccione un producto</option> -->
                                     
                                 </select>
+                                <br>
+                                <label for="">PRECIO </label>
+                                <input type="number" id="Precio" readonly  name="Precio"  class="form-control" placeholder="Ingrese ingrese el precio por libra">
                                 <label for="">CANTIDAD</label>
                                 <input type="number" id="Cantidad" name="Cantidad" class="form-control" placeholder="Ingrese ingrese la cantidad del producto">
-                                <label for="">PRECIO </label>
-                                <input type="number" id="Precio"  name="Precio"  class="form-control" placeholder="Ingrese ingrese el precio por libra">
-                                <hr>
+                                <label for="">SELECCIONE UNA PROMOCION</label> 
+                           
+
+                                <select id="select_Promocion" name="select_Promocion" onchange="changePromocion()" style="width: 100%" class="form-control js-example-basic-single">
+                                    <!-- <option value="">Seleccione un producto</option> -->
+                                    
+                                </select>
+                          <hr>
                                 <div id="btnagregarDetalleVenta">
-                                    <input type="submit" id="btnagregarDetalle"  value="Agregar" class="btn btn-info">
+                                    <input type="submit" id="btnagregarDetalle"  value="Agregar" class="btn btn-info" onclick="AgregarDetalleVenta()">
                                     <input type="button" id="btnAtras" onclick="atras1()" value="Atras" class="btn btn-warning mr-2">
                                         <input type="button" id="btnAvanzar" onclick="siguiente2()" value="Siguiente" class="btn btn-success">
                                 </div>
                                 <div class="box-body">
-                                     <div class="table table-responsive">
-                                       <table class="table table-hover" id="Tabla">
-                                         <thead>
-                                            <tr>
-                                               
-                                               <th>PRODUCTO</th>
-                                               <th>CANTIDAD</th>
-                                               <th>PRECIO</th>
-                                               <th>OPCIONES</th>
-                                            </tr>
-                                         </thead>
-
-                                         <tbody id="TableDetalle">
-                                               <tr>
-                                                  
-                                                  <td></td>
-                                                  <td></td>
-                                                  <td></td>
-                                                  <td>
-                                                     
-                                                  </td>
-                                               </tr>
-                                         </tbody>
-                                         <tfoot>
-                                            <tr>
-                                               <th>TOTAL</th>
-                                               <th id="CantTotal" ></th>
-                                               <th id="PrecTotal" ></th>
-                                               <th></th>
-                                             </tr>
-                                         </tfoot>
-                                       </table>
+                                <div class="card-body table-responsive mt-4" id="tableVenta">
+                                <table  class="table table-hover text-nowrap">
+                                    <thead class="thead-dark">
                                        
-                                    </div>
+                                        <tr>
+                                            <th style="width: 100px">Código</th>
+                                            <th style="width: 400px">Nombre</th>
+                                            <th style="width: 100px">Cantidad</th>
+                                            <th style="width: 100px">Precio</th>
+                                            <th style="width: 100px">Total</th>
+                                           
+                                            <th style="text-align-last:center">Eliminar</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tablaVenta">
+                                    <?=  getModal("tablaVentas",$data)  ?>
+                                    </tbody>
+                                    <tfoot class="thead-dark font-weight-bold" style="background-color: darkseagreen;" id="detalle_totales">
+                                <?=  getModal("tablaTotales",$data)  ?>
+                                </tfoot>
+                            
+                                    
+                                </table>
+                            </div>
                                  </div>
                                  <script>
                                     const form = document.getElementById("FormDetalle");
@@ -166,9 +166,10 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                                       function insertDetalleRow(detalleFormData){
                                         let DetalleTableref = document.getElementById("TableDetalle");
                                         let newDetallerow = DetalleTableref.insertRow(-1);
-                                    
+                                      
+                                       
                                         let newDetalleCellRef = newDetallerow.insertCell(0);
-                                        newDetalleCellRef.textContent = detalleFormData.get("Select_Producto")
+                                        newDetalleCellRef.textContent = $('select[name="Select_Producto"] option:selected').text()
                                       
                                         newDetalleCellRef = newDetallerow.insertCell(1);
                                         newDetalleCellRef.textContent = detalleFormData.get("Cantidad")
@@ -208,8 +209,8 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                     </div>
                 </div>
             </div>
-            <div id="pestaña3" class="tab-pane fade">
-                <!-- Aquí va el contenido de la tercera pestaña -->
+            <!-- <div id="pestaña3" class="tab-pane fade">
+                <!-- Aquí va el contenido de la tercera pestaña 
                 <div class="Formulario">
                     <div class="row">
                         <div class="Col-12" id="titulo">
@@ -237,7 +238,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <div id="pestaña4" class="tab-pane fade">
                 <!-- Aquí va el contenido de la cuarta pestaña -->
                 <div class="Formulario">
@@ -250,16 +251,20 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                         <div class="col-12">
                             <form class="InsertDescuento">
                                 <label for="">SELECCIONE UN DESCUENTO</label> 
-                                <select id="Select_Descuento" name="Select_Descuento" class="form-control">
+                                <select id="Select_Descuento" onchange="changeDescuento();" name="Select_Descuento" class="form-control">
                                     <option value="">Seleccione un descuento</option>
                                 </select>
                                 <label for=""><P>PORCENTAJE DEL DESCUENTO</P></label>
-                                <input type="number" id="Porcentaje" name="Porcentaje" class="form-control" placeholder="Porcentaje...">
+                                <input type="text" id="Porcentaje" value="0" name="Porcentaje" class="form-control" placeholder="Porcentaje...">
+                                <label for="">Total Detalle Venta </label>
+                                <input type="text" id="totalDetalle" name="Total descontado" class="form-control" placeholder="">
                                 <label for="">TOTAL DESCONTADO </label>
-                                <input type="number" id="Total descontado" name="Total descontado" class="form-control" placeholder="Total descontado...">
+                                <input type="text" id="Totaldescontado" value="0" name="Total descontado" class="form-control" placeholder="Total descontado...">
+                                <label for="">Subtotal </label>
+                                <input type="text" id="SubtotalDescuento" name="Total descontado" class="form-control" placeholder="">
                                 <hr>
                                 <div id="btnagregarDescuento">
-                                    <input type="submit" id="btnagregarDescuento" onclick="AgregarDescuento()" value="Agregar" class="btn btn-success">
+                                  <!--   <input type="submit" id="btnagregarDescuento" onclick="AgregarDescuento()" value="Agregar" class="btn btn-success"> -->
                                     <input type="button" id="btnAtras" onclick="atras3()" value="Atras" class="btn btn-warning mr-2">
                                     <input type="button" id="btnAvanzar" onclick="siguiente4()" value="Siguiente" class="btn btn-success">
                                 </div>
@@ -294,8 +299,8 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                                 <br>
                              <div class="row">
                                 <div class="col-6">
-                                   <label for="">IMPUESTO</label>
-                                   <input type="number" id="Impuesto" class="form-control" onkeyup="calcularTotal()" placeholder="Impuesto...">
+                                   <label for="" id="labelImpuesto">IMPUESTO</label>
+                                   <input type="text" onkeypress="calcularTotal()"; id="Impuesto" class="form-control" onkeyup="calcularTotal()" placeholder="Impuesto...">
                                 </div>
                                 <div class="col-6">
                                    <label for="">RTN</label>
@@ -310,19 +315,21 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                                 </div>   
                              </div>   
                                 <hr>
+                                <input type="hidden" id="idTalonario">
+                                <input type="hidden" id="valorActualTalonario">
                                 <label for="">NUMERO DE FACTURA</label>
                                 <div class="row">
                                   <div class="col-4">
-                                    <input type="button" id="GenerarFactura" value="Generar Factura" class="btn btn-secondary">      
+                                    <input type="button" onclick="generarFactura()" id="GenerarFactura" value="Generar Factura" class="btn btn-secondary">      
                                   </div>
                                   <div class="col-4">
-                                    <input type="number" id="Numero_factura" class="form-control" placeholder="Factura...">
+                                    <input type="text" id="Numero_factura" class="form-control" placeholder="Factura...">
                                   </div>
                                 </div>
                                 <hr>
                                 <div id="btnagregarVenta">
                                     <input type="button" id="btnAtras" onclick="atras4()" value="Atras" class="btn btn-warning mr-2">
-                                    <input type="submit" id="btnagregarVenta" onclick="AgregarVenta()" value="Finalizar Venta" class="btn btn-info">
+                                    <a id="btnagregarVenta" onclick="agregarVenta()" value="Finalizar Venta" class="btn btn-info">Finalizar Venta</a>
                                 </div>
                             </form>
                         </div>

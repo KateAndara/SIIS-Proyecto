@@ -44,7 +44,7 @@ function CargarPermisos(){
                        { 
                            data: null, 
                            render: function ( data, type, row ) {
-                             return '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarPermiso(\'' + row.Id_Rol + '\'); mostrarFormulario();">Editar</button>' +
+                             return '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarPermiso(\'' + row.Id_Rol + '\'); mostrarFormulario();">Editar</button>' +'<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="VerPermisos(\'' + row.Id_Rol + '\'); mostrarFormulario();">Editar</button>'+
                                     '<button class="rounded" style="background-color: #FF0000; color: white; display: inline-block; width: 67px;" onclick="EliminarPermiso(\'' + row.Id_Rol + '\')">Eliminar</button>';
                            }
                          }                ]

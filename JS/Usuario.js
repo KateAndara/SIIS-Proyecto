@@ -157,23 +157,24 @@ function CargarUsuarios(){
                    { data: "Estado" },
                    { data: "Rol" },
                    { data: "Correo_Electronico" },
+                   { data: "options" },
 
-                   {
+                   /*  {
                      data: null,
                      render: function (data, type, row) {
                        return (
-                         '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="verUsuario(\'' +
+                         '<?php echo `hola`;?><button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="verUsuario(\'' +
                          row.Id_Usuario +
-                         "'); \">Ver +</button>"+ 
+                         "'); \">Ver +</button>" +
                          '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarUsuario(\'' +
                          row.Id_Usuario +
                          "'); mostrarFormulario();\">Editar</button>" +
                          '<button class="rounded" style="background-color: #FF0000; color: white; display: inline-block; width: 67px;" onclick="EliminarUsuario(\'' +
                          row.Id_Usuario +
-                         "')\">Eliminar</button>" 
+                         "')\">Eliminar</button>"
                        );
                      },
-                   },
+                   }, */
                  ],
                });
            }
