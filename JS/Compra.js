@@ -456,7 +456,7 @@ function finalizarCompra() {
          closeOnConfirm: false,
          timer: 3000,
          willClose: () => {
-           window.location.reload();
+          window.location.href = "../Formularios/Compras.php";
          },
        });
      },

@@ -147,12 +147,12 @@
                                             <?php } 
                                                 if (!empty($_SESSION['permisos'][MCOMPRAS]['c']) ) {
                                             ?>
-                                            <a href="../Formularios/NuevaCompra.php" class="dropdown-item">Nueva Compra</a>
+                                            <!--<a href="../Formularios/NuevaCompra.php" class="dropdown-item">Nueva Compra</a>-->
                                             <!-- <a href="" class="dropdown-item">Detalle de Compras</a> -->
                                             <?php } 
                                                 if (!empty($_SESSION['permisos'][MPROVEEDORES]['r']) ) {
                                             ?>
-                                            <a href="" class="dropdown-item">Proveedores</a>
+                                            <a href="../Formularios/Proveedores.php" class="dropdown-item">Proveedores</a>
                                             <!-- <a href="" class="dropdown-item">Detalle de los productos <br>comprados</a>  -->
                                         </div>
                                     </div>
