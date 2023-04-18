@@ -284,16 +284,15 @@
 
                                     <div class="nav-item dropdown">
                                         <a href="" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-regular fa-folder-open"></i></i>ADMINISTRACIÓN</a>
-                                        <div class="dropdown-menu bg-transparent border-0">
-                                            <a href="" class="dropdown-item">Mi Perfil</a>
-                                            <a href="" class="dropdown-item">Acerca de</a>
+                                        <div class="dropdown-menu bg-transparent border-0">                                           
                                             <?php 
                                                 if (!empty($_SESSION['permisos'][MBACKUP]['r']) ) {
                                             ?>
                                            <a href="../Formularios/Backup.php" class="dropdown-item">Backup</a>
                                             <?php } 
                                             ?>
-                                            
+                                            <a href="../Formularios/MiPerfil.php" class="dropdown-item">Mi Perfil</a>
+                                            <a href="../Formularios/AcercaDe.php" class="dropdown-item">Acerca de</a>                                            
                                         </div>
                                     </div>
                                 </div>

@@ -52,11 +52,8 @@ function CargarProductos(){
 
     });
 }
-/*
-                '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarProducto('+MisItems[i].Id_Producto +'); mostrarFormulario();">Editar</button>'+ 
-                '<button class="rounded" style="background-color: #D6234A; color: white; display: inline-block; width: 67px;"  onclick="EliminarProducto('+MisItems[i].Id_Producto +')">Eliminar</button>'+                
 
-function BuscarProducto(NombreProducto){
+/*function BuscarProducto(NombreProducto){
     var datosProducto = {
         NombreP: isNaN(NombreProducto) ? NombreProducto : null,
         Id_Producto: isNaN(NombreProducto) ? null : parseInt(NombreProducto),
@@ -100,13 +97,36 @@ function BuscarProducto(NombreProducto){
 }*/
 
 function AgregarProducto(){
+    var nombre = $('#Nombre').val();
+    var unidad_medida = $('#Unidad_medida').val();
+    var precio = $('#Precio').val();
+
+    //Patrones de validación
+    var patronNombre = /^[a-zA-Z\s]+$/; //Solo letras y espacios
+    var patronPrecio = /^\d+(\.\d{1,2})?$/; //Solo números decimales
+
+    //Validaciones
+    if(nombre.trim() == "" || unidad_medida.trim() == "" || precio.trim() == ""){
+        alert("Por favor complete todos los campos.");
+        return false;
+    } else if(!patronNombre.test(nombre)){
+        alert("El nombre solo debe contener letras y espacios.");
+        return false;
+    } else if(!patronNombre.test(unidad_medida)){
+        alert("La unidad de medida solo debe contener letras y espacios.");
+        return false;
+    } else if(!patronPrecio.test(precio)){
+        alert("El precio debe ser un número decimal.");
+        return false;
+    }
+
     var datosProducto = {
-    Id_Tipo_Producto: $('#Select_TipoProducto').val(),
-    Nombre: $('#Nombre').val(),
-    Unidad_medida: $('#Unidad_medida').val(),
-    Precio: $('#Precio').val(),
-    Cantidad_maxima: $('#Cantidad_maxima').val(),
-    Cantidad_minima: $('#Cantidad_minima').val()
+        Id_Tipo_Producto: $('#Select_TipoProducto').val(),
+        Nombre: nombre,
+        Unidad_medida: unidad_medida,
+        Precio: precio,
+        Cantidad_maxima: $('#Cantidad_maxima').val(),
+        Cantidad_minima: $('#Cantidad_minima').val()
     };
     var datosProductoJson= JSON.stringify(datosProducto);
 
@@ -169,18 +189,42 @@ function CargarProducto(idProducto){ //Función que trae los campos que se eligi
 }
 
 function ActualizarProducto(idProducto){
-    var datosProducto={
-    Id_Producto: idProducto,
-    Id_Tipo_Producto: $('#Select_TipoProducto').val(),
-    Nombre: $('#Nombre').val(),
-    Unidad_medida: $('#Unidad_medida').val(),
-    Precio: $('#Precio').val(),
-    Cantidad_maxima: $('#Cantidad_maxima').val(),
-    Cantidad_minima: $('#Cantidad_minima').val()
+     var nombre = $('#Nombre').val();
+    var unidad_medida = $('#Unidad_medida').val();
+    var precio = $('#Precio').val();
 
+    // Permitir letras y espacios
+    var patronNombre = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
+    // Permitir solo números con decimales
+    var patronPrecio = /^\d+(\.\d{1,2})?$/;
+
+    // Validar campos vacíos
+    if (nombre.trim() == "" || unidad_medida.trim() == "" || precio.trim() == "") {
+        alert("Por favor, complete todos los campos.");
+        return false;
+    } 
+    // Validar nombre y unidad de medida
+    else if (!patronNombre.test(nombre) || !patronNombre.test(unidad_medida)) {
+        alert("Por favor, utiliza solo letras y espacios para el nombre y unidad de medida.");
+        return false;
+    }
+    // Validar precio
+    else if (!patronPrecio.test(precio)) {
+        alert("Por favor, utiliza solo números con decimales para el precio.");
+        return false;
+    }
+
+    var datosProducto={
+        Id_Producto: idProducto,
+        Id_Tipo_Producto: $('#Select_TipoProducto').val(),
+        Nombre: nombre,
+        Unidad_medida: unidad_medida,
+        Precio: precio,
+        Cantidad_maxima: $('#Cantidad_maxima').val(),
+        Cantidad_minima: $('#Cantidad_minima').val()
     };
     var datosProductoJson = JSON.stringify(datosProducto);
-
+    
     $.ajax({
         url: UrlActualizarProducto,
         type: 'PUT',

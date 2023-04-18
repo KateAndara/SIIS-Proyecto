@@ -43,9 +43,11 @@
         public function getMovimientos($idProducto){ 
             $conexion= parent::Conexion();
             parent::set_names();
-            $sql="SELECT t1.*, t2.* 
+            $sql="SELECT t1.*, t2.*, t3.Usuario AS Nom_Usuario
             FROM tbl_kardex t1                              
-            JOIN tbl_productos t2 ON t1.Id_Producto = t2.Id_Producto where t1.Id_Producto=$idProducto";
+            JOIN tbl_productos t2 ON t1.Id_Producto = t2.Id_Producto
+            JOIN tbl_ms_usuarios t3 ON t1.Id_Usuario = t3.Id_Usuario
+            where t1.Id_Producto=$idProducto";
             $sql= $conexion->prepare($sql);
             $sql->execute();
             return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);                

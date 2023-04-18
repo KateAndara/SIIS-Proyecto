@@ -62,6 +62,7 @@ $id=$_GET['id'];
                         <thead>
                             <tr>
                                 <th>ID KARDEX</th>
+                                <th>USUARIO</th>
                                 <th>NOMBRE PRODUCTO</th>
                                 <th>TIPO MOVIMIENTO</th>  
                                 <th>CANTIDAD</th>

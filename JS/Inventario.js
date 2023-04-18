@@ -77,6 +77,7 @@ function cargarTabla(idProducto) {
          },
          columns: [
           { data: 'Id_Kardex' },
+          { data: 'Nom_Usuario'},
           { data: 'Nombre' },
           { data: "badge" },
           { data: "Cantidad" },
