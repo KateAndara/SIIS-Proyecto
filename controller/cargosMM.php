@@ -51,6 +51,9 @@
 
                 }
 
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($cargosMM->get_user($varsesion));
+                $cargosMM->registrar_bitacora($Id_Usuario, 42, 'Ingresar', 'Se ingresó a la pantalla de cargos');
                 echo json_encode($datos);
             break;
             case "GetCargoMM": //Buscar por cualquier campo 
@@ -77,7 +80,9 @@
 
                 }
 
-
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($cargosMM->get_user($varsesion));
+                $cargosMM->registrar_bitacora($Id_Usuario, 42, 'Insertar', 'Se insertó un cargo');
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
                 
             break;
@@ -113,11 +118,16 @@
 
 
 
-               
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($cargosMM->get_user($varsesion));
+                $cargosMM->registrar_bitacora($Id_Usuario, 42, 'Actualizar', 'Se actualizó un cargo');
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
             break;
             case "DeleteCargoMM":
                 $datos=$cargosMM->delete_CargoMM($body["Id_Cargo"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($cargosMM->get_user($varsesion));
+                $cargosMM->registrar_bitacora($Id_Usuario, 42, 'Eliminar', 'Se eliminó un cargo');
                 echo json_encode("Cargo Eliminado");
             break;
         }

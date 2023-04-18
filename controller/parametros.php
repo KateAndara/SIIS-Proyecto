@@ -45,7 +45,9 @@ session_start();
 
                 }
 
-
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($Parametros->get_user($varsesion));
+                $Parametros->registrar_bitacora($Id_Usuario, 40, 'Ingresar', 'Se ingresó a la pantalla de parámetros');
                 echo json_encode($datos);
             break;
             case "GetParametro":
@@ -55,6 +57,7 @@ session_start();
             break;
             case "GetParametroeditar": //Trae la fila que se va a editar
                 $datos=$Parametros->get_parametroeditar($body["Id_Parametro"]);
+                
                 echo json_encode($datos);
             break;
             /*case "InsertParametro":
@@ -63,6 +66,9 @@ session_start();
             break;*/
             case "UpdateParametro":
                 $datos=$Parametros->update_parametro($body["Id_Parametro"],$body["Parametro"],$body["Valor"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($Parametros->get_user($varsesion));
+                $Parametros->registrar_bitacora($Id_Usuario, 40, 'Actualizar', 'Se actualizó un parámetro');
                 echo json_encode("Parámetro Actualizado");
             break;
             /*case "DeleteParametro":

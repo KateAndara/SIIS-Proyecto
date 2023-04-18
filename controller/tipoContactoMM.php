@@ -48,7 +48,9 @@ session_start();
                     $datos[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
 
                 }
-
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($tiposContactosMM->get_user($varsesion));
+                $tiposContactosMM->registrar_bitacora($Id_Usuario, 48, 'Ingresar', 'Se ingresó a la pantalla de Tipos de contactos');
                 echo json_encode($datos);
             break;
             case "GetTipoContactoMM":
@@ -62,14 +64,23 @@ session_start();
             break;
             case "InsertTipoContactoMM":
                 $datos=$tiposContactosMM->insert_TipoContactoMM($body["Nombre_tipo_contacto"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($tiposContactosMM->get_user($varsesion));
+                $tiposContactosMM->registrar_bitacora($Id_Usuario, 48, 'Insertar', 'Se insertó un tipo de contacto');
                 echo json_encode("Se agregó el  tipo de contacto");
             break;
             case "UpdateTipoContactoMM":
                 $datos=$tiposContactosMM->update_TipoContactoMM($body["Id_Tipo_Contacto"],$body["Nombre_tipo_contacto"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($tiposContactosMM->get_user($varsesion));
+                $tiposContactosMM->registrar_bitacora($Id_Usuario, 48, 'Actualizar', 'Se actualizó un tipo de contacto');
                 echo json_encode("Tipo de contacto Actualizado");
             break;
             case "DeleteTipoContactoMM":
                 $datos=$tiposContactosMM->delete_TipoContactoMM($body["Id_Tipo_Contacto"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($tiposContactosMM->get_user($varsesion));
+                $tiposContactosMM->registrar_bitacora($Id_Usuario, 48, 'Eliminar', 'Se eliminó un tipo de contacto');
                 echo json_encode("Tipo de contacto Eliminado");
             break; 
         }

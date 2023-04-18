@@ -24,6 +24,7 @@ session_start();
 
             case "GetPreguntas":
                 $datos=$Preguntas->get_preguntas();
+                
 
                 //ciclo for para insertar los botontes en cada opción
                 for ($i=0; $i < count($datos); $i++) { 
@@ -50,6 +51,9 @@ session_start();
                     $datos[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
 
                 }
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($Preguntas->get_user($varsesion));
+                $Preguntas->registrar_bitacora($Id_Usuario, 31, 'Ingresar', 'Se ingresó a la pantalla de preguntas');
 
                 echo json_encode($datos);
             break;
@@ -64,14 +68,25 @@ session_start();
             break;
             case "InsertPregunta":
                 $datos=$Preguntas->insert_pregunta($body["Pregunta"]);
+
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($Preguntas->get_user($varsesion));
+                $Preguntas->registrar_bitacora($Id_Usuario, 31, 'Insertar', 'Se insertó una pregunta');
+
                 echo json_encode("Se agregó la pregunta");
             break;
             case "UpdatePregunta":
                 $datos=$Preguntas->update_pregunta($body["Id_Pregunta"],$body["Pregunta"]);
-                echo json_encode("Pregunt Actualizada");
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($Preguntas->get_user($varsesion));
+                $Preguntas->registrar_bitacora($Id_Usuario, 31, 'Actualizar', 'Se actualizó una pregunta');
+                echo json_encode("Pregunta Actualizada");
             break;
             case "DeletePregunta":
                 $datos=$Preguntas->delete_pregunta($body["Id_Pregunta"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($Preguntas->get_user($varsesion));
+                $Preguntas->registrar_bitacora($Id_Usuario, 31, 'Eliminar', 'Se eliminó una pregunta');
                 echo json_encode("Pregunta Eliminada");
             break;
         }

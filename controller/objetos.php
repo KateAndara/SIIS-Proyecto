@@ -49,7 +49,9 @@ session_start();
 
                 }
 
-
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($Objetos->get_user($varsesion));
+                $Objetos->registrar_bitacora($Id_Usuario, 41, 'Ingresar', 'Se ingresó a la pantalla de objetos');
                 echo json_encode($datos);
             break;
             case "GetObjeto":
@@ -63,14 +65,23 @@ session_start();
             break;
             case "InsertObjeto":
                 $datos=$Objetos->insert_objeto($body["Objeto"],$body["Descripcion"],$body["Tipo_objeto"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($Objetos->get_user($varsesion));
+                $Objetos->registrar_bitacora($Id_Usuario, 41, 'Insertar', 'Se insertó un objeto');
                 echo json_encode("Se agregó el objeto");
             break;
             case "UpdateObjeto":
                 $datos=$Objetos->update_objeto($body["Id_Objeto"],$body["Objeto"],$body["Descripcion"],$body["Tipo_objeto"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($Objetos->get_user($varsesion));
+                $Objetos->registrar_bitacora($Id_Usuario, 41, 'Actualizar', 'Se actualizó un objeto');
                 echo json_encode("Objeto Actualizado");
             break;
             case "DeleteObjeto":
                 $datos=$Objetos->delete_objeto($body["Id_Objeto"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($Objetos->get_user($varsesion));
+                $Objetos->registrar_bitacora($Id_Usuario, 41, 'Eliminar', 'Se eliminó un objeto');
                 echo json_encode("Objeto Eliminado");
             break;
         }

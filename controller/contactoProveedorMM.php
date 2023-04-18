@@ -49,7 +49,9 @@ session_start();
                     $datos[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
 
                 }
-
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($contactosProveedoresMM->get_user($varsesion));
+                $contactosProveedoresMM->registrar_bitacora($Id_Usuario, 46, 'Ingresar', 'Se ingresó a la pantalla de los contactos de proveedores');
                 echo json_encode($datos);
             break;
             case "GetContactoProveedorMM": //Buscar por cualquier campo 
@@ -63,14 +65,23 @@ session_start();
             break;
             case "InsertContactoProveedorMM":
                 $datos=$contactosProveedoresMM->insert_ContactoProveedorMM($body["Id_Tipo_Contacto"],$body["Id_Proveedor"],$body["Contacto"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($contactosProveedoresMM->get_user($varsesion));
+                $contactosProveedoresMM->registrar_bitacora($Id_Usuario, 46, 'Insertar', 'Se insertó un nuevo contacto de un proveedor');
                 echo json_encode("Se agregó el  Contacto del proveedor");
             break;
             case "UpdateContactoProveedorMM":
                 $datos=$contactosProveedoresMM->update_ContactoProveedorMM($body["Id_Proveedores_Contacto"],$body["Id_Tipo_Contacto"],$body["Id_Proveedor"],$body["Contacto"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($contactosProveedoresMM->get_user($varsesion));
+                $contactosProveedoresMM->registrar_bitacora($Id_Usuario, 46, 'Actualizar', 'Se actualizó un contacto de un proveedor');
                 echo json_encode("Contacto Actualizado");
             break;
             case "DeleteContactoProveedorMM":
                 $datos=$contactosProveedoresMM->delete_ContactoProveedorMM($body["Id_Proveedores_Contacto"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($contactosProveedoresMM->get_user($varsesion));
+                $contactosProveedoresMM->registrar_bitacora($Id_Usuario, 46, 'Insertar', 'Se eliminó un contacto de un proveedor');
                 echo json_encode("Proveedor Eliminado");
             break;
             //Datos de otra tabla

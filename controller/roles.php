@@ -63,6 +63,9 @@ session_start();
 
                     }
 
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($roles->get_user($varsesion));
+                $roles->registrar_bitacora($Id_Usuario, 37, 'Ingresar', 'Se ingresó a la pantalla de roles y permisos');
 
                 echo json_encode($datos);
             break;
@@ -70,7 +73,7 @@ session_start();
                 $busqueda = isset($body["Nombre"]) ? $body["Nombre"] : (isset($body["Id_Rol"]) ? $body["Id_Rol"] : '');
             
                 $datos = $roles->get_rol($busqueda);
-            
+                
                 echo json_encode($datos);
             break;
             case "GetRoleditar": //Trae la fila que se va a editar
@@ -79,14 +82,23 @@ session_start();
             break;
             case "InsertRol":
                 $datos=$roles->insert_rol($body["Rol"],$body["Descripcion"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($roles->get_user($varsesion));
+                $roles->registrar_bitacora($Id_Usuario, 37, 'Insertar', 'Se insertó un  rol');
                 echo json_encode("Se agregó el rol");
             break;
             case "UpdateRol":
                 $datos=$roles->update_rol($body["Id_Rol"],$body["Rol"],$body["Descripcion"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($roles->get_user($varsesion));
+                $roles->registrar_bitacora($Id_Usuario, 37, 'Actualizar', 'Se actualizó un rol');
                 echo json_encode("Rol Actualizado");
             break;
             case "DeleteRol":
                 $datos=$roles->delete_rol($body["Id_Rol"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($roles->get_user($varsesion));
+                $roles->registrar_bitacora($Id_Usuario, 37, 'Eliminar', 'Se eliminó un  rol');
                 echo json_encode("Rol Eliminado");
             break;
 

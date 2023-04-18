@@ -49,7 +49,9 @@ session_start();
 
                     }
 
-
+                    $varsesion = $_SESSION['usuario'];
+                    $Id_Usuario = intval($estadosProcesosMM->get_user($varsesion));
+                    $estadosProcesosMM->registrar_bitacora($Id_Usuario, 50, 'Ingresar', 'Se ingresó a la pantalla del Estado del proceso');
                 echo json_encode($datos);
             break;
             case "GetEstadoProcesoMM": //Buscar por cualquier campo 
@@ -63,14 +65,23 @@ session_start();
             break;
             case "InsertEstadoProcesoMM":
                 $datos=$estadosProcesosMM->insert_EstadoProcesoMM($body["Descripcion"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($estadosProcesosMM->get_user($varsesion));
+                $estadosProcesosMM->registrar_bitacora($Id_Usuario, 50, 'Insertar', 'Se insertó un nuevo Estado para el proceso');
                 echo json_encode("Se agregó el Estado del proceso");
             break;
             case "UpdateEstadoProcesoMM":
                 $datos=$estadosProcesosMM->update_EstadoProcesoMM($body["Id_Estado_Proceso"],$body["Descripcion"]);
+                $varsesion = $_SESSION['usuario'];
+                    $Id_Usuario = intval($estadosProcesosMM->get_user($varsesion));
+                    $estadosProcesosMM->registrar_bitacora($Id_Usuario, 50, 'Actualizar', 'Se actualizó un Estado del proceso');
                 echo json_encode("Estado del proceso Actualizado");
             break;
             case "DeleteEstadoProcesoMM":
                 $datos=$estadosProcesosMM->delete_EstadoProcesoMM($body["Id_Estado_Proceso"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($estadosProcesosMM->get_user($varsesion));
+                $estadosProcesosMM->registrar_bitacora($Id_Usuario, 50, 'Eliminar', 'Se eliminó un Estado para el proceso');
                 echo json_encode("Estado del proceso Eliminado");
             break;
         }

@@ -28,6 +28,7 @@ include '../components/header.components.php';
     <script src="../Reportes/Reporte.js"></script>
 </head>
 <body>
+
     <div class="col-md-12 cards-white" style="margin: 0 auto; width: 110%; max-width: none; margin-left: -20px;">
         <div class="consulta mt-4" id="consulta">
             <div class="row">

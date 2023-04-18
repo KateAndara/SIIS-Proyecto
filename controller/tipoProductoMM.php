@@ -49,6 +49,9 @@ session_start();
                     $datos[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
 
                 }
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($tiposProductosMM->get_user($varsesion));
+                $tiposProductosMM->registrar_bitacora($Id_Usuario, 44, 'Ingresar', 'Se ingresó a la pantalla de Tipos de productos');
                 echo json_encode($datos);
             break;
             case "GetTipoProductoMM":
@@ -62,14 +65,23 @@ session_start();
             break;
             case "InsertTipoProductoMM":
                 $datos=$tiposProductosMM->insert_TipoProductoMM($body["Nombre_tipo"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($tiposProductosMM->get_user($varsesion));
+                $tiposProductosMM->registrar_bitacora($Id_Usuario, 44, 'Insertar', 'Se insertó un tipo de producto');
                 echo json_encode("Se agregó el  Tipo De Producto");
             break;
             case "UpdateTipoProductoMM":
                 $datos=$tiposProductosMM->update_TipoProductoMM($body["Id_Tipo_Producto"],$body["Nombre_tipo"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($tiposProductosMM->get_user($varsesion));
+                $tiposProductosMM->registrar_bitacora($Id_Usuario, 44, 'Actualizar', 'Se actualizó un tipo de producto');
                 echo json_encode("Tipo De Producto Actualizado");
             break;
             case "DeleteTipoProductoMM":
                 $datos=$tiposProductosMM->delete_TipoProductoMM($body["Id_Tipo_Producto"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($tiposProductosMM->get_user($varsesion));
+                $tiposProductosMM->registrar_bitacora($Id_Usuario, 44, 'Eliminar', 'Se eliminó un tipo de producto');
                 echo json_encode("Tipo De Producto Eliminado");
             break; 
         }

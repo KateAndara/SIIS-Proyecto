@@ -50,7 +50,9 @@ session_start();
                     $datos[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
 
                 }
-
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($estadosVentasMM->get_user($varsesion));
+                $estadosVentasMM->registrar_bitacora($Id_Usuario, 43, 'Ingresar', 'Se ingresó a la pantalla de Estado de Ventas');
                 echo json_encode($datos);
             break;
 
@@ -66,15 +68,24 @@ session_start();
             break;
             case "InsertEstadoVentaMM":
                 $datos=$estadosVentasMM->insert_EstadoVentaMM($body["Nombre_estado"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($estadosVentasMM->get_user($varsesion));
+                $estadosVentasMM->registrar_bitacora($Id_Usuario, 43, 'Insertar', 'Se insertó un Estado de Venta');
                 echo json_encode("Se agregó el  Estado De Venta");
             break;
             case "UpdateEstadoVentaMM":
                 $datos=$estadosVentasMM->update_EstadoVentaMM($body["Id_Estado_Venta"],$body["Nombre_estado"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($estadosVentasMM->get_user($varsesion));
+                $estadosVentasMM->registrar_bitacora($Id_Usuario, 43, 'Actualizar', 'Se actualizó un Estado de Venta');
                 echo json_encode("Estado De Venta Actualizado");
             break;
 
             case "DeleteEstadoVentaMM":
                 $datos=$estadosVentasMM->delete_EstadoVentaMM($body["Id_Estado_Venta"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($estadosVentasMM->get_user($varsesion));
+                $estadosVentasMM->registrar_bitacora($Id_Usuario, 43, 'Insertar', 'Se insertó un Estado de Venta');
                 echo json_encode("Estado De Venta Eliminado");
             break;
         }

@@ -49,6 +49,9 @@ session_start();
                     $datos[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
 
                 }
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($tiposMovimientosMM->get_user($varsesion));
+                $tiposMovimientosMM->registrar_bitacora($Id_Usuario, 49, 'Ingresar', 'Se ingresó a la pantalla de Tipos de Movimientos');
                 echo json_encode($datos);
             break;
             case "GetTipoMovimientoMM": //Buscar por cualquier campo 
@@ -62,14 +65,23 @@ session_start();
             break;
             case "InsertTipoMovimientoMM":
                 $datos=$tiposMovimientosMM->insert_TipoMovimientoMM($body["Descripcion"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($tiposMovimientosMM->get_user($varsesion));
+                $tiposMovimientosMM->registrar_bitacora($Id_Usuario, 49, 'Insertar', 'Se insertó un Tipo de Movimiento');
                 echo json_encode("Se agregó el  Cargo");
             break;
             case "UpdateTipoMovimientoMM":
                 $datos=$tiposMovimientosMM->update_TipoMovimientoMM($body["Id_Tipo_Movimiento"],$body["Descripcion"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($tiposMovimientosMM->get_user($varsesion));
+                $tiposMovimientosMM->registrar_bitacora($Id_Usuario, 49, 'Actualizar', 'Se actualizó un Tipo de Movimiento');
                 echo json_encode("Cargo Actualizado");
             break;
             case "DeleteTipoMovimientoMM":
                 $datos=$tiposMovimientosMM->delete_TipoMovimientoMM($body["Id_Tipo_Movimiento"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($tiposMovimientosMM->get_user($varsesion));
+                $tiposMovimientosMM->registrar_bitacora($Id_Usuario, 49, 'Eliminar', 'Se eliminó un Tipo de Movimiento');
                 echo json_encode("Cargo Eliminado");
             break;
         }
