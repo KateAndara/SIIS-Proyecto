@@ -39,7 +39,7 @@
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="col-md-12 cards-white" style="margin: 0 auto; width: 80%; max-width: none; margin-left: -20px;">
+    <div class="col-md-12 cards-white" style="margin: 0 auto; width: 100%; max-width: none; margin-left: -20px;">
         <div class="consulta mt-4" id="consulta">
             <div class="row">
                 <div class="col-12 text-center">

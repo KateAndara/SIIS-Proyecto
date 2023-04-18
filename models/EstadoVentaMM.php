@@ -9,6 +9,34 @@
             $sql->execute();
             return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);                
         }
+
+        public function selectEstadoVenta($nombreEstado){  //Buscar por cualquier campo
+            $conectar = parent::Conexion();
+            parent::set_names();
+        
+            $sql = "SELECT * FROM tbl_estado_venta 
+                    WHERE Nombre_estado =?"; 
+            $sql = $conectar->prepare($sql);
+            $sql->bindValue(1, $nombreEstado);
+            $sql->execute();
+        
+            return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        public function selectEstadoVenta2($nombreEstado,$idEstadoVenta){  //Buscar por cualquier campo
+            $conectar = parent::Conexion();
+            parent::set_names();
+        
+            $sql = "SELECT * FROM tbl_estado_venta 
+                    WHERE Nombre_estado =? && Id_Estado_Venta!=?"; 
+            $sql = $conectar->prepare($sql);
+            $sql->bindValue(1, $nombreEstado);
+            $sql->bindValue(2, $idEstadoVenta);
+
+            $sql->execute();
+        
+            return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+        }
         public function registrar_bitacora($id_usuario, $id_objeto, $accion, $descripcion){
             $conexion= parent::Conexion();
             parent::set_names();
@@ -70,7 +98,7 @@
             return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
         }
 
-        public function update_EstadoVentaMM($Id_Estado_Venta,$Nombre_estado){
+        public function update_EstadoVentaMM($Nombre_estado,$Id_Estado_Venta){
             $conectar= parent::conexion();
             parent::set_names();
             $sql="UPDATE tbl_estado_venta SET Nombre_estado=? WHERE Id_Estado_Venta=?;";

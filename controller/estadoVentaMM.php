@@ -67,18 +67,40 @@ session_start();
                 echo json_encode($datos);
             break;
             case "InsertEstadoVentaMM":
-                $datos=$estadosVentasMM->insert_EstadoVentaMM($body["Nombre_estado"]);
+                $selectEstadoVenta=$estadosVentasMM->selectEstadoVenta($body['Nombre_estado']);
+
+
+                if (count($selectEstadoVenta)>0) {
+                    $arrResponse = array("status" => false, "msg" => 'El Estado de venta ya existe');
+                }else{
+                    $datos=$estadosVentasMM->insert_EstadoVentaMM($body["Nombre_estado"]);
+                    $arrResponse = array("status" => true, "msg" => 'Se agregó el  estado de venta');
+                }
+                
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($estadosVentasMM->get_user($varsesion));
                 $estadosVentasMM->registrar_bitacora($Id_Usuario, 43, 'Insertar', 'Se insertó un Estado de Venta');
-                echo json_encode("Se agregó el  Estado De Venta");
             break;
             case "UpdateEstadoVentaMM":
-                $datos=$estadosVentasMM->update_EstadoVentaMM($body["Id_Estado_Venta"],$body["Nombre_estado"]);
+                $nombreEstado=$body['Nombre_estado'];
+                $idEstadoVenta=$body['Id_Estado_Venta'];
+
+                $selectEstadoVenta=$estadosVentasMM->selectEstadoVenta2($nombreEstado,$idEstadoVenta);
+                
+                if (count($selectEstadoVenta)>=1) {
+
+                    $arrResponse = array("status" => false, "msg" => 'El estado de venta  ya existe');
+
+                }else{
+                    $datos=$estadosVentasMM->update_EstadoVentaMM($nombreEstado,$idEstadoVenta);
+                    $arrResponse = array("status" => true, "msg" => 'Estado de venta Actualizado Correctamente');
+                }
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($estadosVentasMM->get_user($varsesion));
                 $estadosVentasMM->registrar_bitacora($Id_Usuario, 43, 'Actualizar', 'Se actualizó un Estado de Venta');
-                echo json_encode("Estado De Venta Actualizado");
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+
             break;
 
             case "DeleteEstadoVentaMM":

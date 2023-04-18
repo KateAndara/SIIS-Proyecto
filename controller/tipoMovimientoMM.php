@@ -16,7 +16,7 @@ session_start();
         require_once '../models/TipoMovimientoMM.php';
 
         $tiposMovimientosMM = new TipoMovimientoMM();
-
+ 
         $body = json_decode(file_get_contents("php://input"), true);
 
         switch($_GET["opc"]){
@@ -64,18 +64,37 @@ session_start();
                 echo json_encode($datos);
             break;
             case "InsertTipoMovimientoMM":
-                $datos=$tiposMovimientosMM->insert_TipoMovimientoMM($body["Descripcion"]);
+                $selectTipo=$tiposMovimientosMM->selectTipo($body['Descripcion']);
+
+                if (count($selectTipo)>0) {
+                    $arrResponse = array("status" => false, "msg" => 'El tipo de movimiento ya existe');
+                }else{
+                    $datos=$tiposMovimientosMM->insert_TipoMovimientoMM($body["Descripcion"]);
+                    $arrResponse = array("status" => true, "msg" => 'Se agregó el  tipo de movimiento');
+                }
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($tiposMovimientosMM->get_user($varsesion));
                 $tiposMovimientosMM->registrar_bitacora($Id_Usuario, 49, 'Insertar', 'Se insertó un Tipo de Movimiento');
-                echo json_encode("Se agregó el  Cargo");
             break;
             case "UpdateTipoMovimientoMM":
-                $datos=$tiposMovimientosMM->update_TipoMovimientoMM($body["Id_Tipo_Movimiento"],$body["Descripcion"]);
+                $nombreTipo=$body['Descripcion'];
+                $idTipo=$body['Id_Tipo_Movimiento'];
+
+                $selectTipo=$tiposMovimientosMM->selectTipo2($nombreTipo,$idTipo);
+                
+                if (count($selectTipo)>=1) {
+
+                    $arrResponse = array("status" => false, "msg" => 'El tipo de movimiento ya existe');
+
+                }else{
+                    $datos=$tiposMovimientosMM->update_TipoMovimientoMM($nombreTipo,$idTipo);
+                    $arrResponse = array("status" => true, "msg" => 'Tipo producto Actualizado Correctamente');
+                }
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE); 
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($tiposMovimientosMM->get_user($varsesion));
                 $tiposMovimientosMM->registrar_bitacora($Id_Usuario, 49, 'Actualizar', 'Se actualizó un Tipo de Movimiento');
-                echo json_encode("Cargo Actualizado");
             break;
             case "DeleteTipoMovimientoMM":
                 $datos=$tiposMovimientosMM->delete_TipoMovimientoMM($body["Id_Tipo_Movimiento"]);

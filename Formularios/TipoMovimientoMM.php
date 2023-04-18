@@ -12,7 +12,7 @@
     ob_start();
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"> 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -36,10 +36,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.26/jspdf.plugin.autotable.min.js"></script>
 
     <script src="../Reportes/Reporte.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
 
 </head>
 <body>
-    <div class="col-md-12 cards-white" style="margin: 0 auto; width: 80%; max-width: none; margin-left: -20px;">
+    <div class="col-md-12 cards-white" style="margin: 0 auto; width: 100%; max-width: none; margin-left: -20px;">
         <div class="consulta mt-4" id="consulta" >
             <div class="row">
                 <div class="col-12 text-center" >
@@ -115,11 +116,11 @@
                         <input type="number" id="Id_Tipo_Movimiento" class="form-control" placeholder="Ingrese el código del tipo de movimiento"hidden>
                         
                         <label for="">NONRE TIPO MOVIMIENTO</label>
-                        <input type="text" id="Descripcion"   class="form-control" placeholder="Ingrese El Nombre Del Tipo De Movimiento">
+                        <input type="text" id="Descripcion"   class="form-control" placeholder="Ingrese El Nombre Del Tipo De Movimiento" oninput="validarEntrada(this)">
                         <hr>
 
                         <div id="btnagregarTipoMovimiento">
-                            <input type="submit" id="btnagregar" onclick="AgregarTipoMovimientoMM()" value="Agregar Tipo De Movimiento" class="btn btn-success">
+                            <a id="btnagregar" onclick="AgregarTipoMovimientoMM()" value="Agregar Tipo De Movimiento" class="btn btn-success">Agregar Tipo De Movimiento</a>
                             <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button>
                         </div>
                     </form>
@@ -136,5 +137,22 @@
 
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+
+<script>
+  function validarEntrada(input) { 
+
+  const patron = /^[A-Z a-z]+$/;
+  const valor = input.value;
+  if (!patron.test(valor)) {
+    swal.fire('Error','Solo se permite ingresar letras', 'error');
+    input.value = input.value.slice(0, -1);
+  } else {
+  
+  }
+
+}
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
 </body>
 </html>

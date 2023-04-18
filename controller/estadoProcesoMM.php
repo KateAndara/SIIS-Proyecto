@@ -20,7 +20,7 @@ session_start();
         $body = json_decode(file_get_contents("php://input"), true);
 
         switch($_GET["opc"]){
-
+ 
             case "GetEstadoProcesosMM": 
                 $datos=$estadosProcesosMM->get_EstadoProcesosMM();
                     //ciclo for para insertar los botontes en cada opción
@@ -64,18 +64,39 @@ session_start();
                 echo json_encode($datos);
             break;
             case "InsertEstadoProcesoMM":
-                $datos=$estadosProcesosMM->insert_EstadoProcesoMM($body["Descripcion"]);
+                $selectEstadoProceso=$estadosProcesosMM->selectEstadoProceso($body['Descripcion']);
+
+
+                if (count($selectEstadoProceso)>0) {
+                    $arrResponse = array("status" => false, "msg" => 'El Estado del proceso ya existe');
+                }else{
+                    $datos=$estadosProcesosMM->insert_EstadoProcesoMM($body["Descripcion"]);
+                    $arrResponse = array("status" => true, "msg" => 'Se agregó el  estado del proceso');
+                }
+
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($estadosProcesosMM->get_user($varsesion));
                 $estadosProcesosMM->registrar_bitacora($Id_Usuario, 50, 'Insertar', 'Se insertó un nuevo Estado para el proceso');
-                echo json_encode("Se agregó el Estado del proceso");
             break;
             case "UpdateEstadoProcesoMM":
-                $datos=$estadosProcesosMM->update_EstadoProcesoMM($body["Id_Estado_Proceso"],$body["Descripcion"]);
+                $nombreEstado=$body['Descripcion'];
+                $idEstadoProceso=$body['Id_Estado_Proceso'];
+
+                $selectEstadoProceso=$estadosProcesosMM->selectEstadoProceso2($nombreEstado,$idEstadoProceso);
+                
+                if (count($selectEstadoProceso)>=1) {
+
+                    $arrResponse = array("status" => false, "msg" => 'El estado del proceso  ya existe');
+
+                }else{
+                    $datos=$estadosProcesosMM->update_EstadoProcesoMM($nombreEstado,$idEstadoProceso);
+                    $arrResponse = array("status" => true, "msg" => 'Estado del proceso Actualizado Correctamente');
+                }
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
                 $varsesion = $_SESSION['usuario'];
-                    $Id_Usuario = intval($estadosProcesosMM->get_user($varsesion));
-                    $estadosProcesosMM->registrar_bitacora($Id_Usuario, 50, 'Actualizar', 'Se actualizó un Estado del proceso');
-                echo json_encode("Estado del proceso Actualizado");
+                $Id_Usuario = intval($estadosProcesosMM->get_user($varsesion));
+                $estadosProcesosMM->registrar_bitacora($Id_Usuario, 50, 'Actualizar', 'Se actualizó un Estado del proceso');
             break;
             case "DeleteEstadoProcesoMM":
                 $datos=$estadosProcesosMM->delete_EstadoProcesoMM($body["Id_Estado_Proceso"]);

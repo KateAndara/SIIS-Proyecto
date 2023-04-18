@@ -64,18 +64,37 @@ session_start();
                 echo json_encode($datos);
             break;
             case "InsertTipoProductoMM":
-                $datos=$tiposProductosMM->insert_TipoProductoMM($body["Nombre_tipo"]);
+                $selectTipo=$tiposProductosMM->selectTipo($body['Nombre_tipo']);
+
+                if (count($selectTipo)>0) {
+                    $arrResponse = array("status" => false, "msg" => 'El tipo de producto ya existe');
+                }else{
+                    $datos=$tiposProductosMM->insert_TipoProductoMM($body["Nombre_tipo"]);
+                    $arrResponse = array("status" => true, "msg" => 'Se agregó el  tipo de producto');
+                }
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($tiposProductosMM->get_user($varsesion));
                 $tiposProductosMM->registrar_bitacora($Id_Usuario, 44, 'Insertar', 'Se insertó un tipo de producto');
-                echo json_encode("Se agregó el  Tipo De Producto");
             break;
             case "UpdateTipoProductoMM":
-                $datos=$tiposProductosMM->update_TipoProductoMM($body["Id_Tipo_Producto"],$body["Nombre_tipo"]);
+                $nombreTipo=$body['Nombre_tipo'];
+                $idTipo=$body['Id_Tipo_Producto'];
+
+                $selectTipo=$tiposProductosMM->selectTipo2($nombreTipo,$idTipo);
+                
+                if (count($selectTipo)>=1) {
+
+                    $arrResponse = array("status" => false, "msg" => 'El tipo de producto ya existe');
+
+                }else{
+                    $datos=$tiposProductosMM->update_TipoProductoMM($nombreTipo,$idTipo);
+                    $arrResponse = array("status" => true, "msg" => 'Tipo producto Actualizado Correctamente');
+                }
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE); 
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($tiposProductosMM->get_user($varsesion));
                 $tiposProductosMM->registrar_bitacora($Id_Usuario, 44, 'Actualizar', 'Se actualizó un tipo de producto');
-                echo json_encode("Tipo De Producto Actualizado");
             break;
             case "DeleteTipoProductoMM":
                 $datos=$tiposProductosMM->delete_TipoProductoMM($body["Id_Tipo_Producto"]);

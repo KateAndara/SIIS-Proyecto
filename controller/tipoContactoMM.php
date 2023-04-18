@@ -7,7 +7,7 @@ session_start();
         header('Access-Control-Max-Age: 1728000');
         header('Content-Length: 0');
         header('Content-Type: text/plain');
-        die();
+        die(); 
      }
         header('Access-Control-Allow-Origin: *');  
         header('Content-Type: application/json');
@@ -63,18 +63,37 @@ session_start();
                 echo json_encode($datos);
             break;
             case "InsertTipoContactoMM":
-                $datos=$tiposContactosMM->insert_TipoContactoMM($body["Nombre_tipo_contacto"]);
+                $selectTipo=$tiposContactosMM->selectTipo($body['Nombre_tipo_contacto']);
+
+                if (count($selectTipo)>0) {
+                    $arrResponse = array("status" => false, "msg" => 'El tipo de contacto ya existe');
+                }else{
+                    $datos=$tiposContactosMM->insert_TipoContactoMM($body["Nombre_tipo_contacto"]);
+                    $arrResponse = array("status" => true, "msg" => 'Se agregó el  tipo de contacto');
+                }
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($tiposContactosMM->get_user($varsesion));
                 $tiposContactosMM->registrar_bitacora($Id_Usuario, 48, 'Insertar', 'Se insertó un tipo de contacto');
-                echo json_encode("Se agregó el  tipo de contacto");
             break;
             case "UpdateTipoContactoMM":
-                $datos=$tiposContactosMM->update_TipoContactoMM($body["Id_Tipo_Contacto"],$body["Nombre_tipo_contacto"]);
+                $nombreTipo=$body['Nombre_tipo_contacto'];
+                $idTipo=$body['Id_Tipo_Contacto'];
+
+                $selectTipo=$tiposContactosMM->selectTipo2($nombreTipo,$idTipo);
+                
+                if (count($selectTipo)>=1) {
+
+                    $arrResponse = array("status" => false, "msg" => 'El tipo de producto ya existe');
+
+                }else{
+                    $datos=$tiposContactosMM->update_TipoContactoMM($nombreTipo,$idTipo);
+                    $arrResponse = array("status" => true, "msg" => 'Tipo contacto Actualizado Correctamente');
+                }
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE); 
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($tiposContactosMM->get_user($varsesion));
                 $tiposContactosMM->registrar_bitacora($Id_Usuario, 48, 'Actualizar', 'Se actualizó un tipo de contacto');
-                echo json_encode("Tipo de contacto Actualizado");
             break;
             case "DeleteTipoContactoMM":
                 $datos=$tiposContactosMM->delete_TipoContactoMM($body["Id_Tipo_Contacto"]);

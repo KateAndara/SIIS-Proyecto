@@ -46,7 +46,7 @@ date_default_timezone_set('America/Tegucigalpa');
 
 </head>
 <body>
-    <div class="col-md-12 cards-white" style="margin: 0 auto; width: 110%; max-width: none; margin-left: auto; margin-right: auto">
+    <div class="col-md-12 cards-white" style="margin: 0 auto; width: 100%; max-width: none; margin-left: auto; margin-right: auto">
         <div class="consulta mt-4" id="consulta">
             <div class="row">
                 <div class="col-12 text-center">

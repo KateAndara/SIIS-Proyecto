@@ -9,6 +9,35 @@
             $sql->execute();
             return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);                
         }
+
+        public function selectTipo($nombreTipo){  //Buscar por cualquier campo
+            $conectar = parent::Conexion();
+            parent::set_names();
+        
+            $sql = "SELECT * FROM tbl_tipo_movimiento 
+                    WHERE Descripcion =?"; 
+            $sql = $conectar->prepare($sql);
+            $sql->bindValue(1, $nombreTipo);
+            $sql->execute();
+        
+            return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        public function selectTipo2($nombreTipo,$idTipo){  //Buscar por cualquier campo
+            $conectar = parent::Conexion();
+            parent::set_names();
+        
+            $sql = "SELECT * FROM tbl_tipo_movimiento 
+                    WHERE Descripcion =? && Id_Tipo_Movimiento!=?"; 
+            $sql = $conectar->prepare($sql);
+            $sql->bindValue(1, $nombreTipo);
+            $sql->bindValue(2, $idTipo);
+
+            $sql->execute();
+        
+            return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+        }
+
         public function registrar_bitacora($id_usuario, $id_objeto, $accion, $descripcion){
             $conexion= parent::Conexion();
             parent::set_names();
@@ -70,7 +99,7 @@
             return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
         }
 
-        public function update_TipoMovimientoMM($Id_Tipo_Movimiento,$Descripcion){
+        public function update_TipoMovimientoMM($Descripcion,$Id_Tipo_Movimiento){
             $conectar= parent::conexion();
             parent::set_names();
             $sql="UPDATE tbl_tipo_movimiento SET Descripcion=? WHERE Id_Tipo_Movimiento=?;";

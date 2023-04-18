@@ -10,7 +10,7 @@ $(document).ready(function(){
 });
 
 function CargarEstadoProcesosMM(){
-    
+     
     $.ajax({
         url : UrlEstadoProcesosMM,
         type: 'GET',
@@ -46,6 +46,13 @@ function CargarEstadoProcesosMM(){
 }
 
 function AgregarEstadoProcesoMM(){
+    nombreEstado=document.querySelector("#Descripcion").value;
+    console.log(nombreEstado);
+
+    if ( nombreEstado == "" ) {
+         swal.fire("Atención", "Todos los campos son obligatorios.", "error");
+         return false;
+    }
     var datosEstadoProceso = {
         Descripcion: $('#Descripcion').val()
     };
@@ -58,15 +65,43 @@ function AgregarEstadoProcesoMM(){
         datatype: 'JSON',
         contentType: 'application/json',
         success: function(reponse){
-            console.log(reponse);
-            alert('Estado Del Proceso Agregado');
+            console.log(reponse.status);
+            if (reponse.status) {
+                swal.fire({
+                title: "LISTO!",
+                text: reponse.msg,
+                icon: "success",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                timer: 3000,
+                willClose: () => {
+                    window.location.reload();
+                },
+                });
+            } else {
+                swal.fire({
+                title: "Error!",
+                text: reponse.msg,
+                icon: "error",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                
+                });
+            }
         },
 
         error: function(textStatus, errorThrown){
-            alert('Error al agregar el esatdo del proceso' + textStatus + errorThrown);
-        }
+            swal.fire({
+                title: "Error!",
+                text: "Error al guardar el Cargo",
+                icon: "error",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                timer: 4000,
+               
+              });
+        },
     });
-    alert('Aviso');
 }
 
 function CargarEstadoProcesoMM(idEstadoProceso){ //Función que trae los campos que se eligieron editar.
@@ -91,8 +126,8 @@ function CargarEstadoProcesoMM(idEstadoProceso){ //Función que trae los campos 
             $('#Descripcion').val(MisItems[0].Descripcion);
 
             //Usar el mismo botón de agregar con la funcionalidad de actualizar.
-            var btnactualizar = '<input type="submit" id="btn_actualizar" onclick="ActualizarEstadoProcesoMM(' +MisItems[0].Id_Estado_Proceso+')"'+
-            'value="Actualizar Estado Del Proceso" class="btn btn-primary"> <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button></input>';
+            var btnactualizar = '<a id="btn_actualizar" onclick="ActualizarEstadoProcesoMM(' +MisItems[0].Id_Estado_Proceso+')"'+
+            'value="Actualizar Estado Del Proceso" class="btn btn-primary">Actualizar Estado Del Proceso</a> <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button></input>';
             $('#btnagregarEstadoProceso').html(btnactualizar);
             $('#btncancelar').click(function(){ //Cancela la acción
                 location.href = "http://localhost/SIIS-PROYECTO/Formularios/EstadoProcesoMM.php";
@@ -105,7 +140,14 @@ function CargarEstadoProcesoMM(idEstadoProceso){ //Función que trae los campos 
     });
 }
 
-function ActualizarEstadoProcesoMM(idEstado){
+function ActualizarEstadoProcesoMM(idEstado){ 
+    nombreEstado=document.querySelector("#Descripcion").value;
+    console.log(nombreEstado);
+
+    if ( nombreEstado == "" ) {
+         swal.fire("Atención", "Todos los campos son obligatorios.", "error");
+         return false;
+    }
     var datosEstadoProceso={
         Id_Estado_Proceso: idEstado,
         Descripcion: $('#Descripcion').val()
@@ -119,45 +161,78 @@ function ActualizarEstadoProcesoMM(idEstado){
         datatype: 'JSON',
         contentType: 'application/json',
         success: function(reponse){
-            console.log(reponse);
-            alert('Estado del proceso Actualizado');
+            if (reponse.status) {
+                swal.fire({
+                  title: "LISTO!",
+                  text: reponse.msg,
+                  icon: "success",
+                  confirmButtonText: "Aceptar",
+                  closeOnConfirm: false,
+                  timer: 3000,
+                  willClose: () => {
+                    window.location.reload();
+                  },
+                });
+              } else {
+                swal.fire({
+                  title: "Error!",
+                  text: reponse.msg,
+                  icon: "error",
+                  confirmButtonText: "Aceptar",
+                  closeOnConfirm: false,
+                });
+              }
         },
 
         error: function(textStatus, errorThrown){
-            alert('Error al actualizar el Esatdo del proceso' + textStatus + errorThrown);
-        }
+            swal.fire({
+                title: "Error!",
+                text: reponse,
+                icon: "success",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                timer: 3000,
+                willClose: () => {
+                  window.location.reload();
+                },
+              });       
+             },
     });
-    alert('Aviso');
 }
 
-function EliminarEstadoProcesoMM(idEstado){
-    var confirmacion = confirm("¿Está seguro de que desea eliminar el estado del proceso?");
-
-    if (confirmacion == true) {
-        var datosEstadoProceso = {
+function EliminarEstadoProcesoMM(idEstado) {
+    Swal.fire({
+      title: "¿Eliminar estado del proceso?",
+      text: "Estas Seguro que quieres Eliminar el estado del proceso, esta acción es irreversible",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, Eliminar!",
+    }).then((result) => { 
+      if (result.isConfirmed) {
+        var datosEstadoProcesoMM = {
             Id_Estado_Proceso: idEstado,
         };
-        var datosEstadoProcesoJson=JSON.stringify(datosEstadoProceso);
-        
-
+        var datosEstadoProcesoMM = JSON.stringify(datosEstadoProcesoMM);
         $.ajax({
-            url: UrlEliminarEstadoProcesoMM,
-            type: 'DELETE',
-            data: datosEstadoProcesoJson,
-            datatype: 'JSON',
-            contentType: 'application/json',
-            success: function(reponse){
-                console.log(reponse);
-                alert('Estado del proceso Eliminado');
-                CargarEstadoProcesosMM(); 
-            },
-
-            error: function(textStatus, errorThrown){
-                alert('Error al eliminar el estado del proceso' + textStatus + errorThrown);
-            }
+          url: UrlEliminarEstadoProcesoMM,
+          type: "DELETE",
+          data: datosEstadoProcesoMM,
+          datatype: "JSON",
+          success: function (response) {
+            Swal.fire({
+              title: "Eliminado",
+              text: "Estado de venta eliminado Correctamente.",
+              icon: "success",
+              timer: 4000,
+              willClose: () => {
+                location.reload();
+              },
+            });
+          },
         });
+      }
+    });
+  }
 
-    } else {
-        alert("La eliminación del estado del proceso ha sido cancelada.");
-    }
-}

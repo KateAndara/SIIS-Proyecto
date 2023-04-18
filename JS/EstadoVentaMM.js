@@ -52,6 +52,13 @@ function CargarEstadosVentaMM(){
 }
 
 function AgregarEstadoVentaMM(){
+    nombreEstado=document.querySelector("#Nombre_estado").value;
+    console.log(nombreEstado);
+
+    if ( nombreEstado == "" ) {
+         swal.fire("Atención", "Todos los campos son obligatorios.", "error");
+         return false;
+      }
     var datosEstadoVentaMM = {
         Nombre_estado: $('#Nombre_estado').val()
     };
@@ -64,15 +71,43 @@ function AgregarEstadoVentaMM(){
         datatype: 'JSON',
         contentType: 'application/json',
         success: function(reponse){
-            console.log(reponse);
-            alert('Estado de Agregado');
+            console.log(reponse.status);
+      if (reponse.status) {
+        swal.fire({
+          title: "LISTO!",
+          text: reponse.msg,
+          icon: "success",
+          confirmButtonText: "Aceptar",
+          closeOnConfirm: false,
+          timer: 3000,
+          willClose: () => {
+            window.location.reload();
+          },
+        });
+      } else {
+        swal.fire({
+          title: "Error!",
+          text: reponse.msg,
+          icon: "error",
+          confirmButtonText: "Aceptar",
+          closeOnConfirm: false,
+        
+        });
+      }
         },
 
         error: function(textStatus, errorThrown){
-            alert('Error al agregar el estado de venta' + textStatus + errorThrown);
+            swal.fire({
+                title: "Error!",
+                text: "Error al guardar el Estado de Venta",
+                icon: "error",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                timer: 4000,
+               
+              });
         }
     });
-    alert('Aviso');
 }
 
 function CargarEstadoVentaMM(idEstadoVenta){ //Función que trae los campos que se eligieron editar.
@@ -97,8 +132,8 @@ function CargarEstadoVentaMM(idEstadoVenta){ //Función que trae los campos que 
             $('#Nombre_estado').val(MisItems[0].Nombre_estado);
 
             //Usar el mismo botón de agregar con la funcionalidad de actualizar.
-            var btnactualizar = '<input type="submit" id="btn_actualizar" onclick="ActualizarEstadoVentaMM(' +MisItems[0].Id_Estado_Venta+')"'+
-            'value="Actualizar Esatdo Del Producto" class="btn btn-primary"> <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button></input>';
+            var btnactualizar = '<a id="btn_actualizar" onclick="ActualizarEstadoVentaMM(' +MisItems[0].Id_Estado_Venta+')"'+
+            'value="Actualizar Esatdo Del Producto" class="btn btn-primary">Actualizar Esatdo Del Producto </a> <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button></input>';
             $('#btnagregarEstadoVenta').html(btnactualizar);
             $('#btncancelar').click(function(){ //Cancela la acción
                 location.href = "http://localhost/SIIS-PROYECTO/Formularios/EstadoVentaMM.php";
@@ -112,6 +147,13 @@ function CargarEstadoVentaMM(idEstadoVenta){ //Función que trae los campos que 
 }
 
 function ActualizarEstadoVentaMM(idEstadoVenta){
+    nombreEstado=document.querySelector("#Nombre_estado").value;
+    console.log(nombreEstado);
+
+    if ( nombreEstado == "" ) {
+         swal.fire("Atención", "Todos los campos son obligatorios.", "error");
+         return false;
+      }
     var datosEstadoVentaMM={
         Id_Estado_Venta: idEstadoVenta,
         Nombre_estado: $('#Nombre_estado').val()
@@ -126,44 +168,77 @@ function ActualizarEstadoVentaMM(idEstadoVenta){
         contentType: 'application/json',
         success: function(reponse){
             console.log(reponse);
-            alert('Estado de venta Actualizado');
+            if (reponse.status) {
+                swal.fire({
+                  title: "LISTO!",
+                  text: reponse.msg,
+                  icon: "success",
+                  confirmButtonText: "Aceptar",
+                  closeOnConfirm: false,
+                  timer: 3000,
+                  willClose: () => {
+                    window.location.reload();
+                  },
+                });
+            } else {
+                swal.fire({
+                  title: "Error!",
+                  text: reponse.msg,
+                  icon: "error",
+                  confirmButtonText: "Aceptar",
+                  closeOnConfirm: false,
+                });
+              }  
         },
 
         error: function(textStatus, errorThrown){
-            alert('Error al actualizar el estado de venta' + textStatus + errorThrown);
-        }
+            swal.fire({
+                title: "Error!",
+                text: reponse,
+                icon: "success",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                timer: 3000,
+                willClose: () => {
+                  window.location.reload();
+                },
+              });
+        },
     });
-    alert('Aviso');
-}
+} 
 
-function EliminarEstadoVentaMM(idEstadoVenta){
-    var confirmacion = confirm("¿Está seguro de que desea eliminar el estado de venta?");
-
-    if (confirmacion == true) {
-        var datosEstadoVentaMM={
+function EliminarEstadoVentaMM(idEstadoVenta) {
+    Swal.fire({
+      title: "¿Eliminar estao de venta?",
+      text: "Estas Seguro que quieres Eliminar el estado de venta, esta acción es irreversible",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, Eliminar!",
+    }).then((result) => { 
+      if (result.isConfirmed) {
+        var datosEstadoVentaMM = {
             Id_Estado_Venta: idEstadoVenta,
         };
-        var datosEstadoVentaMMJson = JSON.stringify(datosEstadoVentaMM);
-        
+        var datosEstadoVentaMM = JSON.stringify(datosEstadoVentaMM);
         $.ajax({
-            url: UrlEliminarEstadoVentaMM,
-            type: 'DELETE',
-            data: datosEstadoVentaMMJson,
-            datatype: 'JSON',
-            contentType: 'application/json',
-            success: function(reponse){
-                console.log(reponse);
-                alert('Estado de venta Eliminado');
-                CargarEstadosVentaMM(); 
-            },
-
-            error: function(textStatus, errorThrown){
-                alert('Error al eliminar el etado de venta' + textStatus + errorThrown);
-            }
+          url: UrlEliminarEstadoVentaMM,
+          type: "DELETE",
+          data: datosEstadoVentaMM,
+          datatype: "JSON",
+          success: function (response) {
+            Swal.fire({
+              title: "Eliminado",
+              text: "Estado de venta eliminado Correctamente.",
+              icon: "success",
+              timer: 4000,
+              willClose: () => {
+                location.reload();
+              },
+            });
+          },
         });
-
-    } else {
-        alert("La eliminación del estado de venta ha sido cancelada.");
-    }
-}
-
+      }
+    });
+  }

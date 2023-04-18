@@ -53,6 +53,13 @@ function CargarContactoProveedoresMM(){
 }
 
 function AgregarContactoProveedorMM(){
+    contactoProveedor=document.querySelector("#Contacto").value;
+    console.log(contactoProveedor);
+
+    if ( contactoProveedor == "" ) {
+         swal.fire("Atención", "Todos los campos son obligatorios.", "error");
+         return false;
+    }
     var datosContactoProveedorMM = {
         Id_Tipo_Contacto: $('#Select_Contacto').val(),
         Id_Proveedor: $('#Select_Proveedor').val(),
@@ -66,27 +73,33 @@ function AgregarContactoProveedorMM(){
         data: datosContactoProveedorMMJson,
         datatype: 'JSON',
         contentType: 'application/json',
-        success: function(response){
-            var MisItems = response;
-
-            swal.fire({
-                title: "LISTO! ",
-                text:"LISTO! Contacto del proveedor Agregado" ,
+        success: function(reponse){
+            console.log(reponse.status);
+                swal.fire({
+                title: "LISTO!",
+                text: "Contacto agregado correctamente",
                 icon: "success",
                 confirmButtonText: "Aceptar",
                 closeOnConfirm: false,
                 timer: 3000,
                 willClose: () => {
-                  window.location.reload();
+                    window.location.reload();
                 },
-              });
+                });
         },
 
         error: function(textStatus, errorThrown){
-            alert('Error al agregar el contacto del proveedor' + textStatus + errorThrown);
-        }
+            swal.fire({
+                title: "Error!",
+                text: "Error al guardar el contacto del proveedor",
+                icon: "error",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                timer: 4000,
+               
+              });
+        },
     });
-    alert('Aviso');
 }
 
 function CargarContactoProveedorMM(idContacto){ //Función que trae los campos que se eligieron editar.
@@ -112,8 +125,8 @@ function CargarContactoProveedorMM(idContacto){ //Función que trae los campos q
             $('#Select_Proveedor').val(MisItems[0].Id_Proveedor);
             $('#Contacto').val(MisItems[0].Contacto);
             //Usar el mismo botón de agregar con la funcionalidad de actualizar.
-            var btnactualizar = '<input type="submit" id="btn_actualizar" onclick="ActualizarContactoProveedorMM(' +MisItems[0].Id_Proveedores_Contacto+')"'+
-            'value="Actualizar contacto del proveedor" class="btn btn-primary"> <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button></input>';
+            var btnactualizar = '<a id="btn_actualizar" onclick="ActualizarContactoProveedorMM(' +MisItems[0].Id_Proveedores_Contacto+')"'+
+            'value="Actualizar contacto del proveedor" class="btn btn-primary">Actualizar contacto del proveedor</a> <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button></input>';
             $('#btnagregarContactoProveedor').html(btnactualizar);
             $('#btncancelar').click(function(){ //Cancela la acción
                 location.href = "http://localhost/SIIS-PROYECTO/Formularios/ContactoProveedorMM.php";
@@ -127,6 +140,13 @@ function CargarContactoProveedorMM(idContacto){ //Función que trae los campos q
 }
 
 function ActualizarContactoProveedorMM(idContacto){
+    contactoProveedor=document.querySelector("#Contacto").value;
+    console.log(contactoProveedor);
+
+    if ( contactoProveedor == "" ) {
+         swal.fire("Atención", "Todos los campos son obligatorios.", "error");
+         return false;
+    }
     var datosContactoProveedorMM={
         Id_Proveedores_Contacto: idContacto,
         Id_Tipo_Contacto: $('#Select_Contacto').val(),
@@ -142,48 +162,70 @@ function ActualizarContactoProveedorMM(idContacto){
         datatype: 'JSON',
         contentType: 'application/json',
         success: function(reponse){
-            console.log(reponse);
-            alert('Contacto del proveedor Actualizado');
+            swal.fire({
+                title: "LISTO!",
+                text: "Contacto actualizado correctamente",
+                icon: "success",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                timer: 3000,
+                willClose: () => {
+                    window.location.reload();
+                },
+                });
         },
 
         error: function(textStatus, errorThrown){
-            alert('Error al actualizar el contacto del proveedor' + textStatus + errorThrown);
-        }
+            swal.fire({
+                title: "Error!",
+                text: reponse,
+                icon: "success",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                timer: 3000,
+                willClose: () => {
+                  window.location.reload();
+                },
+              });       
+             },
     });
-    alert('Aviso');
 }
 
-function EliminarContactoProveedorMM(idContacto){
-    var confirmacion = confirm("¿Está seguro de que desea eliminar el contacto del proveedor?");
-
-    if (confirmacion == true) {
-        var datosContactoProveedorMM={
-            Id_Proveedores_Contacto: idContacto
+function EliminarContactoProveedorMM(idContacto) {
+    Swal.fire({
+      title: "¿Eliminar estado del contacto del proveesor?",
+      text: "Estas Seguro que quieres Eliminar el contacto del proveedor, esta acción es irreversible",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, Eliminar!",
+    }).then((result) => { 
+      if (result.isConfirmed) {
+        var datosEstadoProcesoMM = {
+            Id_Proveedores_Contacto: idContacto,
         };
-
-        var datosContactoProveedorMMJson=JSON.stringify(datosContactoProveedorMM);
-
+        var datosEstadoProcesoMM = JSON.stringify(datosEstadoProcesoMM);
         $.ajax({
-            url: UrlEliminarContactoProveedorMM,
-            type: 'DELETE',
-            data: datosContactoProveedorMMJson,
-            datatype: 'JSON',
-            contentType: 'application/json',
-            success: function(reponse){
-                console.log(reponse);
-                alert('Contacto del proveedor Eliminado');
-                CargarContactoProveedoresMM();
-            },
-
-            error: function(textStatus, errorThrown){
-                alert('Error al eliminar contacto del proveedor' + textStatus + errorThrown);
-            }
+          url: UrlEliminarContactoProveedorMM,
+          type: "DELETE",
+          data: datosEstadoProcesoMM,
+          datatype: "JSON",
+          success: function (response) {
+            Swal.fire({
+              title: "Eliminado",
+              text: "Contacto del proveedor eliminado Correctamente.",
+              icon: "success",
+              timer: 4000,
+              willClose: () => {
+                location.reload();
+              },
+            });
+          },
         });
-
-    } else {
-        alert("La eliminación del proveedor ha sido cancelada.");
-    }
-}
+      }
+    });
+  }
 
 //Función para traer los datos de otra tabla para poder ser seleccionados en una lista desplegable
 function CargarContactos(){

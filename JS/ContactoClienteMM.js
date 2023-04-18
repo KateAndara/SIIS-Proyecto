@@ -53,6 +53,13 @@ function CargarContactoClientesMM(){
 }
 
 function AgregarContactoClienteMM(){
+    contactoCliente=document.querySelector("#Contacto").value;
+    console.log(contactoCliente);
+
+    if ( contactoCliente == "" ) {
+         swal.fire("Atención", "Todos los campos son obligatorios.", "error");
+         return false;
+    }
     var datosContactoClienteMM = {
         Id_Tipo_Contacto: $('#Select_Contacto').val(),
         Id_Cliente: $('#Select_Cliente').val(),
@@ -67,15 +74,32 @@ function AgregarContactoClienteMM(){
         datatype: 'JSON',
         contentType: 'application/json',
         success: function(reponse){
-            console.log(reponse);
-            alert('Contacto del cliente Agregado');
+            console.log(reponse.status);
+                swal.fire({
+                title: "LISTO!",
+                text: "Contacto agregado correctamente",
+                icon: "success",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                timer: 3000,
+                willClose: () => {
+                    window.location.reload();
+                },
+                });
         },
 
         error: function(textStatus, errorThrown){
-            alert('Error al agregar el contacto del cliente' + textStatus + errorThrown);
-        }
+            swal.fire({
+                title: "Error!",
+                text: "Error al guardar el contacto del cliente",
+                icon: "error",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                timer: 4000,
+               
+              });
+        },
     });
-    alert('Aviso');
 }
 
 function CargarContactoClienteMM(idContacto){ //Función que trae los campos que se eligieron editar.
@@ -101,8 +125,8 @@ function CargarContactoClienteMM(idContacto){ //Función que trae los campos que
             $('#Select_Cliente').val(MisItems[0].Id_Cliente);
             $('#Contacto').val(MisItems[0].Contacto);
             //Usar el mismo botón de agregar con la funcionalidad de actualizar.
-            var btnactualizar = '<input type="submit" id="btn_actualizar" onclick="ActualizarContactoClienteMM(' +MisItems[0].Id_Cliente_Contacto+')"'+
-            'value="Actualizar contacto del cliente" class="btn btn-primary"> <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button></input>';
+            var btnactualizar = '<a  id="btn_actualizar" onclick="ActualizarContactoClienteMM(' +MisItems[0].Id_Cliente_Contacto+')"'+
+            'value="Actualizar contacto del cliente" class="btn btn-primary">Actualizar contacto del cliente</a> <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button></input>';
             $('#btnagregarContactoCliente').html(btnactualizar);
             $('#btncancelar').click(function(){ //Cancela la acción
                 location.href = "http://localhost/SIIS-PROYECTO/Formularios/ContactoClienteMM.php";
@@ -113,9 +137,16 @@ function CargarContactoClienteMM(idContacto){ //Función que trae los campos que
             $('#titulo').html(titulo); 
         }
     });
-}
+} 
 
 function ActualizarContactoClienteMM(idContacto){
+    contactoCliente=document.querySelector("#Contacto").value;
+    console.log(contactoCliente);
+
+    if ( contactoCliente == "" ) {
+         swal.fire("Atención", "Todos los campos son obligatorios.", "error");
+         return false;
+    }
     var datosContactoClienteMM={
         Id_Cliente_Contacto: idContacto,
         Id_Tipo_Contacto: $('#Select_Contacto').val(),
@@ -131,48 +162,70 @@ function ActualizarContactoClienteMM(idContacto){
         datatype: 'JSON',
         contentType: 'application/json',
         success: function(reponse){
-            console.log(reponse);
-            alert('Contacto del cliente Actualizado');
+            swal.fire({
+                title: "LISTO!",
+                text: "Contacto actualizado correctamente",
+                icon: "success",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                timer: 3000,
+                willClose: () => {
+                    window.location.reload();
+                },
+                });
         },
 
         error: function(textStatus, errorThrown){
-            alert('Error al actualizar el contacto del cliente' + textStatus + errorThrown);
-        }
+            swal.fire({
+                title: "Error!",
+                text: reponse,
+                icon: "success",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                timer: 3000,
+                willClose: () => {
+                  window.location.reload();
+                },
+              });       
+             },
     });
-    alert('Aviso');
 }
 
-function EliminarContactoClienteMM(idContacto){
-    var confirmacion = confirm("¿Está seguro de que desea eliminar el contacto del cliente?");
-
-    if (confirmacion == true) {
-        var datosContactoClienteMM={
-            Id_Cliente_Contacto: idContacto
+function EliminarContactoClienteMM(idContacto) {
+    Swal.fire({
+      title: "¿Eliminar estado del contacto del cliente?",
+      text: "Estas Seguro que quieres Eliminar el contacto del cliente, esta acción es irreversible",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, Eliminar!",
+    }).then((result) => { 
+      if (result.isConfirmed) {
+        var datosEstadoProcesoMM = {
+            Id_Cliente_Contacto: idContacto,
         };
-
-        var datosContactoClienteMMJson=JSON.stringify(datosContactoClienteMM);
-
+        var datosEstadoProcesoMM = JSON.stringify(datosEstadoProcesoMM);
         $.ajax({
-            url: UrlEliminarContactoClienteMM,
-            type: 'DELETE',
-            data: datosContactoClienteMMJson,
-            datatype: 'JSON',
-            contentType: 'application/json',
-            success: function(reponse){
-                console.log(reponse);
-                alert('Contacto del cliente Eliminado');
-                CargarContactoClientesMM(); 
-            },
-
-            error: function(textStatus, errorThrown){
-                alert('Error al eliminar contactom del cliente' + textStatus + errorThrown);
-            }
+          url: UrlEliminarContactoClienteMM,
+          type: "DELETE",
+          data: datosEstadoProcesoMM,
+          datatype: "JSON",
+          success: function (response) {
+            Swal.fire({
+              title: "Eliminado",
+              text: "Contacto del cliente eliminado Correctamente.",
+              icon: "success",
+              timer: 4000,
+              willClose: () => {
+                location.reload();
+              },
+            });
+          },
         });
-
-    } else {
-        alert("La eliminación del contacto ha sido cancelada.");
-    }
-}
+      }
+    });
+  }
 
 //Función para traer los datos de otra tabla para poder ser seleccionados en una lista desplegable
 function CargarContactos(){

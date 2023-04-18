@@ -47,6 +47,13 @@ function CargarTipoProductosMM(){
 
 
 function AgregarTipoProductoMM(){
+    nombreTipo=document.querySelector("#Nombre_tipo").value;
+    console.log(nombreTipo);
+
+    if ( nombreTipo == "" ) {
+         swal.fire("Atención", "Todos los campos son obligatorios.", "error");
+         return false;
+      }
     var datosTipoProductoMM = {
         Nombre_tipo: $('#Nombre_tipo').val()
     };
@@ -59,15 +66,42 @@ function AgregarTipoProductoMM(){
         datatype: 'JSON',
         contentType: 'application/json',
         success: function(reponse){
-            console.log(reponse);
-            alert('Tipo de producto Agregado');
+            console.log(reponse.status);
+            if (reponse.status) {
+                swal.fire({
+                title: "LISTO!",
+                text: reponse.msg,
+                icon: "success",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                timer: 3000,
+                willClose: () => {
+                    window.location.reload();
+                },
+                });
+            } else {
+                swal.fire({
+                title: "Error!",
+                text: reponse.msg,
+                icon: "error",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                });
+            }
         },
 
         error: function(textStatus, errorThrown){
-            alert('Error al agregar el tipo de producto' + textStatus + errorThrown);
-        }
+            swal.fire({
+                title: "Error!",
+                text: "Error al guardar el Cargo",
+                icon: "error",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                timer: 4000,
+               
+              });
+        },
     });
-    alert('Aviso');
 }
 
 function CargarTipoProductoMM(idTipo){ //Función que trae los campos que se eligieron editar.
@@ -92,8 +126,8 @@ function CargarTipoProductoMM(idTipo){ //Función que trae los campos que se eli
             $('#Nombre_tipo').val(MisItems[0].Nombre_tipo);
 
             //Usar el mismo botón de agregar con la funcionalidad de actualizar.
-            var btnactualizar = '<input type="submit" id="btn_actualizar" onclick="ActualizarTipoProductoMM(' +MisItems[0].Id_Tipo_Producto+')"'+
-            'value="Actualizar  Tipo De Producto" class="btn btn-primary"> <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button></input>';
+            var btnactualizar = '<a t id="btn_actualizar" onclick="ActualizarTipoProductoMM(' +MisItems[0].Id_Tipo_Producto+')"'+
+            'value="Actualizar  Tipo De Producto" class="btn btn-primary">Actualizar  Tipo De Producto</a><button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button></input>';
             $('#btnagregarTipoProducto').html(btnactualizar);
             $('#btncancelar').click(function(){ //Cancela la acción
                 location.href = "http://localhost/SIIS-PROYECTO/Formularios/TipoProductoMM.php";
@@ -107,6 +141,13 @@ function CargarTipoProductoMM(idTipo){ //Función que trae los campos que se eli
 }
 
 function ActualizarTipoProductoMM(idTipo){
+    nombreTipo=document.querySelector("#Nombre_tipo").value;
+    console.log(nombreTipo);
+
+    if ( nombreTipo == "" ) {
+         swal.fire("Atención", "Todos los campos son obligatorios.", "error");
+         return false;
+      }
     var datosTipoProductoMM={
         Id_Tipo_Producto: idTipo,
         Nombre_tipo: $('#Nombre_tipo').val()
@@ -120,46 +161,78 @@ function ActualizarTipoProductoMM(idTipo){
         datatype: 'JSON',
         contentType: 'application/json',
         success: function(reponse){
-            console.log(reponse);
-            alert('Tipo de producto Actualizado');
+            if (reponse.status) {
+                swal.fire({
+                  title: "LISTO!",
+                  text: reponse.msg,
+                  icon: "success",
+                  confirmButtonText: "Aceptar",
+                  closeOnConfirm: false,
+                  timer: 3000,
+                  willClose: () => {
+                    window.location.reload();
+                  },
+                });
+              } else {
+                swal.fire({
+                  title: "Error!",
+                  text: reponse.msg,
+                  icon: "error",
+                  confirmButtonText: "Aceptar",
+                  closeOnConfirm: false,
+                });
+              }
         },
 
         error: function(textStatus, errorThrown){
-            alert('Error al actualizar el Tipo de producto' + textStatus + errorThrown);
-        }
+            swal.fire({
+                title: "Error!",
+                text: reponse,
+                icon: "success",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                timer: 3000,
+                willClose: () => {
+                  window.location.reload();
+                },
+              });       
+             },
     });
-    alert('Aviso');
 }
 
-function EliminarTipoProductoMM(idTipo){
-    var confirmacion = confirm("¿Está seguro de que desea eliminar el tipo de producto?");
-
-    if (confirmacion == true) {
-        var datosTipoProductoMM={
-            Id_Tipo_Producto: idTipo, 
+function EliminarTipoProductoMM(idTipo) {
+    Swal.fire({
+      title: "¿Eliminar tipo de producto?",
+      text: "Estas Seguro que quieres Eliminar el tipo de producto, esta acción es irreversible",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, Eliminar!",
+    }).then((result) => { 
+      if (result.isConfirmed) {
+        var datosTipoProductoMM = {
+            Id_Tipo_Producto: idTipo,
         };
-        var datosTipoProductoMMJson = JSON.stringify(datosTipoProductoMM);
-        
+        var datosTipoProductoMM = JSON.stringify(datosTipoProductoMM);
         $.ajax({
-            url: UrlEliminarTipoProductoMM,
-            type: 'DELETE',
-            data: datosTipoProductoMMJson,
-            datatype: 'JSON',
-            contentType: 'application/json',
-            success: function(reponse){
-                console.log(reponse);
-                alert('Tipo de producto Eliminado');
-                CargarTipoProductosMM(); 
-            },
-
-            error: function(textStatus, errorThrown){
-                alert('Error al eliminar el tipo de producto' + textStatus + errorThrown);
-            }
+          url: UrlEliminarTipoProductoMM,
+          type: "DELETE",
+          data: datosTipoProductoMM,
+          datatype: "JSON",
+          success: function (response) {
+            Swal.fire({
+              title: "Eliminado",
+              text: "Tipo de producto eliminado Correctamente.",
+              icon: "success",
+              timer: 4000,
+              willClose: () => {
+                location.reload();
+              },
+            });
+          },
         });
-
-    } else {
-        alert("La eliminación del tipo de producto ha sido cancelada.");
-    }
-}
-
+      }
+    });
+  }
 

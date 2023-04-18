@@ -12,7 +12,7 @@
     ob_start();
 ?>
 
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -37,10 +37,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.26/jspdf.plugin.autotable.min.js"></script>
 
     <script src="../Reportes/Reporte.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
 
 </head>
 <body>
-    <div class="col-md-12 cards-white" style="margin: 0 auto; width: 80%; max-width: none; margin-left: -20px;">
+    <div class="col-md-12 cards-white" style="margin: 0 auto; width: 100%; max-width: none; margin-left: -20px;">
         <div class="consulta mt-4" id="consulta">
             <div class="row">
                 <div class="col-12 text-center">
@@ -108,7 +109,7 @@
             <div class="row">
                 <div class="Col-12" id="titulo">
                     <h3>
-                        Agregar Cargos 
+                        Agregar Tipo De Contacto 
                     </h3>
                 </div>
                 <div class="col-12">
@@ -117,15 +118,15 @@
                         <input type="number" id="Id_Tipo_Contacto" class="form-control" placeholder="Ingrese el código del tipo de  contacto"hidden>
                         
                         <label for="">NOMBRE DEL TIPO CONTACTO</label>
-                        <input type="text" id="Nombre_tipo_contacto" class="form-control" placeholder="Ingrese El Nombre Del Tipo Contacto" autofocus>
+                        <input type="text" id="Nombre_tipo_contacto" class="form-control" placeholder="Ingrese El Nombre Del Tipo Contacto"  oninput="validarEntrada(this)">
                         <hr>
 
                         <div id="btnagregarTipoContacto">
-                            <input type="submit" id="btnagregar" onclick="AgregarTipoContactoMM()" value="Agregar Tipo Contacto" class="btn btn-success">
+                            <a  id="btnagregar" onclick="AgregarTipoContactoMM()" value="Agregar Tipo Contacto" class="btn btn-success">Agregar Tipo Contacto</a>
                             <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button>
                         </div> 
                     </form>
-                    <script> //Cancela la acción
+                    <script> //Cancela la acción 
                     document.getElementById("btncancelar").onclick = function() {
                         location.href = "http://localhost/SIIS-PROYECTO/Formularios/TipoContactoMM.php";
                     };
@@ -138,5 +139,21 @@
 
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+<script>
+  function validarEntrada(input) { 
+
+  const patron = /^[A-Z a-z]+$/;
+  const valor = input.value;
+  if (!patron.test(valor)) {
+    swal.fire('Error','Solo se permite ingresar letras', 'error');
+    input.value = input.value.slice(0, -1);
+  } else {
+  
+  }
+
+}
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
 </body>
 </html>
