@@ -141,6 +141,10 @@ function CargarParametro(idParametro){ //Función que trae los campos que se eli
 }
 
 function ActualizarParametro(idParametro){
+    if ($('#Parametro').val() == '' || $('#Valor').val() == '') {
+        alert('No se permiten campos vacíos');
+        return;
+    }
     var datosParametro={
     Id_Parametro: idParametro,
     Parametro: $('#Parametro').val(),
@@ -165,6 +169,7 @@ function ActualizarParametro(idParametro){
     });
     alert('Aviso');
 }
+
 
 function EliminarParametro(idParametro){
     var confirmacion = confirm("¿Está seguro de que desea eliminar el parámetro?");

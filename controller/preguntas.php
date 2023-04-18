@@ -74,6 +74,9 @@ session_start();
                 $Preguntas->registrar_bitacora($Id_Usuario, 31, 'Insertar', 'Se insertó una pregunta');
 
                 echo json_encode("Se agregó la pregunta");
+                echo '<script>
+                 mostrarSweetAlert("La pregunta ha sido agregada correctamente", "success");
+                </script>';
             break;
             case "UpdatePregunta":
                 $datos=$Preguntas->update_pregunta($body["Id_Pregunta"],$body["Pregunta"]);

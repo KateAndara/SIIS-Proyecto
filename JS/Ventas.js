@@ -1,19 +1,26 @@
 
 //Si se necesita traer datos de otra tabla para una lista desplegable
 var UrlProductos = 'http://localhost/SIIS-PROYECTO/controller/Ventas.php?opc=GetProductos'; 
+var UrlProducto = 'http://localhost/SIIS-PROYECTO/controller/Ventas.php?opc=GetProducto';
+var urlClientes = 'http://localhost/SIIS-PROYECTO/controller/Ventas.php?opc=getClientes'; 
+var urlCliente = 'http://localhost/SIIS-PROYECTO/controller/Ventas.php?opc=getCliente'; 
 var UrlPromociones = 'http://localhost/SIIS-PROYECTO/controller/Ventas.php?opc=GetPromociones';
+var urlPrecioPromocion = 'http://localhost/SIIS-PROYECTO/controller/Ventas.php?opc=getPrecioPromocion';
 var UrlDescuentos =  'http://localhost/SIIS-PROYECTO/controller/Ventas.php?opc=GetDescuentos';
+var UrlDescuento =  'http://localhost/SIIS-PROYECTO/controller/Ventas.php?opc=GetDescuento';
 var UrlEstados =  'http://localhost/SIIS-PROYECTO/controller/Ventas.php?opc=GetEstados';
 var UrlVentas =  'http://localhost/SIIS-PROYECTO/controller/Ventas.php?opc=GetVentas';
-var urlDetalleVenta =
-  "http://localhost/SIIS-PROYECTO/controller/Ventas.php?opc=AgregarDetalle";
+var urlDetalleVenta ="http://localhost/SIIS-PROYECTO/controller/Ventas.php?opc=AgregarDetalle";
+  
+  
   var urlEliminarProducto =
      "http://localhost/SIIS-PROYECTO/controller/Ventas.php?opc=deleteProducto";
 
      var urlEditProducto =
        "http://localhost/SIIS-PROYECTO/controller/Ventas.php?opc=editProducto";
-       var urlFinalizarVenta =
-         "http://localhost/SIIS-PROYECTO/controller/Ventas.php?opc=finalVenta";
+       var urlFinalizarVenta ="http://localhost/SIIS-PROYECTO/controller/Ventas.php?opc=finalVenta";
+var urlCAI ="http://localhost/SIIS-PROYECTO/controller/Ventas.php?opc=agregarCAI";
+
 
 $(document).ready(function(){
    CargarProductos();
@@ -21,6 +28,7 @@ $(document).ready(function(){
    CargarDescuentos();
    CargarEstados();
    CargarVentas();
+   cargarClientes();
    
 });
 
@@ -85,21 +93,198 @@ function CargarProductos(){
         datatype: 'JSON',
         success: function(response){
             var MisItems = response;
-            var opciones='';
+            var opciones =
+              '<option value="">' + "Seleccione Un Producto" + "</option>";
             
             
             
             for(i=0; i<MisItems.length; i++){ //Muestra Id y nombre
-                opciones += '<option value="' + MisItems[i].Nombre + '">' +  MisItems[i].Nombre + '</option>';
+                 opciones +='<option value="' +
+                  MisItems[i].Id_Producto +
+                  '">' +
+                  MisItems[i].Id_Producto +
+                  " - " +
+                  MisItems[i].Nombre +
+                  "</option>";
                 
                 
               }
 
             $('#Select_Producto').html(opciones);
-            
+               $("#Select_Producto").select2();
+         
             
         }
     });
+}
+
+//Función para traer los datos de otra tabla para poder ser seleccionados en una lista desplegable
+function cargarClientes(){
+   
+  $.ajax({
+    url: urlClientes,
+    type: "GET",
+    datatype: "JSON",
+    success: function (response) {
+      var MisItems = response;
+      var opciones =
+        '<option value="">' + "Seleccione Un Cliente" + "</option>";
+        
+
+      for (i = 0; i < MisItems.length; i++) {
+        opciones +=
+          '<option value="' +
+          MisItems[i].Id_Cliente +
+          '">' +
+          MisItems[i].DNI +
+          " - " +
+          MisItems[i].Nombre +
+          "</option>";
+      }
+
+      $("#Select_Cliente").html(opciones);
+      $("#Select_Cliente").select2({
+        language: {
+          noResults: function () {
+            return "Sin Resultados <a href='http://localhost/SIIS-PROYECTO/Formularios/Clientes.php' class='btn btn-success'>Crear Cliente</a>";
+          },
+        },
+        escapeMarkup: function (markup) {
+          return markup;
+        },
+      });
+    },
+  });
+}
+
+function changeCliente() {
+  idCliente = document.querySelector("#Select_Cliente").value;
+
+  if (idCliente!=0) {
+     var datosCliente = {
+       idCliente: idCliente,
+     };
+     var datosCliente = JSON.stringify(datosCliente);
+
+     $.ajax({
+       url: urlCliente,
+       type: "POST",
+       data: datosCliente,
+       datatype: "JSON",
+       success: function (response) {
+         var MisItems = response;
+         console.log(MisItems);
+         document.querySelector("#FechaNacimiento").value =
+           MisItems.Fecha_nacimiento;
+         document.querySelector("#Dni").value = MisItems.DNI;
+       },
+     });
+  }else{
+    document.querySelector("#FechaNacimiento").value ="1111-11-11";
+    document.querySelector("#Dni").value = "0001";
+  }
+ 
+}
+
+function changePromocion() {
+  
+    idProducto = document.querySelector("#Select_Producto").value;
+    idPromocion = document.querySelector("#select_Promocion").value;
+    
+    if (idPromocion!=0) {
+      var datosProducto = {
+        idProducto: idProducto,
+      };
+      var datosProducto = JSON.stringify(datosProducto);
+
+      $.ajax({
+        url: urlPrecioPromocion,
+        type: "POST",
+        data: datosProducto,
+        datatype: "JSON",
+        success: function (response) {
+          var MisItems = response;
+          console.log(MisItems[0].Precio_Venta);
+
+          document.querySelector("#Precio").value = MisItems[0].Precio_Venta;
+        },
+      });
+    }else{
+     
+      var datosProducto = {
+        idProducto: idProducto,
+      };
+      var datosProducto = JSON.stringify(datosProducto);
+
+      $.ajax({
+        url: UrlProducto,
+        type: "POST",
+        data: datosProducto,
+        datatype: "JSON",
+        success: function (response) {
+          var MisItems = response;
+          console.log(MisItems);
+          document.querySelector("#Precio").value = MisItems[0].Precio;
+        },
+      });
+    }
+
+
+    
+}
+
+function changeProducto() {
+    idProducto = document.querySelector("#Select_Producto").value;
+    var datosProducto = {
+      idProducto: idProducto,
+    };
+    var datosProducto = JSON.stringify(datosProducto);
+
+    $.ajax({
+      url: UrlProducto,
+      type: "POST",
+      data: datosProducto,
+      datatype: "JSON",
+      success: function (response) {
+        var MisItems = response;
+        console.log(MisItems);
+        document.querySelector("#Precio").value = MisItems[0].Precio;
+      },
+    });
+
+
+var datosProducto2 = {
+  idProducto: idProducto,
+};
+var datosProducto2 = JSON.stringify(datosProducto2);
+     $.ajax({
+       url: UrlPromociones,
+       type: "POST",
+       data: datosProducto2,
+       datatype: "JSON",
+       success: function (response) {
+         var MisItems = response;
+         console.log(MisItems);
+         var MisItems = response;
+         var opciones =
+           '<option value="0">' + "Seleccione Una Promoción" + "</option>";
+
+         for (i = 0; i < MisItems.length; i++) {
+           //Muestra Id y nombre
+           opciones +=
+             '<option value="' +
+             MisItems[i].Id_Promocion +
+             '">' +
+             MisItems[i].Id_Promocion +
+             " - " +
+             MisItems[i].Nombre_Promocion +
+             "</option>";
+         }
+
+         $("#select_Promocion").html(opciones);
+         $("#select_Promocion").select2();
+       },
+     });
 }
 
 
@@ -128,7 +313,7 @@ function CargarDescuentos(){
       datatype: 'JSON',
       success: function(response){
           var MisItems = response;
-          var opciones='';
+          var opciones='<option value="#">' + "Seleccione Un Descuento" + "</option>";
           
           for(i=0; i<MisItems.length; i++){ //Muestra Id y nombre
               opciones += '<option value="' + MisItems[i].Id_Descuento + '">' +  MisItems[i].Nombre_descuento + '</option>';
@@ -138,6 +323,44 @@ function CargarDescuentos(){
       }
   });
 }
+
+
+
+function changeDescuento() {
+   idDescuento = document.querySelector("#Select_Descuento").value;
+   totalDetalle = document.querySelector("#totalDetalle").value;
+   var datosDescuento = {
+     idDescuento: idDescuento,
+   };
+   var datosDescuento = JSON.stringify(datosDescuento);
+
+   $.ajax({
+     url: UrlDescuento,
+     type: "POST",
+     data: datosDescuento,
+     datatype: "JSON",
+     success: function (response) {
+       var MisItems = response;
+       console.log(MisItems.impuesto.Valor);
+       totalDescontado = totalDetalle * (MisItems.Porcentaje_a_descontar / 100);
+       porcentaje=MisItems.Porcentaje_a_descontar
+       porcentajeImpuesto = MisItems.impuesto.Valor;
+      subtotal = Number(totalDetalle) - totalDescontado;
+      
+       document.querySelector("#Porcentaje").value = porcentaje +"%";
+       document.querySelector("#Totaldescontado").value = totalDescontado;
+       document.querySelector("#SubtotalDescuento").value =subtotal;
+       document.querySelector("#Subtotal").value =subtotal;
+       document.querySelector("#Impuesto").value = (subtotal*(porcentajeImpuesto/100)) ;
+       document.querySelector("#labelImpuesto").innerHTML = "IMPUESTO "+ porcentajeImpuesto + "%";
+       document.querySelector("#Total").value =  subtotal + (subtotal*(porcentajeImpuesto/100));
+
+
+     },
+   });
+}
+
+
 
 function CargarEstados(){
   $.ajax({
@@ -160,7 +383,8 @@ function CargarEstados(){
 function calcularTotal() {
   subtotal = document.querySelector("#Subtotal").value;
   impuesto = document.querySelector("#Impuesto").value;
-  total = (subtotal * impuesto ) + subtotal;
+  impuesto=Number(impuesto)/100;
+  total = (Number(subtotal) * Number(impuesto) ) + Number(subtotal);
 
   console.log(subtotal);
   console.log(impuesto);
@@ -174,7 +398,7 @@ function AgregarDetalleVenta(){
   Producto= $("#Select_Producto").val();
   Cantidad= $("#Cantidad").val();
   Precio= $("#Precio").val();
- 
+
 
 if (
 Producto == "" ||
@@ -203,9 +427,16 @@ $.ajax({
  success: function (response) {
   var MisItems = response;
 
-
+    console.log(MisItems)
     document.querySelector("#tablaVenta").innerHTML = MisItems.htmlVentas;
-    document.querySelector("#InsertDetalleVenta").reset();
+    document.querySelector("#detalle_totales").innerHTML = MisItems.htmlTotales;
+    document.querySelector("#FormDetalle").reset();
+    document.querySelector("#totalDetalle").value = $("#totalFila").text();
+    document.querySelector("#SubtotalDescuento").value = $("#totalFila").text();
+    document.querySelector("#Subtotal").value = $("#totalFila").text();
+    $("#select_Promocion").select2("val", "Seleccione Una Promoción");
+
+
    Swal.fire({
      toast: true,
    
@@ -222,13 +453,65 @@ $.ajax({
  },
 });
 }
+function del_product_detalle(idProducto) {
+  var DatosProducto = {
+    Producto: idProducto,
+  };
+  var DatosProducto = JSON.stringify(DatosProducto);
 
+  $.ajax({
+    url: urlEliminarProducto,
+    type: "POST",
+    data: DatosProducto,
+    datatype: "JSON",
+    success: function (response) {
+      var MisItems = response;
+
+      document.querySelector("#tablaVenta").innerHTML = MisItems.htmlVentas;
+    document.querySelector("#detalle_totales").innerHTML = MisItems.htmlTotales;
+
+      Swal.fire({
+        toast: true,
+
+        customClass: {
+          popup: "colored-toast",
+        },
+        position: "top-right",
+        icon: "warning",
+        title: MisItems.msg,
+        showConfirmButton: false,
+        timer: 1500,
+        timerProgressBar: true,
+      });
+    },
+  });
+}
+
+
+
+function generarFactura() {
+   $.ajax({
+     url: urlCAI,
+     type: "GET",
+     datatype: "JSON",
+     success: function (response) {
+       var MisItems = response;
+       console.log(MisItems);
+       rangoActual = MisItems.Rango_actual;
+       rangoActual=Number(rangoActual)+1
+      document.querySelector("#Numero_factura").value = MisItems.Numero_CAI+ "-"+rangoActual;
+      document.querySelector("#idTalonario").value = MisItems.Id_Talonario;
+      document.querySelector("#valorActualTalonario").value = MisItems.Rango_actual;
+       
+     },
+   });
+}
 
 
 
 function siguiente1() {
 
-    nombre = document.querySelector("#Nombre").value;
+    nombre = document.querySelector("#Select_Cliente").value;
     fechanacimiento = document.querySelector("#FechaNacimiento").value;
     dni = document.querySelector("#Dni").value;
     
@@ -256,19 +539,10 @@ function siguiente1() {
 
   function siguiente2() {
 
-    producto = document.querySelector("#Select_Producto").value;
-    cantidad = document.querySelector("#Cantidad").value;
-    precio = document.querySelector("#Precio").value;
+ 
     
   
-     if (
-       producto == "" ||
-       cantidad == "" ||
-       precio == ""
-     ) {
-       swal.fire("Atención", "Todos los campos son obligatorios.", "error");
-       return false;
-     }
+   
   
     document.querySelector("#pestaña2").classList.remove("active");
     document.querySelector("#pestaña2").classList.remove("show");
@@ -398,4 +672,64 @@ function siguiente1() {
 
      location.href = "http://localhost/SIIS-PROYECTO/Formularios/Nueva_Venta.php";
 
+  }
+
+  function agregarVenta() {
+    idCliente = document.querySelector("#Select_Cliente").value;
+    idDescuento = document.querySelector("#Select_Descuento").value;
+    Porcentaje = document.querySelector("#Porcentaje").value;
+    totalDetalle = document.querySelector("#totalDetalle").value;
+    Totaldescontado = document.querySelector("#Totaldescontado").value;
+    SubtotalDescuento = document.querySelector("#SubtotalDescuento").value;
+    idEstado = document.querySelector("#Select_Estado").value;
+    Subtotal = document.querySelector("#Subtotal").value;
+    Impuesto = document.querySelector("#Impuesto").value;
+    RTN = document.querySelector("#RTN").value;
+    Total = document.querySelector("#Total").value;
+    Numero_factura = document.querySelector("#Numero_factura").value;
+    idTalonario = document.querySelector("#idTalonario").value;
+    valorActual = document.querySelector("#valorActualTalonario").value;
+    
+
+    var datosVenta = {
+      idCliente: idCliente,
+      idDescuento: idDescuento,
+      Porcentaje: Porcentaje,
+      totalDetalle: totalDetalle,
+      Totaldescontado: Totaldescontado,
+      SubtotalDescuento: SubtotalDescuento,
+      idEstado: idEstado,
+      Subtotal: Subtotal,
+      Impuesto: Impuesto,
+      RTN: RTN,
+      Total: Total,
+      Numero_factura: Numero_factura,
+      idTalonario: idTalonario,
+      valorActual: valorActual,
+    };
+    var datosVenta = JSON.stringify(datosVenta);
+
+    $.ajax({
+      url: urlFinalizarVenta,
+      type: "POST",
+      data: datosVenta,
+      datatype: "JSON",
+      success: function (response) {
+        var MisItems = response;
+
+        //document.querySelector("#tablaCompra").innerHTML = MisItems.htmlCompras;
+        swal.fire({
+          title: "LISTO!",
+          text: MisItems.msg,
+          icon: "success",
+          confirmButtonText: "Aceptar",
+          closeOnConfirm: false,
+          timer: 3000,
+          willClose: () => {
+            window.location.href = "../Formularios/Ventas.php";
+          },
+        });
+      },
+    });
+    
   }

@@ -82,11 +82,21 @@ function BuscarObjeto(NombreObjeto){
     });
 }
 */
-function AgregarObjeto(){
+function AgregarObjeto() {
+    var objeto = $('#Objeto').val();
+    var descripcion = $('#Descripcion').val();
+    var tipoObjeto = $('#Tipo_objeto').val();
+    
+    // validar que no haya campos vacíos 
+    if (objeto.trim() == "" || descripcion.trim() == "" || tipoObjeto.trim() == "") {
+        alert("Por favor, complete todos los campos.");
+        return false;
+    }
+
     var datosObjeto = {
-    Objeto: $('#Objeto').val(),
-    Descripcion: $('#Descripcion').val(),
-    Tipo_objeto: $('#Tipo_objeto').val()
+        Objeto: objeto,
+        Descripcion: descripcion,
+        Tipo_objeto: tipoObjeto
     };
     var datosObjetoJson= JSON.stringify(datosObjeto );
 
@@ -146,12 +156,23 @@ function CargarObjeto(idObjeto){ //Función que trae los campos que se eligieron
 }
 
 function ActualizarObjeto(idObjeto){
+    var objeto = $('#Objeto').val().trim();
+    var descripcion = $('#Descripcion').val().trim();
+    var tipoObjeto = $('#Tipo_objeto').val().trim();
+
+    // validar que no hayan campos vacíos 
+    if (objeto === "" || descripcion === "" || tipoObjeto === "") {
+        alert("Por favor, complete todos los campos.");
+        return false;
+    }
+
     var datosObjeto={
-    Id_Objeto: idObjeto,
-    Objeto: $('#Objeto').val(),
-    Descripcion: $('#Descripcion').val(),
-    Tipo_objeto: $('#Tipo_objeto').val()
+        Id_Objeto: idObjeto,
+        Objeto: objeto,
+        Descripcion: descripcion,
+        Tipo_objeto: tipoObjeto
     };
+
     var datosObjetoJson = JSON.stringify(datosObjeto);
 
     $.ajax({
@@ -169,8 +190,10 @@ function ActualizarObjeto(idObjeto){
             alert('Error al actualizar objeto' + textStatus + errorThrown);
         }
     });
+
     alert('Aviso');
 }
+
 
 function EliminarObjeto(idObjeto){
     var confirmacion = confirm("¿Está seguro de que desea eliminar el objeto?");

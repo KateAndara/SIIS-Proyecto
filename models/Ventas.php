@@ -18,7 +18,7 @@
             $conexion= parent::Conexion();
             parent::set_names();
             $sql="SELECT * FROM tbl_productos a, tbl_tipo_producto b WHERE
-             a.Id_Tipo_producto = b.Id_Tipo_Producto AND b.Nombre_tipo='Producto terminado'";          
+             a.Id_Tipo_producto = b.Id_Tipo_Producto AND b.Nombre_tipo='Producto terminado Final'";          
             $sql= $conexion->prepare($sql);
             $sql->execute();
             return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
@@ -33,12 +33,32 @@
             $sql->execute();
             return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
         }
-        
-        public function get_promociones(){    
+        public function get_clientes(){                 //Si se nececita mostrar nombre en vez de ID.         
             $conexion= parent::Conexion();
             parent::set_names();
-            $sql="SELECT * FROM tbl_promociones";          
+            $sql="SELECT *
+                  FROM tbl_clientes";
             $sql= $conexion->prepare($sql);
+            $sql->execute();
+            return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);                
+        }
+        public function get_cliente($idCliente){                 //Si se nececita mostrar nombre en vez de ID.         
+            $conexion= parent::Conexion();
+            parent::set_names();
+            $sql="SELECT *
+                  FROM tbl_clientes where Id_Cliente=?";
+            $sql= $conexion->prepare($sql);
+            $sql->bindValue(1, $idCliente);
+            $sql->execute();
+            return $resultado=$sql->fetch(PDO::FETCH_ASSOC);                
+        }
+        public function get_promociones($idProducto){    
+            $conexion= parent::Conexion();
+            parent::set_names();
+            $sql="SELECT p.*,pp.* FROM `tbl_promociones` p INNER JOIN tbl_promocion_producto pp on pp.Id_Promocion=p.Id_Promocion where pp.Id_Producto=?";          
+            $sql= $conexion->prepare($sql);
+            $sql->bindValue(1, $idProducto);
+
             $sql->execute();
             return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
         }
@@ -51,6 +71,30 @@
             $sql->execute();
             return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
         }
+        public function get_descuento($idDescuento){    
+            $conexion= parent::Conexion();
+            parent::set_names();
+            $sql="SELECT * FROM tbl_descuentos where Id_Descuento=$idDescuento";          
+            $sql= $conexion->prepare($sql);
+            $sql->execute();
+            return $resultado=$sql->fetch(PDO::FETCH_ASSOC);
+        }
+        public function getCAI(){    
+            $conexion= parent::Conexion();
+            parent::set_names();
+            $sql="SELECT * FROM tbl_talonario ORDER BY `tbl_talonario`.`Id_Talonario` DESC";          
+            $sql= $conexion->prepare($sql);
+            $sql->execute();
+            return $resultado=$sql->fetch(PDO::FETCH_ASSOC);
+        }
+        public function getImpuesto(){    
+            $conexion= parent::Conexion();
+            parent::set_names();
+            $sql="SELECT Valor FROM tbl_ms_parametros Where `tbl_ms_parametros`.`Parametro`='IMPUESTO'";          
+            $sql= $conexion->prepare($sql);
+            $sql->execute();
+            return $resultado=$sql->fetch(PDO::FETCH_ASSOC);
+        }
         
         public function get_estados(){    
             $conexion= parent::Conexion();
@@ -62,29 +106,28 @@
         }
 
         public function insertVenta(
-        $Id_Cliente,
-        $Id_Usuario,
-        $Id_Estado,
-        $Subtotal,
-        $Impuesto,
-        $Total,
-        $Fecha,
-        $RTN,
-        $Num_Factura){
+            $idCliente,
+            $Id_Usuario,
+            $idEstado,
+            $Subtotal,
+            $Impuesto,
+            $Total,
+            $RTN,
+            $Numero_factura){
             $conectar= parent::conexion();
             parent::set_names();
             $sql="INSERT INTO tbl_ventas(Id_Cliente, Id_Usuario, Id_Estado_Venta, Subtotal,Impuesto, Total, Fecha, RTN, Numero_factura)
-            VALUES (?,?,?,?,?,?,?,?,?);";
+            VALUES (?,?,?,?,?,?,CURRENT_TIMESTAMP(),?,?);";
             $sql=$conectar->prepare($sql);
-            $sql->bindValue(1, $Id_Cliente);
+            $sql->bindValue(1, $idCliente);
             $sql->bindValue(2, $Id_Usuario);
-            $sql->bindValue(3, $Id_Estado);
+            $sql->bindValue(3, $idEstado);
             $sql->bindValue(4, $Subtotal);
             $sql->bindValue(5, $Impuesto);
             $sql->bindValue(6, $Total);
-            $sql->bindValue(7, $Fecha);
-            $sql->bindValue(8, $RTN);
-            $sql->bindValue(9, $Num_Factura);
+            $sql->bindValue(7, $RTN);
+            $sql->bindValue(8, $Numero_factura);
+          
             $sql->execute();
              $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
              $resultado = $conectar->lastInsertId();
@@ -100,7 +143,7 @@
             $Precio){
                 $conectar= parent::conexion();
                 parent::set_names();
-                $sql="INSERT INTO tbl_detalle_de_ventas(Id_Producto, Id_Venta, Cantidad, Precio)
+                $sql="INSERT INTO tbl_detalle_de_venta(Id_Producto, Id_Venta, Cantidad, Precio)
                 VALUES (?,?,?,?);";
                 $sql=$conectar->prepare($sql);
                 $sql->bindValue(1, $Id_Producto);
@@ -198,15 +241,38 @@
             return $resultado;
             }
 
+            public function insertVentasDescuento($idVenta,
+            $idDescuento,
+            $Porcentaje,
+            $Totaldescontado){
+                $conectar= parent::conexion();
+                parent::set_names();
+                $sql="INSERT INTO `tbl_ventas_descuento` (`Id_Venta`, `Id_Descuento`, `Porcentaje_descontado`, `Total_descuento`) VALUES (?,?,?, ?);";
+                $sql=$conectar->prepare($sql);
+           
+                $sql->bindValue(1, $idVenta);
+                $sql->bindValue(2, $idDescuento);
+                $sql->bindValue(3, $Porcentaje);
+                $sql->bindValue(4, $Totaldescontado);
+    
+                $sql->execute();
+                 $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
+                 $resultado = $conectar->lastInsertId();
+    
+                 
+                return $resultado;
+                }
+
             public function updateInventario($productoid,$cantidad){
                            $conectar= parent::Conexion();
                             parent::set_names();
-                            $sql="SELECT existencia FROM tbl_inventario WHERE Id_Producto=?";
+                            $sql="SELECT Existencia FROM tbl_inventario WHERE Id_Producto=?";
                             $sql=$conectar->prepare($sql);
                             $sql->bindvalue(1, $productoid);
                             $sql->execute();
                             $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
-                            $existencia=$resultado[0]['existencia']+$cantidad;
+                            
+                            $existencia=$resultado[0]['Existencia']-$cantidad;
                 
                             $sql="UPDATE `tbl_inventario` SET `Existencia` = '$existencia' WHERE `tbl_inventario`.`Id_Producto` = $productoid;";
                             $sql=$conectar->prepare($sql);
@@ -217,7 +283,50 @@
                 
                            return $resultado;
             }
+            public function updateCAI($idTalonario,$valorActual){
+                $conectar= parent::Conexion();
+                 parent::set_names();
+                
+     
+                 $sql="UPDATE `tbl_talonario` SET `Rango_actual` = '$valorActual' WHERE `tbl_talonario`.`Id_Talonario` = $idTalonario;";
+                 $sql=$conectar->prepare($sql);
+               
+                 $sql->execute();
+                 $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
+     
+     
+                return $resultado;
+        }
 
+        public function registrar_bitacora($id_usuario, $id_objeto, $accion, $descripcion){
+            $conexion= parent::Conexion();
+            parent::set_names();
+            
+            $sql="INSERT INTO tbl_ms_bitacora (Id_Usuario, Id_Objeto, Fecha, Accion, Descripcion) 
+                  VALUES (:id_usuario, :id_objeto, :fecha, :accion, :descripcion)";
+            $stmt= $conexion->prepare($sql);
+            $fecha = date("Y-m-d H:i:s");
+            $stmt->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
+            $stmt->bindParam(":id_objeto", $id_objeto, PDO::PARAM_INT);
+            $stmt->bindParam(":fecha", $fecha, PDO::PARAM_STR);
+            $stmt->bindParam(":accion", $accion, PDO::PARAM_STR);
+            $stmt->bindParam(":descripcion", $descripcion, PDO::PARAM_STR);
+            $stmt->execute();
+        }
+        public function get_user($user){
+            $conexion = parent::Conexion();
+            parent::set_names();
+            $sql = "SELECT Id_Usuario FROM tbl_ms_usuarios WHERE Usuario = ?";
+            $stmt = $conexion->prepare($sql);
+            if ($stmt) {
+                $stmt->bindValue(1, $user, PDO::PARAM_STR);
+                $stmt->execute();
+                $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+                return $resultado['Id_Usuario'];
+            } else {
+                return null;
+            }
+        }
        
     }
 ?>

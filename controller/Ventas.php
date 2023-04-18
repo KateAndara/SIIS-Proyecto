@@ -54,34 +54,68 @@
                     $datos[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
 
                 }
-                
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($ventas->get_user($varsesion));
+                $ventas->registrar_bitacora($Id_Usuario, 24, 'Ingresar', 'Se ingresó a la pantalla de Ventas');
               
                 echo json_encode($datos);
             break;
             case "GetProductos":
                 $datos=$ventas->get_productos();
+               
+                echo json_encode($datos);
+            break;
+            case "GetProducto":
+                $datos=$ventas->getProducto($body['idProducto']);
+               
                 echo json_encode($datos);
             break;
             case "GetPromociones":
-                $datos=$ventas->get_promociones();
+                
+                $datos=$ventas->get_promociones($body['idProducto']);
+                echo json_encode($datos);
+            break;
+            case "getPrecioPromocion":
+          
+                $datos=$ventas->get_promociones($body['idProducto']);
                 echo json_encode($datos);
             break;
             case "GetDescuentos":
                 $datos=$ventas->get_descuentos();
                 echo json_encode($datos);
             break;
+            case "GetDescuento":
+                $datos=$ventas->get_descuento($body['idDescuento']);
+                $datos['impuesto']=$ventas->getImpuesto();
+               
+                echo json_encode($datos);
+            break;
+            case "getClientes":
+                $datos=$ventas->get_clientes();
+        
+                echo json_encode($datos);
+            break;
+            case "getCliente":
+                $datos=$ventas->get_cliente($body['idCliente']);
+        
+                echo json_encode($datos);
+            break;
             case "GetEstados":
                 $datos=$ventas->get_estados();
                 echo json_encode($datos);
             break;
+            case "agregarCAI":
+                $datos=$ventas->getCAI();
+                echo json_encode($datos);
+            break;
             case "AgregarDetalle":  
                 
-                $IdProducto=$body['Producto'];
+                $idProducto=$body['Producto'];
                 $Cantidad=intval($body['Cantidad']);
                 $Precio=$body['Precio'];
                 
                 $arrDetalle=array();
-
+                
                 //$user=intval($_SESSION['idUser']);
                 $arrData = $ventas->getProducto($idProducto);
               
@@ -92,16 +126,17 @@
                 
                 );
                  
-                 
+                
                 //$_SESSION['compraDetalle']=array();
                 if(isset($_SESSION['ventaDetalle'])){
                  $on = true;
                  $arrDetalle = $_SESSION['ventaDetalle'];
+             
                  for ($pr=0; $pr < count($arrDetalle); $pr++) {
-                     if($arrDetalle[$pr]['idproducto'] == $idProducto){
-                         $arrDetalle[$pr]['cantidad'] = $cantidad;
-                         $arrDetalle[$pr]['nombre'] = $arrData[0]['Nombre'];
-                         $arrDetalle[$pr]['precio'] = $Precio_Libra;
+                     if($arrDetalle[$pr]['Id_Producto'] == $idProducto){
+                         $arrDetalle[$pr]['Cantidad'] = $arrDetalle[$pr]['Cantidad']+ $Cantidad;
+                         $arrDetalle[$pr]['Nombre'] = $arrData[0]['Nombre'];
+                         $arrDetalle[$pr]['Precio'] = $Precio;
                         
 
             
@@ -118,7 +153,7 @@
                  }
                  $data=array();
                  $data['producto']=$_SESSION['ventaDetalle'];
-                
+            
                  function getFile(string $url, $data)
                     {
                         ob_start();
@@ -128,8 +163,9 @@
                     }
 
                     $htmlVentas = getFile('../Formularios/tablaVentas',$data); 
-
-                    $arrResponse = array("status" => true, "msg" => 'Producto agregado',"htmlVentas"=>$htmlVentas);
+                    $htmlTotales = getFile('../Formularios/tablaTotales',$data); 
+                   
+                    $arrResponse = array("status" => true, "msg" => 'Producto agregado',"htmlVentas"=>$htmlVentas,"htmlTotales"=>$htmlTotales);
 
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
              
@@ -138,11 +174,11 @@
                
                 $detalleTabla='';
                 $idproducto = intval($body['Producto']);
-          
+            
                 if (is_numeric($idproducto) ) {
                  $arrVenta=$_SESSION['ventaDetalle'];
-                 for ($pr=0; $pr < count($arrCompra); $pr++) {
-                     if($arrVenta[$pr]['idproducto'] == $idproducto){
+                 for ($pr=0; $pr < count($arrVenta); $pr++) {
+                     if($arrVenta[$pr]['Id_Producto'] == $idproducto){
                          unset($arrVenta[$pr]);
                      }
                  }
@@ -158,8 +194,9 @@
                     $data=array();
                     $data['producto']=$_SESSION['ventaDetalle'];
                     $htmlVentas = getFile('../Formularios/tablaVentas',$data); 
+                    $htmlTotales = getFile('../Formularios/tablaTotales',$data); 
                      
-                 $arrResponse = array("status" => true, "msg" => 'Producto Eliminado',"htmlVentas"=>$htmlVentas);
+                 $arrResponse = array("status" => true, "msg" => 'Producto Eliminado',"htmlVentas"=>$htmlVentas,"htmlTotales"=>$htmlTotales);
             }
             echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
 
@@ -181,49 +218,54 @@
 
             case "finalVenta":
                 
-                
-                $cliente=$body['Nombre'];
-                $Fecha_nacimiento=$body['Fecha_nacimiento'];
-                $DNI=$body['DNI'];
-                $Id_Usuario=$_SESSION['Id_Usuario'];
-                $Id_Estado=$body['Id_Estado'];
+               
+
+
+                $idCliente=$body['idCliente'];
+                $idDescuento=$body['idDescuento'];
+                $Porcentaje=$body['Porcentaje'];
+                $totalDetalle=$body['totalDetalle'];
+                $Totaldescontado=$body['Totaldescontado'];
+                $SubtotalDescuento=$body['SubtotalDescuento'];
+                $idEstado=$body['idEstado'];
                 $Subtotal=$body['Subtotal'];
                 $Impuesto=$body['Impuesto'];
-                $Total=$body['Total'];
-                $Fecha=$body['Fecha'];
                 $RTN=$body['RTN'];
-                $Num_Factura=$body['Numero_factura'];
+                $Total=$body['Total'];
+                $Numero_factura=$body['Numero_factura'];
+                $Id_Usuario=$_SESSION['Id_Usuario'];
+                $usuario=$_SESSION['usuario'];
+                $idTalonario=$body['idTalonario'];
+                $valorActual=$body['valorActual'] + 1;
+                
                 
                 
          
                 
                 
                 if (!empty($_SESSION['ventaDetalle'])) {
-                    $request_cliente=$ventas->insertCliente($cliente,
-                                                            $Fecha_nacimiento,
-                                                            $DNI);
-
-
-                    if ($request_cliente>0){
-                        $Id_Cliente=$request_cliente;
-                        $request_venta=$ventas->insertVenta($Id_Cliente,
+                    $request_venta=$ventas->insertVenta($idCliente,
                                                             $Id_Usuario,
-                                                            $Id_Estado,
+                                                            $idEstado,
                                                             $Subtotal,
                                                             $Impuesto,
                                                             $Total,
-                                                            $Fecha,
                                                             $RTN,
-                                                            $Num_Factura);
+                                                            $Numero_factura);
+
+
+                    if ($request_venta>0){
+                        $idVenta=$request_venta;
+                        
                         foreach ($_SESSION['ventaDetalle'] as $producto) {
                             
                             $idVenta=$request_venta;
-                            $productoid = $producto['idproducto'];
-                            $precio = $producto['precio'];
-                            $cantidad = $producto['cantidad'];                            
+                            $productoid = $producto['Id_Producto'];
+                            $precio = $producto['Precio'];
+                            $cantidad = $producto['Cantidad'];                            
                             $detalleVenta=$ventas->insertDetalleVenta($productoid,$idVenta,$cantidad,$precio);
 
-                            $insertKardex=$ventas->insertKardex($productoid,1,$cantidad,$Id_Usuario);
+                            $insertKardex=$ventas->insertKardex($productoid,2,$cantidad,$Id_Usuario);
                             $updateInventario=$ventas->updateInventario($productoid,$cantidad);
 
                             
@@ -238,7 +280,15 @@
                             $this->model->updateCantCompra($id['COD_PRODUCTO'],$cantCompra);  */
     
                         }
-                    
+                        $requestVentasDescuento=$ventas->insertVentasDescuento($idVenta,
+                        $idDescuento,
+                        $Porcentaje,
+                        $Totaldescontado,
+                        );
+
+                        //actualizar CAI
+
+                        $updateCAI=$ventas->updateCAI($idTalonario,$valorActual);
                        
                             $arrResponse= array("status"=> true,"msg"=>'Compra Realizada');
                             

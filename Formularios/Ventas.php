@@ -38,7 +38,7 @@
     <link href="../CSS/datatable.css" rel="stylesheet">
     <!-- Última versión de AutoTable -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.26/jspdf.plugin.autotable.min.js"></script>
-<script src="../Reportes/ReporteH.js"></script>
+<script src="../Reportes/ReporteOH.js"></script>
     <!-- Sweetalert -->
     <link href="
 https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css

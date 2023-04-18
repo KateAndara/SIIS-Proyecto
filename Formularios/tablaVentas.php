@@ -11,12 +11,13 @@
     ?>
        
                   <tr>
-                    <td><?= $producto['Idproducto']   ?></td>
-                    <td><?=  $producto['Nombreproducto']  ?></td>
+                    <td><?= $producto['Id_Producto']   ?></td>
+                    <td><?=  $producto['Nombre']  ?></td>
                     <td><?=  $producto['Cantidad']  ?></td>
                     <td><?=  $producto['Precio']  ?></td>
-                    <td class="text-center"><a class="link_delete"  href="$" # onclick="event.preventDefault();edit_product_detalle('<?=  $contador  ?>');"><i style="color:green" class="fa-solid fa-pencil"></i></a></td>
-                    <td class="text-center"><a class="link_delete" href="$" # onclick="event.preventDefault();del_product_detalle('<?=  $producto['idproducto']  ?>');"><i class="far fa-trash-alt" style="color:red"></i></a></td>
+                    <td><?=  $producto['Precio']*$producto['Cantidad']  ?></td>
+                   
+                    <td class="text-center"><a class="link_delete" href="$" # onclick="event.preventDefault();del_product_detalle('<?=  $producto['Id_Producto']  ?>');"><i class="far fa-trash-alt" style="color:red"></i></a></td>
                     
                     </tr>
       

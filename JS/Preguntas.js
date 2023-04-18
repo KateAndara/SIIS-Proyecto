@@ -82,10 +82,24 @@ function BuscarPregunta(NombrePregunta){
 }
 
 function AgregarPregunta(){
+    var pregunta = $('#Pregunta').val();
+    
+    //Permitir letras y espacios
+    var patron = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s?¿]+$/;
+    //validar que no hayan campos vacíos 
+    if (pregunta.trim() == "") {
+        alert("Por favor, complete todos los campos.");
+        return false;
+    } else if (!patron.test(pregunta)) {
+        alert("Por favor utiliza solo letras, signos de pregunta y espacios");
+        return false;
+    }
+
+    
     var datosPregunta = {
-    Pregunta: $('#Pregunta').val()
+        Pregunta: pregunta
     };
-    var datosPreguntaJson= JSON.stringify(datosPregunta );
+    var datosPreguntaJson= JSON.stringify(datosPregunta);
 
     $.ajax({
         url:UrlInsertarPregunta,
@@ -104,6 +118,9 @@ function AgregarPregunta(){
     });
     alert('Aviso');
 }
+
+
+
 
 function CargarPregunta(idPregunta){ //Función que trae los campos que se eligieron editar.
     var datosPregunta = {
@@ -141,9 +158,22 @@ function CargarPregunta(idPregunta){ //Función que trae los campos que se eligi
 }
 
 function ActualizarPregunta(idPregunta){
+    var pregunta = $('#Pregunta').val();
+    
+    //Permitir letras y espacios
+    var patron = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s?¿]+$/;
+    //validar que no hayan campos vacíos 
+    if (pregunta.trim() == "") {
+        alert("Por favor, complete todos los campos.");
+        return false;
+    } else if (!patron.test(pregunta)) {
+        alert("Por favor utiliza solo letras, signos de pregunta y espacios");
+        return false;
+    }
+    
     var datosPregunta={
-    Id_Pregunta: idPregunta,
-    Pregunta: $('#Pregunta').val()
+        Id_Pregunta: idPregunta,
+        Pregunta: pregunta
     };
     var datosPreguntaJson = JSON.stringify(datosPregunta);
 
@@ -196,3 +226,15 @@ function EliminarPregunta(idPregunta){
         alert("La eliminación de la pregunta ha sido cancelada.");
     }
 }
+
+function mostrarSweetAlert(mensaje, tipo) {
+    swal({
+      title: "",
+      text: mensaje,
+      icon: tipo,
+      button: false,
+      timer: 2000 // tiempo en milisegundos
+    }).then(function () {
+      // aquí podemos agregar más acciones que queremos que sucedan después de cerrar la alerta
+    });
+  }

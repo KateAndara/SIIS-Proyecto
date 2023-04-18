@@ -55,7 +55,9 @@
 
                 }
 
-
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($compras->get_user($varsesion));
+                $compras->registrar_bitacora($Id_Usuario, 29, 'Ingresar', 'Se ingresó a la pantalla de Compras');
 
                 echo json_encode($datos);
             break;
@@ -68,7 +70,9 @@
             case "deleteCompra":
                 $idCompra=$body['idCompra'];
                 $datos=$compras->deleteCompra($idCompra);
-                
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($compras->get_user($varsesion));
+                $compras->registrar_bitacora($Id_Usuario, 29, 'Eliminar', 'Se eliminó una compra');
                 echo json_encode($datos);
             break;
             case "GetProveedores":

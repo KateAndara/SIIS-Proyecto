@@ -48,7 +48,9 @@ session_start();
                     $datos[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
 
                 }
-
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($proveedores->get_user($varsesion));
+                $proveedores->registrar_bitacora($Id_Usuario, 30, 'Ingresar', 'Se ingresó a la pantalla de Proveedores');
                 echo json_encode($datos);
             break;
             case "GetProveedor": //Buscar por cualquier campo 
@@ -64,14 +66,23 @@ session_start();
             break;
             case "InsertProveedor":
                 $datos=$proveedores->insert_proveedor($body["Nombre"],$body["RTN"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($proveedores->get_user($varsesion));
+                $proveedores->registrar_bitacora($Id_Usuario, 30, 'Insertar', 'Se insertó un nuevo proveedor');
                 echo json_encode("Se agregó el proveedor");
             break;
             case "UpdateProveedor":
                 $datos=$proveedores->update_proveedor($body["Id_Proveedor"],$body["Nombre"],$body["RTN"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($proveedores->get_user($varsesion));
+                $proveedores->registrar_bitacora($Id_Usuario, 30, 'Actualizar', 'Se actualizó un proveedor');
                 echo json_encode("Proveedor Actualizado");
             break;
             case "DeleteProveedor":
                 $datos=$proveedores->delete_proveedor($body["Id_Proveedor"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($proveedores->get_user($varsesion));
+                $proveedores->registrar_bitacora($Id_Usuario, 30, 'Eliminar', 'Se eliminó un proveedor');
                 echo json_encode("Proveedor Eliminado");
             break;
         }
