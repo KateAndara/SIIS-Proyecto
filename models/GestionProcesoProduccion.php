@@ -46,5 +46,30 @@
             $sql->execute();
             return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
         }
+
+        public function cancelarProcesoProduccion($idProceso){
+            $conexion= parent::Conexion();
+            parent::set_names();
+            $conexion->beginTransaction();
+            try {
+                
+                //Eliminar productos terminados
+                $sql_eliminar_producto = "DELETE FROM tbl_producto_terminado_final WHERE Id_Proceso_Produccion = ?";
+                $stmt_eliminar_producto = $conexion->prepare($sql_eliminar_producto);
+                $stmt_eliminar_producto->execute([$idProceso]);
+        
+                //Actualizar el estado del proceso de producción
+                $sql_actualizar_proceso = "UPDATE tbl_proceso_produccion SET Id_Estado_Proceso = '3' WHERE Id_Proceso_Produccion = ?";
+                $stmt_actualizar_proceso = $conexion->prepare($sql_actualizar_proceso);
+                $stmt_actualizar_proceso->execute([$idProceso]);
+        
+                $conexion->commit();
+                return true;
+            } catch (PDOException $e) {
+                $conexion->rollback();
+                return false;
+            }
+        }        
+        
     }
 ?>

@@ -44,7 +44,7 @@ session_start();
                         //si permisos es igual a Permiso_eliminacion de delete crea el boton
 
                     if($_SESSION['permisosMod']['d']){
-                        $btnDelete='<button class="rounded" style="background-color: #FF0000; color: white; width: 80px; margin-right: 4px;" onclick="cancelarCompra(\''.$datos[$i]['Id_Proceso_Produccion']."')\">Cancelar</button>"."</div>'";
+                        $btnDelete='<button class="rounded" style="background-color: #FF0000; color: white; width: 80px; margin-right: 4px;" onclick="CancelarProcesoProduccion(\''.$datos[$i]['Id_Proceso_Produccion']."')\">Cancelar</button>"."</div>'";
                     }
                   
                     
@@ -74,6 +74,11 @@ session_start();
             case "UpdateProcesoProduccion":
                 $datos=$procesos->update_procesoProduccion($body["Id_Proceso_Produccion"],$body["Id_Estado_Proceso"],$body["Fecha"]);
                 echo json_encode("Proceso Actualizado");
+            break;
+            case "CancelarProcesoProduccion":
+                $idProceso=$body['idProceso'];
+                $datos=$procesos->cancelarProcesoProduccion($idProceso);
+                echo json_encode($datos);
             break;
         }
 

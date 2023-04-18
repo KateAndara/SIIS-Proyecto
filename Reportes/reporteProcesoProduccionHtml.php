@@ -70,6 +70,8 @@
                 </td>
             <td class="text-center">
                 <h4><strong><?=  $data['DatosEmpresa'][0]['Valor']  ?></strong></h4>
+                <br>
+                <h4><strong>FICHA DE PROCESO DE PRODUCCION</strong></h4>
                 
             </td>
             <td class="text-right wd20">

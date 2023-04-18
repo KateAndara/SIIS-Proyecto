@@ -29,8 +29,16 @@
                 $datos = $proceso->insert_productoTerminadoMP($body["Id_Producto"], $body["Cantidad"]);
                 echo json_encode("Se agregó el producto terminado");
             break;
+            case "InsertProductoTerminadoMPEditandoProceso":
+                $datos = $proceso->insert_productoTerminadoMPEditandoProceso($body["Id_Producto"], $body["Cantidad"], $body["Id_Proceso_Produccion"]);
+                echo json_encode("Se agregó el producto terminado");
+            break;
             case "InsertProductoTerminadoFinal":
                 $datos=$proceso->insert_productoTerminadoFinal($body["Id_Producto"],$body["Cantidad"]);
+                echo json_encode("Se agregó el producto terminado");
+            break;
+            case "InsertProductoTerminadoFinalEditandoProceso":
+                $datos = $proceso->insert_productoTerminadoFinalEditandoProceso($body["Id_Producto"], $body["Cantidad"], $body["Id_Proceso_Produccion"]);
                 echo json_encode("Se agregó el producto terminado");
             break;
             //Datos de otra tabla

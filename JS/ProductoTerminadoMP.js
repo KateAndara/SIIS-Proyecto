@@ -3,10 +3,36 @@ var UrlEliminarProductoTerminadoMP = 'http://localhost/SIIS-PROYECTO/controller/
 
 $(document).ready(function(){
    CargarProductosTerminadosMP();
+   CargarProductosTerminadosMPEditandoProceso(id_proceso_produccion);
 });
 
 function CargarProductosTerminadosMP(){
     
+    $.ajax({
+        url : UrlProductosTerminadosMP,
+        type: 'GET',
+        datatype: 'JSON',
+        success: function(reponse){
+            var MisItems = reponse;
+            var Valores='';
+            
+            for(i=0; i<MisItems.length; i++){
+                Valores+= '<tr>'+
+                '<td style="display: none;">'+ MisItems[i].Id_Producto_Terminado_Mp +'</td>'+
+                '<td>'+ MisItems[i].Nombre +'</td>'+
+                '<td>'+ MisItems[i].Cantidad +'</td>'+ 
+                '<td class="text-center"><a class="link_delete" onclick="EliminarProductoTerminadoMP('+MisItems[i].Id_Producto_Terminado_Mp +');"><i class="far fa-trash-alt" style="color:red"></i></a></td>'+
+            '</tr>';
+            }
+            $('#DataProductosTerminadosMP').html(Valores);
+        }
+
+    });
+}
+
+function CargarProductosTerminadosMPEditandoProceso(id_proceso_produccion){    
+    var UrlProductosTerminadosMP = 'http://localhost/SIIS-PROYECTO/controller/productoTerminadoMP.php?opc=GetProductosTerminadosMPEditandoProceso&id_proceso_produccion=' + id_proceso_produccion; //Traer los datos correspondientes al Id_Proceso_Produccion deseado
+
     $.ajax({
         url : UrlProductosTerminadosMP,
         type: 'GET',
@@ -48,7 +74,8 @@ function EliminarProductoTerminadoMP(idProducto){
             success: function(reponse){
                 console.log(reponse);
                 alert('Producto Eliminado');
-                CargarProductosTerminadosMP(); 
+                CargarProductosTerminadosMP();
+                CargarProductosTerminadosMPEditandoProceso(id_proceso_produccion);
             },
 
             error: function(textStatus, errorThrown){
@@ -60,6 +87,7 @@ function EliminarProductoTerminadoMP(idProducto){
         alert("La eliminación del producto ha sido cancelada.");
     }
 }
+
 
 
 

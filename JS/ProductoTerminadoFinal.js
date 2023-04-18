@@ -3,10 +3,35 @@ var UrlEliminarProductoTerminadoFinal = 'http://localhost/SIIS-PROYECTO/controll
 
 $(document).ready(function(){
    CargarProductosTerminadosFinal();
+   CargarProductosTerminadosFinalEditandoProceso(id_proceso_produccion);
 });
 
 function CargarProductosTerminadosFinal(){
     
+    $.ajax({
+        url : UrlProductosTerminadosFinal,
+        type: 'GET',
+        datatype: 'JSON',
+        success: function(reponse){
+            var MisItems = reponse;
+            var Valores='';
+            
+            for(i=0; i<MisItems.length; i++){
+                Valores+= '<tr>'+
+                '<td style="display: none;">'+ MisItems[i].Id_Producto_Terminado_Final +'</td>'+
+                '<td>'+ MisItems[i].Nombre +'</td>'+
+                '<td>'+ MisItems[i].Cantidad +'</td>'+
+                '<td class="text-center"><a class="link_delete" onclick="EliminarProductoTerminadoFinal('+MisItems[i].Id_Producto_Terminado_Final +');"><i class="far fa-trash-alt" style="color:red"></i></a></td>'+
+            '</tr>';
+            }
+            $('#DataProductosTerminadosFinal').html(Valores);
+        }
+
+    });
+}
+
+function CargarProductosTerminadosFinalEditandoProceso(id_proceso_produccion){
+    var UrlProductosTerminadosFinal = 'http://localhost/SIIS-PROYECTO/controller/productoTerminadoFinal.php?opc=GetProductosTerminadosFinalEditandoProceso&id_proceso_produccion=' + id_proceso_produccion; //Traer los datos correspondientes al Id_Proceso_Produccion deseado
     $.ajax({
         url : UrlProductosTerminadosFinal,
         type: 'GET',
@@ -49,6 +74,7 @@ function EliminarProductoTerminadoFinal(idProducto){
                 console.log(reponse);
                 alert('Producto Eliminado');
                 CargarProductosTerminadosFinal(); 
+                CargarProductosTerminadosFinalEditandoProceso(id_proceso_produccion);
             },
 
             error: function(textStatus, errorThrown){
@@ -60,3 +86,4 @@ function EliminarProductoTerminadoFinal(idProducto){
         alert("La eliminación del producto ha sido cancelada.");
     }
 }
+

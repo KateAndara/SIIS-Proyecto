@@ -213,7 +213,7 @@
         <div class="table-title">
         <h3 style="color: black;">Materia Prima</h3>
         </div>
-        <table class="table table-hover text-nowrap">
+        <table class="mi-tabla-productos-gestion-proceso-produccion">
             <thead class="thead-dark">
             <tr>
                 <th style="width: 400px">Nombre</th>
@@ -226,7 +226,7 @@
         <div class="table-title">
         <h3 style="color: black;">Productos Terminados</h3>
         </div>
-        <table class="table table-hover text-nowrap">
+        <table class="mi-tabla-productos-gestion-proceso-produccion">
             <thead class="thead-dark">
             <tr>
                 <th style="width: 400px">Nombre</th>
@@ -272,7 +272,7 @@
         // Recargar la página después de 2 segundos
         setTimeout(function() {
             location.reload();
-        }, 2000);
+        }, 1000);
         }
     </script> 
 

@@ -24,7 +24,13 @@
                 $datos=$productosTerminadosFinal->get_productosTerminadosFinal();
                 echo json_encode($datos);
             break;
-        
+            case "GetProductosTerminadosFinalEditandoProceso":
+                if(isset($_GET['id_proceso_produccion'])){
+                    $id_proceso_produccion = $_GET['id_proceso_produccion'];
+                    $datos=$productosTerminadosFinal->get_productosTerminadosFinalEditandoProceso($id_proceso_produccion);
+                    echo json_encode($datos);
+                }
+            break;
             case "DeleteProductoTerminadoFinal":
                 $datos=$productosTerminadosFinal->delete_productoTerminadoFinal($body["Id_Producto_Terminado_Final"]);
                 echo json_encode("Producto Eliminado");

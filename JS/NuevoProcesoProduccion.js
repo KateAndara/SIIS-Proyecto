@@ -1,5 +1,7 @@
 var UrlInsertarProductoTerminadoMP = 'http://localhost/SIIS-PROYECTO/controller/nuevoProcesoProduccion.php?opc=InsertProductoTerminadoMP'; // Insertar
+var UrlInsertarProductoTerminadoMPEditandoProceso = 'http://localhost/SIIS-PROYECTO/controller/nuevoProcesoProduccion.php?opc=InsertProductoTerminadoMPEditandoProceso'; // Insertar
 var UrlInsertarProductoTerminadoFinal = 'http://localhost/SIIS-PROYECTO/controller/nuevoProcesoProduccion.php?opc=InsertProductoTerminadoFinal'; // Insertar
+var UrlInsertarProductoTerminadoFinalEditandoProceso = 'http://localhost/SIIS-PROYECTO/controller/nuevoProcesoProduccion.php?opc=InsertProductoTerminadoFinalEditandoProceso'; // Insertar
 var UrlInsertarProcesoProduccion = 'http://localhost/SIIS-PROYECTO/controller/nuevoProcesoProduccion.php?opc=InsertProcesoProduccion'; // Insertar
 //Si se necesita traer datos de otra tabla para una lista desplegable
 var UrlProductosMP = 'http://localhost/SIIS-PROYECTO/controller/nuevoProcesoProduccion.php?opc=GetProductosMP'; 
@@ -35,12 +37,45 @@ function AgregarProductoTerminadoMP(event){
             document.querySelector("#Select_ProductoMP").value = ""; // limpiar el valor seleccionado
             document.querySelector("#Cantidad").value = ""; // limpiar el valor ingresado
             document.querySelector(".InsertProductoTerminado").reset(); // resetear el formulario
+            CargarProductosTerminadosMPEditandoProceso(id_proceso_produccion);
         },
 
         error: function(textStatus, errorThrown){
             alert('Error al agregar producto' + textStatus + errorThrown);
         }
     });
+}
+
+function AgregarProductoTerminadoMPEditandoProceso(event, idProceso){
+    event.preventDefault();
+    var datosProductoTerminadoMP = {
+        Id_Producto: $('#Select_ProductoMP').val(),
+        Cantidad: $('#Cantidad').val(),
+        Id_Proceso_Produccion: idProceso
+    };
+    var datosProductoTerminadoJson= JSON.stringify(datosProductoTerminadoMP );
+
+    $.ajax({
+        url:UrlInsertarProductoTerminadoMPEditandoProceso,
+        type: 'POST',
+        data: datosProductoTerminadoJson,
+        datatype: 'JSON',
+        contentType: 'application/json',
+        success: function(response){
+            console.log(response);
+            alert('Producto Agregado');
+            CargarProductosTerminadosMP();
+            document.querySelector("#Select_ProductoMP").value = ""; // limpiar el valor seleccionado
+            document.querySelector("#Cantidad").value = ""; // limpiar el valor ingresado
+            document.querySelector(".InsertProductoTerminado").reset(); // resetear el formulario
+            CargarProductosTerminadosMPEditandoProceso(id_proceso_produccion);
+        },
+
+        error: function(textStatus, errorThrown){
+            alert('Error al agregar producto' + textStatus + errorThrown);
+        }
+    });
+    
 }
 
 function AgregarProductoTerminadoFinal(event){
@@ -64,6 +99,38 @@ function AgregarProductoTerminadoFinal(event){
             document.querySelector("#Select_ProductoFinal").value = ""; // limpiar el valor seleccionado
             document.querySelector("#CantidadF").value = ""; // limpiar el valor ingresado
             document.querySelector(".InsertProductoTerminadoFinal").reset(); // resetear el formulario
+            CargarProductosTerminadosFinalEditandoProceso(id_proceso_produccion);
+        },
+
+        error: function(textStatus, errorThrown){
+            alert('Error al agregar producto' + textStatus + errorThrown);
+        }
+    });
+}
+
+function AgregarProductoTerminadoFinalEditandoProceso(event, idProceso){
+    event.preventDefault();
+    var datosProductoTerminadoFinal = {
+    Id_Producto: $('#Select_ProductoFinal').val(),
+    Cantidad: $('#CantidadF').val(),
+    Id_Proceso_Produccion: idProceso
+    };
+    var datosProductoTerminadoFinalJson= JSON.stringify(datosProductoTerminadoFinal );
+
+    $.ajax({
+        url: UrlInsertarProductoTerminadoFinalEditandoProceso,
+        type: 'POST',
+        data: datosProductoTerminadoFinalJson,
+        datatype: 'JSON',
+        contentType: 'application/json',
+        success: function(reponse){
+            console.log(reponse);
+            alert('Producto Agregado');
+            CargarProductosTerminadosFinal();
+            document.querySelector("#Select_ProductoFinal").value = ""; // limpiar el valor seleccionado
+            document.querySelector("#CantidadF").value = ""; // limpiar el valor ingresado
+            document.querySelector(".InsertProductoTerminadoFinal").reset(); // resetear el formulario
+            CargarProductosTerminadosFinalEditandoProceso(id_proceso_produccion);
         },
 
         error: function(textStatus, errorThrown){

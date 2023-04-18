@@ -16,5 +16,26 @@
     border-color: var(--bs-table-border-color);
 }
 
-
-
+.mi-tabla-productos-gestion-proceso-produccion {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 16px;
+    margin-bottom: 1em;
+  }
+  
+  .mi-tabla-productos-gestion-proceso-produccion th {
+    background-color: #2e2c2c;
+    color: #ffffff;
+    font-weight: bold;
+    text-align: left;
+    padding: 8px;
+    border: 1px solid #dedede;
+  }
+  
+  .mi-tabla-productos-gestion-proceso-produccion td {
+    color: #000000;
+    padding: 8px;
+    border: 1px solid #dedede;
+  }
+  
+  

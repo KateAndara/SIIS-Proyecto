@@ -1,7 +1,7 @@
 var UrlProcesosProduccion = 'http://localhost/SIIS-PROYECTO/controller/gestionProcesoProduccion.php?opc=GetProcesosProduccion'; //Traer todos los datos
 var UrlActualizarProcesoProduccion = 'http://localhost/SIIS-PROYECTO/controller/gestionProcesoProduccion.php?opc=GetProcesoProduccionEditar'; //Traer el dato a editar
 var UrlProcesoProduccionEditar = 'http://localhost/SIIS-PROYECTO/controller/gestionProcesoProduccion.php?opc=UpdateProcesoProduccion'; //Actualizar el dato traído
-
+var UrlCancelarProcesoProduccion = 'http://localhost/SIIS-PROYECTO/controller/gestionProcesoProduccion.php?opc=CancelarProcesoProduccion';
 
 $(document).ready(function(){
    CargarProcesos();
@@ -39,7 +39,7 @@ function CargarProcesos(){
                             '<button class="rounded" style="background-color: #2D7AC0; color: white; width: 73px; margin-right: 4px;" onclick= "CargarProcesoProduccion(\'' + row.Id_Proceso_Produccion + '\'); mostrarDiv();">Editar</button>'+ 
                             '<button class="rounded" style="background-color: #FF0000; color: white; width: 80px; margin-right: 4px;" onclick="procesoProduccionPDF(\'' +
                             row.Id_Proceso_Produccion +
-                            "')\">PDF "+'<i class="fa-regular fa-file-pdf"></i>'+"</button>"+'<button class="rounded" style="background-color: #FF0000; color: white; width: 80px; margin-right: 4px;" onclick="cancelarCompra(\'' +
+                            "')\">PDF "+'<i class="fa-regular fa-file-pdf"></i>'+"</button>"+'<button class="rounded" style="background-color: #FF0000; color: white; width: 80px; margin-right: 4px;" onclick="CancelarProcesoProduccion(\'' +
                             row.Id_Proceso_Produccion +
                             "')\">Cancelar</button>"+"</div>"
                    
@@ -51,11 +51,6 @@ function CargarProcesos(){
 
     });
 }
-
-function procesoProduccionPDF(idProceso) {
-    location.href =
-      "http://localhost/SIIS-PROYECTO/Reportes/reporteProcesoProduccion.php?id=" + idProceso;
-  }
 
 function CargarProcesoProduccion(idProceso) { 
     var datosProcesoProduccion = {
@@ -76,7 +71,8 @@ function CargarProcesoProduccion(idProceso) {
             $('#Select_Estados_Proceso').val(MisItems[0].Id_Estado_Proceso);
             $('#Select_Estado_Proceso').val(MisItems[0].Id_Estado_Proceso); // añade esta línea para actualizar el otro select
             $('#Fecha').val(MisItems[0].Fecha);
-        
+
+            //-----------------------------------------------------Botones del tab "Inico de proceso"-------------------------------------------------
             // Crear el botón de actualización
             var btnactualizar = '<input type="submit" id="btnagregarNuevo" onclick="ActualizarProcesoProduccion(' +MisItems[0].Id_Proceso_Produccion+'); document.querySelector(\'.nav-tabs li:nth-child(2) a\').click(); return false;" value="Siguiente" class="btn btn-dark">';
 
@@ -86,17 +82,48 @@ function CargarProcesoProduccion(idProceso) {
             // Reemplazar el contenido del elemento <div> de agregar proceso con los botones "Actualizar" y "Cancelar"
             $('#btnagregarProcesoProduccion').html(btnactualizar + ' ' + btncancelar);
 
+            //-----------------------------------------------------Botones del tab "Materia prima"-------------------------------------------------
+
+            // Crear el botón de agregar producto terminado MP
+            var btnagregarMP = '<input type="submit" id="btnagregarMP" value="Agregar" class="btn btn-success" style="margin-right:450px;">';
+
+            // Crear el botón de anterior
+            var btnanteriorMP = '<input type="submit" id="btnanterior" onclick="document.querySelector(\'.nav-tabs li:nth-child(1) a\').click(); return false;" value="Anterior" class="btn btn-dark" style="margin-right:5px;">';
+            
+            // Crear el botón de siguiente
+             var btnsiguienteMP = '<input type="submit" id="btnsiguiente" onclick="document.querySelector(\'.nav-tabs li:nth-child(3) a\').click(); return false;" value="Siguiente" class="btn btn-dark" style="margin-right:20px;">'; 
+                
+             // Crear el botón de finalizar proceso
+            var btnfinalizarProcesoMP = '<button type="button" id="btnfinalizarProceso" class="btn btn-info" onclick="ActualizarProcesoProduccion(' +MisItems[0].Id_Proceso_Produccion+');if(confirm(\'¿Desea imprimir ficha del proceso?\')){procesoProduccionPDF(' +MisItems[0].Id_Proceso_Produccion+');}else{mostrarMensaje();}" style="margin-left:auto;">Finalizar proceso</button>';
+
+            // Reemplazar el contenido del elemento <div> de agregar producto final con los botones "Agregar", "Anterior" y "Finalizar proceso"
+            $('#btnagregarProductoTerminadoMP').html(btnagregarMP + ' ' + btnanteriorMP + ' ' + btnsiguienteMP + ' ' + btnfinalizarProcesoMP);
+
+            // Agregar evento al botón de agregar producto MP
+            var btnagregarMP = document.getElementById('btnagregarMP');
+            btnagregarMP.addEventListener('click', function() {
+                AgregarProductoTerminadoMPEditandoProceso(event, MisItems[0].Id_Proceso_Produccion);
+            });
+
+            //-----------------------------------------------------Botones del tab "Producto terminado"-------------------------------------------------
+
             // Crear el botón de agregar producto terminado final
-            var btnagregarPF = '<input type="submit" id="btnagregarPF" onclick="AgregarProductoTerminadoFinal(event)" value="Agregar" class="btn btn-success" style="margin-right:450px;">';
+            var btnagregarPF = '<input type="submit" id="btnagregarPF" value="Agregar" class="btn btn-success" style="margin-right:450px;">';
 
             // Crear el botón de anterior
             var btnanteriorPF = '<input type="submit" id="btnanterior" onclick="document.querySelector(\'.nav-tabs li:nth-child(2) a\').click(); return false;" value="Anterior" class="btn btn-dark" style="margin-right:5px;">';
 
             // Crear el botón de finalizar proceso
-            var btnfinalizarProcesoPF = '<button type="button" id="btnfinalizarProceso" class="btn btn-info" onclick=" ActualizarProcesoProduccion(' +MisItems[0].Id_Proceso_Produccion+'); mostrarMensaje()" style="margin-left:auto;">Finalizar proceso</button>';
+            var btnfinalizarProcesoPF = '<button type="button" id="btnfinalizarProceso" class="btn btn-info" onclick="ActualizarProcesoProduccion(' +MisItems[0].Id_Proceso_Produccion+');if(confirm(\'¿Desea imprimir ficha del proceso?\')){procesoProduccionPDF(' +MisItems[0].Id_Proceso_Produccion+');}else{mostrarMensaje();}" style="margin-left:auto;">Finalizar proceso</button>';
 
             // Reemplazar el contenido del elemento <div> de agregar producto final con los botones "Agregar", "Anterior" y "Finalizar proceso"
             $('#btnagregarProductoTerminadoFinal').html(btnagregarPF + ' ' + btnanteriorPF + ' ' + btnfinalizarProcesoPF);
+
+            // Agregar evento al botón de agregar producto final
+            var btnAgregarPF = document.getElementById('btnagregarPF');
+            btnAgregarPF.addEventListener('click', function() {
+                AgregarProductoTerminadoFinalEditandoProceso(event, MisItems[0].Id_Proceso_Produccion);
+            });
 
             // Actualizar el valor del segundo select cuando se seleccione una opción en el primer select
             $('#Select_Estados_Proceso').change(function() {
@@ -113,7 +140,10 @@ function CargarProcesoProduccion(idProceso) {
     });
 }
 
-
+function procesoProduccionPDF(idProceso) {
+    location.href =
+      "http://localhost/SIIS-PROYECTO/Reportes/reporteProcesoProduccion.php?id=" + idProceso;
+  }
 function ActualizarProcesoProduccion(idProceso){
     var datosProcesoProduccion={
     Id_Proceso_Produccion: idProceso,
@@ -138,4 +168,34 @@ function ActualizarProcesoProduccion(idProceso){
     });
 }
 
+function CancelarProcesoProduccion(idProceso) {
+    var confirmacion = confirm("¿Está seguro de que desea cancelar el proceso?");
 
+    if (confirmacion == true) {
+        var datoProceso = {
+            idProceso: idProceso,
+          };
+  
+   var datosProcesoJson = JSON.stringify(datoProceso);
+   $.ajax({
+    url: UrlCancelarProcesoProduccion,
+    type: 'DELETE',
+    data: datosProcesoJson,
+    datatype: 'JSON',
+    contentType: 'application/json',
+    success: function(reponse){
+        console.log(reponse);
+        alert('Proceso Cancelado');
+        CargarProcesos();
+    },
+
+    error: function(textStatus, errorThrown){
+        alert('Error al cancelar proceso' + textStatus + errorThrown);
+    }
+    }); 
+  
+       
+} else {
+    alert("La acción ha sido cancelada.");
+}
+}
