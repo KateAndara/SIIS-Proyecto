@@ -153,10 +153,9 @@
                                                 if (!empty($_SESSION['permisos'][MPROVEEDORES]['r']) ) {
                                             ?>
                                             <a href="../Formularios/Proveedores.php" class="dropdown-item">Proveedores</a>
-                                            <!-- <a href="" class="dropdown-item">Detalle de los productos <br>comprados</a>  -->
                                         </div>
+                                        <?php }} ?>
                                     </div>
-                                    <?php }} ?>
 
                                     <?php
                                     if (!empty($_SESSION['permisos'][MPROCESOPRODUCCION]['r'])) {

@@ -31,13 +31,15 @@ function CargarProveedores(){
                        { data: 'Id_Proveedor' },
                        { data: 'Nombre' },
                        { data: 'RTN' },
-                       { 
-                           data: null, 
-                           render: function ( data, type, row ) {
-                             return '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarProveedor(\'' + row.Id_Proveedor + '\'); mostrarFormulario();">Editar</button>' +
-                                    '<button class="rounded" style="background-color: #FF0000; color: white; display: inline-block; width: 67px;" onclick="EliminarProveedor(\'' + row.Id_Proveedor + '\')">Eliminar</button>';
-                           }
-                         }                ]
+                       { data: "options" },
+                       /* { 
+                               data: null, 
+                               render: function ( data, type, row ) {
+                                 return '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarObjeto(\'' + row.Id_Objeto + '\'); mostrarFormulario();">Editar</button>' +
+                                        '<button class="rounded" style="background-color: #FF0000; color: white; display: inline-block; width: 67px;" onclick="EliminarObjeto(\'' + row.Id_Objeto + '\')">Eliminar</button>';
+                               }
+                             }  */    
+                    ]
                });
            }
        });
