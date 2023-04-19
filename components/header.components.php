@@ -111,6 +111,10 @@
                                             ?>
                                             <a href="../Formularios/PromocionesVentas.php" class="dropdown-item">Promociones</a>
                                             <?php } 
+                                                if (!empty($_SESSION['permisos'][MPROMOCIONES]['r']) ) {
+                                            ?>
+                                            <a href="../Formularios/PromocionesProductos.php" class="dropdown-item">Promociones de productos</a>
+                                            <?php } 
                                                 if (!empty($_SESSION['permisos'][MVENTAS]['r']) ) {
                                             ?>
                                             <a href="../Formularios/DetalleVenta.php" class="dropdown-item">Detalle de Venta</a>
