@@ -55,34 +55,14 @@
             break;
             case "GetPromocion":  //Busca los datos por nombre y id
                 $busqueda = isset($body["Nombre_Promocion"]) ? $body["Nombre_Promocion"] : $body["Id_Promocion"];
-                
-                // Verificar si la búsqueda es un número o una cadena
-                if (is_numeric($busqueda)) {
-                    $datos = $promociones->get_promocion($busqueda, "Id_Promocion");
-                } else {
-                    $datos = $promociones->get_promocion($busqueda, "Nombre_Promocion");
-                }
-            
                 echo json_encode($datos);
             break;
             case "GetPromocioneditar": //Trae la fila que se va a editar
                 $datos=$promociones->get_promocioneditar($body["Id_Promocion"]);
                 echo json_encode($datos);
-            break;
-            case "GetProductos":
-                $datos=$promociones->getProductos();
-            
-                echo json_encode($datos);
-            break;    
+            break;   
             case "InsertPromocion":
-                $datos=$promociones->insert_promocion(
-                    $body["Nombre_Promocion"],
-                    $body["Select_Producto"],
-                    $body["Precio_Venta"],
-                    $body["Fecha_inicio"],
-                    $body["Fecha_final"],
-                    $body["Cantidad"]);
-                    
+                $datos=$promociones->insert_promocion($body["Nombre_Promocion"], $body["Precio_Venta"], $body["Fecha_inicio"],$body["Fecha_final"]);                    
                
                 echo json_encode("Se agregó la promoción");
             break;

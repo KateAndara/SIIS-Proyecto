@@ -9,8 +9,6 @@ var UrlProductos = 'http://localhost/SIIS-PROYECTO/controller/Ventas.php?opc=Get
 
 $(document).ready(function(){
    CargarPromociones();
-   CargarProductos();
-   CargarPromocionesApli();
 });
 
 function CargarPromociones(){
@@ -52,26 +50,6 @@ function CargarPromociones(){
     });
 }
 
-
-function CargarProductos(){
-    $.ajax({
-        url : UrlProductos,
-        type: 'GET',
-        datatype: 'JSON',
-        success: function(response){
-            var MisItems = response;
-            var opciones='';
-            
-            for(i=0; i<MisItems.length; i++){ //Muestra Id y nombre
-                opciones += '<option value="' + MisItems[i].Id_Producto + '">' +  MisItems[i].Nombre + '</option>';
-               
-            }
-            $('#Select_Producto').html(opciones);
-            
-            
-        }
-    });
-}
 /*
 function BuscarPromociones(NombrePromocion){
     var datosPromocion = {
@@ -113,7 +91,6 @@ function BuscarPromociones(NombrePromocion){
 function AgregarPromocion(){
     var datosPromocion = {
     Nombre_Promocion: $('#Nombre_Promocion').val(),
-    Select_Producto: $('#Select_Producto').val(),
     Cantidad: $('#Cantidad').val(),
     Precio_Venta: $('#Precio_Venta').val(),
     Fecha_inicio: $('#Fecha_inicio').val(),
@@ -156,27 +133,23 @@ function CargarPromocion(idPromocion){ //Función que trae los campos que se eli
             var MisItems = reponse;
             //Muestra el id junto con su título que se encuentra oculto en el Agregar.
             $('#Id_Promocion').removeAttr('hidden'); // ID
-            $('label[for="Id_Promocion"]').removeAttr('hidden');
-            $('#Select_Producto').prop('hidden', true); //Título
-            $('label[for="Select_Producto"]').prop('hidden', true);
-            
+            $('label[for="Id_Promocion"]').removeAttr('hidden');            
             $('#Id_Promocion').val(MisItems[0].Id_Promocion).prop('readonly', true);  // Propiedad para que no se pueda modificar el campo.
             $('#Nombre_Promocion').val(MisItems[0].Nombre_Promocion);
-            $('#Select_Producto').val(MisItems[0].Nombre);
             $('#Precio_Venta').val(MisItems[0].Precio_Venta);
             $('#Fecha_inicio').val(MisItems[0].Fecha_inicio);
             $('#Fecha_final').val(MisItems[0].Fecha_final);
             //Usar el mismo botón de agregar con la funcionalidad de actualizar.
             var btnactualizar = '<input type="submit" id="btn_actualizar" onclick="ActualizarPromocion(' +MisItems[0].Id_Promocion+')"'+
-            'value="Actualizar Promocion" class="btn btn-primary"></input>';
+            'value="Actualizar Promoción" class="btn btn-primary"> <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button></input>';
             $('#btnagregarPromocion').html(btnactualizar);
-            
-            
+            $('#btncancelar').click(function(){ //Cancela la acción
+                location.href = "http://localhost/SIIS-PROYECTO/Formularios/PromocionesVentas.php";
+             });
             //Cambiar el título del formulario.
             var titulo = '<div class="Col-12" id="titulo">'+
             '<h3>Editar Promocion</h3></div>';
             $('#titulo').html(titulo);
-            
         }
     });
 }

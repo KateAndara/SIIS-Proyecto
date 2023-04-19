@@ -1,15 +1,6 @@
 <?php
     class Promociones extends Conectar{
 
-        /*public function get_productosTerminadosMP(){               //Si no se nececita mostrar nombre en vez de ID.
-            $conexion= parent::Conexion();
-            parent::set_names();
-            $sql="SELECT * FROM tbl_producto_terminado_mp";          
-            $sql= $conexion->prepare($sql);
-            $sql->execute();
-            return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
-        }*/
-
         public function get_promociones(){                 //Si se nececita mostrar nombre en vez de ID.         
             $conexion= parent::Conexion();
             parent::set_names();
@@ -20,8 +11,6 @@
             return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);                
         }
 
-        
-        
         public function get_promocion($busqueda){  //Buscar por nombre y id               
             $conectar = parent::Conexion();
             parent::set_names();
@@ -46,48 +35,21 @@
             return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
         }
 
-        public function getProductos(){   
-            $conectar= parent::Conexion();
-            parent::set_names();
-            $sql="SELECT * FROM tbl_productos WHERE Id_Tipo_Producto=?";
-            $sql=$conectar->prepare($sql);
-            $sql->bindvalue(1, 3);
-            $sql->execute();
-            return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
-        }
-        
-        public function insert_promocion($Nombre_Promocion,$IdProducto, $Precio_Venta, $Fecha_inicio, $Fecha_final,$Cantidad){
+        public function insert_promocion($Nombre_Promocion, $Precio_Venta, $Fecha_inicio, $Fecha_final){
             $conectar= parent::conexion();
             parent::set_names();
-            $sql="CALL INS_PROMOCION(?,?,?,?,?,?);";
+            $sql="INSERT INTO tbl_promociones(Nombre_Promocion, Precio_Venta, Fecha_inicio, Fecha_final)
+            VALUES (?,?,?,?);";
             $sql=$conectar->prepare($sql);
             $sql->bindValue(1, $Nombre_Promocion);
             $sql->bindValue(2, $Precio_Venta);
             $sql->bindValue(3, $Fecha_inicio);
             $sql->bindValue(4, $Fecha_final);
-            $sql->bindValue(5, $IdProducto);
-            $sql->bindValue(6, $Cantidad);
             $sql->execute();
             $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
             $resultado = $conectar->lastInsertId();
             return $resultado;
         }
-          
-        public function insert__promocion_producto($Id_Promocion, $Id_Producto, $Cantidad){
-            $conectar= parent::conexion();
-            parent::set_names();
-            $sql="INSERT INTO tbl_promocion_producto(Id_Promocion, Id_Producto, Cantidad)
-            VALUES (?,?,?);";
-            $sql=$conectar->prepare($sql);
-            $sql->bindValue(1, $Id_Promocion);
-            $sql->bindValue(2, $Id_Producto);
-            $sql->bindValue(3, $Cantidad);
-            $sql->execute();
-            $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
-            $resultado = $conectar->lastInsertId();
-            return $resultado;
-        }
-
 
         public function update_promocion($Id_Promocion, $Nombre_Promocion, $Precio_Venta, $Fecha_inicio, $Fecha_final){
             $conectar= parent::conexion();

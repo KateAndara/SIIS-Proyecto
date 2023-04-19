@@ -29,11 +29,12 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.js"></script>
     <link href="../CSS/datatable.css" rel="stylesheet">
-     <!-- Última versión de jspdf -->
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
-
     <!-- Última versión de jspdf -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+
+    <!-- Última versión de AutoTable -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.26/jspdf.plugin.autotable.min.js"></script>
+
     <script src="../Reportes/Reporte.js"></script>
 </head>
 <body>
@@ -42,7 +43,7 @@
             <div class="row">
                 <div class="col-12 text-center">
                     <h3>
-                        Lista de Promociones en las Ventas
+                        Promociones
                     </h3>
                 </div>
             </div>
@@ -117,15 +118,9 @@
                         <label for="Id_Promocion" hidden>ID PROMOCION</label>
                         <input type="number" id="Id_Promocion" class="form-control" placeholder="Ingrese el código de la promoción"hidden>
                         <label for="">NOMBRE DE LA PROMOCION</label>
-                        <input type="text" id="Nombre_Promocion" class="form-control" placeholder="Oferta de Primavera...">
-                        <label for="Select_Producto">SELECCIONE El PRODUCTO</label> 
-                                <select id="Select_Producto" name="Select_Producto" class="form-control">
-                                    <option value="">Seleccione una promocion</option>
-                                </select>
-                        <label for="">CANTIDAD A PROMOCIONAR</label>
-                        <input type="number" id="Cantidad" name="Cantidad" class="form-control" placeholder="1,3,10, etc. ">       
+                        <input type="text" id="Nombre_Promocion" class="form-control" placeholder="Ingrese el nombre de la promoción">
                         <label for="">PRECIO DE VENTA</label>
-                        <input type="number" id="Precio_Venta" class="form-control" placeholder="100.00,200.00,300.00, etc. ">
+                        <input type="number" id="Precio_Venta" class="form-control" placeholder="Ingrese el precio de venta de la promoción ">
                         <label for="">FECHA DE INICIO DE LA OFERTA</label>
                         <input type="date" id="Fecha_inicio" class="form-control">
                         <label for="">FECHA FINAL DE LA OFERTA</label>

@@ -45,20 +45,24 @@ function generarReporte(id_tabla, titulo_reporte, tamaño_tabla) {
       var imageX = pageWidth - imageWidth - margin +15;
       pdf.addImage(logoImg, 'PNG', imageX, 10, 35, 35);
   
-      // Agregar título centrado
-      var titulo = titulo_reporte;  //Titulo para el reporte
-      var fontSize = 18;            //Tamaño para el titulo
-      var textWidth = pdf.getTextDimensions(titulo, { fontSize }).w;
-      var startX = (pageWidth - textWidth) / 2;
-      pdf.setTextColor(144, 12, 63);
-      pdf.setFont("Arial", "bold");//Tipo de letra y agregar negrita
-      pdf.setFontSize(fontSize);
-      pdf.text(titulo, startX, 45);
-      pdf.line(startX, 46, startX + textWidth, 46);
-      pdf.setTextColor(0, 0, 0);
-      pdf.setFontSize(13);
-      var NombreEmpresa = "Empresa de servicios múltiples jóvenes profesionales de La Sierra de la Paz";
-      pdf.text(NombreEmpresa, 18, 25);
+     // Agregar título centrado
+     var titulo = titulo_reporte;  //Titulo para el reporte
+     var fontSize = 14;            //Tamaño para el titulo
+     var textWidth = pdf.getTextDimensions(titulo, { fontSize }).w;
+     var startX = (pageWidth - textWidth) / 2;
+     pdf.setTextColor(144, 12, 63);
+     pdf.setFont("Arial", "bold");//Tipo de letra y agregar negrita
+     pdf.setFontSize(fontSize);
+     pdf.text(titulo, startX, 45);
+     pdf.line(startX, 46, startX + textWidth, 46);
+     pdf.setTextColor(0, 0, 0);
+     pdf.setFontSize(18);
+     var NombreEmpresa = "Empresa de servicios múltiples";
+     pdf.text(NombreEmpresa, 105, 20);
+     var NombreEmpresa = "jóvenes profesionales";
+     pdf.text(NombreEmpresa, 118, 27);
+     var NombreEmpresa = "de La Sierra de la Paz";
+     pdf.text(NombreEmpresa, 117, 34);
   
   
       var tableWidth = tamaño_tabla;
