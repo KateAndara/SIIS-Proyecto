@@ -1,30 +1,28 @@
 function generarReporte(id_tabla, titulo_reporte, tamaño_tabla) {
   const jsPDF = window.jspdf.jsPDF;
+// Obtener los datos de la tabla y almacenarlos en una variable
+var tableHeaders = [];
+var tableData = [];
+$("#" + id_tabla + " th:not(:first-child, :last-child)").each(function () { // Seleccionar todos los encabezados excepto el primero y último
+  if ($(this).is(":visible")) {
+    tableHeaders.push($(this).text().trim());
+  }
+});
+tableData.push(tableHeaders);
 
-  // Obtener los datos de la tabla y almacenarlos en una variable
-  var tableHeaders = [];
-  var tableData = [];
-  $("#" + id_tabla + " th:not(:last-child)").each(function () { // Seleccionar todos los encabezados excepto el último
-    if ($(this).is(":visible")) {
-      tableHeaders.push($(this).text().trim());
-    }
-  });
-  tableData.push(tableHeaders);
-
-  var visibleRows = 0;
-  $("#" + id_tabla + " tbody tr").each(function () {
-    if ($(this).is(":visible")) {
-      visibleRows++;
-      var rowData = [];
-      $(this).find("td:not(:last-child)").each(function () { // Seleccionar todas las celdas excepto la última
-        if ($(this).is(":visible")) {
-          rowData.push($(this).text());
-        }
-      });
-      tableData.push(rowData);
-    }
-  });
-
+var visibleRows = 0;
+$("#" + id_tabla + " tbody tr").each(function () {
+  if ($(this).is(":visible")) {
+    visibleRows++;
+    var rowData = [];
+    $(this).find("td:not(:first-child, :last-child)").each(function () { // Seleccionar todas las celdas excepto la primera y última
+      if ($(this).is(":visible")) {
+        rowData.push($(this).text());
+      }
+    });
+    tableData.push(rowData);
+  }
+});
   if (visibleRows === 0) {
     Alerta("error", "Su busqueda esta vacia, no se puede generar un reporte");
     return false;

@@ -191,9 +191,9 @@ function getModal(string $nameModal, $data)
                         <label for="Id_Rol" hidden>ID ROL</label>
                         <input type="number" id="Id_Rol" class="form-control" placeholder="Ingrese el código del rol"hidden>
                         <label for="">ROL</label>
-                        <input type="text" id="Rol" class="form-control" placeholder="Ingrese el rol">
+                        <input type="text" id="Rol" class="form-control" placeholder="Ingrese el rol"onkeyup="this.value=this.value.toUpperCase()">
                         <label for="">DESCRIPCIÓN</label>
-                        <input type="text" id="Descripcion" class="form-control" placeholder="Ingrese la descripción del rol">
+                        <input type="text" id="Descripcion" class="form-control" placeholder="Ingrese la descripción del rol"onkeyup="this.value=this.value.toUpperCase()">
                         <hr>
                         <div id="btnagregarRol">
                             <input type="submit" id="btnagregar" onclick="AgregarRol()" value="Agregar Rol" class="btn btn-success">
@@ -214,9 +214,12 @@ function getModal(string $nameModal, $data)
         <div class="Formulario2" style="display: none;">
                     <div class="row">
                         <div class="Col-12" id="titulo">
+                        <button class="rounded" style="background-color: #fff; color: dark; float: right;"onclick="generarPDF()">Generar PDF</button>           </form>
+
                             <h3>
                                 Permisos
                             </h3>
+
                         </div>
                         <div class="col-12" id="getPermisos" >
                             

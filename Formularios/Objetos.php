@@ -117,11 +117,11 @@
                         <label for="Id_Objeto" hidden>ID OBJETO</label>
                         <input type="number" id="Id_Objeto" class="form-control" placeholder="Ingrese el código del objeto"hidden>
                         <label for="">OBJETO</label>
-                        <input type="text" id="Objeto" class="form-control" placeholder="Ingrese el objeto">
+                        <input type="text" id="Objeto" class="form-control" placeholder="Ingrese el nombre del objeto"onkeyup="this.value=this.value.toUpperCase()">
                         <label for="">DESCRIPCIÓN</label>
-                        <input type="text" id="Descripcion" class="form-control" placeholder="Ingrese la descripción del objeto">
+                        <input type="text" id="Descripcion" class="form-control" placeholder="Ingrese la descripción del objeto"onkeyup="this.value=this.value.toUpperCase()">
                         <label for="">TIPO DE OBJETO</label>
-                        <input type="text" id="Tipo_objeto" class="form-control" placeholder="Ingrese el tipo de objeto">
+                        <input type="text" id="Tipo_objeto" class="form-control" placeholder="Ingrese el tipo de objeto"onkeyup="this.value=this.value.toUpperCase()">
                         <hr>
                         <div id="btnagregarObjeto">
                             <input type="submit" id="btnagregar" onclick="AgregarObjeto()" value="Agregar Objeto" class="btn btn-success">

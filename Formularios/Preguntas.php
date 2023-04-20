@@ -114,7 +114,7 @@
                         <label for="Id_Pregunta" hidden>ID PREGUNTA</label>
                         <input type="number" id="Id_Pregunta" class="form-control" placeholder="Ingrese el código de la pregunta"hidden>
                         <label for="">PREGUNTA</label>
-                        <input type="text" id="Pregunta" class="form-control" placeholder="Ingrese la pregunta">
+                        <input type="text" id="Pregunta" class="form-control" placeholder="Ingrese la pregunta"onkeyup="this.value=this.value.toUpperCase()">
                         <hr>
                         <div id="btnagregarPregunta">
                             <input type="submit" id="btnagregar" onclick="AgregarPregunta()" value="Agregar Pregunta" class="btn btn-success">
