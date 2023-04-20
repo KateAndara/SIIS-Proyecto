@@ -9,6 +9,16 @@
             $sql->execute();
             return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
         }
+
+        public function get_ultimaCompra(){              
+            $conexion= parent::Conexion();
+            parent::set_names();
+            $sql="SELECT Id_Compra FROM tbl_compras ORDER BY Id_Compra DESC LIMIT 1";          
+            $sql= $conexion->prepare($sql);
+            $sql->execute();
+            return $resultado=$sql->fetch(PDO::FETCH_ASSOC);
+        }
+        
         public function registrar_bitacora($id_usuario, $id_objeto, $accion, $descripcion){
             $conexion= parent::Conexion();
             parent::set_names();

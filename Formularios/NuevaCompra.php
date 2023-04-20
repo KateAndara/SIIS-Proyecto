@@ -83,7 +83,9 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                                     <hr>
                                     <div id="btnagregarNuevaCompra">
                                         <input type="button" id="btnagregarCompra" onclick="siguiente1()" value="Siguiente" class="btn btn-success">
-                                       
+                                        <button class="btn btn-secondary" type="button" onclick="location.href='../Formularios/Compras.php'">
+                                            Cancelar
+                                        </button>
                                     </div>
                                 </form>
                             </div>

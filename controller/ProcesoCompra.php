@@ -64,7 +64,10 @@
             case "getCompra":
                 $idCompra=$body['idCompra'];
                 $datos=$compras->get_compra($idCompra);
-                
+                echo json_encode($datos);
+            break;
+            case "getUltimaCompra":
+                $datos=$compras->get_ultimaCompra();
                 echo json_encode($datos);
             break;
             case "deleteCompra":

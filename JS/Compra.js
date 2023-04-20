@@ -25,7 +25,7 @@ var urlDetalleCompra =
        "http://localhost/SIIS-PROYECTO/controller/ProcesoCompra.php?opc=getCompra";
        var urlDeleteCompra =
          "http://localhost/SIIS-PROYECTO/controller/ProcesoCompra.php?opc=deleteCompra";
-
+         var urlUltimaCompra="http://localhost/SIIS-PROYECTO/controller/ProcesoCompra.php?opc=getUltimaCompra";
 
 var tableCompra;
 function CargarCompras() {
@@ -137,9 +137,16 @@ function verCompra(idCompra){
 }
 
 function compraPDF(idCompra) {
-  location.href =
-    "http://localhost/SIIS-PROYECTO/Reportes/reporteCompra.php?id=" + idCompra;
+  // Crear la URL del PDF
+  var urlPDF = "http://localhost/SIIS-PROYECTO/Reportes/reporteCompra.php?id=" + idCompra;
+
+  // Abrir el PDF en una nueva ventana del navegador
+  window.open(urlPDF, "_blank");
+
+  // Redirigir al usuario después de cerrar el PDF
+  window.location.href = "../Formularios/Compras.php";
 }
+
 
 function listarCompra(idCompra) {
  var datoCompra = {
@@ -424,41 +431,68 @@ function edit_product_detalle(idProducto) {
 }
 
 function finalizarCompra() {
+  proveedor = document.querySelector("#Select_Proveedor").value;
+  fechaCompra = document.querySelector("#Fecha_Compra").value;
+  total = document.querySelector("#Total").value;
+  observacion = document.querySelector("#Observacion").value;
 
-   proveedor = document.querySelector("#Select_Proveedor").value;
-   fechaCompra = document.querySelector("#Fecha_Compra").value;
-   total = document.querySelector("#Total").value;
-   observacion = document.querySelector("#Observacion").value;
+  var DatosCompra = {
+    proveedor: proveedor,
+    fechaCompra: fechaCompra,
+    total: total,
+    observacion: observacion,
+  };
+  var DatosCompra = JSON.stringify(DatosCompra);
 
+  $.ajax({
+    url: urlFinalizarCompra,
+    type: "POST",
+    data: DatosCompra,
+    datatype: "JSON",
+    success: function (response) {
+      var MisItems = response;
 
-   var DatosCompra = {
-     proveedor: proveedor,
-     fechaCompra: fechaCompra,
-     total: total,
-     observacion: observacion,
-   };
-   var DatosCompra = JSON.stringify(DatosCompra);
-
-   $.ajax({
-     url: urlFinalizarCompra,
-     type: "POST",
-     data: DatosCompra,
-     datatype: "JSON",
-     success: function (response) {
-       var MisItems = response;
-
-       //document.querySelector("#tablaCompra").innerHTML = MisItems.htmlCompras;
-       swal.fire({
-         title: "LISTO!",
-         text: MisItems.msg,
-         icon: "success",
-         confirmButtonText: "Aceptar",
-         closeOnConfirm: false,
-         timer: 3000,
-         willClose: () => {
-          window.location.href = "../Formularios/Compras.php";
-         },
-       });
-     },
-   });
+      // Agregar solicitud AJAX para obtener el ID de la última compra
+      $.ajax({
+        url: urlUltimaCompra,
+        type: "GET",
+        datatype: "JSON",
+        success: function (response) {
+          var ultimaCompra = response.Id_Compra;
+          // Actualizar el botón PDF con el ID de la última compra
+          var botonPDF = '<div style="margin-right: 4px;"><button id="boton-pdf" class="rounded" style="background-color: #FF0000; color: white; display: none; width: 80px;" onclick="compraPDF(\'' + ultimaCompra + "')\">PDF " + '<i class="fa-regular fa-file-pdf"></i>' + "</button></div>";
+          // Actualizar el mensaje de confirmación para incluir el botón PDF actualizado
+          swal.fire({
+            title: "LISTO!",
+            html: MisItems.msg + botonPDF,
+            icon: "success",
+            confirmButtonText: "Aceptar",
+            closeOnConfirm: false,
+            timer: 9000,
+            willClose: () => {
+              /* var imprimir = confirm("¿Desea imprimir la ficha de la compra?"); */
+              swal.fire({
+                title: "Ficha de compra",
+                text: "Desea imprimir la ficha de la compra?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Si, imprimir!",
+                cancelButtonText: "No, Cancelar!",
+                closeOnConfirm: false,
+                closeOnCancel: true,
+              }).then((result)=>{
+                if(result.isConfirmed){
+                compraPDF(ultimaCompra)
+                }else {
+                  window.location.href = "../Formularios/Compras.php";
+                }
+              })
+            },
+          });
+        },
+      });
+    },
+  });
 }
+
+
