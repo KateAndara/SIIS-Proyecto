@@ -80,9 +80,9 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                             <tr>
                                 <th>ID </th>
                                 <th>CLIENTE</th>
-                                <th>USUARIO</th>
+                                <!-- <th>USUARIO</th> -->
                                 <th>ESTADO</th>
-                                <th>SUBTOTAL</th>
+                              <!--   <th>SUBTOTAL</th> -->
                                 <th>IMPUESTO</th>
                                 <th>TOTAL</th>
                                 <th>FECHA</th>

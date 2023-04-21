@@ -107,16 +107,29 @@ function AgregarPregunta(){
         data: datosPreguntaJson,
         datatype: 'JSON',
         contentType: 'application/json',
-        success: function(reponse){
-            console.log(reponse);
-            alert('Pregunta Agregada');
+        success: function(response){
+            console.log(response);
+            Swal.fire({
+                title: 'Pregunta Agregada',
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Aceptar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    CargarPreguntas();
+                }
+            });
         },
 
         error: function(textStatus, errorThrown){
-            alert('Error al agregar pregunta' + textStatus + errorThrown);
+            Swal.fire({
+                title: 'Error al agregar pregunta',
+                icon: 'error',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Aceptar'
+            });
         }
     });
-    alert('Aviso');
 }
 
 
@@ -158,6 +171,7 @@ function CargarPregunta(idPregunta){ //Función que trae los campos que se eligi
 }
 
 function ActualizarPregunta(idPregunta){
+    
     var pregunta = $('#Pregunta').val();
     
     //Permitir letras y espacios
@@ -196,12 +210,19 @@ function ActualizarPregunta(idPregunta){
 }
 
 function EliminarPregunta(idPregunta){
-    var confirmacion = confirm("¿Está seguro de que desea eliminar la pregunta?");
-
-    if (confirmacion == true) {
-        var datosPregunta={
-            Id_Pregunta:idPregunta
-        };
+    Swal.fire({
+        title: "¿Desea eliminar la pregunta?",
+        text: "Estas Seguro que quieres Eliminar esta Preegunta, esta acción es irreversible",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si, Eliminar!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+            var datosPregunta={
+                Id_Pregunta:idPregunta
+            };       
 
         var datosPreguntaJson= JSON.stringify(datosPregunta);
 
@@ -211,21 +232,31 @@ function EliminarPregunta(idPregunta){
             data: datosPreguntaJson,
             datatype: 'JSON',
             contentType: 'application/json',
-            success: function(reponse){
-                console.log(reponse);
-                alert('Pregunta Eliminada');
-                CargarPreguntas(); 
-            },
-
-            error: function(textStatus, errorThrown){
-                alert('Error al eliminar Pregunta' + textStatus + errorThrown);
+            success: function (response) {
+                //Swal.fire("Cancelada!", "Compra Cancelada Correctamente.", "success");
+                Swal.fire({
+                  title: "Eliminada",
+                  text: "Pregunta Eliminada Correctamente",
+                  icon: "success",
+                  timer: 3000,
+                  willClose: () => {
+                    location.reload();
+                  },
+                });
+              },
+              error: function(textStatus, errorThrown){
+                Swal.fire({
+                    title: 'Esta Pregunta no puede ser eliminada',
+                    icon: 'error',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Aceptar'
+                });
             }
+            });
+          }
         });
-
-    } else {
-        alert("La eliminación de la pregunta ha sido cancelada.");
-    }
-}
+     }
+     
 
 function mostrarSweetAlert(mensaje, tipo) {
     swal({

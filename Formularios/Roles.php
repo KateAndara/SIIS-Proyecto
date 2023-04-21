@@ -216,7 +216,7 @@ function getModal(string $nameModal, $data)
                         <div class="Col-12" id="titulo">
                         <button class="rounded" style="background-color: #fff; color: dark; float: right;"onclick="generarPDF()">Generar PDF</button>           </form>
 
-                            <h3>
+                            <h3 id="tituloPermisos">
                                 Permisos
                             </h3>
 

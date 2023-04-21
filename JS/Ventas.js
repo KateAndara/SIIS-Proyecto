@@ -11,6 +11,7 @@ var UrlDescuento =  'http://localhost/SIIS-PROYECTO/controller/Ventas.php?opc=Ge
 var UrlEstados =  'http://localhost/SIIS-PROYECTO/controller/Ventas.php?opc=GetEstados';
 var UrlVentas =  'http://localhost/SIIS-PROYECTO/controller/Ventas.php?opc=GetVentas';
 var urlDetalleVenta ="http://localhost/SIIS-PROYECTO/controller/Ventas.php?opc=AgregarDetalle";
+var urlGetVenta ="http://localhost/SIIS-PROYECTO/controller/Ventas.php?opc=getVentaListar";
   
   
   var urlEliminarProducto =
@@ -29,6 +30,13 @@ $(document).ready(function(){
    CargarEstados();
    CargarVentas();
    cargarClientes();
+
+if ($("#totalFila")) {
+  document.querySelector("#totalDetalle").value = $("#totalFila").text();
+  document.querySelector("#SubtotalDescuento").value = $("#totalFila").text();
+  document.querySelector("#Subtotal").value = $("#totalFila").text();
+}
+ 
    
 });
 
@@ -48,15 +56,16 @@ function CargarVentas(){
           $("#TableVentas").DataTable({
             processing: true,
             data: MisItems,
+            "order": [[0, "desc"]],
             language: {
               url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json",
             },
             columns: [
               { data: "Id_Venta" },
               { data: "Nombre" },
-              { data: "Usuario" },
+              /* { data: "Usuario" }, */
               { data: "Nombre_estado" },
-              { data: "Subtotal" },
+              /* { data: "Subtotal" }, */
               { data: "Impuesto" },
               { data: "Total" },
               { data: "Fecha" },
@@ -186,51 +195,67 @@ function changeCliente() {
  
 }
 
-function changePromocion() {
+function changePromocion(select,idProducto) {
+  idProducto = idProducto;
+  Select=select
+  idPromocion=Select.options[Select.selectedIndex].value
+
+  options = Select.options[Select.selectedIndex];
+  Nombre=options.parentNode.parentNode.parentNode.firstChild.nextElementSibling
+      .nextElementSibling.innerText
+
+  Cantidad =
+    options.parentNode.parentNode.parentNode.firstChild.nextElementSibling
+      .nextElementSibling.nextElementSibling.innerText;
+
   
-    idProducto = document.querySelector("#Select_Producto").value;
-    idPromocion = document.querySelector("#select_Promocion").value;
-    
-    if (idPromocion!=0) {
-      var datosProducto = {
-        idProducto: idProducto,
-      };
-      var datosProducto = JSON.stringify(datosProducto);
+  
+  //idPromocion = idPromo;
 
-      $.ajax({
-        url: urlPrecioPromocion,
-        type: "POST",
-        data: datosProducto,
-        datatype: "JSON",
-        success: function (response) {
-          var MisItems = response;
-          console.log(MisItems[0].Precio_Venta);
+ 
+    var datosProducto = {
+      idProducto: idProducto,
+      Nombre:Nombre,
+      Cantidad:Cantidad,
+      idPromocion: idPromocion,
+    };
+    var datosProducto = JSON.stringify(datosProducto);
 
-          document.querySelector("#Precio").value = MisItems[0].Precio_Venta;
+    $.ajax({
+      url: urlPrecioPromocion,
+      type: "POST",
+      data: datosProducto,
+      datatype: "JSON",
+      success: function (response) {
+        var MisItems = response;
+        console.log(MisItems);
+        
+      Swal.fire({
+        toast: true,
+
+        customClass: {
+          popup: "colored-toast",
         },
+        position: "top-right",
+        icon: "sucess",
+        title: MisItems.msg,
+        showConfirmButton: false,
+        timer: 1500,
+        timerProgressBar: true,
       });
-    }else{
-     
-      var datosProducto = {
-        idProducto: idProducto,
-      };
-      var datosProducto = JSON.stringify(datosProducto);
-
-      $.ajax({
-        url: UrlProducto,
-        type: "POST",
-        data: datosProducto,
-        datatype: "JSON",
-        success: function (response) {
-          var MisItems = response;
-          console.log(MisItems);
-          document.querySelector("#Precio").value = MisItems[0].Precio;
-        },
-      });
-    }
-
-
-    
+    document.querySelector("#tablaVenta").innerHTML = MisItems.htmlVentas;
+    document.querySelector("#detalle_totales").innerHTML = MisItems.htmlTotales;
+    document.querySelector("#tablaVenta2").innerHTML = MisItems.htmlPromociones;
+        document.querySelector("#detalle_totales2").innerHTML = MisItems.htmlTotalesPromociones;
+        document.querySelector("#totalDetalle").value = $("#totalFila").text();
+        document.querySelector("#SubtotalDescuento").value = $("#totalFila").text();
+        document.querySelector("#Subtotal").value = $("#totalFila").text();
+        changeDescuento();
+    console.log(MisItems);
+        //document.querySelector("#Precio").value = MisItems[0].Precio_Venta;
+      },
+    });
+  
 }
 
 function changeProducto() {
@@ -327,6 +352,7 @@ function CargarDescuentos(){
 
 
 function changeDescuento() {
+
    idDescuento = document.querySelector("#Select_Descuento").value;
    totalDetalle = document.querySelector("#totalDetalle").value;
    var datosDescuento = {
@@ -346,7 +372,7 @@ function changeDescuento() {
        porcentaje=MisItems.Porcentaje_a_descontar
        porcentajeImpuesto = MisItems.impuesto.Valor;
       subtotal = Number(totalDetalle) - totalDescontado;
-      
+   
        document.querySelector("#Porcentaje").value = porcentaje +"%";
        document.querySelector("#Totaldescontado").value = totalDescontado;
        document.querySelector("#SubtotalDescuento").value =subtotal;
@@ -430,13 +456,15 @@ $.ajax({
     console.log(MisItems)
     document.querySelector("#tablaVenta").innerHTML = MisItems.htmlVentas;
     document.querySelector("#detalle_totales").innerHTML = MisItems.htmlTotales;
+    document.querySelector("#tablaVenta2").innerHTML = MisItems.htmlPromociones;
+    document.querySelector("#detalle_totales2").innerHTML = MisItems.htmlTotalesPromociones;
     document.querySelector("#FormDetalle").reset();
     document.querySelector("#totalDetalle").value = $("#totalFila").text();
     document.querySelector("#SubtotalDescuento").value = $("#totalFila").text();
     document.querySelector("#Subtotal").value = $("#totalFila").text();
-    $("#select_Promocion").select2("val", "Seleccione Una Promoción");
+    
 
-
+changeDescuento();
    Swal.fire({
      toast: true,
    
@@ -469,7 +497,14 @@ function del_product_detalle(idProducto) {
 
       document.querySelector("#tablaVenta").innerHTML = MisItems.htmlVentas;
     document.querySelector("#detalle_totales").innerHTML = MisItems.htmlTotales;
-
+    document.querySelector("#tablaVenta2").innerHTML = MisItems.htmlPromociones;
+    document.querySelector("#detalle_totales2").innerHTML = MisItems.htmlTotalesPromociones;
+       document.querySelector("#totalDetalle").value = $("#totalFila").text();
+       document.querySelector("#SubtotalDescuento").value =
+         $("#totalFila").text();
+       document.querySelector("#Subtotal").value = $("#totalFila").text();
+    changeDescuento();
+    
       Swal.fire({
         toast: true,
 
@@ -716,7 +751,7 @@ function siguiente1() {
       datatype: "JSON",
       success: function (response) {
         var MisItems = response;
-
+        idVenta = MisItems.idVenta;
         //document.querySelector("#tablaCompra").innerHTML = MisItems.htmlCompras;
         swal.fire({
           title: "LISTO!",
@@ -726,10 +761,109 @@ function siguiente1() {
           closeOnConfirm: false,
           timer: 3000,
           willClose: () => {
-            window.location.href = "../Formularios/Ventas.php";
+            swal.fire({
+                title: "Ficha de Venta",
+                text: "Desea imprimir la ficha de la Venta?",
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonText: "Si, imprimir!",
+                cancelButtonText: "No, Cancelar!",
+                closeOnConfirm: false,
+                closeOnCancel: true,
+              }).then((result)=>{
+                if(result.isConfirmed){
+                generarPDF(idVenta);
+                }else {
+                  window.location.href = "../Formularios/Ventas.php";
+                }
+              })
           },
         });
       },
     });
     
+  }
+
+  function verVenta(idVenta) {
+    location.href="http://localhost/SIIS-PROYECTO/Formularios/verVenta.php?id=" +
+      idVenta;
+  }
+  function generarPDF(idVenta) {
+    // Crear la URL del PDF
+    var urlPDF =
+      "http://localhost/SIIS-PROYECTO/Reportes/reporteVenta.php?id=" +
+      idVenta;
+
+    // Abrir el PDF en una nueva ventana del navegador
+    window.open(urlPDF, "_blank");
+
+    // Redirigir al usuario después de cerrar el PDF
+    window.location.href = "../Formularios/Ventas.php";
+  }
+
+  function listarVenta(idVenta) {
+    var DatosProducto = {
+      idVenta: idVenta,
+    };
+    var DatosProducto = JSON.stringify(DatosProducto);
+
+    $.ajax({
+      url: urlGetVenta,
+      type: "POST",
+      data: DatosProducto,
+      datatype: "JSON",
+      success: function (response) {
+        console.log(response);
+        var opciones = "";
+        var venta = response["datos"]["Venta"];
+        var descuento = response["datos"]["descuento"];
+        var detalles = response["datos"]["detalle"];
+            document.querySelector("#titulo").innerHTML =
+              "Venta #" + venta["Id_Venta"];
+        document.querySelector("#txtFactura").value = venta["Numero_factura"];
+        document.querySelector("#txtEstado").value = venta["Nombre_estado"];
+        document.querySelector("#txtCliente").value = venta["Nombre"];
+        document.querySelector("#Fecha_Compra").value = venta["Fecha"];
+        document.querySelector("#descuento").value = descuento["Nombre_descuento"];
+        document.querySelector("#porcDescontado").value = descuento["Porcentaje_a_descontar"];
+        document.querySelector("#impuestoLabel").innerHTML =
+          "Descuento " + descuento["Nombre_descuento"];
+
+       
+
+subtotal = 0;
+        console.log(response);
+        for (i = 0; i < detalles.length; i++) {
+          
+          opciones += `<tr>
+              <td>${detalles[i]["Id_Producto"]}</td>
+              <td>${detalles[i]["Nombre"]}</td>
+              <td>${detalles[i]["Cantidad"]}</td>
+              <td>${detalles[i]["Precio"]}</td>
+              <td>${detalles[i]["Cantidad"] * detalles[i]["Precio"]}</td>
+              
+            </tr>`;
+
+              $("#tablaVenta").html(opciones);
+          subtotal = subtotal + detalles[i]["Cantidad"] * detalles[i]["Precio"];
+        }
+          document.querySelector("#txtSubtotal").value = subtotal;
+          document.querySelector("#txtDescuento").value = descuento["Total_descuento"];
+          document.querySelector("#txtImpuesto").value = venta["Impuesto"];
+          document.querySelector("#txtTotal").value = venta["Total"];
+
+        /*  document.querySelector("#tablaVenta").innerHTML = MisItems.htmlVentas;
+      document.querySelector("#detalle_totales").innerHTML =
+        MisItems.htmlTotales;
+      document.querySelector("#tablaVenta2").innerHTML =
+        MisItems.htmlPromociones;
+      document.querySelector("#detalle_totales2").innerHTML =
+        MisItems.htmlTotalesPromociones;
+      document.querySelector("#totalDetalle").value = $("#totalFila").text();
+      document.querySelector("#SubtotalDescuento").value =
+        $("#totalFila").text();
+      document.querySelector("#Subtotal").value = $("#totalFila").text();
+      changeDescuento(); */
+      },
+    });
   }

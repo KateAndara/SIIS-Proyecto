@@ -41,12 +41,12 @@
 
                     //si permisos es igual a Permiso_actualizacion de update crea el boton
                     if($_SESSION['permisosMod']['u']){
-                        $btnEdit = '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarVenta(\'' .$datos[$i]['Id_Venta'].'\'); mostrarFormulario();">Editar</button>';
+                        $btnEdit = '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 80px;" onclick="verVenta(\'' .$datos[$i]['Id_Venta'].'\'); mostrarFormulario();">Ver Más</button>';
                     }
                         //si permisos es igual a Permiso_eliminacion de delete crea el boton
 
                     if($_SESSION['permisosMod']['d']){
-                        $btnDelete='<button class="rounded" style="background-color: #FF0000; color: white; display: inline-block; width: 67px;" onclick="EliminarVenta(\'' .$datos[$i]['Id_Venta']. '\')">Eliminar</button>';
+                        $btnDelete='<button class="rounded" style="background-color: #FF0000; color: white; display: inline-block; width: 67px;" onclick="generarPDF(\'' .$datos[$i]['Id_Venta']. '\')">PDF <i class="fa-regular fa-file-pdf"></i></button>';
                     }
                   
                     
@@ -77,8 +77,80 @@
             break;
             case "getPrecioPromocion":
           
-                $datos=$ventas->get_promociones($body['idProducto']);
-                echo json_encode($datos);
+                $datos=$ventas->get_promocion($body['idProducto'],$body['idPromocion']);
+                $promociones=$ventas->get_promociones($body['idProducto']);
+                $datosProducto=$ventas->getProducto($body['idProducto']);
+
+                if ($body['idPromocion']==0) {
+                    $precio=$datosProducto[0]['Precio'];
+
+                }else{
+
+                    $precio=$datos['Precio_Venta'];
+                }
+           
+                $idProducto=$body['idProducto'];
+                $Cantidad=$body['Cantidad'];
+                $Nombre=$body['Nombre'];
+                $arrDetalle = $_SESSION['ventaDetalle'];
+             
+                $arrinfoProducto=array('Id_Producto' => $idProducto,
+                'Cantidad' => $Cantidad,
+                'Nombre' => $Nombre,
+                'Precio' => $precio,
+                'promociones'=>$promociones
+                );
+                 
+                
+                //$_SESSION['compraDetalle']=array();
+                if(isset($_SESSION['ventaDetalle'])){
+                 $on = true;
+                 $arrDetalle = $_SESSION['ventaDetalle'];
+             
+                 for ($pr=0; $pr < count($arrDetalle); $pr++) {
+                     if($arrDetalle[$pr]['Id_Producto'] == $idProducto){
+                         $arrDetalle[$pr]['Cantidad'] =  $Cantidad;
+                         $arrDetalle[$pr]['Nombre'] = $Nombre;
+                         $arrDetalle[$pr]['Precio'] = $precio;
+                         $arrDetalle[$pr]['promociones'] = $promociones;
+                        
+
+            
+                         $on = false;
+                     }
+                 }
+                 if($on){
+                     array_push($arrDetalle,$arrinfoProducto);
+                 }
+                     $_SESSION['ventaDetalle'] = $arrDetalle;
+                 }else{
+                     array_push($arrDetalle, $arrinfoProducto);
+                     $_SESSION['ventaDetalle'] = $arrDetalle;
+                 }
+                 $data=array();
+                 $data['producto']=$_SESSION['ventaDetalle'];
+                 $data['producto']['idPromo']=$body['idPromocion'];
+                 function getFile(string $url, $data)
+                 {
+                     ob_start();
+                     require_once("{$url}.php");
+                     $file = ob_get_clean();
+                     return $file;        
+                 }
+
+
+                
+                 $htmlVentas = getFile('../Formularios/tablaVentas',$data); 
+                 $htmlTotales = getFile('../Formularios/tablaTotales',$data); 
+                 $htmlPromociones=getfile('../Formularios/tablaPromociones',$data);
+                 $htmlTotalesPromociones=getfile('../Formularios/totalesPromociones',$data);
+        
+          
+                 $arrResponse = array("status" => true, "msg" => 'Promoción Seleccionada',"htmlVentas"=>$htmlVentas,"htmlTotales"=>$htmlTotales,"htmlPromociones"=>$htmlPromociones,"htmlTotalesPromociones"=>$htmlTotalesPromociones);
+
+             echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+
+         
             break;
             case "GetDescuentos":
                 $datos=$ventas->get_descuentos();
@@ -113,17 +185,18 @@
                 $idProducto=$body['Producto'];
                 $Cantidad=intval($body['Cantidad']);
                 $Precio=$body['Precio'];
-                
+               
                 $arrDetalle=array();
                 
                 //$user=intval($_SESSION['idUser']);
                 $arrData = $ventas->getProducto($idProducto);
-              
+                $promociones=$ventas->get_promociones($idProducto);
+             
                 $arrinfoProducto=array('Id_Producto' => $idProducto,
                 'Cantidad' => $Cantidad,
                 'Nombre' => $arrData[0]['Nombre'],
                 'Precio' => $Precio,
-                
+                'promociones'=>$promociones
                 );
                  
                 
@@ -137,6 +210,7 @@
                          $arrDetalle[$pr]['Cantidad'] = $arrDetalle[$pr]['Cantidad']+ $Cantidad;
                          $arrDetalle[$pr]['Nombre'] = $arrData[0]['Nombre'];
                          $arrDetalle[$pr]['Precio'] = $Precio;
+                         $arrDetalle[$pr]['promociones'] = $promociones;
                         
 
             
@@ -161,11 +235,14 @@
                         $file = ob_get_clean();
                         return $file;        
                     }
-
+  
                     $htmlVentas = getFile('../Formularios/tablaVentas',$data); 
                     $htmlTotales = getFile('../Formularios/tablaTotales',$data); 
-                   
-                    $arrResponse = array("status" => true, "msg" => 'Producto agregado',"htmlVentas"=>$htmlVentas,"htmlTotales"=>$htmlTotales);
+                    $htmlPromociones=getfile('../Formularios/tablaPromociones',$data);
+                    $htmlTotalesPromociones=getfile('../Formularios/totalesPromociones',$data);
+           
+             
+                    $arrResponse = array("status" => true, "msg" => 'Producto agregado',"htmlVentas"=>$htmlVentas,"htmlTotales"=>$htmlTotales,"htmlPromociones"=>$htmlPromociones,"htmlTotalesPromociones"=>$htmlTotalesPromociones);
 
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
              
@@ -193,10 +270,14 @@
                     }
                     $data=array();
                     $data['producto']=$_SESSION['ventaDetalle'];
-                    $htmlVentas = getFile('../Formularios/tablaVentas',$data); 
-                    $htmlTotales = getFile('../Formularios/tablaTotales',$data); 
-                     
-                 $arrResponse = array("status" => true, "msg" => 'Producto Eliminado',"htmlVentas"=>$htmlVentas,"htmlTotales"=>$htmlTotales);
+                      
+                 $htmlVentas = getFile('../Formularios/tablaVentas',$data); 
+                 $htmlTotales = getFile('../Formularios/tablaTotales',$data); 
+                 $htmlPromociones=getfile('../Formularios/tablaPromociones',$data);
+                 $htmlTotalesPromociones=getfile('../Formularios/totalesPromociones',$data);
+        
+          
+                 $arrResponse = array("status" => true, "msg" => 'Producto Eliminado',"htmlVentas"=>$htmlVentas,"htmlTotales"=>$htmlTotales,"htmlPromociones"=>$htmlPromociones,"htmlTotalesPromociones"=>$htmlTotalesPromociones);
             }
             echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
 
@@ -236,7 +317,11 @@
                 $Id_Usuario=$_SESSION['Id_Usuario'];
                 $usuario=$_SESSION['usuario'];
                 $idTalonario=$body['idTalonario'];
-                $valorActual=$body['valorActual'] + 1;
+               
+                if (!empty($body['valorActual'])) {
+                    
+                    $valorActual=$body['valorActual'] + 1;
+                }
                 
                 
                 
@@ -287,10 +372,10 @@
                         );
 
                         //actualizar CAI
-
+                        if (!empty($body['valorActual'])) {
                         $updateCAI=$ventas->updateCAI($idTalonario,$valorActual);
-                       
-                            $arrResponse= array("status"=> true,"msg"=>'Compra Realizada');
+                        }
+                            $arrResponse= array("status"=> true,"msg"=>'Venta Realizada',"idVenta"=>$request_venta);
                             
                                 unset($_SESSION['ventaDetalle']);
                                 //session_regenerate_id(true);
@@ -299,6 +384,35 @@
 
 
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+            break;
+            case "getVentaListar":
+                $idVenta=$body['idVenta'];
+                $venta=$ventas->get_venta($idVenta);
+                $detalle=$ventas->get_detalle($idVenta);
+                $descuento=$ventas->get_descuentoVenta($idVenta);
+
+
+
+
+                $arrVenta=array();
+
+                $arrVenta['Venta']=$venta;
+                $arrVenta['detalle']=$detalle;
+                $arrVenta['descuento']=$descuento;
+
+
+                //funcion para traer el html
+            function getFile(string $url, $data)
+                    {
+                        ob_start();
+                        require_once("../Formularios/{$url}.php");
+                        $file = ob_get_clean();
+                        return $file;        
+                    }
+
+                    $arrResponse= array("status"=> true,"msg"=>'Venta Realizada',"datos"=>$arrVenta);
+                    echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+
             break;
            
         }

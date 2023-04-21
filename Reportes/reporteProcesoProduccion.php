@@ -48,10 +48,22 @@ $arrProceso['DatosEmpresa']=$resultado;
 $data=$arrProceso;
 
 use Spipu\Html2Pdf\Html2Pdf;
-ob_end_clean();
-$html = getfile("../Reportes/reporteProcesoProduccionHtml",$data);
-$html2pdf = new Html2Pdf('L','letter','es','true','UTF-8');
-$html2pdf->writeHTML($html);
-$html2pdf->output('Factura-.pdf');
+    ob_end_clean();
+    $html = getfile("../Reportes/reporteProcesoProduccionHtml",$data);
+    $html2pdf = new Html2Pdf('L','letter','es','true','UTF-8');
+    $html2pdf->writeHTML($html);
+    // Agregar pie de página
+    date_default_timezone_set('America/Tegucigalpa');
+    $fecha = date('d/m/Y H:i:s');
+    $pagina_actual = $html2pdf->pdf->getPage();
+    $paginas_totales = $html2pdf->pdf->getNumPages();
+    $numero_br = 20;
+    $br_tags = '';
+    for ($i = 0; $i < $numero_br; $i++) {
+    $br_tags .= '<br>';
+    }
+    $html2pdf->writeHTML("$br_tags<div style='position: fixed; bottom: 10px; right: 10px;'>Generado el $fecha - Página $pagina_actual de $paginas_totales</div>", true, false, true, false, '');
+    $html2pdf->output('Reporte de Produccións-.pdf');
+        
 
 ?>

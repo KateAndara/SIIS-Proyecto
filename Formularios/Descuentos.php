@@ -1,5 +1,14 @@
 <?php 
 include '../components/header.components.php';
+getPermisos(MDESCUENTOS);
+  
+
+    
+//si no exite el permiso de consultar vuelve a la pagina de inicio
+if(empty($_SESSION['permisosMod']['r'])){
+    header('Location: inicio.php');
+}
+ob_start();
 ?>
 
 <!DOCTYPE html>
@@ -41,7 +50,12 @@ include '../components/header.components.php';
             </div>
             <div style="margin: 0 18px;">
             <form id="form-busqueda" autocomplete="off">
+            <?php
+            if ($_SESSION['permisosMod']['c']) {
+                # code...
+                ?>
                 <button class="rounded" style="background-color:  #147c4c; color: white; float: right; margin-left: 10px;" onclick="mostrarFormulario()">Agregar</button>
+                <?php } ?>
                 <button class="rounded" style="background-color: #fff; color: dark; float: right;"onclick="generarReporte('TablaDescuentos','REPORTE DE DESCUENTOS',60)">Generar PDF</button>
             </form>
             </div>
@@ -98,7 +112,7 @@ include '../components/header.components.php';
                 <div class="col-12">
                     <form class="InsertDescuento">  
                         <label for="">NOMBRE DESCUENTO</label>
-                        <input type="text" id="Nombre_descuento" class="form-control" placeholder="Ingrese el nombre del descuento">
+                        <input type="text" id="Nombre_descuento" class="form-control" placeholder="Ingrese el nombre del descuento"onkeyup="this.value=this.value.toUpperCase()">
                         <label for="">PORCENTAJE A DESCONTAR</label>
                         <input type="number" id="Porcentaje_a_descontar" class="form-control" placeholder="Ingrese el porcentaje a descontar">
                         <hr>
