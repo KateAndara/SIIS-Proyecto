@@ -13,7 +13,7 @@
 ?>
 
 <!DOCTYPE html>
-<html lang="en"> 
+<html lang="en">  
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -117,7 +117,7 @@
                         <input type="number" id="Id_Tipo_Producto" class="form-control" placeholder="Ingrese el tipo del producto"hidden>
                         
                         <label for="">NOMBRE TIPO DE PRODUCTO </label>
-                        <input type="text" id="Nombre_tipo" class="form-control" placeholder="Ingrese El Nombre Del Tipo De Producto" oninput="validarEntrada(this)">
+                        <input type="text" id="Nombre_tipo" class="form-control" placeholder="Ingrese El Nombre Del Tipo De Producto" oninput="validarEntrada(this)" onkeyup="javascript:this.value=this.value.toUpperCase();">
                         <hr>
 
                         <div id="btnagregarTipoProducto">
@@ -142,10 +142,10 @@
 <script>
   function validarEntrada(input) { 
 
-  const patron = /^[A-Z- a-z0-9]+$/;
+  const patron = /^[A-Z- a-z0-9-]+$/;
   const valor = input.value;
   if (!patron.test(valor)) {
-    swal.fire('Error','Solo se permite ingresar letras', 'error');
+    swal.fire('Error','Solo se permite ingresar letras, numeros y guiones', 'error');
     input.value = input.value.slice(0, -1);
   } else {
   

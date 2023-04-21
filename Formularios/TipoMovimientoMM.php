@@ -12,7 +12,7 @@
     ob_start();
 ?>
 <!DOCTYPE html>
-<html lang="en"> 
+<html lang="en">  
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -115,8 +115,8 @@
                         <label for="Id_Tipo_Movimiento" hidden>ID TIPO MOVIMIENTO</label>
                         <input type="number" id="Id_Tipo_Movimiento" class="form-control" placeholder="Ingrese el código del tipo de movimiento"hidden>
                         
-                        <label for="">NONRE TIPO MOVIMIENTO</label>
-                        <input type="text" id="Descripcion"   class="form-control" placeholder="Ingrese El Nombre Del Tipo De Movimiento" oninput="validarEntrada(this)">
+                        <label for="">NOMBRE TIPO MOVIMIENTO</label>
+                        <input type="text" id="Descripcion"   class="form-control" placeholder="Ingrese El Nombre Del Tipo De Movimiento" oninput="validarEntrada(this)" onkeyup="javascript:this.value=this.value.toUpperCase();">
                         <hr>
 
                         <div id="btnagregarTipoMovimiento">
@@ -144,7 +144,7 @@
   const patron = /^[A-Z- a-z0-9]+$/;
   const valor = input.value;
   if (!patron.test(valor)) {
-    swal.fire('Error','Solo se permite ingresar letras', 'error');
+    swal.fire('Error','Solo se permite ingresar letras, numeros y guoines', 'error');
     input.value = input.value.slice(0, -1);
   } else {
   

@@ -14,7 +14,7 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head> 
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -117,7 +117,7 @@
                         <input type="number" id="Id_Estado_Proceso" class="form-control" placeholder="Ingrese el código del  estado del proceso"hidden>
                         
                         <label for="">NOMBRE DE ESTADO DEL PROCESO</label>
-                        <input type="text" id="Descripcion"  autofocus require class="form-control" placeholder="Ingrese El Nombre Del estado del proceso" oninput="validarEntrada(this)">
+                        <input type="text" id="Descripcion"  autofocus require class="form-control" placeholder="Ingrese El Nombre Del estado del proceso" oninput="validarEntrada(this)" onkeyup="javascript:this.value=this.value.toUpperCase();">
                         <hr>
 
                         <div id="btnagregarEstadoProceso">
@@ -145,7 +145,7 @@
   const patron = /^[A-Z- a-z0-9]+$/;
   const valor = input.value;
   if (!patron.test(valor)) {
-    swal.fire('Error','Solo se permite ingresar letras', 'error');
+    swal.fire('Error','Solo se permite ingresar letras, numeros y guines', 'error');
     input.value = input.value.slice(0, -1);
   } else {
   }

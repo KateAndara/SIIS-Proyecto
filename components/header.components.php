@@ -266,7 +266,7 @@
                                             <?php } 
                                                 if (!empty($_SESSION['permisos'][MCONTACTOCLIENTES]['r']) ) {
                                             ?>
-                                            <a href="ContactoClienteMM.php" class="dropdown-item">Contactos de Clientes</a>
+                                            <a href="EspeciesMM.php" class="dropdown-item">Especies</a>
                                             <?php } 
                                                 if (!empty($_SESSION['permisos'][MTIPOCONTACTO]['r']) ) {
                                             ?>

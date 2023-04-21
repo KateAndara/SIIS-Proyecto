@@ -10,7 +10,7 @@
     if(empty($_SESSION['permisosMod']['r'])){
         header('Location: inicio.php');
     }
-    ob_start();
+    ob_start(); 
 ?>
 <!DOCTYPE html>
 <html lang="en"> 
@@ -116,7 +116,7 @@
                         <input type="number" id="Id_Estado_Venta" class="form-control" placeholder="Ingrese el código del esatdo de venta"hidden>
                         
                         <label for="">NOMBRE DEL ESTADO DE VENTA</label>
-                        <input type="text" id="Nombre_estado" class="form-control" placeholder="Ingrese El Nombre Del Estado De Venta" autofocus oninput="validarEntrada(this)">
+                        <input type="text" id="Nombre_estado" class="form-control" placeholder="Ingrese El Nombre Del Estado De Venta" autofocus oninput="validarEntrada(this)" onkeyup="javascript:this.value=this.value.toUpperCase();">
                         <hr>
 
                         <div id="btnagregarEstadoVenta">

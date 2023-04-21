@@ -238,6 +238,17 @@ function EliminarEstadoVentaMM(idEstadoVenta) {
               },
             });
           },
+          error: function(textStatus, errorThrown){
+            Swal.fire({
+              title: "Lo sentimos",
+              text: "Los datos no pueden ser eliminados.",
+              icon: "warning",
+              timer: 4000,
+              willClose: () => {
+                location.reload();
+              },
+            });        
+          }
         });
       }
     });

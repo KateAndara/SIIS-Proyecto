@@ -13,7 +13,7 @@
 ?>
 
 <!DOCTYPE html> 
-<html lang="en">
+<html lang="en"> 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -118,7 +118,7 @@
                         <input type="number" id="Id_Tipo_Contacto" class="form-control" placeholder="Ingrese el código del tipo de  contacto"hidden>
                         
                         <label for="">NOMBRE DEL TIPO CONTACTO</label>
-                        <input type="text" id="Nombre_tipo_contacto" class="form-control" placeholder="Ingrese El Nombre Del Tipo Contacto"  oninput="validarEntrada(this)">
+                        <input type="text" id="Nombre_tipo_contacto" class="form-control" placeholder="Ingrese El Nombre Del Tipo Contacto"  oninput="validarEntrada(this)" onkeyup="javascript:this.value=this.value.toUpperCase();">
                         <hr>
 
                         <div id="btnagregarTipoContacto">
@@ -145,7 +145,7 @@
   const patron = /^[A-Z- a-z0-9]+$/;
   const valor = input.value;
   if (!patron.test(valor)) {
-    swal.fire('Error','Solo se permite ingresar letras', 'error');
+    swal.fire('Error','Solo se permite ingresar letras, numeros y guiones', 'error');
     input.value = input.value.slice(0, -1);
   } else {
   
