@@ -452,6 +452,55 @@ function CargarUsuario(idUsuario) {
   });
 }
 
+function CargarUsuarioPerfil(idUsuario) {
+  //Función que trae los campos que se eligieron editar.
+  var datosUsuario = {
+    idUsuario: idUsuario,
+  };
+  var datosUsuarioJson = JSON.stringify(datosUsuario);
+
+  $.ajax({
+    url: UrlUsuarioseditar,
+    type: "POST",
+    data: datosUsuarioJson,
+    datatype: "JSON",
+    contentType: "application/json",
+    success: function (reponse) {
+      var MisItems = reponse;
+
+      console.log(MisItems.Nombre);
+      $("#Id_Usuario").val(MisItems.Id_Usuario);
+
+      $("#usuario").val(MisItems.Usuario);
+      $("#nombre").val(MisItems.Nombre);
+      $("#DNI").val(MisItems.DNI);
+      $("#correo").val(MisItems.Correo_Electronico);
+      $("#rolSelect").val(MisItems.Id_Rol).prop('readonly', true).prop('disabled', true);
+      $("#cargoSelect").val(MisItems.Id_Cargo).prop('readonly', true).prop('disabled', true);
+      $("#selecEstado").val(MisItems.Estado).prop('readonly', true).prop('disabled', true);
+
+      $("#fechaVencimiento").val(MisItems.Fecha_vencimiento);
+
+
+      //Usar el mismo botón de agregar con la funcionalidad de actualizar.
+      var btnactualizar =
+        '<a id="btn_actualizar" onclick="ActualizarUsuario(' +
+        MisItems.Id_Usuario +
+        ')"' +
+        'value="" class="btn btn-primary mr-3">Actualizar Usuario </a> <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button></input>';
+      $("#btnAgregarUsuario").html(btnactualizar);
+      $("#btncancelar").click(function () {
+        //Cancela la acción
+        location.href = "http://localhost/SIIS-PROYECTO/Formularios/MiPerfil.php";
+      });
+      //Cambiar el título del formulario.
+      var titulo =
+        '<div class="Col-12" id="titulo">' + "<h3>Mi Usuario</h3></div>";
+      $("#titulo").html(titulo);
+    },
+  });
+}
+
 function ActualizarUsuario(idUsuario) {
   usuario = document.querySelector("#usuario").value;
   nombre = document.querySelector("#nombre").value;
