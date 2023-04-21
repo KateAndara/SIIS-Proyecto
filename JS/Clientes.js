@@ -4,6 +4,7 @@ var UrlInsertarClientes = 'http://localhost/SIIS-PROYECTO/controller/cliente.php
 var UrlActualizarClientes = 'http://localhost/SIIS-PROYECTO/controller/cliente.php?opc=UpdateCliente'; // Editar
 var UrlEliminarClientes = 'http://localhost/SIIS-PROYECTO/controller/cliente.php?opc=DeleteCliente'; // Eliminar
 var UrlClienteditar = 'http://localhost/SIIS-PROYECTO/controller/cliente.php?opc=GetClienteditar'; // Traer el dato a editar
+var UrlContactoCliente = 'http://localhost/SIIS-PROYECTO/Formularios/ContactoClienteMM.php?id='; //me lleva al formulario contacto cliente
 
 $(document).ready(function(){
    CargarClientes();
@@ -33,55 +34,48 @@ function CargarClientes(){
                 { data: "Fecha_nacimiento" },
                 { data: "DNI" },
                 { data: "options"},
+
+                {
+                  data: null,
+                  render: function (data, type, row) {
+                    return (
+                      '<button class="rounded" style="background-color: #008000; color: white; display: inline-block; width: 90px;" onclick="CargarContactoCliente(\'' +
+                      row.Id_Cliente +
+                      "');\">Contacto</button>"
+                    );
+                  },
+                },
                 /* { 
                         data: null, 
                         render: function ( data, type, row ) {
                           return '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarCliente(\'' + row.Id_Cliente + '\'); mostrarFormulario();">Editar</button>' +
                                  '<button class="rounded" style="background-color: #FF0000; color: white; display: inline-block; width: 67px;" onclick="EliminarCliente(\'' + row.Id_Cliente + '\')">Eliminar</button>';
                         }
-                      } */
+                      } */ 
               ],
             });
         }
     });
 }
-/*
-function BuscarDescuentos(Nombredescuento){
-    var datosDescuento = {
-        Nombre_descuento: isNaN(Nombredescuento) ? Nombredescuento : null,
-        Id_Descuento: isNaN(Nombredescuento) ? null : parseInt(Nombredescuento)
-    };
-    var datosDescuentoJson = JSON.stringify(datosDescuento);
 
-    $.ajax({
-        url: UrlDescuento,
-        type: 'POST',
-        data: datosDescuentoJson,
-        datatype: 'JSON',
-        contentType: 'application/json',
-        success: function(reponse){
-            var MisItems = reponse;
-            var Valores='';
-            
-            for(i=0; i<MisItems.length; i++){
-                Valores+= '<tr>'+
-                '<td>'+ MisItems[i].Id_Descuento  +'</td>'+ 
-                '<td>'+ MisItems[i].Nombre_descuento +'</td>'+
-                '<td>'+ MisItems[i].Porcentaje +'</td>'+
-                '<td>'+ 
-                '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick=" CargarDescuento('+MisItems[i].Id_Descuento +'); mostrarFormulario();">Editar</button>'+ 
-                '<button class="rounded" style="background-color: #D6234A; color: white; display: inline-block; width: 67px;"  onclick="EliminarDescuento('+MisItems[i].Id_Descuento +')">Eliminar</button>'+
-                '</td>'+
-            '</tr>';
-            }
-            $('#DataDescuentos').html(Valores);
-        }
-    });
+
+function CargarContactoCliente(Id_Cliente) {
+  window.location.href = UrlContactoCliente + Id_Cliente;
 }
 
-*/
-
 function AgregarCliente(){
+    nombre=document.querySelector("#Nombre").value;
+    fechaNacimiento=document.querySelector("#Fecha_nacimiento").value;
+    dni=document.querySelector("#DNI").value;
+
+    console.log(nombre);
+    console.log(fechaNacimiento);
+    console.log(dni);
+
+    if ( nombre == "" ||fechaNacimiento == "" ||dni == "" ) {
+         swal.fire("Atención", "Todos los campos son obligatorios.", "error");
+         return false;
+      }
     var datosCliente = {
     Nombre: $('#Nombre').val(),
     Fecha_nacimiento: $('#Fecha_nacimiento').val(),
@@ -96,15 +90,32 @@ function AgregarCliente(){
         datatype: 'JSON',
         contentType: 'application/json',
         success: function(reponse){
-            console.log(reponse);
-            alert('Cliente Agregado');
+            console.log(reponse.status);
+              swal.fire({
+                title: "LISTO!",
+                text: reponse.msg,
+                icon: "success",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                timer: 3000,
+                willClose: () => {
+                  window.location.reload();
+                },
+              });
         },
 
         error: function(textStatus, errorThrown){
-            alert('Error al agregar cliente' + textStatus + errorThrown);
-        }
+            swal.fire({
+                title: "Error!",
+                text: "Error al guardar el Cargo",
+                icon: "error",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                timer: 4000,
+               
+              });
+        },
     });
-    alert('Aviso');
 }
 
 function CargarCliente(IdCliente){ //Función que trae los campos que se eligieron editar.
@@ -131,9 +142,12 @@ function CargarCliente(IdCliente){ //Función que trae los campos que se eligier
             $('#DNI').val(MisItems[0].DNI);
             
             //Usar el mismo botón de agregar con la funcionalidad de actualizar.
-            var btnactualizar = '<input type="submit" id="btn_actualizar" onclick="ActualizarCliente(' +MisItems[0].Id_Cliente+')"'+
-            'value="Actualizar Cliente" class="btn btn-primary"></input>';
+            var btnactualizar = '<a id="btn_actualizar" onclick="ActualizarCliente(' +MisItems[0].Id_Cliente+')"'+
+            'value="Actualizar Cliente" class="btn btn-primary">Actualizar Cliente</a><button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button></input>';
             $('#btnagregarCliente').html(btnactualizar);
+            $('#btncancelar').click(function(){ //Cancela la acción
+                location.href = "http://localhost/SIIS-PROYECTO/Formularios/Clientes.php";
+             });
             //Cambiar el título del formulario.
             var titulo = '<div class="Col-12" id="titulo">'+
             '<h3>Editar Cliente</h3></div>';
@@ -144,6 +158,18 @@ function CargarCliente(IdCliente){ //Función que trae los campos que se eligier
 }
 
 function ActualizarCliente(IdCliente){
+    nombre=document.querySelector("#Nombre").value;
+    fechaNacimiento=document.querySelector("#Fecha_nacimiento").value;
+    dni=document.querySelector("#DNI").value;
+
+    console.log(nombre);
+    console.log(fechaNacimiento);
+    console.log(dni);
+
+    if ( nombre == "" ||fechaNacimiento == "" ||dni == "" ) {
+         swal.fire("Atención", "Todos los campos son obligatorios.", "error");
+         return false;
+      }
     var datosCliente={
     Id_Cliente: IdCliente,
     Nombre: $('#Nombre').val(),
@@ -159,39 +185,84 @@ function ActualizarCliente(IdCliente){
         datatype: 'JSON',
         contentType: 'application/json',
         success: function(reponse){
-            console.log(reponse);
-            alert('Cliente Actualizado');
+                swal.fire({
+                  title: "LISTO!",
+                  text: reponse.msg,
+                  icon: "success",
+                  confirmButtonText: "Aceptar",
+                  closeOnConfirm: false,
+                  timer: 3000,
+                  willClose: () => {
+                    window.location.reload();
+                  },
+                });
+              
         },
 
         error: function(textStatus, errorThrown){
-            alert('Error al actualizar Cliente' + textStatus + errorThrown);
-        }
+            swal.fire({
+                title: "Error!",
+                text: reponse,
+                icon: "success",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                timer: 3000,
+                willClose: () => {
+                  window.location.reload();
+                },
+              });       
+             },
     });
-    alert('Aviso');
 }
 
-function EliminarCliente(IdCliente){
-    var datosCliente={
-        Id_Cliente:IdCliente
-    };
 
-    var datosClienteJson= JSON.stringify(datosCliente);
+function EliminarCliente(idCliente) {
+    Swal.fire({
+      title: "¿Eliminar cargo?",
+      text: "Estas Seguro que quieres Eliminar el cliente, esta acción es irreversible",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, Eliminar!",
+    }).then((result) => { 
+      if (result.isConfirmed) {
+        var datosCliente = {
+            Id_Cliente: idCliente,
+        };
+        var datosCliente = JSON.stringify(datosCliente);
+        $.ajax({
+          url: UrlEliminarClientes,
+          type: "DELETE",
+          data: datosCliente,
+          datatype: "JSON",
+          success: function (response) {
+            Swal.fire({
+              title: "Eliminado",
+              text: "Cliente eliminado Correctamente.",
+              icon: "success",
+              timer: 4000,
+              willClose: () => {
+                location.reload();
+              },
+            });
+          },
+          error: function(textStatus, errorThrown){
+            Swal.fire({
+              title: "Lo sentimos",
+              text: "Los datos no pueden ser eliminados.",
+              icon: "warning",
+              timer: 4000,
+              willClose: () => {
+                location.reload();
+              },
+            });        
+          }
+  
+        });
+      }
 
-    $.ajax({
-        url: UrlEliminarClientes,
-        type: 'DELETE',
-        data: datosClienteJson,
-        datatype: 'JSON',
-        contentType: 'application/json',
-        success: function(reponse){
-            console.log(reponse);
-            alert('Cliente Eliminada');
-        },
-
-        error: function(textStatus, errorThrown){
-            alert('Error al eliminar cliente' + textStatus + errorThrown);
-        }
     });
-    alert('Aviso');
-    CargarClientes();
-}
+  }
+
+ 

@@ -1,22 +1,28 @@
 <?php
     class ContactoClienteMM extends Conectar{
 
-
-        public function get_ContactoClientesMM(){                 //Si se nececita mostrar nombre en vez de ID.         
-            $conexion= parent::Conexion();
+        public function get_ContactoClientesMM($id_cliente){                  //Si se nececita mostrar nombre en vez de ID.         
+            $conectar= parent::Conexion();
             parent::set_names();
             $sql="SELECT t1.*, t2.Nombre_tipo_contacto, t3.Nombre
                   FROM tbl_clientes_contacto t1                              
-                  JOIN tbl_tipo_contacto t2 ON t1.Id_Tipo_Contacto = t2.Id_Tipo_Contacto
-                  JOIN tbl_clientes t3 ON t1.Id_Cliente = t3.Id_Cliente";
-            $sql= $conexion->prepare($sql);
+                  JOIN tbl_tipo_contacto t2 ON t1.Id_Tipo_Contacto = t2.Id_Tipo_Contacto 
+                  JOIN tbl_clientes t3 ON t1.Id_Cliente = t3.Id_Cliente where t1.Id_Cliente=:id_cliente" ;
+            $sql = $conectar->prepare($sql);
+            $sql->bindValue(':id_cliente',$id_cliente);
+           
+
             $sql->execute();
-            return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);                
+        
+            return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+                           
         }
+      
+       
         public function registrar_bitacora($id_usuario, $id_objeto, $accion, $descripcion){
-            $conexion= parent::Conexion();
+            $conexion= parent::Conexion(); 
             parent::set_names();
-            
+             
             $sql="INSERT INTO tbl_ms_bitacora (Id_Usuario, Id_Objeto, Fecha, Accion, Descripcion) 
                   VALUES (:id_usuario, :id_objeto, :fecha, :accion, :descripcion)";
             $stmt= $conexion->prepare($sql);
@@ -27,6 +33,16 @@
             $stmt->bindParam(":accion", $accion, PDO::PARAM_STR);
             $stmt->bindParam(":descripcion", $descripcion, PDO::PARAM_STR);
             $stmt->execute();
+        }
+
+        public function get_cliente(){                  //Si se nececita mostrar nombre en vez de ID.         
+            $conexion= parent::Conexion();
+            parent::set_names();
+            $sql="SELECT *
+                  FROM tbl_clientes";
+            $sql= $conexion->prepare($sql);
+            $sql->execute();
+            return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);                
         }
         public function get_user($user){
             $conexion = parent::Conexion();

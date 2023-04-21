@@ -115,7 +115,7 @@
                         <input type="number" id="Id_Cargo" class="form-control" placeholder="Ingrese el código del  cargo"hidden>
                         
                         <label for="">NOMBRE DEL CARGO</label>
-                        <input type="text" id="Nombre_cargo"  autofocus require class="form-control" placeholder="Ingrese El Nombre Del Cargo" oninput="validarEntrada(this)">
+                        <input type="text" id="Nombre_cargo" onkeyup="javascript:this.value=this.value.toUpperCase();"  autofocus require class="form-control" placeholder="Ingrese El Nombre Del Cargo" oninput="validarEntrada(this)">
                         <hr>
 
                         <div id="btnagregarCargo">
@@ -127,7 +127,7 @@
                     document.getElementById("btncancelar").onclick = function() {
                         location.href = "http://localhost/SIIS-PROYECTO/Formularios/CargosMM.php";
                     };
-                    </script>
+                    </script> 
                 </div>
             </div> 
         </div>
@@ -140,10 +140,10 @@
 <script>
   function validarEntrada(input) { 
 
-  const patron = /^[A-Z-a-z]+$/;
+  const patron = /^[A-Z- a-z0-9_*]+$/;
   const valor = input.value;
   if (!patron.test(valor)) {
-    swal.fire('Error','Solo se permite ingresar letras', 'error');
+    swal.fire('Error','Solo se permite ingresar letras, numeros y guiones', 'error');
     input.value = input.value.slice(0, -1);
   } else {
   

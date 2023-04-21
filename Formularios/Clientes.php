@@ -36,6 +36,9 @@
 
     <!-- Última versión de AutoTable -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.26/jspdf.plugin.autotable.min.js"></script>
+    
+    <script src="../Reportes/Reporte.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
 
 
 </head>
@@ -95,6 +98,7 @@
                                 <th>FECHA DE NACIMIENTO</th>
                                 <th>DNI</th>
                                 <th>OPCIONES</th>
+                                <th></th>
                             </tr>
                         </thead>
 
@@ -109,7 +113,7 @@
             <div class="row">
                 <div class="Col-12" id="titulo">
                     <h3>
-                        Agregar Clientes
+                        Agregar Clientes 
                     </h3>
                 </div>
                 <div class="col-6">
@@ -117,14 +121,14 @@
                         <label for="Id_Cliente" hidden>ID del Cliente</label>
                         <input type="number" id="Id_Cliente" name="Id_Cliente" class="form-control" placeholder="Ingrese el código del cliente"hidden>
                         <label for="">NOMBRE DEL CLIENTE</label>
-                        <input type="text" id="Nombre" name="Nombre" class="form-control" placeholder="Carlos...">
+                        <input type="text" id="Nombre" onkeyup=" javascript:this.value=this.value.toUpperCase();"  name="Nombre" class="form-control" placeholder="Carlos..."oninput="validarEntrada(this)">
                         <label for="">FECHA DE NACIMIENTO</label>
                         <input type="date" id="Fecha_nacimiento" name="Fecha_nacimiento" class="form-control">
                         <label for="">DNI</label>
-                        <input type="number" id="DNI" name="DNI"class="form-control"  placeholder="0000000000...">
+                        <input type="number" id="DNI" name="DNI"class="form-control"  placeholder="0000000000..." oninput="validarEntrada2(this)">
                         <hr>
                         <div id="btnagregarCliente">
-                            <input type="submit" id="btnagregar" onclick="AgregarCliente()" value="Agregar Cliente" class="btn btn-success">
+                            <a  id="btnagregar" onclick="AgregarCliente()" value="Agregar Cliente" class="btn btn-success">Agregar Cliente</a>
                             <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button>
                         </div>
                     </form>
@@ -133,7 +137,7 @@
                         location.href = "http://localhost/SIIS-PROYECTO/Formularios/Clientes.php";
                     };
                     </script>
-                </div>
+                </div> 
             </div>
         </div>
     </div>
@@ -141,5 +145,34 @@
 
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+<script>
+  function validarEntrada(input) { 
+
+  const patron = /^[A-Z a-z]+$/;
+  const valor = input.value;
+  if (!patron.test(valor)) {
+    swal.fire('Error','Solo se permite ingresar letras', 'error');
+    input.value = input.value.slice(0, -1);
+  } else {
+  
+  }
+
+}
+
+function validarEntrada2(input) { 
+
+const patron = /^[0-9 -]+$/;
+const valor = input.value;
+if (!patron.test(valor)) {
+  swal.fire('Error','Solo se permite ingresar numeros y guines', 'error');
+  input.value = input.value.slice(0, -1);
+} else {
+
+}
+
+} 
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
 </body>
 </html>

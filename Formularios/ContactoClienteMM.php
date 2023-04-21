@@ -10,10 +10,12 @@
         header('Location: inicio.php');
     }
     ob_start();
+
+   
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html> 
+<html lang="en">  
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -47,7 +49,7 @@
             <div class="row">
                 <div class="col-12 text-center">
                     <h3>
-                        Lista De Contactos De Clientes
+                        Lista De Contactos Del Cliente
                     </h3>
                 </div>
             </div>
@@ -59,7 +61,7 @@
                     ?>
                     <button class="rounded" style="background-color:  #147c4c; color: white; float: right; margin-left: 10px;" onclick="mostrarFormulario()">Agregar</button>
                     <?php } ?>
-                    <button class="rounded" style="background-color: #fff; color: dark; float: right;"  onclick="generarReporte('TablaContactoClientes','REPORTE DE CONTACTO DE LOS CLIENTES',60)">Generar PDF</button>
+                    <button class="rounded" style="background-color: #fff; color: dark; float: right;"  onclick="generarReporte('TablaContactoClientes','REPORTE DE CONTACTOS DEL CLIENTE',60)">Generar PDF</button>
                 </form>    
             </div>
             
@@ -106,6 +108,12 @@
                     </table>
                 </div>
             </div>
+            <button type="button" id="btnRegresar"  class="btn btn-secondary">Regresar</button>
+            <script> //Cancela la acción
+                    document.getElementById("btnRegresar").onclick = function() {
+                        location.href = "http://localhost/SIIS-PROYECTO/Formularios/Clientes.php";
+                    };
+            </script>
         </div>
         <div class="Formulario" style="display: none;">
             <div class="row">
@@ -123,20 +131,20 @@
                             <option value="">Seleccione un tipo de contacto</option>
                         </select>
                         <label for="">SELECCIONE UN CLIENTE</label> 
-                        <select id="Select_Cliente" class="form-control">
+                        <select id="Select_Cliente" class="form-control" values=() readonly>
                             <option value="">Seleccione un cliente</option>
                         </select>
                         <label for="">CONTACTO</label>
-                        <input type="number" id="Contacto" class="form-control" placeholder="Ingrese ingrese el número del contacto"oninput="validarEntrada(this)">
+                        <input type="text" id="Contacto" class="form-control js-example-basic-single"  placeholder="Ingrese ingrese el número del contacto" oninput="validarEntrada(this)" >
                         <hr>
                         <div id="btnagregarContactoCliente">
                             <a id="btnagregar" onclick="AgregarContactoClienteMM()" value="Agregar Contacto Del Cliente" class="btn btn-success">Agregar Contacto Del Cliente</a>
-                            <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button>
+                            <button type="button" id="btncancelar"  class="btn btn-secondary" onclick="CargarContactoClientesMM()">Cancelar</button>
                         </div>
                     </form>
                     <script> //Cancela la acción
                     document.getElementById("btncancelar").onclick = function() {
-                        location.href = "http://localhost/SIIS-PROYECTO/Formularios/ContactoClienteMM.php";
+                        location.href = "http://localhost/SIIS-PROYECTO/Formularios/ContactoClienteMM.php?id=";
                     };
                     </script>
                 </div>
@@ -151,10 +159,10 @@
 <script>
   function validarEntrada(input) { 
 
-  const patron = /^[0-9 -]+$/;
+  const patron = /^[A-Z- a-z0-9.,@/+]+$/;
   const valor = input.value;
   if (!patron.test(valor)) {
-    swal.fire('Error','Solo se permite ingresar numeros y guiones', 'error');
+    swal.fire('Error','No se permiten carateres especiales', 'error');
     input.value = input.value.slice(0, -1);
   } else {
   

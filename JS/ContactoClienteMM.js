@@ -7,18 +7,31 @@ var UrlContactoClienteMMeditar = 'http://localhost/SIIS-PROYECTO/controller/cont
 //Si se necesita traer datos de otra tabla para una lista desplegable
 var UrlContactos = 'http://localhost/SIIS-PROYECTO/controller/contactoClienteMM.php?opc=GetContactos'; 
 var UrlClientes = 'http://localhost/SIIS-PROYECTO/controller/contactoClienteMM.php?opc=GetClientes'; 
+var UrlCliente = 'http://localhost/SIIS-PROYECTO/controller/contactoClienteMM.php?opc=GetCliente'; 
 
 $(document).ready(function(){
-   CargarContactoClientesMM();
+  CargarContactoClientesMM();
    CargarContactos();
-   CargarClientes();
+   CargarClientes(); 
 });
 
-function CargarContactoClientesMM(){
-    
+
+
+
+function CargarContactoClientesMM(){ 
+
+  const urlSearchParams = new URLSearchParams(window.location.search);
+  const id_cliente_parametro = urlSearchParams.get("id");
+
+  var datoscliente = {
+    Id_Cliente: id_cliente_parametro,
+};
+var datoscliente = JSON.stringify(datoscliente);
+ console.log(datoscliente);
     $.ajax({
-        url : UrlContactoClientesMM,
-        type: 'GET',
+        url : UrlContactoClientesMM, 
+        type: 'POST',
+        data: datoscliente,
         datatype: 'JSON',
         success: function(reponse){
             var MisItems = reponse;
@@ -34,10 +47,10 @@ function CargarContactoClientesMM(){
                  },
                  columns: [
                    { data: "Id_Cliente_Contacto" },
-                   { data: "Nombre_tipo_contacto" },
+                   { data: "Nombre_tipo_contacto"},
                    { data: "Nombre" },
                    { data: "Contacto" },
-                   { data: "options" },
+                   { data: "options" }, 
                    /*  { 
                            data: null, 
                            render: function ( data, type, row ) {
@@ -47,7 +60,7 @@ function CargarContactoClientesMM(){
                         }    */
                  ],
                });
-        } 
+        }  
 
     });
 }
@@ -95,7 +108,7 @@ function AgregarContactoClienteMM(){
                 icon: "error",
                 confirmButtonText: "Aceptar",
                 closeOnConfirm: false,
-                timer: 4000,
+                timer: 4000, 
                
               });
         },
@@ -122,7 +135,7 @@ function CargarContactoClienteMM(idContacto){ //Función que trae los campos que
         
             $('#Id_Cliente_Contacto').val(MisItems[0].Id_Cliente_Contacto).prop('readonly', true);  // Propiedad para que no se pueda modificar el campo.
             $('#Select_Contacto').val(MisItems[0].Id_Tipo_Contacto);
-            $('#Select_Cliente').val(MisItems[0].Id_Cliente);
+            $('#Select_Cliente').val(MisItems[0].Id_Cliente).prop('readonly', true).prop('disabled', true);
             $('#Contacto').val(MisItems[0].Contacto);
             //Usar el mismo botón de agregar con la funcionalidad de actualizar.
             var btnactualizar = '<a  id="btn_actualizar" onclick="ActualizarContactoClienteMM(' +MisItems[0].Id_Cliente_Contacto+')"'+
@@ -222,6 +235,17 @@ function EliminarContactoClienteMM(idContacto) {
               },
             });
           },
+          error: function(textStatus, errorThrown){
+            Swal.fire({
+              title: "Lo sentimos",
+              text: "Los datos no pueden ser eliminados.",
+              icon: "warning",
+              timer: 4000,
+              willClose: () => {
+                location.reload();
+              },
+            });        
+          }
         });
       }
     });
@@ -263,6 +287,7 @@ function CargarClientes(){
 }
 
 
+ 
 
 
 

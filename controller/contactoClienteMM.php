@@ -1,3 +1,4 @@
+
 <?php
 session_start();
     if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -14,15 +15,14 @@ session_start();
 
         require_once '../config/conexion3.php';
         require_once '../models/ContactoClienteMM.php';
-
+        
         $contactosClientesMM = new ContactoClienteMM();
- 
         $body = json_decode(file_get_contents("php://input"), true);
 
         switch($_GET["opc"]){
 
             case "GetContactoClientesMM":
-                $datos=$contactosClientesMM->get_ContactoClientesMM();
+                $datos=$contactosClientesMM->get_ContactoClientesMM($body['Id_Cliente']);
                 //ciclo for para insertar los botontes en cada opción
                 for ($i=0; $i < count($datos); $i++) { 
 
@@ -30,9 +30,7 @@ session_start();
                     $btnView = '';
                     $btnEdit = '';
                     $btnDelete = '';
-
-                    
-
+                   
                     //si permisos es igual a Permiso_actualizacion de update crea el boton
                     if($_SESSION['permisosMod']['u']){
                         $btnEdit = '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarContactoClienteMM(\'' .$datos[$i]['Id_Cliente_Contacto'].'\'); mostrarFormulario();">Editar</button>';
@@ -63,7 +61,7 @@ session_start();
                 $datos=$contactosClientesMM->get_ContactoClienteMMeditar($body["Id_Cliente_Contacto"]);
                 echo json_encode($datos);
             break;
-            case "InsertContactoClienteMM":
+            case "InsertContactoClienteMM": 
                 $datos=$contactosClientesMM->insert_ContactoClienteMM($body["Id_Tipo_Contacto"],$body["Id_Cliente"],$body["Contacto"]);
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($contactosClientesMM->get_user($varsesion));
@@ -83,7 +81,7 @@ session_start();
                 $Id_Usuario = intval($contactosClientesMM->get_user($varsesion));
                 $contactosClientesMM->registrar_bitacora($Id_Usuario, 47, 'Eliminar', 'Se eliminó un contacto de un Cliente');
                 echo json_encode("Contacto Eliminado");
-            break;
+            break; 
             //Datos de otra tabla
             case "GetContactos":
                 $datos=$contactosClientesMM->get_Contactos();
@@ -93,6 +91,11 @@ session_start();
                 $datos=$contactosClientesMM->get_Clientes();
                 echo json_encode($datos);
             break;
-        }
+            case "getCliente":
+                $datos=$ventas->get_cliente($body['idCliente']);
+        
+                echo json_encode($datos);
+            break;
+        } 
 
 ?>   

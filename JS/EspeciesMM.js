@@ -1,35 +1,35 @@
-var UrlCargosMM = 'http://localhost/SIIS-PROYECTO/controller/cargosMM.php?opc=GetCargosMM';
-var UrlCargoMM = 'http://localhost/SIIS-PROYECTO/controller/cargosMM.php?opc=GetCargoMM';
-var UrlInsertarCargoMM = 'http://localhost/SIIS-PROYECTO/controller/cargosMM.php?opc=InsertCargoMM'; // Insertrar
-var UrlActualizarCargoMM = 'http://localhost/SIIS-PROYECTO/controller/cargosMM.php?opc=UpdateCargoMM'; // Editar
-var UrlEliminarCargoMM = 'http://localhost/SIIS-PROYECTO/controller/cargosMM.php?opc=DeleteCargoMM'; // Eliminar
-var UrlCargoMMeditar = 'http://localhost/SIIS-PROYECTO/controller/cargosMM.php?opc=GetCargoMMeditar'; // Traer el dato a editar
+var UrlEspeciesMM = 'http://localhost/SIIS-PROYECTO/controller/especiesMM.php?opc=GetEspeciesMM';
+var UrlEspecieMM = 'http://localhost/SIIS-PROYECTO/controller/especiesMM.php?opc=GetEspecieMM';
+var UrlInsertarEspecieMM = 'http://localhost/SIIS-PROYECTO/controller/especiesMM.php?opc=InsertEspecieMM'; // Insertrar
+var UrlActualizarEspecieMM = 'http://localhost/SIIS-PROYECTO/controller/especiesMM.php?opc=UpdateEspecieMM'; // Editar
+var UrlEliminarEspecieMM = 'http://localhost/SIIS-PROYECTO/controller/especiesMM.php?opc=DeleteEspecieMM'; // Eliminar
+var UrlEspecieMMeditar = 'http://localhost/SIIS-PROYECTO/controller/especiesMM.php?opc=GetEspecieMMeditar'; // Traer el dato a editar
 
 $(document).ready(function(){
-   CargarCargosMM();
+   CargarEspeciesMM();
 });
 
-function CargarCargosMM(){
+function CargarEspeciesMM(){
     
     $.ajax({
-        url : UrlCargosMM,
+        url : UrlEspeciesMM,
         type: 'GET', 
         datatype: 'JSON',
         success: function(reponse){
             var MisItems = reponse;
             // Si la tabla ya ha sido inicializada previamente, destruye la instancia
-            if ($.fn.DataTable.isDataTable('#TablaCargos')) {
-                $('#TablaCargos').DataTable().destroy();
+            if ($.fn.DataTable.isDataTable('#TablaEspecies')) {
+                $('#TablaEspecies').DataTable().destroy();
                }
-               $("#TablaCargos").DataTable({
+               $("#TablaEspecies").DataTable({
                  processing: true,
                  data: MisItems,
                  language: {
                    url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json",
                  },
                  columns: [
-                   { data: "Id_Cargo" },
-                   { data: "Nombre_cargo" },
+                   { data: "Id_Especie" },
+                   { data: "Nombre_Especie" },
                    { data: "options" },
                    /* { 
                            data: null, 
@@ -45,25 +45,25 @@ function CargarCargosMM(){
     });
 }
 
-function AgregarCargoMM(){
+function AgregarEspecieMM(){
 
-    nombreCargo=document.querySelector("#Nombre_cargo").value;
-    console.log(nombreCargo);
+    nombreEspecie=document.querySelector("#Nombre_Especie").value;
+    console.log(nombreEspecie);
 
-    if ( nombreCargo == "" ) {
+    if ( nombreEspecie == "" ) {
          swal.fire("Atención", "Todos los campos son obligatorios.", "error");
          return false;
       }
 
-    var datosCargoMM = {
-        Nombre_cargo: $('#Nombre_cargo').val()
+    var datosEspecieMM = {
+        Nombre_Especie: $('#Nombre_Especie').val()
     };
-    var datosCargoMMJson= JSON.stringify(datosCargoMM );
+    var datosEspecieMMJson= JSON.stringify(datosEspecieMM );
 
     $.ajax({
-        url:UrlInsertarCargoMM,
+        url:UrlInsertarEspecieMM,
         type: 'POST',
-        data: datosCargoMMJson,
+        data: datosEspecieMMJson,
         datatype: 'JSON',
         contentType: 'application/json',
         success: function(reponse){  
@@ -95,7 +95,7 @@ function AgregarCargoMM(){
         error: function(textStatus, errorThrown){
             swal.fire({
                 title: "Error!",
-                text: "Error al guardar el Cargo",
+                text: "Error al guardar el Especie",
                 icon: "error",
                 confirmButtonText: "Aceptar",
                 closeOnConfirm: false,
@@ -106,61 +106,61 @@ function AgregarCargoMM(){
     });
 }
 
-function CargarCargoMM(idCargo){ //Función que trae los campos que se eligieron editar.
-    var datosCargoMM = {
-        Id_Cargo:idCargo
+function CargarEspecieMM(idEspecie){ //Función que trae los campos que se eligieron editar.
+    var datosEspecieMM = {
+        Id_Especie:idEspecie
     };
-    var datosCargoMMJson=JSON.stringify(datosCargoMM);
+    var datosEspecieMMJson=JSON.stringify(datosEspecieMM);
 
     $.ajax({
-        url: UrlCargoMMeditar,
+        url: UrlEspecieMMeditar,
         type: 'POST',
-        data: datosCargoMMJson,
+        data: datosEspecieMMJson,
         datatype: 'JSON',
         contentType: 'application/json',
         success: function(reponse){
             var MisItems = reponse;
             //Muestra el id junto con su título que se encuentra oculto en el Agregar.
-            $('#Id_Cargo').removeAttr('hidden'); // ID
-            $('label[for="Id_Cargo"]').removeAttr('hidden'); //Título
+            $('#Id_Especie').removeAttr('hidden'); // ID
+            $('label[for="Id_Especie"]').removeAttr('hidden'); //Título
         
-            $('#Id_Cargo').val(MisItems[0].Id_Cargo).prop('readonly', true);  // Propiedad para que no se pueda modificar el campo.
-            $('#Nombre_cargo').val(MisItems[0].Nombre_cargo);
+            $('#Id_Especie').val(MisItems[0].Id_Especie).prop('readonly', true);  // Propiedad para que no se pueda modificar el campo.
+            $('#Nombre_Especie').val(MisItems[0].Nombre_Especie);
 
             //Usar el mismo botón de agregar con la funcionalidad de actualizar.
-            var btnactualizar = '<a  id="btn_actualizar" onclick="ActualizarCargoMM(' +MisItems[0].Id_Cargo+')"'+
-            'value="Actualizar Cargo" class="btn btn-primary">Actualizar Cargo </a> <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button></input>';
-            $('#btnagregarCargo').html(btnactualizar);
+            var btnactualizar = '<a  id="btn_actualizar" onclick="ActualizarEspecieMM(' +MisItems[0].Id_Especie+')"'+
+            'value="Actualizar Especie" class="btn btn-primary">Actualizar Especie </a> <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button></input>';
+            $('#btnagregarEspecie').html(btnactualizar);
             $('#btncancelar').click(function(){ //Cancela la acción
-                location.href = "http://localhost/SIIS-PROYECTO/Formularios/CargosMM.php";
+                location.href = "http://localhost/SIIS-PROYECTO/Formularios/EspeciesMM.php";
              });
             //Cambiar el título del formulario.
             var titulo = '<div class="Col-12" id="titulo">'+
-            '<h3>Editar Cargo</h3></div>';
+            '<h3>Editar Especie</h3></div>';
             $('#titulo').html(titulo); 
         }
     });
 }
+ 
+function ActualizarEspecieMM(idEspecie){
+    nombreEspecie=document.querySelector("#Nombre_Especie").value;
+    console.log(nombreEspecie);
 
-function ActualizarCargoMM(idCargo){
-    nombreCargo=document.querySelector("#Nombre_cargo").value;
-    console.log(nombreCargo);
-
-    if ( nombreCargo == "" ) {
+    if ( nombreEspecie == "" ) {
          swal.fire("Atención", "Todos los campos son obligatorios.", "error");
          return false;
       }
 
-    var datosCargoMM={
-    Id_Cargo: idCargo,
-    Nombre_cargo: $('#Nombre_cargo').val()
+    var datosEspecieMM={
+    Id_Especie: idEspecie,
+    Nombre_Especie: $('#Nombre_Especie').val()
     };
-    var datosCargoMMJson = JSON.stringify(datosCargoMM);
+    var datosEspecieMMJson = JSON.stringify(datosEspecieMM);
 
     $.ajax({
-        url: UrlActualizarCargoMM,
+        url: UrlActualizarEspecieMM,
         type: 'PUT',
-        data: datosCargoMMJson,
+        data: datosEspecieMMJson,
         datatype: 'JSON',
         contentType: 'application/json',
         success: function(reponse){
@@ -204,10 +204,10 @@ function ActualizarCargoMM(idCargo){
 }
 
 
-function EliminarCargoMM(idCargo) {
+function EliminarEspecieMM(idEspecie) {
     Swal.fire({
-      title: "¿Eliminar cargo?",
-      text: "Estas Seguro que quieres Eliminar el Cargo, esta acción es irreversible",
+      title: "¿Eliminar Especie?",
+      text: "Estas Seguro que quieres Eliminar la Especie, esta acción es irreversible",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -215,37 +215,26 @@ function EliminarCargoMM(idCargo) {
       confirmButtonText: "Si, Eliminar!",
     }).then((result) => { 
       if (result.isConfirmed) {
-        var datosCargo = {
-            Id_Cargo: idCargo,
+        var datosEspecie = {
+            Id_Especie: idEspecie,
         };
-        var datosCargo = JSON.stringify(datosCargo);
+        var datosEspecie = JSON.stringify(datosEspecie);
         $.ajax({
-          url: UrlEliminarCargoMM,
+          url: UrlEliminarEspecieMM,
           type: "DELETE",
-          data: datosCargo,
+          data: datosEspecie,
           datatype: "JSON",
           success: function (response) {
             Swal.fire({
               title: "Eliminado",
-              text: "Cargo eliminado Correctamente.",
+              text: "Especie eliminada Correctamente.",
               icon: "success",
               timer: 4000,
               willClose: () => {
                 location.reload();
               },
             });
-          }, 
-          error: function(textStatus, errorThrown){
-            Swal.fire({
-              title: "Lo sentimos",
-              text: "Los datos no pueden ser eliminados.",
-              icon: "warning",
-              timer: 4000,
-              willClose: () => {
-                location.reload();
-              },
-            });        
-          }
+          },
         });
       }
     });

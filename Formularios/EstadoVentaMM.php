@@ -141,7 +141,7 @@
 <script>
   function validarEntrada(input) { 
 
-  const patron = /^[A-Z a-z]+$/;
+  const patron = /^[A-Z- a-z0-9]+$/;
   const valor = input.value;
   if (!patron.test(valor)) {
     swal.fire('Error','Solo se permite ingresar letras', 'error');

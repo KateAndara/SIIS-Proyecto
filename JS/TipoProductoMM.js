@@ -232,6 +232,18 @@ function EliminarTipoProductoMM(idTipo) {
             });
           },
         });
+      }else{
+          swal.fire({
+              title: "Ateción!",
+              text: "El dato puede ser eliminado",
+              icon: "success",
+              confirmButtonText: "Aceptar",
+              closeOnConfirm: false,
+              timer: 3000,
+              willClose: () => {
+                window.location.reload();
+              },
+            });       
       }
     });
   }
