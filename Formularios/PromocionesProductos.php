@@ -36,6 +36,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.26/jspdf.plugin.autotable.min.js"></script>
 
     <script src="../Reportes/Reporte.js"></script>
+  
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 </head>
 <body>
@@ -106,12 +109,18 @@
                         <label for="Id_Promocion_Producto" hidden>ID PROMOCIÓN PRODUCTO</label>
                         <input type="number" id="Id_Promocion_Producto" class="form-control" placeholder="Ingrese el código de la promoción"hidden>
                         <label for="">SELECCIONE UN PRODUCTO</label> 
-                                <select id="Select_ProductoFinal" class="form-control">
-                                    <option value="">Seleccione un producto</option>
+                                <br>
+
+                                <select id="Select_ProductoFinal" name="Select_ProductoFinal" style="width: 100%" class="select2">
+                                    <!-- <option value="">Seleccione un producto</option> -->
+                                    
                                 </select>
                         <label for="">SELECCIONE UNA PROMOCIÓN</label> 
-                                <select id="Select_Promocion" class="form-control">
-                                    <option value="">Seleccione una promoción</option>
+                                <br>
+
+                                <select id="Select_Promocion" name="Select_Promocion" style="width: 100%" class="select2">
+                                    <!-- <option value="">Seleccione una promoción</option> -->
+                                    
                                 </select>
                         <label for="">CANTIDAD</label>
                         <input type="text" id="Cantidad" class="form-control" placeholder="Ingrese la cantidad de productos que tendrán esta promoción">
@@ -133,6 +142,9 @@
 
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
 
 </body>
 </html>
