@@ -1,4 +1,5 @@
 <?php
+session_start();
     class ProductoTerminadoFinal extends Conectar{
 
         public function get_productosTerminadosFinal(){
@@ -63,19 +64,89 @@
             $stmt_update_existencia->bindValue(2, $id_producto);
             $stmt_update_existencia->execute();
 
+            // Agregar el registro en tbl_kardex
+            $idPersona=$_SESSION['Id_Usuario'];
+            $id_tipo_movimiento = 2;
+        
+            $sql_kardex = "INSERT INTO tbl_kardex(Id_Usuario, Id_Tipo_Movimiento, Id_Producto, Cantidad, Fecha_hora)
+                            VALUES (?,?,?,?,CURRENT_TIMESTAMP());";
+            $stmt_kardex = $conectar->prepare($sql_kardex);
+            $stmt_kardex->bindValue(1, $idPersona);
+            $stmt_kardex->bindValue(2, $id_tipo_movimiento);
+            $stmt_kardex->bindValue(3, $id_producto);
+            $stmt_kardex->bindValue(4, $cantidad_producto);
+            $stmt_kardex->execute();
+
             // Eliminar el registro en tbl_producto_terminado_final
             $sql_delete_producto = "DELETE FROM tbl_producto_terminado_final WHERE Id_Producto_Terminado_Final = ?";
             $stmt_delete_producto = $conectar->prepare($sql_delete_producto);
             $stmt_delete_producto->bindvalue(1, $Id_Producto_Terminado_Final);
             $stmt_delete_producto->execute();
         
-            // Eliminar el registro en tbl_kardex correspondiente al producto eliminado
-            $sql_delete_kardex = "DELETE FROM tbl_kardex WHERE Id_Producto = ?";
-            $stmt_delete_kardex = $conectar->prepare($sql_delete_kardex);
-            $stmt_delete_kardex->bindvalue(1, $id_producto);
-            $stmt_delete_kardex->execute();
-        
             return $resultado=$stmt_delete_producto->fetchALL(PDO::FETCH_ASSOC);
         }
+
+        public function cancelarProcesoProduccion($idProceso){
+            $conexion= parent::Conexion();
+            parent::set_names();
+            $conexion->beginTransaction();
+            try {
+                
+                $sql_get_productos_terminados = "SELECT Id_Producto_Terminado_Final, Id_Producto, Cantidad FROM tbl_producto_terminado_final WHERE Id_Proceso_Produccion = ?";
+                $stmt_get_productos_terminados = $conexion->prepare($sql_get_productos_terminados);
+                $stmt_get_productos_terminados->execute([$idProceso]);
+                $productos_terminados = $stmt_get_productos_terminados->fetchAll(PDO::FETCH_ASSOC);
+
+                foreach ($productos_terminados as $producto_terminado) {
+                    // Obtener los datos del producto terminado
+                    $id_producto_terminado = $producto_terminado['Id_Producto_Terminado_Final'];
+                    $id_producto = $producto_terminado['Id_Producto'];
+                    $cantidad_producto = $producto_terminado['Cantidad'];
+                
+                    // Actualizar la existencia en tbl_inventario
+                    $sql_existencia = "SELECT Existencia FROM tbl_inventario WHERE Id_Producto = ?";
+                    $stmt_existencia = $conexion->prepare($sql_existencia);
+                    $stmt_existencia->bindValue(1, $id_producto);
+                    $stmt_existencia->execute();
+                    $existencia_actual = $stmt_existencia->fetch(PDO::FETCH_ASSOC)['Existencia'];
+                    $nueva_existencia = $existencia_actual - $cantidad_producto;
+                
+                    $sql_update_existencia = "UPDATE tbl_inventario SET Existencia = ? WHERE Id_Producto = ?";
+                    $stmt_update_existencia = $conexion->prepare($sql_update_existencia);
+                    $stmt_update_existencia->bindValue(1, $nueva_existencia);
+                    $stmt_update_existencia->bindValue(2, $id_producto);
+                    $stmt_update_existencia->execute();
+                
+                    // Agregar el registro en tbl_kardex
+                    $idPersona=$_SESSION['Id_Usuario'];
+                    $id_tipo_movimiento = 2;
+                
+                    $sql_kardex = "INSERT INTO tbl_kardex(Id_Usuario, Id_Tipo_Movimiento, Id_Producto, Cantidad, Fecha_hora)
+                                    VALUES (?,?,?,?,CURRENT_TIMESTAMP());";
+                    $stmt_kardex = $conexion->prepare($sql_kardex);
+                    $stmt_kardex->bindValue(1, $idPersona);
+                    $stmt_kardex->bindValue(2, $id_tipo_movimiento);
+                    $stmt_kardex->bindValue(3, $id_producto);
+                    $stmt_kardex->bindValue(4, $cantidad_producto);
+                    $stmt_kardex->execute();
+                }
+                
+                // Eliminar los productos terminados
+                $sql_eliminar_producto = "DELETE FROM tbl_producto_terminado_final WHERE Id_Proceso_Produccion = ?";
+                $stmt_eliminar_producto = $conexion->prepare($sql_eliminar_producto);
+                $stmt_eliminar_producto->execute([$idProceso]);
+                
+                // Actualizar el estado del proceso de producción
+                $sql_actualizar_proceso = "UPDATE tbl_proceso_produccion SET Id_Estado_Proceso = '3' WHERE Id_Proceso_Produccion = ?";
+                $stmt_actualizar_proceso = $conexion->prepare($sql_actualizar_proceso);
+                $stmt_actualizar_proceso->execute([$idProceso]);
+                
+                $conexion->commit();
+                return true;
+            } catch (PDOException $e) {
+                $conexion->rollback();
+                return false;
+            }
+        }  
     }
 ?>

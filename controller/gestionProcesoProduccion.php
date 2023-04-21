@@ -34,7 +34,7 @@ session_start();
 
                     //si permisos es igual a Permiso_actualizacion de update crea el boton
                     if($_SESSION['permisosMod']['u']){
-                        $btnEdit = '<div style="display: flex; align-items: center;">' . '<button class="rounded" style="background-color: #2D7AC0; color: white; width: 73px; margin-right: 4px;" onclick="CargarProcesoProduccion(\'' .$datos[$i]['Id_Proceso_Produccion']. '\'); mostrarDiv();">Editar</button>';
+                        $btnEdit = '<div style="display: flex; align-items: center;">' . '<button class="rounded" style="background-color: #2D7AC0; color: white; width: 73px; margin-right: 4px;" onclick="CargarProcesoProduccion(\'' .$datos[$i]['Id_Proceso_Produccion']. '\'); CargarProductosTerminadosMPEditandoProceso(\'' .$datos[$i]['Id_Proceso_Produccion']. '\');  CargarProductosTerminadosFinalEditandoProceso(\'' .$datos[$i]['Id_Proceso_Produccion']. '\'); mostrarDiv();">Editar</button>';
                     }
 
                     //si permisos es igual a Permiso_visualizacion crea el boton
@@ -74,11 +74,6 @@ session_start();
             case "UpdateProcesoProduccion":
                 $datos=$procesos->update_procesoProduccion($body["Id_Proceso_Produccion"],$body["Id_Estado_Proceso"],$body["Fecha"]);
                 echo json_encode("Proceso Actualizado");
-            break;
-            case "CancelarProcesoProduccion":
-                $idProceso=$body['idProceso'];
-                $datos=$procesos->cancelarProcesoProduccion($idProceso);
-                echo json_encode($datos);
             break;
         }
 

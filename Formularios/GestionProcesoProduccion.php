@@ -44,6 +44,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.26/jspdf.plugin.autotable.min.js"></script>
 
     <script src="../Reportes/Reporte.js"></script>
+    <link href="
+    https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
+    " rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </head>
 <body>
     <div id="consulta" class="col-md-12 cards-white" style="margin: 0 auto; width: 110%; max-width: none; margin-left: -20px;">
@@ -156,15 +161,18 @@
                         </div>
                         <div class="col-12">
                             <form class="InsertProductoTerminado">
-                                <label for="">SELECCIONE UN PRODUCTO DE MATERIA PRIMA</label> 
-                                <select id="Select_ProductoMP" class="form-control">
-                                    <option value="">Seleccione un producto</option>
+                            <label for="">SELECCIONE UN PRODUCTO</label> 
+                                <br>
+
+                                <select id="Select_ProductoMP" name="Select_ProductoMP" style="width: 100%" class="form-control js-example-basic-single">
+                                    <!-- <option value="">Seleccione un producto</option> -->
+                                    
                                 </select>
                                 <label for="">CANTIDAD</label>
                                 <input type="number" id="Cantidad" class="form-control" placeholder="Ingrese la cantidad del producto">
                                 <hr>
-                                <div id="btnagregarProductoTerminado" style="display:flex; justify-content:space-between; align-items:center;">
-                                    <input type="submit" id="btnagregarMP" onclick="AgregarProductoTerminadoMP(event)" value="Agregar" class="btn btn-success" style="margin-right:400px;">
+                                <div id="btnagregarProductoTerminadoMP" style="display:flex; justify-content:space-between; align-items:center;">
+                                    <input type="submit" id="btnagregarMP"  value="Agregar" class="btn btn-success" style="margin-right:400px;">
                                     <input type="submit" id="btnanterior" onclick="document.querySelector('.nav-tabs li:nth-child(1) a').click(); return false;" value="Anterior" class="btn btn-dark" style="margin-right:5px;">
                                     <input type="submit" id="btnsiguiente" onclick="document.querySelector('.nav-tabs li:nth-child(3) a').click(); return false;" value="Siguiente" class="btn btn-dark" style="margin-right:20px;">
                                     <button type="button" id="btnfinalizarProceso" class="btn btn-info" onclick="mostrarMensaje()" style="margin-left:auto;">Finalizar proceso</button>
@@ -186,8 +194,11 @@
                         <div class="col-12">
                             <form class="InsertProductoTerminadoFinal">
                                 <label for="">SELECCIONE UN PRODUCTO</label> 
-                                <select id="Select_ProductoFinal" class="form-control">
-                                    <option value="">Seleccione un producto</option>
+                                <br>
+
+                                <select id="Select_ProductoFinal" name="Select_ProductoFinal"  style="width: 100%" class="form-control js-example-basic-single">
+                                    <!-- <option value="">Seleccione un producto</option> -->
+                                    
                                 </select>
                                 <label for="">CANTIDAD</label>
                                 <input type="number" id="CantidadF" class="form-control" placeholder="Ingrese la cantidad del producto">
@@ -196,8 +207,8 @@
                                         <option value="">Seleccione un estado</option>
                                     </select>
                                 <hr>
-                                <div id="btnagregarProductoTerminadoFinal" style="display:flex; justify-content:space-between; align-items:center;">
-                                    <input type="submit" id="btnagregarPF" onclick="AgregarProductoTerminadoFinal(event)" value="Agregar" class="btn btn-success" style="margin-right:450px;">
+                                <div id="btnagregarProductoFinal" style="display:flex; justify-content:space-between; align-items:center;">
+                                    <input type="submit" id="btnagregarPF" value="Agregar" class="btn btn-success" style="margin-right:450px;">
                                     <input type="submit" id="btnanterior" onclick="document.querySelector('.nav-tabs li:nth-child(2) a').click(); return false;" value="Anterior" class="btn btn-dark" style="margin-right:5px;">
                                     <button type="button" id="btnfinalizarProceso" class="btn btn-info" onclick="mostrarMensaje()" style="margin-left:auto;">Finalizar proceso</button>
                                 </div>
@@ -278,5 +289,8 @@
 
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+<script src="
+https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js
+"></script>
 </body>
 </html>

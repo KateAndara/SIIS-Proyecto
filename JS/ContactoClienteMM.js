@@ -142,7 +142,9 @@ function CargarContactoClienteMM(idContacto){ //Función que trae los campos que
             'value="Actualizar contacto del cliente" class="btn btn-primary">Actualizar contacto del cliente</a> <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button></input>';
             $('#btnagregarContactoCliente').html(btnactualizar);
             $('#btncancelar').click(function(){ //Cancela la acción
-                location.href = "http://localhost/SIIS-PROYECTO/Formularios/ContactoClienteMM.php";
+              if (Id_Cliente) {
+                CargarContactoCliente(Id_Cliente);
+            }
              });
             //Cambiar el título del formulario.
             var titulo = '<div class="Col-12" id="titulo">'+

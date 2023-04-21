@@ -32,16 +32,28 @@ function AgregarProductoTerminadoMP(event){
         contentType: 'application/json',
         success: function(response){
             console.log(response);
-            alert('Producto Agregado');
-            CargarProductosTerminadosMP();
-            document.querySelector("#Select_ProductoMP").value = ""; // limpiar el valor seleccionado
-            document.querySelector("#Cantidad").value = ""; // limpiar el valor ingresado
-            document.querySelector(".InsertProductoTerminado").reset(); // resetear el formulario
-            CargarProductosTerminadosMPEditandoProceso(id_proceso_produccion);
+            Swal.fire({
+                title: 'Producto Agregado',
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Aceptar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    CargarProductosTerminadosMP();
+                    document.querySelector("#Select_ProductoMP").value = ""; // limpiar el valor seleccionado
+                    document.querySelector("#Cantidad").value = ""; // limpiar el valor ingresado
+                    document.querySelector(".InsertProductoTerminado").reset(); // resetear el formulario
+                }
+            });
         },
 
         error: function(textStatus, errorThrown){
-            alert('Error al agregar producto' + textStatus + errorThrown);
+            Swal.fire({
+                title: 'Error al agregar producto',
+                icon: 'error',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Aceptar'
+            });
         }
     });
 }
@@ -63,26 +75,39 @@ function AgregarProductoTerminadoMPEditandoProceso(event, idProceso){
         contentType: 'application/json',
         success: function(response){
             console.log(response);
-            alert('Producto Agregado');
-            CargarProductosTerminadosMP();
-            document.querySelector("#Select_ProductoMP").value = ""; // limpiar el valor seleccionado
-            document.querySelector("#Cantidad").value = ""; // limpiar el valor ingresado
-            document.querySelector(".InsertProductoTerminado").reset(); // resetear el formulario
-            CargarProductosTerminadosMPEditandoProceso(id_proceso_produccion);
+            Swal.fire({
+                title: 'Producto Agregado',
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Aceptar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    CargarProductosTerminadosMP();
+                    document.querySelector("#Select_ProductoMP").value = ""; // limpiar el valor seleccionado
+                    document.querySelector("#Cantidad").value = ""; // limpiar el valor ingresado
+                    document.querySelector(".InsertProductoTerminado").reset(); // resetear el formulario
+                    CargarProductosTerminadosMPEditandoProceso(idProceso);
+                }
+            });
         },
 
         error: function(textStatus, errorThrown){
-            alert('Error al agregar producto' + textStatus + errorThrown);
+            Swal.fire({
+                title: 'Error al agregar producto',
+                icon: 'error',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Aceptar'
+            });
         }
     });
-    
 }
+
 
 function AgregarProductoTerminadoFinal(event){
     event.preventDefault();
     var datosProductoTerminadoFinal = {
-    Id_Producto: $('#Select_ProductoFinal').val(),
-    Cantidad: $('#CantidadF').val()
+        Id_Producto: $('#Select_ProductoFinal').val(),
+        Cantidad: $('#CantidadF').val()
     };
     var datosProductoTerminadoFinalJson= JSON.stringify(datosProductoTerminadoFinal );
 
@@ -92,28 +117,41 @@ function AgregarProductoTerminadoFinal(event){
         data: datosProductoTerminadoFinalJson,
         datatype: 'JSON',
         contentType: 'application/json',
-        success: function(reponse){
-            console.log(reponse);
-            alert('Producto Agregado');
-            CargarProductosTerminadosFinal();
-            document.querySelector("#Select_ProductoFinal").value = ""; // limpiar el valor seleccionado
-            document.querySelector("#CantidadF").value = ""; // limpiar el valor ingresado
-            document.querySelector(".InsertProductoTerminadoFinal").reset(); // resetear el formulario
-            CargarProductosTerminadosFinalEditandoProceso(id_proceso_produccion);
+        success: function(response){
+            console.log(response);
+            Swal.fire({
+                title: 'Producto Agregado',
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Aceptar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    CargarProductosTerminadosFinal();
+                    document.querySelector("#Select_ProductoFinal").value = ""; // limpiar el valor seleccionado
+                    document.querySelector("#CantidadF").value = ""; // limpiar el valor ingresado
+                    document.querySelector(".InsertProductoTerminadoFinal").reset(); // resetear el formulario
+                }
+            });
         },
 
         error: function(textStatus, errorThrown){
-            alert('Error al agregar producto' + textStatus + errorThrown);
+            Swal.fire({
+                title: 'Error al agregar producto',
+                icon: 'error',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Aceptar'
+            });
         }
     });
 }
 
+
 function AgregarProductoTerminadoFinalEditandoProceso(event, idProceso){
     event.preventDefault();
     var datosProductoTerminadoFinal = {
-    Id_Producto: $('#Select_ProductoFinal').val(),
-    Cantidad: $('#CantidadF').val(),
-    Id_Proceso_Produccion: idProceso
+        Id_Producto: $('#Select_ProductoFinal').val(),
+        Cantidad: $('#CantidadF').val(),
+        Id_Proceso_Produccion: idProceso
     };
     var datosProductoTerminadoFinalJson= JSON.stringify(datosProductoTerminadoFinal );
 
@@ -123,21 +161,35 @@ function AgregarProductoTerminadoFinalEditandoProceso(event, idProceso){
         data: datosProductoTerminadoFinalJson,
         datatype: 'JSON',
         contentType: 'application/json',
-        success: function(reponse){
-            console.log(reponse);
-            alert('Producto Agregado');
-            CargarProductosTerminadosFinal();
-            document.querySelector("#Select_ProductoFinal").value = ""; // limpiar el valor seleccionado
-            document.querySelector("#CantidadF").value = ""; // limpiar el valor ingresado
-            document.querySelector(".InsertProductoTerminadoFinal").reset(); // resetear el formulario
-            CargarProductosTerminadosFinalEditandoProceso(id_proceso_produccion);
+        success: function(response){
+            console.log(response);
+            Swal.fire({
+                title: 'Producto Agregado',
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Aceptar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    CargarProductosTerminadosFinal();
+                    document.querySelector("#Select_ProductoFinal").value = ""; // limpiar el valor seleccionado
+                    document.querySelector("#CantidadF").value = ""; // limpiar el valor ingresado
+                    document.querySelector(".InsertProductoTerminadoFinal").reset(); // resetear el formulario
+                    CargarProductosTerminadosFinalEditandoProceso(idProceso);
+                }
+            });
         },
 
         error: function(textStatus, errorThrown){
-            alert('Error al agregar producto' + textStatus + errorThrown);
+            Swal.fire({
+                title: 'Error al agregar producto',
+                icon: 'error',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Aceptar'
+            });
         }
     });
 }
+
 
 let procesoAgregado = false;
 
@@ -168,7 +220,10 @@ function AgregarProcesoProduccion() {
     },
 
     error: function (textStatus, errorThrown) {
-      alert('Error al agregar proceso' + textStatus + errorThrown);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error al agregar proceso',
+          });          
     }
   });
 }
@@ -182,12 +237,23 @@ function CargarProductosMP(){
         datatype: 'JSON',
         success: function(response){
             var MisItems = response;
-            var opciones='';
+            var opciones =
+              '<option value="">' + "Seleccione Un Producto" + "</option>";
             
             for(i=0; i<MisItems.length; i++){ //Muestra Id y nombre
-                opciones += '<option value="' + MisItems[i].Id_Producto + '">' + ' ID ' + MisItems[i].Id_Producto + ' - ' + MisItems[i].Nombre + '</option>';
-            }
+                 opciones +='<option value="' +
+                  MisItems[i].Id_Producto +
+                  '">' +
+                  MisItems[i].Id_Producto +
+                  " - " +
+                  MisItems[i].Nombre +
+                  "</option>";
+                
+                
+              }
+
             $('#Select_ProductoMP').html(opciones);
+               $("#Select_ProductoMP").select2();
         }
     });
 }
@@ -199,15 +265,29 @@ function CargarProductosTerminados(){
         datatype: 'JSON',
         success: function(response){
             var MisItems = response;
-            var opciones='';
+            var opciones =
+              '<option value="">' + "Seleccione Un Producto" + "</option>";
             
             for(i=0; i<MisItems.length; i++){ //Muestra Id y nombre
-                opciones += '<option value="' + MisItems[i].Id_Producto + '">' + ' ID ' + MisItems[i].Id_Producto + ' - ' + MisItems[i].Nombre + '</option>';
-            }
+                 opciones +='<option value="' +
+                  MisItems[i].Id_Producto +
+                  '">' +
+                  MisItems[i].Id_Producto +
+                  " - " +
+                  MisItems[i].Nombre +
+                  "</option>";
+                
+                
+              }
+
             $('#Select_ProductoFinal').html(opciones);
+               $("#Select_ProductoFinal").select2();
+         
+            
         }
     });
 }
+
 
 //Función para traer los datos de otra tabla para poder ser seleccionados en una lista desplegable
 function CargarEstadosProceso(){

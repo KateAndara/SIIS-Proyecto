@@ -35,5 +35,10 @@
                 $datos=$productosTerminadosFinal->delete_productoTerminadoFinal($body["Id_Producto_Terminado_Final"]);
                 echo json_encode("Producto Eliminado");
             break;
+            case "CancelarProcesoProduccion":
+                $idProceso=$body['idProceso'];
+                $datos=$productosTerminadosFinal->cancelarProcesoProduccion($idProceso);
+                echo json_encode($datos);
+            break;
         }
 ?>  

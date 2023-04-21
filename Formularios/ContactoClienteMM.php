@@ -31,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.js"></script>
     <script src="../JS/ContactoClienteMM.js"></script>
+    <script src="../JS/Clientes.js"></script>
     <link href="../CSS/datatable.css" rel="stylesheet">
     <!-- Última versión de jspdf -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
@@ -130,23 +131,29 @@
                         <select id="Select_Contacto" class="form-control">
                             <option value="">Seleccione un tipo de contacto</option>
                         </select>
-                        <label for="">SELECCIONE UN CLIENTE</label> 
-                        <select id="Select_Cliente" class="form-control" values=() readonly>
-                            <option value="">Seleccione un cliente</option>
-                        </select>
+                        <label for="">ID del cliente:</label>
+                        <input id="Select_Cliente" type="text" class="form-control" value="<?php echo isset($_GET['id']) ? $_GET['id'] : 'null'; ?>" readonly>
+
                         <label for="">CONTACTO</label>
                         <input type="text" id="Contacto" class="form-control js-example-basic-single"  placeholder="Ingrese ingrese el número del contacto" oninput="validarEntrada(this)" >
                         <hr>
                         <div id="btnagregarContactoCliente">
                             <a id="btnagregar" onclick="AgregarContactoClienteMM()" value="Agregar Contacto Del Cliente" class="btn btn-success">Agregar Contacto Del Cliente</a>
-                            <button type="button" id="btncancelar"  class="btn btn-secondary" onclick="CargarContactoClientesMM()">Cancelar</button>
+                            <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button>
                         </div>
                     </form>
-                    <script> //Cancela la acción
+                    <script> 
+                    // Obtener el Id_Cliente de la URL
+                    var Id_Cliente = <?php echo isset($_GET['id']) ? $_GET['id'] : 'null'; ?>;
+                    
+                    // Asignar el evento onclick al botón
                     document.getElementById("btncancelar").onclick = function() {
-                        location.href = "http://localhost/SIIS-PROYECTO/Formularios/ContactoClienteMM.php?id=";
+                        if (Id_Cliente) {
+                            CargarContactoCliente(Id_Cliente);
+                        }
                     };
-                    </script>
+                </script>
+
                 </div>
             </div>
         </div>
