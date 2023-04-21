@@ -151,10 +151,10 @@
 <script>
   function validarEntrada(input) { 
 
-  const patron = /^[A-Z- a-z0-9]+$/;
+  const patron = /^[A-Z- a-z0-9.,@/+_]+$/;
   const valor = input.value;
   if (!patron.test(valor)) {
-    swal.fire('Error','Solo se permite ingresar numeros y guiones', 'error');
+    swal.fire('Error','No se permiten carateres especiales', 'error');
     input.value = input.value.slice(0, -1);
   } else {
   

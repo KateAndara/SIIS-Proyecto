@@ -159,7 +159,7 @@
 <script>
   function validarEntrada(input) { 
 
-  const patron = /^[A-Z- a-z0-9.,@/+]+$/;
+  const patron = /^[A-Z- a-z0-9.,@/+_]+$/;
   const valor = input.value;
   if (!patron.test(valor)) {
     swal.fire('Error','No se permiten carateres especiales', 'error');
