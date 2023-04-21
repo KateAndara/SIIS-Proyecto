@@ -55,14 +55,26 @@ $(document).ready(function(){
 function AgregarPromocion(event){
      // Validar que el campo Cantidad no esté vacío
      if ($('#Cantidad').val() === '') {
-        alert('El campo Cantidad no puede estar vacío');
+        Swal.fire({
+            title: 'Error',
+            text: 'El campo Cantidad no puede estar vacío',
+            icon: 'error',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Aceptar'
+        });
         event.preventDefault();
         return;
     }
 
     // Validar que el campo Cantidad solo contenga números
     if (!$.isNumeric($('#Cantidad').val())) {
-        alert('El campo Cantidad solo puede contener números');
+        Swal.fire({
+            title: 'Error',
+            text: 'El campo Cantidad solo puede contener números',
+            icon: 'error',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Aceptar'
+        });
         event.preventDefault();
         return;
     }
@@ -82,18 +94,36 @@ function AgregarPromocion(event){
         contentType: 'application/json',
         success: function(response){
             console.log(response);
-            alert('Promoción a Producto Agregada');
-            CargarPromocionesProductos();
+            Swal.fire({
+                title: 'Promoción a Producto Agregada',
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Aceptar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    CargarPromocionesProductos();
+                    document.querySelector("#Select_ProductoFinal").value = ""; // limpiar el valor seleccionado
+                    document.querySelector("#Select_Promocion").value = ""; // limpiar el valor seleccionado
+                    document.querySelector("#Cantidad").value = ""; // limpiar el valor ingresado
+                }
+            });
         },
 
         error: function(textStatus, errorThrown){
-            alert('Error al agregar promoción' + textStatus + errorThrown);
+            Swal.fire({
+                title: 'Error al agregar promoción',
+                text: textStatus + errorThrown,
+                icon: 'error',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Aceptar'
+            });
         }
     });
 }
 
 
-function CargarPromocionProducto(idPromocion){ //Función que trae los campos que se eligieron editar.
+
+function CargarPromocionProducto(idPromocion){
     var datosPromocionProducto = {
         Id_Promocion_Producto:idPromocion
     };
@@ -126,21 +156,39 @@ function CargarPromocionProducto(idPromocion){ //Función que trae los campos qu
             var titulo = '<div class="Col-12" id="titulo">'+
             '<h3>Editar Promoción del producto</h3></div>';
             $('#titulo').html(titulo); 
+
+            // Agrega la clase "select2" al select de ProductoFinal y Promocion
+            $('#Select_ProductoFinal, #Select_Promocion').addClass('select2');
+            // Inicializa los select2
+            $('.select2').select2();
         }
     });
 }
 
+
 function ActualizarPromocionProducto(idPromocionProducto){
     // Validar que el campo Cantidad no esté vacío
     if ($('#Cantidad').val() === '') {
-        alert('El campo Cantidad no puede estar vacío');
+        Swal.fire({
+            title: 'Error',
+            text: 'El campo Cantidad no puede estar vacío',
+            icon: 'error',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Aceptar'
+        });
         event.preventDefault();
         return;
     }
 
     // Validar que el campo Cantidad solo contenga números
     if (!$.isNumeric($('#Cantidad').val())) {
-        alert('El campo Cantidad solo puede contener números');
+        Swal.fire({
+            title: 'Error',
+            text: 'El campo Cantidad solo puede contener números',
+            icon: 'error',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Aceptar'
+        });
         event.preventDefault();
         return;
     }
@@ -165,48 +213,88 @@ function ActualizarPromocionProducto(idPromocionProducto){
         contentType: 'application/json',
         success: function(reponse){
             console.log(reponse);
-            alert('Promoción Actualizada');
-            CargarPromocionesProductos();
+            Swal.fire({
+                title: 'Promoción Actualizada',
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Aceptar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    CargarPromocionesProductos();
+                    document.querySelector("#Select_ProductoFinal").value = ""; // limpiar el valor seleccionado
+                    document.querySelector("#Select_Promocion").value = ""; // limpiar el valor seleccionado
+                    document.querySelector("#Cantidad").value = ""; // limpiar el valor ingresado
+                }
+            });
         },
 
         error: function(textStatus, errorThrown){
-            alert('Error al actualizar promoción' + textStatus + errorThrown);
+            Swal.fire({
+                title: 'Error',
+                text: 'Error al actualizar promoción' + textStatus + errorThrown,
+                icon: 'error',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Aceptar'
+            });
         }
     });
-    
 }
+
 
 function EliminarPromocionProducto(idPromocionProducto){
-    var confirmacion = confirm("¿Está seguro de que desea eliminar esta promoción?");
+    Swal.fire({
+        title: '¿Está seguro de que desea eliminar esta promoción?',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            var datosPromocionProducto={
+                Id_Promocion_Producto:idPromocionProducto
+            };
+            var datosPromocionProductoJson= JSON.stringify(datosPromocionProducto);
 
-    if (confirmacion == true) {
-        var datosPromocionProducto={
-            Id_Promocion_Producto:idPromocionProducto
-        };
-
-        var datosPromocionProductoJson= JSON.stringify(datosPromocionProducto);
-
-        $.ajax({
-            url: UrlEliminarPromocionProducto,
-            type: 'DELETE',
-            data: datosPromocionProductoJson,
-            datatype: 'JSON',
-            contentType: 'application/json',
-            success: function(reponse){
-                console.log(reponse);
-                alert('Promoción Eliminada');
-                CargarPromocionesProductos(); 
-            },
-
-            error: function(textStatus, errorThrown){
-                alert('Error al eliminar Promoción' + textStatus + errorThrown);
-            }
-        });
-
-    } else {
-        alert("La eliminación de la promoción ha sido cancelada.");
-    }
+            $.ajax({
+                url: UrlEliminarPromocionProducto,
+                type: 'DELETE',
+                data: datosPromocionProductoJson,
+                datatype: 'JSON',
+                contentType: 'application/json',
+                success: function(reponse){
+                    console.log(reponse);
+                    Swal.fire({
+                        title: 'Promoción Eliminada',
+                        icon: 'success',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Aceptar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            CargarPromocionesProductos();
+                        }
+                    });
+                },
+                error: function(textStatus, errorThrown){
+                    Swal.fire({
+                        title: 'Error al eliminar promoción',
+                        icon: 'error',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Aceptar'
+                    });
+                }
+            });
+        } else {
+            Swal.fire({
+                title: 'La eliminación de la promoción ha sido cancelada.',
+                icon: 'info',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Aceptar'
+            });
+        }
+    });
 }
+
 
 function CargarProductosTerminados(){
     $.ajax({
@@ -215,12 +303,25 @@ function CargarProductosTerminados(){
         datatype: 'JSON',
         success: function(response){
             var MisItems = response;
-            var opciones='';
+            var opciones =
+              '<option value="">' + "Seleccione Un Producto" + "</option>";
             
             for(i=0; i<MisItems.length; i++){ //Muestra Id y nombre
-                opciones += '<option value="' + MisItems[i].Id_Producto + '">' + ' ID ' + MisItems[i].Id_Producto + ' - ' + MisItems[i].Nombre + '</option>';
-            }
+                 opciones +='<option value="' +
+                  MisItems[i].Id_Producto +
+                  '">' +
+                  MisItems[i].Id_Producto +
+                  " - " +
+                  MisItems[i].Nombre +
+                  "</option>";
+                
+                
+              }
+
             $('#Select_ProductoFinal').html(opciones);
+               $("#Select_ProductoFinal").select2();
+         
+            
         }
     });
 }
@@ -232,12 +333,25 @@ function CargarPromociones(){
         datatype: 'JSON',
         success: function(response){
             var MisItems = response;
-            var opciones='';
+            var opciones =
+              '<option value="">' + "Seleccione una promoción" + "</option>";
             
             for(i=0; i<MisItems.length; i++){ //Muestra Id y nombre
-                opciones += '<option value="' + MisItems[i].Id_Promocion + '">' + ' ID ' + MisItems[i].Id_Promocion + ' - Promoción: ' + MisItems[i].Nombre_Promocion +  ' - Precio: ' + MisItems[i].Precio_Venta +'</option>';
-            }
+                 opciones +='<option value="' +
+                  MisItems[i].Id_Promocion +
+                  '">' +
+                  MisItems[i].Id_Promocion +
+                  " - " +
+                  MisItems[i].Nombre_Promocion +
+                  "</option>";
+                
+                
+              }
+
             $('#Select_Promocion').html(opciones);
+               $("#Select_Promocion").select2();
+         
+            
         }
     });
 }
