@@ -93,6 +93,7 @@ session_start();
                 $datos=$contactosProveedoresMM->get_Proveedores();
                 echo json_encode($datos);
             break;
+            
         }
 
 ?>   

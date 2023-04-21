@@ -4,6 +4,7 @@ var UrlInsertarProveedor = 'http://localhost/SIIS-PROYECTO/controller/proveedore
 var UrlActualizarProveedor = 'http://localhost/SIIS-PROYECTO/controller/proveedores.php?opc=UpdateProveedor'; // Editar
 var UrlEliminarProveedor = 'http://localhost/SIIS-PROYECTO/controller/proveedores.php?opc=DeleteProveedor'; // Eliminar
 var UrlProveedoreditar = 'http://localhost/SIIS-PROYECTO/controller/proveedores.php?opc=GetProveedoreditar'; // Traer el dato a editar
+var UrlContactoProveedor = 'http://localhost/SIIS-PROYECTO/Formularios/ContactoProveedor.php?id='; //me lleva al formulario contacto proveedor
 
 $(document).ready(function(){
    CargarProveedores();
@@ -32,6 +33,17 @@ function CargarProveedores(){
                        { data: 'Nombre' },
                        { data: 'RTN' },
                        { data: "options" },
+
+                       {
+                        data: null,
+                        render: function (data, type, row) {
+                          return (
+                            '<button class="rounded" style="background-color: #008000; color: white; display: inline-block; width: 90px;" onclick="CargarContactoProveedor(\'' +
+                            row.Id_Proveedor +
+                            "');\">Contacto</button>"
+                          );
+                        },
+                      },
                        /* { 
                                data: null, 
                                render: function ( data, type, row ) {
@@ -79,6 +91,12 @@ function BuscarProveedor(NombreProveedor){
         }
     });
 }*/
+
+function CargarContactoProveedor(Id_Proveedor) {
+    window.location.href = UrlContactoProveedor + Id_Proveedor;
+}
+  
+
 function AgregarProveedor() {
     var Nombre = $('#Nombre').val();
     var RTN = $('#RTN').val();
@@ -101,22 +119,38 @@ function AgregarProveedor() {
     var datosProveedorJson = JSON.stringify(datosProveedor);
 
     $.ajax({
-        url: UrlInsertarProveedor,
+        url:UrlInsertarProveedor,
         type: 'POST',
         data: datosProveedorJson,
         datatype: 'JSON',
         contentType: 'application/json',
-        success: function (reponse) {
-            console.log(reponse);
-            alert('Proveedor agregado correctamente.');
-            CargarTablaProveedores();
+        success: function(reponse){
+            console.log(reponse.status);
+              swal.fire({
+                title: "LISTO!",
+                text: reponse.msg,
+                icon: "success",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                timer: 3000,
+                willClose: () => {
+                  window.location.reload();
+                },
+              });
         },
-        error: function (textStatus, errorThrown) {
-            alert('Error al agregar el proveedor: ' + textStatus + ' ' + errorThrown);
-        }
-    });
 
-    return false;
+        error: function(textStatus, errorThrown){
+            swal.fire({
+                title: "Error!",
+                text: "Error al guardar el proveedor",
+                icon: "error",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                timer: 4000,
+               
+              });
+        },
+    });
 }
 
 function CargarProveedor(idProveedor){ //Función que trae los campos que se eligieron editar.
@@ -161,8 +195,8 @@ function ActualizarProveedor(idProveedor){
     
     // Validar campos vacíos
     if (nombre.trim() === '' || rtn.trim() === '') {
-        alert('Por favor completa todos los campos');
-        return;
+        swal.fire("Atención", "Todos los campos son obligatorios.", "error");
+        return false;
     }
     
     // Validar solo letras y espacios
@@ -186,46 +220,82 @@ function ActualizarProveedor(idProveedor){
         datatype: 'JSON',
         contentType: 'application/json',
         success: function(reponse){
-            console.log(reponse);
-            alert('Proveedor Actualizado');
+                swal.fire({
+                  title: "LISTO!",
+                  text: reponse.msg,
+                  icon: "success",
+                  confirmButtonText: "Aceptar",
+                  closeOnConfirm: false,
+                  timer: 3000,
+                  willClose: () => {
+                    window.location.reload();
+                  },
+                });
+              
         },
 
         error: function(textStatus, errorThrown){
-            alert('Error al actualizar proveedor' + textStatus + errorThrown);
-        }
+            swal.fire({
+                title: "Error!",
+                text: reponse,
+                icon: "success",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                timer: 3000,
+                willClose: () => {
+                  window.location.reload();
+                },
+              });       
+             },
     });
-    alert('Aviso');
 }
 
 
-function EliminarProveedor(idProveedor){
-    var confirmacion = confirm("¿Está seguro de que desea eliminar el proveedor?");
-
-    if (confirmacion == true) {
-        var datosProveedor={
-            Id_Proveedor:idProveedor
+function EliminarProveedor(idProveedor) {
+    Swal.fire({
+      title: "¿Eliminar proveedor?",
+      text: "Estas Seguro que quieres Eliminar el proveedor, esta acción es irreversible",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, Eliminar!",
+    }).then((result) => { 
+      if (result.isConfirmed) {
+        var datosProveedor = {
+            Id_Proveedor: idProveedor,
         };
-
-        var datosProveedorJson= JSON.stringify(datosProveedor);
-
+        var datosProveedor = JSON.stringify(datosProveedor);
         $.ajax({
-            url: UrlEliminarProveedor,
-            type: 'DELETE',
-            data: datosProveedorJson,
-            datatype: 'JSON',
-            contentType: 'application/json',
-            success: function(reponse){
-                console.log(reponse);
-                alert('Proveedor Eliminado');
-                CargarProveedores(); 
-            },
-
-            error: function(textStatus, errorThrown){
-                alert('Error al eliminar Proveedor' + textStatus + errorThrown);
-            }
+          url: UrlEliminarProveedor,
+          type: "DELETE",
+          data: datosProveedor,
+          datatype: "JSON",
+          success: function (response) {
+            Swal.fire({
+              title: "Eliminado",
+              text: "Proveedor eliminado Correctamente.",
+              icon: "success",
+              timer: 4000,
+              willClose: () => {
+                location.reload();
+              },
+            });
+          },
+          error: function(textStatus, errorThrown){
+            Swal.fire({
+              title: "Lo sentimos",
+              text: "Los datos no pueden ser eliminados.",
+              icon: "warning",
+              timer: 4000,
+              willClose: () => {
+                location.reload();
+              },
+            });        
+          }
+  
         });
+      }
 
-    } else {
-        alert("La eliminación del proveedor ha sido cancelada.");
-    }
-}
+    });
+  }

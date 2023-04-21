@@ -21,6 +21,7 @@
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
      <!-- Agregar jQuery -->
      <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
@@ -36,6 +37,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.26/jspdf.plugin.autotable.min.js"></script>
 
     <script src="../Reportes/Reporte.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
 
 </head>
 <body>
@@ -113,7 +115,7 @@
                         <label for="">NOMBRE</label>
                         <input type="text" id="Nombre" class="form-control" placeholder="Ingrese el nombre del proveedor">
                         <label for="">RTN</label>
-                        <input type="text" id="RTN" class="form-control" placeholder="Ingrese el RTN del proveedor">
+                        <input type="text" id="RTN" class="form-control" placeholder="Ingrese el RTN del proveedor" oninput="validarEntrada2(this)">
                         <hr>
                         <div id="btnagregarProveedor">
                             <input type="submit" id="btnagregar" onclick="AgregarProveedor()" value="Agregar Proveedor" class="btn btn-success">
@@ -132,6 +134,26 @@
 
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+
+<script>
+
+function validarEntrada2(input) { 
+
+const patron = /^[0-9 -]+$/;
+const valor = input.value;
+if (!patron.test(valor)) {
+  swal.fire('Error','Solo se permite ingresar numeros y guiones', 'error');
+  input.value = input.value.slice(0, -1);
+} else {
+
+}
+
+} 
+
+</script>
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
 
 </body>
 </html>

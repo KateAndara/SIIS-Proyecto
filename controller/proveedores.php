@@ -35,7 +35,7 @@ session_start();
 
                     //si permisos es igual a Permiso_actualizacion de update crea el boton
                     if($_SESSION['permisosMod']['u']){
-                        $btnEdit = '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargaProveedor(\'' .$datos[$i]['Id_Proveedor'].'\'); mostrarFormulario();">Editar</button>';
+                        $btnEdit = '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarProveedor(\'' .$datos[$i]['Id_Proveedor'].'\'); mostrarFormulario();">Editar</button>';
                     }
                         //si permisos es igual a Permiso_eliminacion de delete crea el boton
 
@@ -47,6 +47,7 @@ session_start();
                     //unimos los botontes
                     $datos[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
 
+
                 }
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($proveedores->get_user($varsesion));
@@ -56,7 +57,12 @@ session_start();
             case "GetProveedor": //Buscar por cualquier campo 
                 $busqueda = isset($body["Nombre"]) ? $body["Nombre"] : (isset($body["Id_Proveedor"]) ? $body["Id_Proveedor"] : '');
             
-                $datos = $proveedores->get_proveedor($busqueda);
+                 // Verificar si la búsqueda es un número o una cadena
+                 if (is_numeric($busqueda)) {
+                    $datos = $proveedores->get_proveedor($busqueda, "Id_Proveedor");
+                } else {
+                    $datos = $proveedores->get_proveedor($busqueda, "Nombre");
+                }
             
                 echo json_encode($datos);
             break;
