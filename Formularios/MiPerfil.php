@@ -125,28 +125,6 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                     <td id="celCargo">Larry</td>
                     </tr> 
                     <tr>
-                    <td>Fecha Creación:</td>
-                    <td id="celFCreacion">Larry</td>
-                    </tr> 
-                    <tr>
-                    <td>Creado Por:</td>
-                    <td id="celCreado">Larry</td>
-                    </tr>
-                    <tr>
-                    <td>Fecha Modificación:</td>
-                    <td id="celFModificación">Larry</td>
-                    </tr>
-                    <tr>
-                    <td>Modificado Por::</td>
-                    <td id="celModificado">Larry</td>
-                    </tr>
-                    <tr>
-                    <td>Fecha Vencimiento:</td>
-                    <td id="celFVencimiento">Larry</td>
-                    </tr>
-                    <tr>
-                    <td>Ultima Conexión:</td>
-                    <td id="celConexion">Larry</td>
                     </tr>
                 </tbody>
                 </table>
@@ -180,7 +158,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
 
                           <div class="col-6">
                             <label for="">NOMBRE</label>
-                            <input type="text" id="nombre" name="Nombre" class="form-control valid validText" placeholder="Ingrese el Nombre">
+                            <input type="text" id="nombre" onkeyup="javascript:this.value=this.value.toUpperCase();" name="Nombre" class="form-control valid validText" placeholder="Ingrese el Nombre">
                           </div>
                       </div>
 
@@ -194,6 +172,19 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                           <div class="col-6">
                             <label for="">Correo Electronico</label>
                             <input type="text" id="correo" name="correo" class="form-control valid validEmail" placeholder="Ingrese el Correo Electronico">
+                          </div>
+                      </div>
+
+                      <div class="col-12 mt-2 row">
+                          <div class="col-6">
+                             
+                          <!--<label for="">Contraseña</label>-->
+                            <input type="password" name="contraseña " id="contraseña" class="form-control valid ValidContra" placeholder="Ingrese la contraseña "hidden>
+                          </div>
+
+                         <div class="col-6">
+                             <!--<label for="">Confirmar Contraseña</label>-->
+                            <input type="password" id="confirmContraseña" name="confirmContraseña" class="form-control valid ValidContra" placeholder="Ingrese la confirmación de la contraseña" hidden>
                           </div>
                       </div>
 
