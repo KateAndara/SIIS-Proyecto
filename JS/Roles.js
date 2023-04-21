@@ -66,7 +66,8 @@ function CargarPermiso(idRol) {
       success: function (reponse) {
 
             var MisItems = reponse;
-
+            console.log(MisItems);
+            document.querySelector("#tituloPermisos").innerHTML="Permisos - "+MisItems.nombreRol;
    
         document.querySelector("#getPermisos").innerHTML = MisItems.htmlPermisos;
       },
@@ -106,6 +107,18 @@ function gurdarPermisos() {
     }
 }
 
+function generarPDF() {
+   idRol= document.querySelector("#idrol").value
+  // Crear la URL del PDF
+  var urlPDF =
+    "http://localhost/SIIS-PROYECTO/Reportes/reportePermisos.php?rol="+idRol;
+
+  // Abrir el PDF en una nueva ventana del navegador
+  window.open(urlPDF, "_blank");
+
+  // Redirigir al usuario después de cerrar el PDF
+  window.location.href = "../Formularios/Roles.php";
+}
 
 /*
 function BuscarRol(NombreRol){
@@ -261,9 +274,16 @@ function ActualizarRol(idRol){
 
 
 function EliminarRol(idRol){
-    var confirmacion = confirm("¿Está seguro de que desea eliminar el rol?");
-
-    if (confirmacion == true) {
+    Swal.fire({
+        title: "¿Desea eliminar el Rol?",
+        text: "Estas Seguro que quieres Eliminar el Rol, esta acción es irreversible",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si, Eliminar!",
+      }).then((result) => {
+        if (result.isConfirmed) {
         var datosRol={
             Id_Rol:idRol
         };
@@ -276,18 +296,28 @@ function EliminarRol(idRol){
             data: datosRolJson,
             datatype: 'JSON',
             contentType: 'application/json',
-            success: function(reponse){
-                console.log(reponse);
-                alert('Rol Eliminado');
-                CargarRoles(); 
-            },
-
-            error: function(textStatus, errorThrown){
-                alert('Error al eliminar Rol' + textStatus + errorThrown);
+            success: function (response) {
+                //Swal.fire("Cancelada!", "Compra Cancelada Correctamente.", "success");
+                Swal.fire({
+                  title: "Cancelada",
+                  text: "Rol Eliminado Correctamente",
+                  icon: "success",
+                  timer: 3000,
+                  willClose: () => {
+                    location.reload();
+                  },
+                });
+              },
+              error: function(textStatus, errorThrown){
+                Swal.fire({
+                    title: 'Este Rol no puede ser eliminado',
+                    icon: 'error',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Aceptar'
+                });
             }
+            });
+          }
         });
-
-    } else {
-        alert("La eliminación del rol ha sido cancelada.");
-    }
-}
+     }
+     

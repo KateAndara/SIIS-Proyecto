@@ -120,7 +120,8 @@ session_start();
 				$arrPermisosRol = $roles->selectPermisosRol($id_Rol);
 				
                 $rol=$roles->selectRol($id_Rol);
-
+          
+                $nombreRol=$rol[0]['Rol'];
              
                 //$arrRol = $this->model->getRol($rolid);
                 $arrPermisos = array('r' => 0, 'w' => 0, 'u' => 0, 'd' => 0);
@@ -153,7 +154,7 @@ session_start();
                     $htmlPermisos = getFile('../Formularios/EditarPermisos',$arrPermisoRol);
                  
                     
-                    $arrResponse = array("status" => true, "msg" => 'Producto agregado',"htmlPermisos"=>$htmlPermisos);
+                    $arrResponse = array("status" => true, "msg" => 'Producto agregado',"htmlPermisos"=>$htmlPermisos,"nombreRol"=>$nombreRol);
                     echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
                 
                 //echo json_encode("Rol Eliminado");

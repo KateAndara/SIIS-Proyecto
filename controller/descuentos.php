@@ -24,7 +24,7 @@ session_start();
             case "GetDescuentos":
                 $datos=$descuentos->get_descuentos();
                
-             /*
+             
 
                  //ciclo for para insertar los botontes en cada opción
                  for ($i=0; $i < count($datos); $i++) { 
@@ -51,7 +51,7 @@ session_start();
                     $datos[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
 
                 }
-*/
+
               
                 echo json_encode($datos);
             break;

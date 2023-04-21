@@ -4,14 +4,45 @@
         public function get_ventas(){              
             $conexion= parent::Conexion();
             parent::set_names();
-            $sql="SELECT a.Id_Venta, b.Nombre, c.Usuario, d.Nombre_estado, a.Subtotal,
-                  a.Impuesto, a.Total, a.Fecha, a.RTN, a.Numero_factura FROM  tbl_ventas a, tbl_clientes b, tbl_ms_usuarios c,
-                  tbl_estado_venta d, tbl_ventas_descuento e  WHERE a.Id_Cliente=b.Id_Cliente and a.Id_Usuario=c.Id_Usuario
-                  and a.Id_Estado_Venta = d.Id_Estado_Venta";          
+            $sql="SELECT v.*,c.Nombre,e.Nombre_estado,u.Usuario from tbl_ventas v 
+            INNER JOIN tbl_clientes c on v.Id_Cliente=c.Id_Cliente
+            INNER JOIN tbl_estado_venta e on e.Id_Estado_Venta=v.Id_Estado_Venta
+            INNER JOIN tbl_ms_usuarios u on u.Id_Usuario=v.Id_Usuario order by v.Id_Venta desc";          
             $sql= $conexion->prepare($sql);
             $sql->execute();
             return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
         }
+        public function get_venta($idVenta){              
+            $conexion= parent::Conexion();
+            parent::set_names();
+            $sql="SELECT v.*,c.Nombre,e.Nombre_estado,u.Usuario from tbl_ventas v 
+            INNER JOIN tbl_clientes c on v.Id_Cliente=c.Id_Cliente
+            INNER JOIN tbl_estado_venta e on e.Id_Estado_Venta=v.Id_Estado_Venta
+            INNER JOIN tbl_ms_usuarios u on u.Id_Usuario=v.Id_Usuario where v.Id_Venta=$idVenta order by v.Id_Venta desc";          
+            $sql= $conexion->prepare($sql);
+            $sql->execute();
+            return $resultado=$sql->fetch(PDO::FETCH_ASSOC);
+        }
+
+        public function get_detalle($idVenta){              
+            $conexion= parent::Conexion();
+            parent::set_names();
+            $sql="SELECT dv.*,p.Nombre from tbl_detalle_de_venta dv
+            INNER JOIN tbl_productos p on p.Id_Producto=dv.Id_Producto where dv.Id_Venta=$idVenta";          
+            $sql= $conexion->prepare($sql);
+            $sql->execute();
+            return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
+        } 
+        public function get_descuentoVenta($idVenta){              
+            $conexion= parent::Conexion();
+            parent::set_names();
+            $sql="SELECT vd.*,d.Nombre_descuento,d.Porcentaje_a_descontar FROM `tbl_ventas_descuento` vd 
+            INNER JOIN tbl_descuentos d on d.Id_Descuento=vd.Id_Descuento where vd.Id_Venta=$idVenta";          
+            $sql= $conexion->prepare($sql);
+            $sql->execute();
+            return $resultado=$sql->fetch(PDO::FETCH_ASSOC);
+        }
+        
         
         //Si se necesita traer datos de otra tabla para seleccionarlos como entrada
         public function get_productos(){    
@@ -61,6 +92,17 @@
 
             $sql->execute();
             return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
+        }
+        public function get_promocion($idProducto,$idDescuento){    
+            $conexion= parent::Conexion();
+            parent::set_names();
+            $sql="SELECT p.*,pp.* FROM `tbl_promociones` p INNER JOIN tbl_promocion_producto pp on pp.Id_Promocion=p.Id_Promocion where pp.Id_Producto=? && pp.Id_Promocion_Producto =? ";          
+            $sql= $conexion->prepare($sql);
+            $sql->bindValue(1, $idProducto);
+            $sql->bindValue(2, $idDescuento);
+
+            $sql->execute();
+            return $resultado=$sql->fetch(PDO::FETCH_ASSOC);
         }
         
         public function get_descuentos(){    

@@ -46,9 +46,9 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
             <li class="nav-item">
                 <a class="nav-link" id="nav2"  data-toggle="tab" href="#pestaña2" style="color:black">Detalle de venta</a>
             </li>
-           <!--  <li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link" id="nav3" data-toggle="tab" href="#pestaña3" style="color:black">Promociones del Producto</a>
-            </li> -->
+            </li>
             <li class="nav-item">
                 <a class="nav-link" id="nav4" data-toggle="tab" href="#pestaña4" style="color:black">Descuentos</a>
             </li>
@@ -115,10 +115,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                                 <input type="number" id="Precio" readonly  name="Precio"  class="form-control" placeholder="Ingrese ingrese el precio por libra">
                                 <label for="">CANTIDAD</label>
                                 <input type="number" id="Cantidad" name="Cantidad" class="form-control" placeholder="Ingrese ingrese la cantidad del producto">
-                                <label for="">SELECCIONE UNA PROMOCION</label> 
                            
-
-                                <select id="select_Promocion" name="select_Promocion" onchange="changePromocion()" style="width: 100%" class="form-control js-example-basic-single">
                                     <!-- <option value="">Seleccione un producto</option> -->
                                     
                                 </select>
@@ -209,8 +206,8 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                     </div>
                 </div>
             </div>
-            <!-- <div id="pestaña3" class="tab-pane fade">
-                <!-- Aquí va el contenido de la tercera pestaña 
+            <div id="pestaña3" class="tab-pane fade">
+               
                 <div class="Formulario">
                     <div class="row">
                         <div class="Col-12" id="titulo">
@@ -219,26 +216,35 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                             </h3>
                         </div>
                         <div class="col-12">
-                            <form class="Insertpromociones">
-                                <label for="">SELECCIONE UNA PROMOCION</label> 
-                                <select id="Select_Promocion"  name="Select_Promocion" class="form-control">
-                                    <option value="">Seleccione una promocion</option>
+                        <div class="card-body table-responsive mt-4" id="tableVenta">
+                                <table  class="table table-hover text-nowrap">
+                                    <thead class="thead-dark">
+                                       
+                                        <tr>
+                                            <th style="width: 100px">Código</th>
+                                            <th style="width: 400px">Nombre</th>
+                                            <th style="width: 100px">Cantidad</th>
+                                            <th style="width: 100px">Precio</th>
+                                            <th style="width: 100px">Total</th>
+                                           
+                                            <th style="text-align-last:center">Promoción</th>
 
-                                </select>
-                                <label for=""><P>Nuevo Precio de Venta</P></label>
-                                <input type="number" id="PrecioV" name="PrecioV" class="form-control" placeholder="Precio...">
-                                <hr>
-                                <div id="btnagregarPromocion">
-                                    <input type="submit" id="btnagregarPromocion" onclick="" value="Agregar" class="btn btn-info">
-                                    <input type="button" id="btnAtras" onclick="atras2()" value="Atras" class="btn btn-warning mr-2">
-                                    <input type="button" id="btnAvanzar" onclick="siguiente3()" value="Siguiente" class="btn btn-success">
-                                </div>
-                                
-                            </form>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tablaVenta2">
+                                    <?=  getModal("tablaPromociones",$data)  ?>
+                                    </tbody>
+                                    <tfoot class="thead-dark font-weight-bold" style="background-color: darkseagreen;" id="detalle_totales2">
+                                <?=  getModal("tablaTotales",$data)  ?>
+                                </tfoot>
+                            
+                                    
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div> -->
+            </div>
             <div id="pestaña4" class="tab-pane fade">
                 <!-- Aquí va el contenido de la cuarta pestaña -->
                 <div class="Formulario">
