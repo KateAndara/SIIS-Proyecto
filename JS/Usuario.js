@@ -471,7 +471,7 @@ function CargarUsuarioPerfil(idUsuario) {
       console.log(MisItems.Nombre);
       $("#Id_Usuario").val(MisItems.Id_Usuario);
 
-      $("#usuario").val(MisItems.Usuario);
+      $("#usuario").val(MisItems.Usuario).prop('readonly', true).prop('disabled', true);
       $("#nombre").val(MisItems.Nombre);
       $("#DNI").val(MisItems.DNI);
       $("#correo").val(MisItems.Correo_Electronico);
@@ -479,7 +479,7 @@ function CargarUsuarioPerfil(idUsuario) {
       $("#cargoSelect").val(MisItems.Id_Cargo).prop('readonly', true).prop('disabled', true);
       $("#selecEstado").val(MisItems.Estado).prop('readonly', true).prop('disabled', true);
 
-      $("#fechaVencimiento").val(MisItems.Fecha_vencimiento);
+      //$("#fechaVencimiento").val(MisItems.Fecha_vencimiento);
 
 
       //Usar el mismo botón de agregar con la funcionalidad de actualizar.
