@@ -200,19 +200,6 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                       <div class="col-12 mt-2 row">
                           <div class="col-6">
                              
-                            <label for="">Contraseña</label>
-                            <input type="password" name="contraseña " id="contraseña" class="form-control valid ValidContra" placeholder="Ingrese la contraseña ">
-                          </div>
-
-                          <div class="col-6">
-                            <label for="">Confirmar Contraseña</label>
-                            <input type="password" id="confirmContraseña" name="confirmContraseña" class="form-control valid ValidContra" placeholder="Ingrese la confirmación de la contraseña ">
-                          </div>
-                      </div>
-
-                      <div class="col-12 mt-2 row">
-                          <div class="col-6">
-                             
                             <label for="">Rol</label>
                             <select name="rolSelect" id="rolSelect" class="form-select"></select>
                           </div>

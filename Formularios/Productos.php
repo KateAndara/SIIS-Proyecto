@@ -125,9 +125,9 @@
                             <option value="">Seleccione un tipo producto</option>
                         </select>                                                               
                         <label for="">NOMBRE</label>
-                        <input type="text" id="Nombre" class="form-control" placeholder="Ingrese el nombre del producto">
+                        <input type="text" id="Nombre" class="form-control" placeholder="Ingrese el nombre del producto" onkeyup="this.value=this.value.toUpperCase()">
                         <label for="">UNIDAD MEDIDA</label>
-                        <input type="text" id="Unidad_medida" class="form-control" placeholder="Ingrese unidad medida del producto">
+                        <input type="text" id="Unidad_medida" class="form-control" placeholder="Ingrese unidad medida del producto" onkeyup="this.value=this.value.toUpperCase()">
                         <label for="">PRECIO</label>
                         <input type="number" id="Precio" class="form-control" placeholder="Ingrese el precio del producto" step="0.01">
                         <label for="">CANTIDAD MAXIMA </label>

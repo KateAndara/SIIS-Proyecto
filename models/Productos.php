@@ -85,6 +85,14 @@
             $sql->bindValue(5, $Cantidad_maxima);
             $sql->bindValue(6, $Cantidad_minima);
             $resultado = $sql->execute();
+            $idProducto=$conectar->lastInsertId();
+
+            $sql="INSERT INTO `tbl_inventario` (`Id_Producto`, `Existencia`) VALUES (?,?);";
+            $sql=$conectar->prepare($sql);            
+            $sql->bindValue(1, $idProducto);
+            $sql->bindValue(2, 0);
+            $resultado = $sql->execute();
+
             return $resultado;
         }
 

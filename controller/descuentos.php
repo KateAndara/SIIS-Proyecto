@@ -24,7 +24,7 @@ session_start();
             case "GetDescuentos":
                 $datos=$descuentos->get_descuentos();
                
-             
+             /*
 
                  //ciclo for para insertar los botontes en cada opción
                  for ($i=0; $i < count($datos); $i++) { 
@@ -51,20 +51,12 @@ session_start();
                     $datos[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
 
                 }
-
+*/
               
                 echo json_encode($datos);
             break;
             case "GetDescuento":  //Busca los datos por nombre y id
-                $busqueda = isset($body["Nombre_descuento"]) ? $body["Nombre_descuento"] : $body["Id_Descuento"];
-                
-                // Verificar si la búsqueda es un número o una cadena
-                if (is_numeric($busqueda)) {
-                    $datos = $descuentos->get_descuento($busqueda, "Id_Descuento");
-                } else {
-                    $datos = $descuentos->get_descuento($busqueda, "Nombre_descuento");
-                }
-            
+                $busqueda = isset($body["Nombre_descuento"]) ? $body["Nombre_descuento"] : $body["Id_Descuento"];                           
                 echo json_encode($datos);
             break;
             case "GetDescuentoeditar": //Trae la fila que se va a editar

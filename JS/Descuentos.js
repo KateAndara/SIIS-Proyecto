@@ -31,14 +31,13 @@ function CargarDescuentos(){
                 { data: "Id_Descuento" },
                 { data: "Nombre_descuento" },
                 { data: "Porcentaje" },
-                { data: "options" },
-                /* { 
+                { 
                         data: null, 
                         render: function ( data, type, row ) {
                           return '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarDescuento(\'' + row.Id_Descuento + '\'); mostrarFormulario();">Editar</button>' +
                                  '<button class="rounded" style="background-color: #FF0000; color: white; display: inline-block; width: 67px;" onclick="EliminarDescuento(\'' + row.Id_Descuento + '\')">Eliminar</button>';
-                        }
-                      } */
+                        }                        
+                      } 
               ],
             });
         }
@@ -82,10 +81,10 @@ function BuscarDescuentos(Nombredescuento){
 
 function AgregarDescuento(){
     var datosDescuento = {
-    Nombre_descuento: $('#Nombre_Descuento').val(),
+    Nombre_descuento: $('#Nombre_descuento').val(),
     Porcentaje_a_descontar: $('#Porcentaje_a_descontar').val()
     };
-    var datosDescuentoJson= JSON.stringify(datosDescuento );
+    var datosDescuentoJson= JSON.stringify(datosDescuento);
 
     $.ajax({
         url:UrlInsertarDescuentos,
@@ -129,8 +128,11 @@ function CargarDescuento(IdDescuento){ //Función que trae los campos que se eli
             
             //Usar el mismo botón de agregar con la funcionalidad de actualizar.
             var btnactualizar = '<input type="submit" id="btn_actualizar" onclick="ActualizarDescuento(' +MisItems[0].Id_Descuento+')"'+
-            'value="Actualizar Descuento" class="btn btn-primary"></input>';
+            'value="Actualizar Descuento" class="btn btn-primary"> <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button></input>';
             $('#btnagregarDescuento').html(btnactualizar);
+            $('#btncancelar').click(function(){ //Cancela la acción
+                location.href = "http://localhost/SIIS-PROYECTO/Formularios/Descuentos.php";
+             });
             //Cambiar el título del formulario.
             var titulo = '<div class="Col-12" id="titulo">'+
             '<h3>Editar Descuento</h3></div>';

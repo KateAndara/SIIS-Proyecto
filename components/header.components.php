@@ -105,7 +105,7 @@
                                             <?php } 
                                                 if (!empty($_SESSION['permisos'][MDESCUENTOS]['r']) ) {
                                             ?>
-                                            <a href="../Formularios/DescuentosVentas.php" class="dropdown-item">Descuentos</a>
+                                            <a href="../Formularios/Descuentos.php" class="dropdown-item">Descuentos</a>
                                             <?php } 
                                                 if (!empty($_SESSION['permisos'][MPROMOCIONES]['r']) ) {
                                             ?>

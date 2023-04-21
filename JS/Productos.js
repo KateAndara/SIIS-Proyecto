@@ -102,7 +102,7 @@ function AgregarProducto(){
     var precio = $('#Precio').val();
 
     //Patrones de validación
-    var patronNombre = /^[a-zA-Z\s]+$/; //Solo letras y espacios
+    var patronNombre = /^[a-zA-Z0-9\s]+$/; //Letras, espacios y números
     var patronPrecio = /^\d+(\.\d{1,2})?$/; //Solo números decimales
 
     //Validaciones
@@ -110,10 +110,10 @@ function AgregarProducto(){
         alert("Por favor complete todos los campos.");
         return false;
     } else if(!patronNombre.test(nombre)){
-        alert("El nombre solo debe contener letras y espacios.");
+        alert("El nombre solo debe contener letras, espacios y números.");
         return false;
     } else if(!patronNombre.test(unidad_medida)){
-        alert("La unidad de medida solo debe contener letras y espacios.");
+        alert("La unidad de medida solo debe contener letras, espacios y números.");
         return false;
     } else if(!patronPrecio.test(precio)){
         alert("El precio debe ser un número decimal.");
@@ -193,27 +193,24 @@ function ActualizarProducto(idProducto){
     var unidad_medida = $('#Unidad_medida').val();
     var precio = $('#Precio').val();
 
-    // Permitir letras y espacios
-    var patronNombre = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
-    // Permitir solo números con decimales
-    var patronPrecio = /^\d+(\.\d{1,2})?$/;
+    //Patrones de validación
+    var patronNombre = /^[a-zA-Z0-9\s]+$/; //Letras, espacios y números
+    var patronPrecio = /^\d+(\.\d{1,2})?$/; //Solo números decimales
 
-    // Validar campos vacíos
-    if (nombre.trim() == "" || unidad_medida.trim() == "" || precio.trim() == "") {
-        alert("Por favor, complete todos los campos.");
+    //Validaciones
+    if(nombre.trim() == "" || unidad_medida.trim() == "" || precio.trim() == ""){
+        alert("Por favor complete todos los campos.");
         return false;
-    } 
-    // Validar nombre y unidad de medida
-    else if (!patronNombre.test(nombre) || !patronNombre.test(unidad_medida)) {
-        alert("Por favor, utiliza solo letras y espacios para el nombre y unidad de medida.");
+    } else if(!patronNombre.test(nombre)){
+        alert("El nombre solo debe contener letras, espacios y números.");
+        return false;
+    } else if(!patronNombre.test(unidad_medida)){
+        alert("La unidad de medida solo debe contener letras, espacios y números.");
+        return false;
+    } else if(!patronPrecio.test(precio)){
+        alert("El precio debe ser un número decimal.");
         return false;
     }
-    // Validar precio
-    else if (!patronPrecio.test(precio)) {
-        alert("Por favor, utiliza solo números con decimales para el precio.");
-        return false;
-    }
-
     var datosProducto={
         Id_Producto: idProducto,
         Id_Tipo_Producto: $('#Select_TipoProducto').val(),
