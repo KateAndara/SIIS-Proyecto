@@ -241,9 +241,16 @@ function ActualizarProducto(idProducto){
 }
 
 function EliminarProducto(idProducto){
-    var confirmacion = confirm("¿Está seguro de que desea eliminar el producto?");
-
-    if (confirmacion == true) {
+    Swal.fire({
+        title: "¿Desea eliminar el producto?",
+        text: "Está seguro que quieres eliminar el producto, esta acción es irreversible",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si, Eliminar!",
+      }).then((result) => {
+        if (result.isConfirmed) {
         var datosProducto={
             Id_Producto:idProducto
         };
@@ -257,20 +264,29 @@ function EliminarProducto(idProducto){
             datatype: 'JSON',
             contentType: 'application/json',
             success: function(reponse){
-                console.log(reponse);
-                alert('Producto Eliminado');
-                CargarProductos(); 
-            },
-
-            error: function(textStatus, errorThrown){
-                alert('Error al eliminar Producto' + textStatus + errorThrown);
+                //Swal.fire("Cancelada!", "Compra Cancelada Correctamente.", "success");
+                Swal.fire({
+                    title: "Cancelada",
+                    text: "Producto eliminado correctamente",
+                    icon: "success",
+                    timer: 3000,
+                    willClose: () => {
+                      location.reload();
+                    },
+                  });
+                },
+                error: function(textStatus, errorThrown){
+                  Swal.fire({
+                      title: 'Este producto no puede ser eliminado',
+                      icon: 'error',
+                      confirmButtonColor: '#3085d6',
+                      confirmButtonText: 'Aceptar'
+                    });
             }
+            });
+          }
         });
-
-    } else {
-        alert("La eliminación del producto ha sido cancelada.");
-    }
-}
+     }
 
 //Función para traer los datos de otra tabla para poder ser seleccionados en una lista desplegable
 function CargarTipoProducto(){
