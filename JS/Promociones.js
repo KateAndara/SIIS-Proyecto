@@ -183,11 +183,20 @@ function ActualizarPromocion(idPromocion){
 }
 
 function EliminarPromocion(idPromocion){
-    var datosPromocion={
-        Id_Promocion:idPromocion
-    };
-
-    var datosPromocionJson= JSON.stringify(datosPromocion);
+    Swal.fire({
+        title: "¿Desea eliminar la promoción?",
+        text: "Está seguro que quieres eliminar la promoción, esta acción es irreversible",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si, Eliminar!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+        var datosPromocion={
+            Id_Promocion:idPromocion
+        };
+        var datosPromocionJson= JSON.stringify(datosPromocion);
 
     $.ajax({
         url: UrlEliminarPromociones,
@@ -196,14 +205,28 @@ function EliminarPromocion(idPromocion){
         datatype: 'JSON',
         contentType: 'application/json',
         success: function(reponse){
-            console.log(reponse);
-            alert('Promoción Eliminada');
-        },
-
-        error: function(textStatus, errorThrown){
-            alert('Error al eliminar Promoción' + textStatus + errorThrown);
+            //Swal.fire("Cancelada!", "Compra Cancelada Correctamente.", "success");
+            Swal.fire({
+                title: "Cancelada",
+                text: "Promoción eliminado correctamente",
+                icon: "success",
+                timer: 3000,
+                willClose: () => {
+                  location.reload();
+                },
+              });
+            },
+            error: function(textStatus, errorThrown){
+              Swal.fire({
+                  title: 'Esta promoción no puede ser eliminada',
+                  icon: 'error',
+                  confirmButtonColor: '#3085d6',
+                  confirmButtonText: 'Aceptar'
+                  
+            });
+            CargarPromociones();
         }
     });
-    alert('Aviso');
-    CargarPromociones();
+  }
+});
 }

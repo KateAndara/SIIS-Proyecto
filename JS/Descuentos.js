@@ -171,10 +171,19 @@ function ActualizarDescuento(IdDescuento){
 }
 
 function EliminarDescuento(IdDescuento){
-    var datosDescuento={
-        Id_Descuento:IdDescuento
-    };
-
+    Swal.fire({
+        title: "¿Desea eliminar el descuento?",
+        text: "Está seguro que quieres eliminar el descuento, esta acción es irreversible",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si, Eliminar!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+        var datosDescuento={
+            Id_Descuento:IdDescuento
+        };
     var datosDescuentoJson= JSON.stringify(datosDescuento);
 
     $.ajax({
@@ -184,14 +193,29 @@ function EliminarDescuento(IdDescuento){
         datatype: 'JSON',
         contentType: 'application/json',
         success: function(reponse){
-            console.log(reponse);
-            alert('Descuento Eliminada');
-        },
-
-        error: function(textStatus, errorThrown){
-            alert('Error al eliminar descuento' + textStatus + errorThrown);
+            //Swal.fire("Cancelada!", "Compra Cancelada Correctamente.", "success");
+            Swal.fire({
+                title: "Cancelada",
+                text: "Decuento eliminado correctamente",
+                icon: "success",
+                timer: 3000,
+                willClose: () => {
+                  location.reload();
+                },
+              });
+            },
+            error: function(textStatus, errorThrown){
+              Swal.fire({
+                  title: 'Este descuento no puede ser eliminado',
+                  icon: 'error',
+                  confirmButtonColor: '#3085d6',
+                  confirmButtonText: 'Aceptar'
+                  
+            });
+            CargarDescuentos();
         }
     });
-    alert('Aviso');
-    CargarDescuentos();
+  }
+});
 }
+           
