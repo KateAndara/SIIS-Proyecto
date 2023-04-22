@@ -221,22 +221,28 @@ function CargarProductos() {
     url: urlProductos,
     type: "GET",
     datatype: "JSON",
-    success: function (response) {
+    success: function(response){
       var MisItems = response;
       var opciones =
-        '<option value="">'+ "Seleccione Un Producto" + "</option>";
+        '<option value="">' + "Seleccione Un Producto" + "</option>";
+      
+      for(i=0; i<MisItems.length; i++){ //Muestra Id y nombre
+           opciones +='<option value="' +
+            MisItems[i].Id_Producto +
+            '">' +
+            MisItems[i].Id_Producto +
+            " - " +
+            MisItems[i].Nombre +
+            "</option>";
+          
+          
+        }
 
-      for (i = 0; i < MisItems.length; i++) {
-        opciones +=
-          '<option value="' +
-          MisItems[i].Id_Producto +
-          '">' +
-          MisItems[i].Id_Producto +" - "+
-          MisItems[i].Nombre +
-          "</option>";
-      }
-      $("#Select_Producto").html(opciones);
-    },
+      $('#Select_Producto').html(opciones);
+         $("#Select_Producto").select2();
+   
+      
+  }
   });
 }
 
@@ -394,41 +400,44 @@ function edit_product_detalle(idProducto) {
     Producto: idProducto,
   };
   var DatosProducto = JSON.stringify(DatosProducto);
-   $.ajax({
-     url: urlEditProducto,
-     data: DatosProducto,
-     type: "POST",
-     datatype: "JSON",
-     success: function (response) {
-       var MisItems = response.datos;
-       var MisItems2 = response;
+  $.ajax({
+    url: urlEditProducto,
+    data: DatosProducto,
+    type: "POST",
+    datatype: "JSON",
+    success: function (response) {
+      var MisItems = response.datos;
+      var MisItems2 = response;
 
-     
-     document.querySelector("#Select_Producto").value=MisItems.idproducto;
-       document.querySelector("#Cantidad").value=MisItems.cantidad;
-        document.querySelector("#Precio_Libra").value = MisItems.precio;
+      document.querySelector("#Select_Producto").value = MisItems.idproducto;
+      document.querySelector("#Cantidad").value = MisItems.cantidad;
+      document.querySelector("#Precio_Libra").value = MisItems.precio;
       document.querySelector("#Especie").value = MisItems.especie;
-       document.querySelector("#PesoVivo").value = MisItems.pesoVivo;
+      document.querySelector("#PesoVivo").value = MisItems.pesoVivo;
       document.querySelector("#Canal").value = MisItems.canal;
-        document.querySelector("#Rendimiento").value = MisItems.Rendimiento;
+      document.querySelector("#Rendimiento").value = MisItems.Rendimiento;
 
+      // Agrega la clase "select2" al select de Producto
+      $('#Select_Producto').addClass('select2');
+      // Inicializa los select2
+      $('.select2').select2();
 
-         Swal.fire({
-           toast: true,
-
-           customClass: {
-             popup: "colored-toast",
-           },
-           position: "top-right",
-           icon: "info",
-           title: MisItems2.msg,
-           showConfirmButton: false,
-           timer: 1500,
-           timerProgressBar: true,
-         });
-     },
-   });
+      Swal.fire({
+        toast: true,
+        customClass: {
+          popup: "colored-toast",
+        },
+        position: "top-right",
+        icon: "info",
+        title: MisItems2.msg,
+        showConfirmButton: false,
+        timer: 1500,
+        timerProgressBar: true,
+      });
+    },
+  });
 }
+
 
 function finalizarCompra() {
   proveedor = document.querySelector("#Select_Proveedor").value;

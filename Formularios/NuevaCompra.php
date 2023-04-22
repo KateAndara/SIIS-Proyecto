@@ -37,7 +37,8 @@ date_default_timezone_set('America/Tegucigalpa');
     <link href="
 https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
 " rel="stylesheet">
-
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <style>
         .item1 {
@@ -106,9 +107,12 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                                 <div class="col-12 mt-2 row">
                                     <div class="col-6">
                                         <label for="">SELECCIONE UN PRODUCTO</label> 
-                                        <select id="Select_Producto" class="form-control">
-                                            <option value="">Seleccione un producto</option>
-                                        </select>
+                                <br>
+
+                                <select id="Select_Producto" name="Select_Producto" style="width: 100%" class="select2">
+                                    <!-- <option value="">Seleccione un producto</option> -->
+                                    
+                                </select>
                                     </div>
                                     <div class="col-6">
                                         <label for="">CANTIDAD</label>
