@@ -37,6 +37,9 @@
           padding: 5px;
       }
       .wd10{
+        width: 14.3%;   
+      }
+      .wd11{
         width: 10%;   
       }
       .wd15{
@@ -102,9 +105,9 @@
           <td><?= $Compra['Fecha_compra']?></td>
       </tr>
       <tr>
-          <td class="wd10">Total:</td>
+          <td class="wd11">Total:</td>
           <td class="wd40"><?= $Compra['Total']?></td>
-          <td class="wd10">Observación:</td>
+          <td class="wd11">Observación:</td>
           <td class="wd40"><?= $Compra['Observacion']?></td>
       </tr>
   </tbody>
@@ -113,7 +116,6 @@
 <table class="tbl-detalle">
    <thead>
        <tr>
-           <th class="wd13'">Codigo</th>
            <th class="wd13 text-center">Nombre</th>
            <th class="wd13 text-center">Cantidad</th>
            <th class="wd13 text-right">Precio</th>
@@ -132,7 +134,6 @@
          $subtotal = $subtotal + $importe; */
        ?>
        <tr>
-           <td><?= $producto['Id_Producto']?></td>
            <td class="wd10 text-center"><?=' '.($producto['Nombre']) ?></td>
            <td class="wd10 text-center"><?= $producto['Cantidad']?></td>
            <td class="wd10 text-right"><?='L. '. $producto['Precio_libra'] ?></td>
