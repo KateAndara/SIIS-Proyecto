@@ -26,9 +26,9 @@ var datosProveedor = JSON.stringify(datosProveedor);
 console.log(datosProveedor);
     $.ajax({
         url : UrlContactoProveedoresMM,
-        type: 'GET',
+        type: 'POST',
         data: datosProveedor,
-        datatype: 'POST',
+        datatype: 'JSON',
         success: function(reponse){
             var MisItems = reponse;
             // Si la tabla ya ha sido inicializada previamente, destruye la instancia

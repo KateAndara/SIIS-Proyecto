@@ -70,7 +70,7 @@
 
                         var busqueda = $('#input-busqueda').val();
                         if(busqueda == "") {
-                            CargarContactoClientesMM();
+                            CargarContactoProveedoresMM();
                         } else {
                             BuscarContactoProveedorMM(busqueda);
                         }
@@ -147,7 +147,7 @@
                     // Asignar el evento onclick al botón
                     document.getElementById("btncancelar").onclick = function() {
                         if (Id_Proveedor) {
-                            CargarContactoCliente(Id_Proveedor);
+                            CargarContactoProveedor(Id_Proveedor);
                         }
                     };
                 </script>
