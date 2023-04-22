@@ -14,7 +14,7 @@ session_start();
 
         require_once '../config/conexion3.php';
         require_once '../models/ContactoProveedorMM.php';
-
+ 
         $contactosProveedoresMM = new ContactoProveedorMM();
 
         $body = json_decode(file_get_contents("php://input"), true);
@@ -22,7 +22,7 @@ session_start();
         switch($_GET["opc"]){
 
             case "GetContactoProveedoresMM":
-                $datos=$contactosProveedoresMM->get_ContactoProveedoresMM();
+                $datos=$contactosProveedoresMM->get_ContactoProveedoresMM($body['Id_Proveedor']);
 
                 //ciclo for para insertar los botontes en cada opción
                 for ($i=0; $i < count($datos); $i++) { 

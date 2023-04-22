@@ -7,6 +7,7 @@ var UrlContactoProveedorMMeditar = 'http://localhost/SIIS-PROYECTO/controller/co
 //Si se necesita traer datos de otra tabla para una lista desplegable
 var UrlContactos = 'http://localhost/SIIS-PROYECTO/controller/contactoProveedorMM.php?opc=GetContactos'; 
 var UrlProveedores = 'http://localhost/SIIS-PROYECTO/controller/contactoProveedorMM.php?opc=GetProveedores'; 
+//var UrlCliente = 'http://localhost/SIIS-PROYECTO/controller/contactoClienteMM.php?opc=GetProveedor'; 
 
 $(document).ready(function(){
     CargarContactoProveedoresMM();
@@ -15,11 +16,19 @@ $(document).ready(function(){
 });
 
 function CargarContactoProveedoresMM(){
-    
+  const urlSearchParams = new URLSearchParams(window.location.search);
+  const id_proveedor_parametro = urlSearchParams.get("id");
+
+  var datosProveedor = {
+    Id_Proveedor: id_proveedor_parametro,
+};
+var datosProveedor = JSON.stringify(datosProveedor);
+console.log(datosProveedor);
     $.ajax({
         url : UrlContactoProveedoresMM,
         type: 'GET',
-        datatype: 'JSON',
+        data: datosProveedor,
+        datatype: 'POST',
         success: function(reponse){
             var MisItems = reponse;
             // Si la tabla ya ha sido inicializada previamente, destruye la instancia
@@ -215,7 +224,7 @@ function EliminarContactoProveedorMM(idContacto) {
             Swal.fire({
               title: "Eliminado",
               text: "Contacto del proveedor eliminado Correctamente.",
-              icon: "success",
+              icon: "success", 
               timer: 4000,
               willClose: () => {
                 location.reload();

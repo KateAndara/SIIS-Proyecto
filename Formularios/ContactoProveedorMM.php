@@ -105,6 +105,12 @@
                         </tbody>
                     </table>
                 </div>
+                <button type="button" id="btnRegresar"  class="btn btn-secondary">Regresar</button>
+            <script> //Cancela la acción
+                    document.getElementById("btnRegresar").onclick = function() {
+                        location.href = "http://localhost/SIIS-PROYECTO/Formularios/Proveedores.php";
+                    };
+            </script>
             </div>
         </div>
         <div class="Formulario" style="display: none;">
@@ -122,23 +128,29 @@
                         <select id="Select_Contacto" class="form-control">
                             <option value="">Seleccione un tipo de contacto</option>
                         </select>
-                        <label for="">SELECCIONE UN PROVEEDOR</label> 
-                        <select id="Select_Proveedor" class="form-control">
-                            <option value="">Seleccione un proveedor</option>
-                        </select>
+                        <label for="">ID DEL PROVEEDOR:</label>
+                        <input id="Select_Proveedor" type="text" class="form-control" value="<?php echo isset($_GET['id']) ? $_GET['id'] : 'null'; ?>" readonly>
                         <label for="">CONTACTO</label>
-                        <input type="number" id="Contacto" class="form-control" placeholder="Ingrese ingrese el número del contacto" oninput="validarEntrada(this)">
+
+                        <input type="text" id="Contacto" class="form-control" placeholder="Ingrese ingrese la información del contacto" oninput="validarEntrada(this)">
                         <hr>
                         <div id="btnagregarContactoProveedor">
                             <a  id="btnagregar" onclick="AgregarContactoProveedorMM()" value="Agregar Contacto Del Proveedor" class="btn btn-success">Agregar Contacto Del Proveedor</a>
                             <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button>
                         </div>
                     </form>
-                    <script> //Cancela la acción
+                    
+                    <script> 
+                    // Obtener el Id_Proveedor de la URL
+                    var Id_Proveedor = <?php echo isset($_GET['id']) ? $_GET['id'] : 'null'; ?>;
+                    
+                    // Asignar el evento onclick al botón
                     document.getElementById("btncancelar").onclick = function() {
-                        location.href = "http://localhost/SIIS-PROYECTO/Formularios/ContactoProveedorMM.php";
+                        if (Id_Proveedor) {
+                            CargarContactoCliente(Id_Proveedor);
+                        }
                     };
-                    </script>
+                </script>
                 </div>
             </div>
         </div>

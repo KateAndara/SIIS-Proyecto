@@ -2,18 +2,23 @@
     class ContactoProveedorMM extends Conectar{
 
 
-        public function get_ContactoProveedoresMM(){                 //Si se nececita mostrar nombre en vez de ID.         
-            $conexion= parent::Conexion();
+        public function get_ContactoProveedoresMM($id_proveedor){                  //Si se nececita mostrar nombre en vez de ID.         
+            $conectar= parent::Conexion();
             parent::set_names();
             $sql="SELECT t1.*, t2.Nombre_tipo_contacto, t3.Nombre
                   FROM tbl_proveedores_contacto t1                              
-                  JOIN tbl_tipo_contacto t2 ON t1.Id_Tipo_Contacto = t2.Id_Tipo_Contacto
-                  JOIN tbl_proveedores t3 ON t1.Id_Proveedor = t3.Id_Proveedor";
-            $sql= $conexion->prepare($sql);
+                  JOIN tbl_tipo_contacto t2 ON t1.Id_Tipo_Contacto = t2.Id_Tipo_Contacto 
+                  JOIN tbl_proveedores t3 ON t1.Id_Proveedor = t3.Id_Proveedor where t1.Id_Proveedor=:id_proveedor" ;
+            $sql = $conectar->prepare($sql);
+            $sql->bindValue(':id_proveedor',$id_proveedor);
+           
+
             $sql->execute();
-            return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);                
-        }
         
+            return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+                           
+        }
+
         public function registrar_bitacora($id_usuario, $id_objeto, $accion, $descripcion){
             $conexion= parent::Conexion();
             parent::set_names();

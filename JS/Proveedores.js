@@ -4,7 +4,7 @@ var UrlInsertarProveedor = 'http://localhost/SIIS-PROYECTO/controller/proveedore
 var UrlActualizarProveedor = 'http://localhost/SIIS-PROYECTO/controller/proveedores.php?opc=UpdateProveedor'; // Editar
 var UrlEliminarProveedor = 'http://localhost/SIIS-PROYECTO/controller/proveedores.php?opc=DeleteProveedor'; // Eliminar
 var UrlProveedoreditar = 'http://localhost/SIIS-PROYECTO/controller/proveedores.php?opc=GetProveedoreditar'; // Traer el dato a editar
-var UrlContactoProveedor = 'http://localhost/SIIS-PROYECTO/Formularios/ContactoProveedor.php?id='; //me lleva al formulario contacto proveedor
+var UrlContactoProveedor = 'http://localhost/SIIS-PROYECTO/Formularios/ContactoProveedorMM.php?id='; //me lleva al formulario contacto proveedor
 
 $(document).ready(function(){
    CargarProveedores();
@@ -175,8 +175,8 @@ function CargarProveedor(idProveedor){ //Función que trae los campos que se eli
             $('#Nombre').val(MisItems[0].Nombre);
             $('#RTN').val(MisItems[0].RTN);
             //Usar el mismo botón de agregar con la funcionalidad de actualizar.
-            var btnactualizar = '<input type="submit" id="btn_actualizar" onclick="ActualizarProveedor(' +MisItems[0].Id_Proveedor+')"'+
-            'value="Actualizar Proveedor" class="btn btn-primary"> <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button></input>';
+            var btnactualizar = '<a  id="btn_actualizar" onclick="ActualizarProveedor(' +MisItems[0].Id_Proveedor+')"'+
+            'value="Actualizar Proveedor" class="btn btn-primary">Actualizar Proveedor </a><button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button></input>';
             $('#btnagregarProveedor').html(btnactualizar);
             $('#btncancelar').click(function(){ //Cancela la acción
                 location.href = "http://localhost/SIIS-PROYECTO/Formularios/Proveedores.php";

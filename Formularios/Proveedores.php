@@ -91,6 +91,7 @@
                                 <th>NOMBRE</th>
                                 <th>RTN</th>
                                 <th>OPCIONES</th>
+                                <th></th>
                             </tr>
                         </thead>
 
@@ -113,7 +114,7 @@
                         <label for="Id_Proveedor" hidden>ID PROVEEDOR</label>
                         <input type="number" id="Id_Proveedor" class="form-control" placeholder="Ingrese el código del proveedor"hidden>
                         <label for="">NOMBRE</label>
-                        <input type="text" id="Nombre" class="form-control" placeholder="Ingrese el nombre del proveedor">
+                        <input type="text" id="Nombre" class="form-control" placeholder="Ingrese el nombre del proveedor" onkeyup=" javascript:this.value=this.value.toUpperCase();"oninput="validarEntrada(this)" >
                         <label for="">RTN</label>
                         <input type="text" id="RTN" class="form-control" placeholder="Ingrese el RTN del proveedor" oninput="validarEntrada2(this)">
                         <hr>
@@ -137,6 +138,19 @@
 
 <script>
 
+function validarEntrada(input) { 
+
+const patron = /^[A-Z a-z]+$/;
+const valor = input.value;
+if (!patron.test(valor)) {
+  swal.fire('Error','Solo se permite ingresar letras', 'error');
+  input.value = input.value.slice(0, -1);
+} else {
+
+}
+
+}
+
 function validarEntrada2(input) { 
 
 const patron = /^[0-9 -]+$/;
@@ -150,10 +164,8 @@ if (!patron.test(valor)) {
 
 } 
 
-</script>
 
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
-
 </body>
 </html>
