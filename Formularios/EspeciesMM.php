@@ -60,17 +60,10 @@
                 </form>
             </div>
 
-            <script>  
-                $(document).ready(function(){          //Lee la búsqueda
+            <script> //Carga la función "generarReporte" de formulario "form-busqueda"
+                $(document).ready(function(){ 
                     $('#form-busqueda').submit(function(event){ 
                         event.preventDefault(); 
-
-                        var busqueda = $('#input-busqueda').val();
-                        if(busqueda == "") {
-                            CargarEspeciesMM();
-                        } else {
-                            BuscarEspeciesMM(busqueda);
-                        }
                     });
                 });
             </script>
@@ -86,7 +79,7 @@
 
             <div class="box-body">
                 <div class="table table-responsive">
-                    <table class="table table-hover" id="TablaCargos">
+                    <table class="table table-hover" id="TablaEspecies">
                         <thead>
                             <tr>
                                 <th>ID ESPECIE </th>
@@ -95,7 +88,7 @@
                             </tr>
                         </thead>
 
-                        <tbody id="DataCargosMM">
+                        <tbody id="DataEspecies">
                             
                         </tbody>
                     </table>
@@ -114,7 +107,7 @@
                         <label for="Id_Especie" hidden>ID ESPECIE</label>
                         <input type="number" id="Id_Especie" class="form-control" placeholder="Ingrese el código de la especie"hidden>
                         
-                        <label for="">NOMBRE DEL CARGO</label>
+                        <label for="">NOMBRE DE LA ESPECIE</label>
                         <input type="text" id="Nombre_Especie" onkeyup="javascript:this.value=this.value.toUpperCase();"  autofocus require class="form-control" placeholder="Ingrese El Nombre De la Especie" oninput="validarEntrada(this)">
                         <hr>
 

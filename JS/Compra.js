@@ -26,6 +26,7 @@ var urlDetalleCompra =
        var urlDeleteCompra =
          "http://localhost/SIIS-PROYECTO/controller/ProcesoCompra.php?opc=deleteCompra";
          var urlUltimaCompra="http://localhost/SIIS-PROYECTO/controller/ProcesoCompra.php?opc=getUltimaCompra";
+         var UrlEspeciesMM = 'http://localhost/SIIS-PROYECTO/controller/especiesMM.php?opc=GetEspeciesMM';
 
 var tableCompra;
 function CargarCompras() {
@@ -198,19 +199,64 @@ function CargarProveedores() {
     url: urlProveedores,
     type: "GET",
     datatype: "JSON",
-    success: function (response) {
+    success: function(response){
       var MisItems = response;
-      var opciones = "";
-
-      for (i = 0; i < MisItems.length; i++) {
-        opciones +=
-          '<option value="' +
-          MisItems[i].Id_Proveedor +
-          '">' +
-          MisItems[i].Nombre +
-          "</option>";
-      }
+      var opciones =
+        '<option value="">' + "Seleccione Un Proveedor" + "</option>";
+      
+      for(i=0; i<MisItems.length; i++){ //Muestra Id y nombre
+           opciones +='<option value="' +
+            MisItems[i].Id_Proveedor +
+            '">' +
+            MisItems[i].Id_Proveedor +
+            " - " +
+            MisItems[i].Nombre +
+            "</option>";
+        }
       $("#Select_Proveedor").html(opciones);
+      $("#Select_Proveedor").select2({
+        language: {
+          noResults: function () {
+            return "Sin Resultados <a href='http://localhost/SIIS-PROYECTO/Formularios/Proveedores.php' class='btn btn-success'>Agregar Nuevo Proveedor</a>";
+          },
+        },
+        escapeMarkup: function (markup) {
+          return markup;
+        },
+      });
+    },
+  });
+}
+function CargarEspecies(){
+  $.ajax({
+    url: UrlEspeciesMM,
+    type: "GET",
+    datatype: "JSON",
+    success: function(response){
+      var MisItems = response;
+      var opciones =
+        '<option value="">' + "Seleccione la Especie" + "</option>";
+      
+      for(i=0; i<MisItems.length; i++){ //Muestra Id y nombre
+           opciones +='<option value="' +
+            MisItems[i].Id_Especie +
+            '">' +
+            MisItems[i].Id_Especie +
+            " - " +
+            MisItems[i].Nombre_Especie +
+            "</option>";
+        }
+      $('#Especie').html(opciones);
+         $("#Especie").select2({
+          language: {
+            noResults: function () {
+              return "Sin Resultados <a href='http://localhost/SIIS-PROYECTO/Formularios/EspeciesMM.php' class='btn btn-success'>Agregar Nueva Especie</a>";
+            },
+          },
+          escapeMarkup: function (markup) {
+            return markup;
+          },
+        });
     },
   });
 }
@@ -249,6 +295,7 @@ function CargarProductos() {
 $(document).ready(function () {
   CargarProveedores();
   CargarProductos();
+  CargarEspecies();
   CargarCompras();
 });
 
@@ -417,8 +464,8 @@ function edit_product_detalle(idProducto) {
       document.querySelector("#Canal").value = MisItems.canal;
       document.querySelector("#Rendimiento").value = MisItems.Rendimiento;
 
-      // Agrega la clase "select2" al select de Producto
-      $('#Select_Producto').addClass('select2');
+      // Agrega la clase "select2" al select de Producto y especie
+      $('#Select_Producto, #Especie').addClass('select2');
       // Inicializa los select2
       $('.select2').select2();
 

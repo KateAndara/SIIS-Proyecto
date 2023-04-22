@@ -72,9 +72,10 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                             <div class="col-12">
                                 <form class="InsertCompra">
                                     <label for="">SELECCIONE UN PROVEEDOR</label> 
-                                    <select id="Select_Proveedor" class="form-control">
-                                        <option value="">Seleccione un proveedor</option>
-                                    </select>
+                                    <select id="Select_Proveedor" name="Select_Proveedor" style="width: 100%" class="select2">
+                                    <!-- <option value="">Seleccione un proveedor</option> -->
+                                    
+                                     </select>
                                     <label for="Fecha">FECHA DE COMPRA</label>
                                     <input type="date" id="Fecha_Compra" class="form-control" max=<?php $hoy=date("Y-m-d"); echo $hoy;?> pattern="\d{4}/\d{2}/\d{2}">
                                     <label for="">TOTAL</label>
@@ -140,8 +141,11 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
 
                                 <div class="col-12 mt-2 row">
                                     <div class="col-6">
-                                        <label for="">ESPECIE</label>
-                                        <input type="text" id="Especie" class="form-control" placeholder="Ingrese la especie">
+                                        <label for=""> SELECCIONE LA ESPECIE</label>
+                                        <select id="Especie" name="Especie" style="width: 100%" class="select2">
+                                    <!-- <option value="">Seleccione un proveedor</option> -->
+                                    
+                                     </select>
                                     </div>
                                     <div class="col-6">
                                         <label for="">PESO VIVO</label>
@@ -236,7 +240,22 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                                 </table>
                             </div>
     
+    <script>
+    // Obtiene la fecha actual en el formato YYYY-MM-DD
+    var today = new Date().toISOString().substr(0, 10);
 
+    // Establece el valor del campo de fecha al valor actual
+    document.getElementById("Fecha_Compra").value = today;
+
+    // Obtiene el elemento de entrada de fecha
+    var inputFecha = document.getElementById("Fecha_Compra");
+
+    // Obtiene la fecha actual
+    var fechaActual = new Date().toISOString().split("T")[0];
+
+    // Establece el valor máximo de la fecha actual
+    inputFecha.setAttribute("max", fechaActual);
+    </script>
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 <script src="../JS/Compra.js"></script>

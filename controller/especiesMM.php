@@ -75,7 +75,7 @@
                 if (count($selectEspecie)>0) {
                     $arrResponse = array("status" => false, "msg" => 'La especie ya existe');
                 }else{
-                    $datos=$cargosMM->insert_CargoMM($body["Nombre_Especie"]);
+                    $datos=$especiesMM->insert_EspecieMM($body["Nombre_Especie"]);
                     $arrResponse = array("status" => true, "msg" => 'Se agregó la  especie');
 
                 }
