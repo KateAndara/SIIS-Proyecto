@@ -36,10 +36,10 @@
           padding: 5px;
       }
       .wd10{
-        width: 45%;   
+        width: 50%;   
       }
       .wd15{
-        width: 45%;   
+        width: 50%;   
     }
     .wd20{
         width: 20%;   
@@ -98,7 +98,6 @@
 <table class="tbl-productos">
    <thead>
        <tr>
-           <th class="wd1'">Codigo</th>
            <th class="wd15 text-center">Nombre</th>
            <th class="wd10 text-center">Cantidad</th>
           <!--  <th class="wd10 text-right">Rendimiento</th> -->
@@ -111,7 +110,6 @@
          $subtotal = $subtotal + $importe; */
        ?>
        <tr>
-           <td><?= $producto['Id_Producto']?></td>
            <td class="wd15 text-center"><?=' '.($producto['Nombre']) ?></td>
            <td class="wd10 text-center"><?= $producto['Cantidad']?></td>
        </tr>
@@ -127,7 +125,6 @@
 <table class="tbl-productos">
    <thead>
        <tr>
-           <th class="wd1'">Codigo</th>
            <th class="wd15 text-center">Nombre</th>
            <th class="wd10 text-center">Cantidad</th>
           <!--  <th class="wd10 text-right">Rendimiento</th> -->
@@ -140,7 +137,6 @@
          $subtotal = $subtotal + $importe; */
        ?>
        <tr>
-           <td><?= $producto['Id_Producto']?></td>
            <td class="wd15 text-center"><?=' '.($producto['Nombre']) ?></td>
            <td class="wd10 text-center"><?= $producto['Cantidad']?></td>
        </tr>
