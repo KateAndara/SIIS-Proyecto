@@ -28,6 +28,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.js"></script>
     <script src="../JS/ContactoProveedorMM.js"></script>
+    <script src="../JS/Proveedores.js"></script>
     <link href="../CSS/datatable.css" rel="stylesheet">
     <!-- Última versión de jspdf -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
@@ -46,7 +47,7 @@
             <div class="row">
                 <div class="col-12 text-center">
                     <h3>
-                        Lista De Contactos De Proveedores
+                        Lista De Contactos Del Proveedor
                     </h3>
                 </div> 
             </div>

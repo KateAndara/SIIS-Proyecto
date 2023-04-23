@@ -138,7 +138,9 @@ function CargarContactoProveedorMM(idContacto){ //Función que trae los campos q
             'value="Actualizar contacto del proveedor" class="btn btn-primary">Actualizar contacto del proveedor</a> <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button></input>';
             $('#btnagregarContactoProveedor').html(btnactualizar);
             $('#btncancelar').click(function(){ //Cancela la acción
-                location.href = "http://localhost/SIIS-PROYECTO/Formularios/ContactoProveedorMM.php";
+              if (Id_Proveedor) {
+                CargarContactoProveedor(Id_Proveedor);
+            }
              });
             //Cambiar el título del formulario.
             var titulo = '<div class="Col-12" id="titulo">'+
