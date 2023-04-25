@@ -34,9 +34,9 @@ session_start();
                     
 
                     //si permisos es igual a Permiso_actualizacion de update crea el boton
-                    if($_SESSION['permisosMod']['u']){
+                    /*if($_SESSION['permisosMod']['u']){
                         $btnEdit = '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarObjeto(\'' .$datos[$i]['Id_Objeto'].'\'); mostrarFormulario();">Editar</button>';
-                    }
+                    }*/
                         //si permisos es igual a Permiso_eliminacion de delete crea el boton
 
                    /* if($_SESSION['permisosMod']['d']){
