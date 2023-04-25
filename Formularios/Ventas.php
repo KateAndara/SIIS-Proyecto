@@ -67,7 +67,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                     }
                     ?>
 
-                <button class="rounded" style="background-color: #fff; color: dark; float: right;"onclick="generarReporte('TableVentas','REPORTE DE Ventas',60)">Generar PDF</button>
+                <button class="rounded" style="background-color: #fff; color: dark; float: right;"onclick="generarReporte('TableVentas','REPORTE DE VENTAS',60)">Generar PDF</button>
 
             </form>
             </div>

@@ -83,12 +83,38 @@
             $sql->execute();
             return $resultado=$sql->fetch(PDO::FETCH_ASSOC);                
         }
-        public function get_promociones($idProducto){    
+        public function get_promociones(){    
             $conexion= parent::Conexion();
             parent::set_names();
-            $sql="SELECT p.*,pp.* FROM `tbl_promociones` p INNER JOIN tbl_promocion_producto pp on pp.Id_Promocion=p.Id_Promocion where pp.Id_Producto=?";          
+            $sql="SELECT p.* FROM `tbl_promociones` p;";          
             $sql= $conexion->prepare($sql);
-            $sql->bindValue(1, $idProducto);
+    
+
+            $sql->execute();
+            return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
+        }
+
+        public function get_productosPromo($idPromocion){    
+            $conexion= parent::Conexion();
+            parent::set_names();
+            $sql="SELECT p.*,pp.*,pr.Nombre FROM `tbl_promociones` p 
+            INNER JOIN tbl_promocion_producto pp on pp.Id_Promocion=p.Id_Promocion 
+            INNER JOIN tbl_productos pr on pp.Id_Producto=pr.Id_Producto where p.Id_Promocion=?";          
+            $sql= $conexion->prepare($sql);
+            $sql->bindValue(1, $idPromocion);
+    
+
+            $sql->execute();
+            return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
+        }
+
+        public function getPromocion($idPromocion){    
+            $conexion= parent::Conexion();
+            parent::set_names();
+            $sql="SELECT p.* FROM `tbl_promociones` p  where p.Id_Promocion=?";          
+            $sql= $conexion->prepare($sql);
+            $sql->bindValue(1, $idPromocion);
+    
 
             $sql->execute();
             return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
@@ -108,7 +134,7 @@
         public function get_descuentos(){    
             $conexion= parent::Conexion();
             parent::set_names();
-            $sql="SELECT * FROM tbl_descuentos";          
+            $sql="SELECT * FROM tbl_descuentos where Id_Descuento!=0";          
             $sql= $conexion->prepare($sql);
             $sql->execute();
             return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
@@ -169,6 +195,26 @@
             $sql->bindValue(6, $Total);
             $sql->bindValue(7, $RTN);
             $sql->bindValue(8, $Numero_factura);
+          
+            $sql->execute();
+             $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
+             $resultado = $conectar->lastInsertId();
+
+             
+           return $resultado;
+        }
+
+        public function insertVentasPromociones(
+            $promocionid,$idVenta,$cantidad,$precio){
+            $conectar= parent::conexion();
+            parent::set_names();
+            $sql="INSERT INTO `tbl_ventas_promociones` ( `Id_Promocion`, `Id_Venta`, `Precio_venta`, `Cantidad`) VALUES (?,?,?,?);";
+            $sql=$conectar->prepare($sql);
+            $sql->bindValue(1, $promocionid);
+            $sql->bindValue(2, $idVenta);
+            $sql->bindValue(3, $precio);
+            $sql->bindValue(4, $cantidad);
+            
           
             $sql->execute();
              $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
@@ -325,6 +371,28 @@
                 
                            return $resultado;
             }
+
+
+            public function updatePromocionProducto($promocionProducto,$cantidad){
+                $conectar= parent::Conexion();
+                 parent::set_names();
+                 $sql="SELECT Cantidad FROM tbl_promocion_producto WHERE Id_Promocion_Producto=?";
+                 $sql=$conectar->prepare($sql);
+                 $sql->bindvalue(1, $promocionProducto);
+                 $sql->execute();
+                 $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
+                 
+                 $existencia=$resultado[0]['Cantidad']-$cantidad;
+     
+                 $sql="UPDATE `tbl_promocion_producto` SET `Cantidad` = '$existencia' WHERE `tbl_promocion_producto`.`Id_Promocion_Producto` = $promocionProducto;";
+                 $sql=$conectar->prepare($sql);
+               
+                 $sql->execute();
+                 $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
+     
+     
+                return $resultado;
+ }
             public function updateCAI($idTalonario,$valorActual){
                 $conectar= parent::Conexion();
                  parent::set_names();

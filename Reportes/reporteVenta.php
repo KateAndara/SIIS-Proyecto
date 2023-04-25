@@ -36,15 +36,18 @@ $arrVenta['Venta']=$venta;
 $arrVenta['detalle']=$detalle;
 $arrVenta['descuento']=$descuento;
 
+$sql = "SELECT * FROM tbl_ms_parametros where Parametro='NOMBRE_EMPRESA'"; 
+$resultado = mysqli_query($conn, $sql);
+ $resultado=mysqli_fetch_all($resultado,1);
+
+ $arrVenta['DatosEmpresa']=$resultado;
 
 
-
-
-    $sql = "SELECT Valor FROM tbl_ms_parametros where Parametro='NOMBRE_EMPRESA'"; 
+    $sql = "SELECT vp.*, p.Nombre_Promocion FROM `tbl_ventas_promociones` vp INNER JOIN tbl_promociones p ON vp.Id_Promocion=p.Id_Promocion where Id_Venta=$idVenta"; 
     $resultado = mysqli_query($conn, $sql);
      $resultado=mysqli_fetch_all($resultado,1);
     
-    $arrVenta['DatosEmpresa']=$resultado;
+     $arrVenta['ventaPromociones']=$resultado;
 
 use Spipu\Html2Pdf\Html2Pdf;
 ob_end_clean();

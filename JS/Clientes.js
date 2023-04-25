@@ -218,7 +218,7 @@ function ActualizarCliente(IdCliente){
 
 function EliminarCliente(idCliente) {
     Swal.fire({
-      title: "¿Eliminar cargo?",
+      title: "¿Eliminar Cliente?",
       text: "Estas Seguro que quieres Eliminar el cliente, esta acción es irreversible",
       icon: "warning",
       showCancelButton: true,

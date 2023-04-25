@@ -1,16 +1,16 @@
 <?php 
     $total=0;
     $Cantidad=0;
-   if (isset($_SESSION['ventaDetalle']) and count($_SESSION['ventaDetalle'])>0) {
+   if (isset($_SESSION['ventaPromociones']) and count($_SESSION['ventaPromociones'])>0) {
 ?>
     
     <?php
     $contador=0;
-    foreach($_SESSION['ventaDetalle'] as $producto )
+    foreach($_SESSION['ventaPromociones'] as $promociones )
     {   
 
-        $total=$total+($producto['Precio']*$producto['Cantidad']);
-        $Cantidad=$Cantidad+$producto['Cantidad'];
+        $total=$total+($promociones['Precio']*$promociones['Cantidad']);
+        $Cantidad=$Cantidad+$promociones['Cantidad'];
         
     ?>
        
@@ -30,7 +30,7 @@
         <td></td>
         <td><?=  $Cantidad  ?></td>
         <td></td>
-        <td id="totalFila"><?=  $total  ?></td>
+        <td id="totalFila_promo"><?=  $total  ?></td>
         <td></td>
     </tr>
 <?php } ?>

@@ -12,6 +12,8 @@
     // Consulta para obtener el id_rol del usuario.
     $sql = "SELECT * FROM tbl_ms_usuarios WHERE Usuario='$varsesion' LIMIT 1";
     $resultado = $conexion->query($sql);
+
+    
   
   // Almacenar el id_rol en la variable de sesión.
   if ($resultado->num_rows == 1) {
@@ -23,6 +25,10 @@
     $id_rol=$_SESSION['Id_Rol'];
 
 
+    $sql = "SELECT * FROM tbl_ms_parametros where Parametro='IMPUESTO'";
+    $resultado = $conexion->query($sql);
+    $fila2 = $resultado->fetch_assoc();
+    $_SESSION['IMPUESTO']=$fila2['Valor'];
 
 
   }
@@ -60,7 +66,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-  
+  <script> var Impuesto=<?=  $_SESSION['IMPUESTO']  ?> ;</script>
 </head>
 
     <body>

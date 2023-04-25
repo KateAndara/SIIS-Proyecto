@@ -215,6 +215,29 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                                 Agregar Promociones 
                             </h3>
                         </div>
+                        <form class="InsertDetalleVenta" id="formPromociones">
+                            <div class="mb-4">
+                            <label for="">SELECCIONE UNA PROMOCIÓN</label> 
+                                <br>
+
+                                <select id="Select_Promocion" name="Select_Promocion" onchange="changePromo()" style="width: 100%" class="form-control js-example-basic-single">
+                                    <!-- <option value="">Seleccione un producto</option> -->
+                                    
+                                </select>
+
+                                <label for="">CANTIDAD PROMOCIONES</label>
+                                <input type="number" id="cantidadPromociones" name="cantidadPromociones" class="form-control" placeholder="Ingrese ingrese la cantidad del producto">
+
+                                <label for="">PRECIO PROMOCION</label>
+                                <input type="number" id="precioPromocion" readonly  name="precioPromocion"  class="form-control" >
+
+                            </div>
+                        
+                                <div id="btnagregarDetalleVenta">
+                                    <a  id=""  value="Agregar" class="btn btn-info" onclick="agregarPromoción()">Agregar</a>
+                                    <input type="button" id="btnAtras" onclick="atras2()" value="Atras" class="btn btn-warning mr-2">
+                                        <input type="button" id="btnAvanzar" onclick="siguiente3()" value="Siguiente" class="btn btn-success">
+                                </div>
                         <div class="col-12">
                         <div class="card-body table-responsive mt-4" id="tableVenta">
                                 <table  class="table table-hover text-nowrap">
@@ -235,13 +258,15 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                                     <?=  getModal("tablaPromociones",$data)  ?>
                                     </tbody>
                                     <tfoot class="thead-dark font-weight-bold" style="background-color: darkseagreen;" id="detalle_totales2">
-                                <?=  getModal("tablaTotales",$data)  ?>
+                                <?=  getModal("totalesPromociones",$data)  ?>
                                 </tfoot>
                             
                                     
                                 </table>
                             </div>
                         </div>
+                        </form>
+                       
                     </div>
                 </div>
             </div>
@@ -319,6 +344,10 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                                    <label for="">TOTAL</label>
                                    <input type="number" id="Total" class="form-control" placeholder="Total...">
                                 </div>   
+                                <div class="col-6">
+                                  
+                                   <a onclick="event.preventDefault();CalcularImpuesto();" class="btn btn-success" "> Calcular Impuesto</a>
+                                </div>   
                              </div>   
                                 <hr>
                                 <input type="hidden" id="idTalonario">
@@ -333,9 +362,9 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                                   </div>
                                 </div>
                                 <hr>
-                                <div id="btnagregarVenta">
+                                <div >
                                     <input type="button" id="btnAtras" onclick="atras4()" value="Atras" class="btn btn-warning mr-2">
-                                    <a id="btnagregarVenta" onclick="agregarVenta()" value="Finalizar Venta" class="btn btn-info">Finalizar Venta</a>
+                                    <a id="btnagregarVenta" disabled onclick="agregarVenta()" value="Finalizar Venta" class="btn btn-info">Finalizar Venta</a>
                                 </div>
                             </form>
                         </div>

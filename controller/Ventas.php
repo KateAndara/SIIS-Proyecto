@@ -72,7 +72,7 @@
             break;
             case "GetPromociones":
                 
-                $datos=$ventas->get_promociones($body['idProducto']);
+                $datos=$ventas->get_promociones();
                 echo json_encode($datos);
             break;
             case "getPrecioPromocion":
@@ -298,10 +298,8 @@
             break;
 
             case "finalVenta":
-                
-               
-
-
+          
+            
                 $idCliente=$body['idCliente'];
                 $idDescuento=$body['idDescuento'];
                 $Porcentaje=$body['Porcentaje'];
@@ -324,11 +322,13 @@
                 }
                 
                 
-                
+               
          
                 
                 
-                if (!empty($_SESSION['ventaDetalle'])) {
+                if (isset($_SESSION['ventaDetalle']) || isset($_SESSION['ventaPromociones']) ) {
+                    
+               
                     $request_venta=$ventas->insertVenta($idCliente,
                                                             $Id_Usuario,
                                                             $idEstado,
@@ -341,7 +341,7 @@
 
                     if ($request_venta>0){
                         $idVenta=$request_venta;
-                        
+                        if (!empty($_SESSION['ventaDetalle']) && isset($_SESSION['ventaDetalle'])) {
                         foreach ($_SESSION['ventaDetalle'] as $producto) {
                             
                             $idVenta=$request_venta;
@@ -364,12 +364,66 @@
                             //actualizarCant Compra
                             $this->model->updateCantCompra($id['COD_PRODUCTO'],$cantCompra);  */
     
+                            }
+                         }
+
+                         if (!empty($_SESSION['ventaPromociones']) && isset($_SESSION['ventaPromociones'])) {
+                            foreach ($_SESSION['ventaPromociones'] as $promocion) {
+                             
+                                $idVenta=$request_venta;
+                                $promocionid = $promocion['IdPromocion'];
+                                $precio = $promocion['Precio'];
+                                $cantidad = $promocion['Cantidad'];                            
+                                $detalleVenta=$ventas->insertVentasPromociones($promocionid,$idVenta,$cantidad,$precio);
+                                
+
+                                $productosPromos=$ventas->get_productosPromo($promocionid);
+
+                         
+                               
+                                foreach($productosPromos as $producto)
+                                {
+
+                               
+                                    $idProducto=$producto['Id_Producto'];
+                                    $idPromocionProducto=$producto['Id_Promocion_Producto'];
+                                    $insertKardex=$ventas->insertKardex($idProducto,2,$cantidad,$Id_Usuario);
+                                    $updateInventario=$ventas->updateInventario($idProducto,$cantidad);
+                                    $updatePromocionProducto=$ventas->updatePromocionProducto($idPromocionProducto,$cantidad);
+
+                                }
+                                
+
+                              
+    
+                                
+    
+    
+    
+    
+                                
+                                /* //Aumentar stock
+                                $this->model->updateStock($id['COD_PRODUCTO'],$nuevoStock); 
+                                //actualizarCant Compra
+                                $this->model->updateCantCompra($id['COD_PRODUCTO'],$cantCompra);  */
+        
+                                }
+                         }
+                        
+                        if ($Totaldescontado!=0) {
+                            $requestVentasDescuento=$ventas->insertVentasDescuento($idVenta,
+                            $idDescuento,
+                            $Porcentaje,
+                            $Totaldescontado,
+                            );
+                        }else{
+                            $requestVentasDescuento=$ventas->insertVentasDescuento($idVenta,
+                            0,
+                            0,
+                            0,
+                            ); 
                         }
-                        $requestVentasDescuento=$ventas->insertVentasDescuento($idVenta,
-                        $idDescuento,
-                        $Porcentaje,
-                        $Totaldescontado,
-                        );
+                       
 
                         //actualizar CAI
                         if (!empty($body['valorActual'])) {
@@ -378,11 +432,13 @@
                             $arrResponse= array("status"=> true,"msg"=>'Venta Realizada',"idVenta"=>$request_venta);
                             
                                 unset($_SESSION['ventaDetalle']);
+                                unset($_SESSION['ventaPromociones']);
+
                                 //session_regenerate_id(true);
-                            }                                             
+                        
+                    } 
+                                                        
                 }
-
-
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
             break;
             case "getVentaListar":
@@ -412,6 +468,125 @@
 
                     $arrResponse= array("status"=> true,"msg"=>'Venta Realizada',"datos"=>$arrVenta);
                     echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+
+            break;
+            case 'promoProductos':
+             
+               $productosPromos=$ventas->get_productosPromo($body['promocion']);
+
+               $data='';
+
+                for ($i=0; $i < count($productosPromos); $i++) { 
+                    $data.='=> '.$productosPromos[$i]['Nombre'].'<br> ';
+                }
+
+                
+               $arrResponse= array("status"=> true,"msg"=>'Venta Realizada',"html"=>$data,"data"=>$productosPromos);
+
+               echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+
+            break;
+            case 'agregarPromocion':
+                
+                //unset( $_SESSION['ventaPromociones']);
+                $idPromocion=$body['promocion'];
+                $Cantidad=intval($body['cantidad']);
+                $Precio=$body['precio'];
+               
+                $arrDetalle=array();
+                
+                //$user=intval($_SESSION['idUser']);
+                //$arrData = $ventas->getProducto($idProducto);
+                $promocion=$ventas->getPromocion($idPromocion);
+              
+                $arrInfoPromo=array('IdPromocion' => $idPromocion,
+                'Cantidad' => $Cantidad,
+                'Nombre'=>$promocion[0]['Nombre_Promocion'],
+                'Precio' => $Precio,
+                
+                );
+                 
+                
+                //$_SESSION['compraDetalle']=array();
+                if(isset($_SESSION['ventaPromociones'])){
+                 $on = true;
+                 $arrDetalle = $_SESSION['ventaPromociones'];
+             
+                 for ($pr=0; $pr < count($arrDetalle); $pr++) {
+                     if($arrDetalle[$pr]['IdPromocion'] == $idPromocion){
+                         $arrDetalle[$pr]['Cantidad'] = $arrDetalle[$pr]['Cantidad']+ $Cantidad;
+                         $arrDetalle[$pr]['Nombre'] = $promocion[0]['Nombre_Promocion'];
+                         $arrDetalle[$pr]['Precio'] = $Precio;
+                      
+                         $on = false;
+                     }
+                 }
+                 if($on){
+                     array_push($arrDetalle,$arrInfoPromo);
+                 }
+                     $_SESSION['ventaPromociones'] = $arrDetalle;
+                 }else{
+                     array_push($arrDetalle, $arrInfoPromo);
+                     $_SESSION['ventaPromociones'] = $arrDetalle;
+                 }
+                 $data=array();
+                 $data['producto']=$_SESSION['ventaPromociones'];
+            
+                 function getFile(string $url, $data)
+                    {
+                        ob_start();
+                        require_once("{$url}.php");
+                        $file = ob_get_clean();
+                        return $file;        
+                    }
+                    
+
+                  
+                  /*   $htmlVentas = getFile('../Formularios/tablaVentas',$data); 
+                    $htmlTotales = getFile('../Formularios/tablaTotales',$data);  */
+                    $htmlPromociones=getfile('../Formularios/tablaPromociones',$data);
+                    $htmlTotalesPromociones=getfile('../Formularios/totalesPromociones',$data);
+           
+             
+                    $arrResponse = array("status" => true, "msg" => 'Producto agregado',"htmlPromociones"=>$htmlPromociones,"htmlTotalesPromociones"=>$htmlTotalesPromociones);
+
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
+
+
+            break;
+
+            case "deletePromocion": 
+               
+                $detalleTabla='';
+                $idPromocion = intval($body['idPromocion']);
+            
+                if (is_numeric($idPromocion) ) {
+                 $arrVenta=$_SESSION['ventaPromociones'];
+                 for ($pr=0; $pr < count($arrVenta); $pr++) {
+                     if($arrVenta[$pr]['IdPromocion'] == $idPromocion){
+                         unset($arrVenta[$pr]);
+                     }
+                 }
+                 sort($arrVenta);
+                 $_SESSION['ventaPromociones']=$arrVenta;
+                 function getFile(string $url, $data)
+                    {
+                        ob_start();
+                        require_once("{$url}.php");
+                        $file = ob_get_clean();
+                        return $file;        
+                    }
+                    $data=array();
+                    $data['producto']=$_SESSION['ventaPromociones'];
+                      
+         
+                 $htmlPromociones=getfile('../Formularios/tablaPromociones',$data);
+                 $htmlTotalesPromociones=getfile('../Formularios/totalesPromociones',$data);
+        
+          
+                 $arrResponse = array("status" => true, "msg" => 'Producto Eliminado',"htmlPromociones"=>$htmlPromociones,"htmlTotalesPromociones"=>$htmlTotalesPromociones);
+            }
+            echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
 
             break;
            

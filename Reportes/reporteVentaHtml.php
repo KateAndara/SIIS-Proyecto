@@ -3,6 +3,8 @@
 $venta=$data['Venta'];
 $detalle=$data['detalle'];
 $descuento=$data['descuento'];
+
+$ventaPromociones=$data['ventaPromociones'];
 ?>
 <?php  
     
@@ -147,6 +149,20 @@ $descuento=$data['descuento'];
            <td><?= $producto['Nombre']?></td>
            <td class="wd15 text-right"><?='L. '.($producto['Precio']) ?></td>
            <td class="wd15 text-center"><?= $producto['Cantidad']?></td>
+           <td class="wd15 text-right"><?='L. '.$importe ?></td>
+       </tr>
+       <?php } ?>
+
+       <?php
+ 
+        foreach ($ventaPromociones as $promociones){
+         $importe = $promociones['Precio_venta'] * $promociones['Cantidad'];
+         $subtotal = $subtotal + $importe;
+       ?>
+       <tr>
+           <td><?= $promociones['Nombre_Promocion']?></td>
+           <td class="wd15 text-right"><?='L. '.($promociones['Precio_venta']) ?></td>
+           <td class="wd15 text-center"><?= $promociones['Cantidad']?></td>
            <td class="wd15 text-right"><?='L. '.$importe ?></td>
        </tr>
        <?php } ?>

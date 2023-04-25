@@ -17,11 +17,17 @@ var urlGetVenta ="http://localhost/SIIS-PROYECTO/controller/Ventas.php?opc=getVe
   var urlEliminarProducto =
      "http://localhost/SIIS-PROYECTO/controller/Ventas.php?opc=deleteProducto";
 
+     var urlEliminarPromocion =
+       "http://localhost/SIIS-PROYECTO/controller/Ventas.php?opc=deletePromocion";
+
      var urlEditProducto =
        "http://localhost/SIIS-PROYECTO/controller/Ventas.php?opc=editProducto";
        var urlFinalizarVenta ="http://localhost/SIIS-PROYECTO/controller/Ventas.php?opc=finalVenta";
 var urlCAI ="http://localhost/SIIS-PROYECTO/controller/Ventas.php?opc=agregarCAI";
 
+var urlProductosPromociones =
+  "http://localhost/SIIS-PROYECTO/controller/Ventas.php?opc=promoProductos";
+var urlAgregarPromocion ="http://localhost/SIIS-PROYECTO/controller/Ventas.php?opc=agregarPromocion";
 
 $(document).ready(function(){
    CargarProductos();
@@ -30,11 +36,14 @@ $(document).ready(function(){
    CargarEstados();
    CargarVentas();
    cargarClientes();
+   $("#btnagregarVenta").hide();
+   
 
-if ($("#totalFila")) {
+if ($("#totalFila") || $("#totalFila_promo")) {
   document.querySelector("#totalDetalle").value = $("#totalFila").text();
   document.querySelector("#SubtotalDescuento").value = $("#totalFila").text();
-  document.querySelector("#Subtotal").value = $("#totalFila").text();
+  document.querySelector("#Subtotal").value =
+    Number($("#totalFila").text()) + Number($("#totalFila_promo").text());
 }
  
    
@@ -196,7 +205,7 @@ function changeCliente() {
 }
 
 function changePromocion(select,idProducto) {
-  idProducto = idProducto;
+  /* idProducto = idProducto;
   Select=select
   idPromocion=Select.options[Select.selectedIndex].value
 
@@ -254,7 +263,7 @@ function changePromocion(select,idProducto) {
     console.log(MisItems);
         //document.querySelector("#Precio").value = MisItems[0].Precio_Venta;
       },
-    });
+    }); */
   
 }
 
@@ -320,17 +329,128 @@ function CargarPromociones(){
       datatype: 'JSON',
       success: function(response){
           var MisItems = response;
-          var opciones='';
+          console.log(MisItems);
+         var opciones ='<option value="0">' + "Seleccione Una Promoción" + "</option>";
           
           for(i=0; i<MisItems.length; i++){ //Muestra Id y nombre
               opciones += '<option value="' + MisItems[i].Id_Promocion + '">' +  MisItems[i].Nombre_Promocion + '</option>';
           }
           $('#Select_Promocion').html(opciones);
+          $("#Select_Promocion").select2();
           
       }
   });
 }
 
+function changePromo() {
+    promocion = document.querySelector("#Select_Promocion").value;
+    
+  var datosPromocion = {
+    promocion: promocion,
+  };
+  var datosPromocion = JSON.stringify(datosPromocion);
+  $.ajax({
+    url: urlProductosPromociones,
+    type: "POST",
+    data: datosPromocion,
+    datatype: "JSON",
+    success: function (response) {
+      var MisItems = response;
+      console.log(MisItems);
+      document.querySelector("#precioPromocion").value=MisItems["data"][0]["Precio_Venta"];
+      swal.fire({
+        title: "Promoción " + MisItems["data"][0]["Nombre_Promocion"],
+        html: MisItems["html"],
+        icon: "success",
+        showCancelButton: false,
+        confirmButtonText: "Aceptar",
+        cancelButtonText: "No, Cancelar!",
+        closeOnConfirm: false,
+        closeOnCancel: false,
+      });
+    },
+  });
+}
+
+function agregarPromoción() {
+    promocion = document.querySelector("#Select_Promocion").value;
+    cantidad = document.querySelector("#cantidadPromociones").value;
+    precio = document.querySelector("#precioPromocion").value;
+    var datosPromocion = {
+      promocion: promocion,
+      cantidad: cantidad,
+      precio: precio,
+    };
+    var datosPromocion = JSON.stringify(datosPromocion);
+    $.ajax({
+      url: urlAgregarPromocion,
+      type: "POST",
+      data: datosPromocion,
+      datatype: "JSON",
+      success: function (response) {
+        var MisItems = response;
+
+        document.querySelector("#tablaVenta2").innerHTML =
+          MisItems.htmlPromociones;
+        document.querySelector("#detalle_totales2").innerHTML =
+          MisItems.htmlTotalesPromociones;
+        document.querySelector("#Subtotal").value =
+          Number($("#totalFila").text()) + Number($("#totalFila_promo").text());
+      },
+    });
+
+
+}
+
+
+function del_product_promo(idPromocion) {
+var datosPromocion = {
+  idPromocion: idPromocion,
+};
+var datosPromocion = JSON.stringify(datosPromocion);
+
+$.ajax({
+  url: urlEliminarPromocion,
+  type: "POST",
+  data: datosPromocion,
+  datatype: "JSON",
+  success: function (response) {
+    var MisItems = response;
+
+    document.querySelector("#tablaVenta2").innerHTML = MisItems.htmlPromociones;
+    document.querySelector("#detalle_totales2").innerHTML =
+      MisItems.htmlTotalesPromociones;
+    document.querySelector("#Subtotal").value =
+      Number($("#totalFila").text()) + Number($("#totalFila_promo").text());
+
+
+    Swal.fire({
+      toast: true,
+
+      customClass: {
+        popup: "colored-toast",
+      },
+      position: "top-right",
+      icon: "warning",
+      title: MisItems.msg,
+      showConfirmButton: false,
+      timer: 1500,
+      timerProgressBar: true,
+    });
+  },
+});
+
+}
+
+
+function CalcularImpuesto() {
+
+  subtotal = document.querySelector("#Subtotal").value;
+   document.querySelector("#Impuesto").value = (subtotal*(Impuesto/100)) ;
+       document.querySelector("#Total").value =  Number(subtotal) + Number((subtotal*(Impuesto/100))) ;
+       $("#btnagregarVenta").show();
+
+}
 function CargarDescuentos(){
   $.ajax({
       url : UrlDescuentos,
@@ -371,11 +491,13 @@ function changeDescuento() {
        totalDescontado = totalDetalle * (MisItems.Porcentaje_a_descontar / 100);
        porcentaje=MisItems.Porcentaje_a_descontar
        porcentajeImpuesto = MisItems.impuesto.Valor;
-      subtotal = Number(totalDetalle) - totalDescontado;
-   
+      subtotalDescuento = Number(totalDetalle) - totalDescontado ;
+      subtotal = Number(totalDetalle) - totalDescontado+Number($("#totalFila_promo").text());
+
+
        document.querySelector("#Porcentaje").value = porcentaje +"%";
        document.querySelector("#Totaldescontado").value = totalDescontado;
-       document.querySelector("#SubtotalDescuento").value =subtotal;
+       document.querySelector("#SubtotalDescuento").value =subtotalDescuento;
        document.querySelector("#Subtotal").value =subtotal;
        document.querySelector("#Impuesto").value = (subtotal*(porcentajeImpuesto/100)) ;
        document.querySelector("#labelImpuesto").innerHTML = "IMPUESTO "+ porcentajeImpuesto + "%";
@@ -461,7 +583,7 @@ $.ajax({
     document.querySelector("#FormDetalle").reset();
     document.querySelector("#totalDetalle").value = $("#totalFila").text();
     document.querySelector("#SubtotalDescuento").value = $("#totalFila").text();
-    document.querySelector("#Subtotal").value = $("#totalFila").text();
+    document.querySelector("#Subtotal").value =  Number($("#totalFila").text()) + Number($("#totalFila_promo").text());;
     
 
 changeDescuento();
@@ -497,12 +619,13 @@ function del_product_detalle(idProducto) {
 
       document.querySelector("#tablaVenta").innerHTML = MisItems.htmlVentas;
     document.querySelector("#detalle_totales").innerHTML = MisItems.htmlTotales;
-    document.querySelector("#tablaVenta2").innerHTML = MisItems.htmlPromociones;
-    document.querySelector("#detalle_totales2").innerHTML = MisItems.htmlTotalesPromociones;
+/*     document.querySelector("#tablaVenta2").innerHTML = MisItems.htmlPromociones;
+    document.querySelector("#detalle_totales2").innerHTML = MisItems.htmlTotalesPromociones; */
        document.querySelector("#totalDetalle").value = $("#totalFila").text();
        document.querySelector("#SubtotalDescuento").value =
          $("#totalFila").text();
-       document.querySelector("#Subtotal").value = $("#totalFila").text();
+       document.querySelector("#Subtotal").value =
+         Number($("#totalFila").text()) + Number($("#totalFila_promo").text());;
     changeDescuento();
     
       Swal.fire({
@@ -594,16 +717,9 @@ function siguiente1() {
   function siguiente3() {
 
     promocion = document.querySelector("#Select_Promocion").value;
-    precio = document.querySelector("#PrecioV").value;
+    //precio = document.querySelector("#PrecioV").value;
     
-  
-     if (
-       promocion == "" ||
-       precio == ""
-     ) {
-       swal.fire("Atención", "Todos los campos son obligatorios.", "error");
-       return false;
-     }
+
   
           
     document.querySelector("#pestaña3").classList.remove("active");
@@ -831,7 +947,7 @@ function siguiente1() {
 
        
 
-subtotal = 0;
+        subtotal = 0;
         console.log(response);
         for (i = 0; i < detalles.length; i++) {
           
