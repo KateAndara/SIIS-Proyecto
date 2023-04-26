@@ -6,7 +6,7 @@ session_start();
  */
 require_once("../../../config/conexion.php");
 include_once '../../../token/Token.php'; //incluir clase para generar tokens
-//include ("./token/Token.php");
+include ("./token/Token.php");
 
 //obtencion del nombre del usuario por el metodo POST
  $nombre = htmlspecialchars( $_POST['usuario'],ENT_QUOTES,'UTF-8');
@@ -104,7 +104,7 @@ try {
     $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
     $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
     $mail->Username   = 'cazadores.software2022@gmail.com';                     //SMTP username
-    $mail->Password   = 'fwdlqnylsvjgvdiv';                               //SMTP password
+    $mail->Password   = 'ouuabusyhcvdghds';                               //SMTP password
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
     $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
@@ -135,6 +135,7 @@ try {
     //Content
     $mail->isHTML(true);                                  //Set email format to HTML
     $mail->Subject = 'Solicitud de restablecimiento de credenciales';
+    $cdm = '';
     $mail->Body    = $cdm.$bodyHtml;
     // $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
