@@ -112,7 +112,7 @@ function CargarProductos(){
         success: function(response){
             var MisItems = response;
             var opciones =
-              '<option value="">' + "Seleccione Un Producto" + "</option>";
+              '<option value="null">' + "Seleccione Un Producto" + "</option>";
             
             
             
@@ -396,6 +396,20 @@ function agregarPromoción() {
           MisItems.htmlTotalesPromociones;
         document.querySelector("#Subtotal").value =
           Number($("#totalFila").text()) + Number($("#totalFila_promo").text());
+
+          Swal.fire({
+            toast: true,
+
+            customClass: {
+              popup: "colored-toast",
+            },
+            position: "top-right",
+            icon: "success",
+            title: MisItems.msg,
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+          });
       },
     });
 
@@ -575,33 +589,69 @@ $.ajax({
  success: function (response) {
   var MisItems = response;
 
-    console.log(MisItems)
-    document.querySelector("#tablaVenta").innerHTML = MisItems.htmlVentas;
+  if (MisItems.status) {
+     document.querySelector("#tablaVenta").innerHTML = MisItems.htmlVentas;
     document.querySelector("#detalle_totales").innerHTML = MisItems.htmlTotales;
     document.querySelector("#tablaVenta2").innerHTML = MisItems.htmlPromociones;
     document.querySelector("#detalle_totales2").innerHTML = MisItems.htmlTotalesPromociones;
     document.querySelector("#FormDetalle").reset();
+   
+$("#Select_Producto").each(function () {
+  $(this).change();
+  /* or use two lines below instead */
+  // var oldVal = $(this).val();
+  // $(this).select2({'val': oldVal});
+});
     document.querySelector("#totalDetalle").value = $("#totalFila").text();
     document.querySelector("#SubtotalDescuento").value = $("#totalFila").text();
-    document.querySelector("#Subtotal").value =  Number($("#totalFila").text()) + Number($("#totalFila_promo").text());;
+    document.querySelector("#Subtotal").value =  Number($("#totalFila").text()) + Number($("#totalFila_promo").text());
     
+    changeDescuento();
+      Swal.fire({
+        toast: true,
+      
+        customClass: {
+          popup: "colored-toast",
+        },
+        position: "top-right",
+        icon: "success",
+        title: MisItems.msg,
+        showConfirmButton: false,
+        timer: 1500,
+        timerProgressBar: true,
+      });
+  }else{
+     document.querySelector("#tablaVenta").innerHTML = MisItems.htmlVentas;
+    document.querySelector("#detalle_totales").innerHTML = MisItems.htmlTotales;
+    document.querySelector("#tablaVenta2").innerHTML = MisItems.htmlPromociones;
+    document.querySelector("#detalle_totales2").innerHTML = MisItems.htmlTotalesPromociones;
+    //document.querySelector("#FormDetalle").reset();
+    document.querySelector("#totalDetalle").value = $("#totalFila").text();
+    document.querySelector("#SubtotalDescuento").value = $("#totalFila").text();
+    document.querySelector("#Subtotal").value =  Number($("#totalFila").text()) + Number($("#totalFila_promo").text());
+    
+    changeDescuento();
+      Swal.fire({
+        toast: true,
+      
+        customClass: {
+          popup: "colored-toast",
+        },
+        position: "top-right",
+        icon: "error",
+        title: MisItems.msg,
+        showConfirmButton: false,
+        timer: 1500,
+        timerProgressBar: true,
+      });
+  }
 
-changeDescuento();
-   Swal.fire({
-     toast: true,
+
    
-     customClass: {
-       popup: "colored-toast",
-     },
-     position: "top-right",
-     icon: "success",
-     title: MisItems.msg,
-     showConfirmButton: false,
-     timer: 1500,
-     timerProgressBar: true,
-   });
- },
-});
+
+
+    },
+  });
 }
 function del_product_detalle(idProducto) {
   var DatosProducto = {

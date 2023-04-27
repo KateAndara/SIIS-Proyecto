@@ -181,17 +181,18 @@
                 echo json_encode($datos);
             break;
             case "AgregarDetalle":  
-                
+                //variables
                 $idProducto=$body['Producto'];
                 $Cantidad=intval($body['Cantidad']);
                 $Precio=$body['Precio'];
                
                 $arrDetalle=array();
-                
+                $dataInventario=array();
+                //Datos para el array
                 //$user=intval($_SESSION['idUser']);
                 $arrData = $ventas->getProducto($idProducto);
                 $promociones=$ventas->get_promociones($idProducto);
-             
+                //array Producto a agregar
                 $arrinfoProducto=array('Id_Producto' => $idProducto,
                 'Cantidad' => $Cantidad,
                 'Nombre' => $arrData[0]['Nombre'],
@@ -199,31 +200,66 @@
                 'promociones'=>$promociones
                 );
                  
+                //comprobación de inventario
                 
                 //$_SESSION['compraDetalle']=array();
                 if(isset($_SESSION['ventaDetalle'])){
                  $on = true;
                  $arrDetalle = $_SESSION['ventaDetalle'];
              
-                 for ($pr=0; $pr < count($arrDetalle); $pr++) {
+                for ($pr=0; $pr < count($arrDetalle); $pr++) {
                      if($arrDetalle[$pr]['Id_Producto'] == $idProducto){
-                         $arrDetalle[$pr]['Cantidad'] = $arrDetalle[$pr]['Cantidad']+ $Cantidad;
-                         $arrDetalle[$pr]['Nombre'] = $arrData[0]['Nombre'];
-                         $arrDetalle[$pr]['Precio'] = $Precio;
-                         $arrDetalle[$pr]['promociones'] = $promociones;
-                        
+                       $cantidadValid = $arrDetalle[$pr]['Cantidad']+ $Cantidad;
 
-            
-                         $on = false;
+                        $dataInventario=$ventas->getValidInventario($idProducto,$cantidadValid);
+                        if (!empty($dataInventario)) {
+                            $arrDetalle[$pr]['Cantidad'] = $arrDetalle[$pr]['Cantidad']+ $Cantidad;
+                            $arrDetalle[$pr]['Nombre'] = $arrData[0]['Nombre'];
+                            $arrDetalle[$pr]['Precio'] = $Precio;
+                            $arrDetalle[$pr]['promociones'] = $promociones;
+                            $on = false;
+                            $mensaje="Producto agregado";
+                            $status=true;
+                        }else{
+                            $mensaje="Existencia Sobrepasada";
+                            $status=false;
+                            $on = false;
+
+                        }
                      }
                  }
+
+
                  if($on){
-                     array_push($arrDetalle,$arrinfoProducto);
+                    $cantidadValid=$arrinfoProducto['Cantidad'];
+                    $idProducto=$arrinfoProducto['Id_Producto'];
+                    $dataInventario=$ventas->getValidInventario($idProducto,$cantidadValid);
+                    if (!empty($dataInventario)){
+                        array_push($arrDetalle,$arrinfoProducto);
+                        $mensaje="Producto agregado";
+                        $status=true;
+                    }else{
+                        $mensaje="Existencia Sobrepasada";
+                        $status=false;
+                    }
+                     
                  }
                      $_SESSION['ventaDetalle'] = $arrDetalle;
                  }else{
-                     array_push($arrDetalle, $arrinfoProducto);
-                     $_SESSION['ventaDetalle'] = $arrDetalle;
+
+                    $cantidadValid=$arrinfoProducto['Cantidad'];
+                    $idProducto=$arrinfoProducto['Id_Producto'];
+                    $dataInventario=$ventas->getValidInventario($idProducto,$cantidadValid);
+                    if (!empty($dataInventario)){
+                        array_push($arrDetalle, $arrinfoProducto);
+                        $_SESSION['ventaDetalle'] = $arrDetalle;
+                        $mensaje="Producto agregado";
+                        $status=true;
+                    }else{
+                        $mensaje="Existencia Sobrepasada";
+                        $status=false;
+                    }
+                     
                  }
                  $data=array();
                  $data['producto']=$_SESSION['ventaDetalle'];
@@ -242,7 +278,7 @@
                     $htmlTotalesPromociones=getfile('../Formularios/totalesPromociones',$data);
            
              
-                    $arrResponse = array("status" => true, "msg" => 'Producto agregado',"htmlVentas"=>$htmlVentas,"htmlTotales"=>$htmlTotales,"htmlPromociones"=>$htmlPromociones,"htmlTotalesPromociones"=>$htmlTotalesPromociones);
+                    $arrResponse = array("status" => $status, "msg" => $mensaje,"htmlVentas"=>$htmlVentas,"htmlTotales"=>$htmlTotales,"htmlPromociones"=>$htmlPromociones,"htmlTotalesPromociones"=>$htmlTotalesPromociones);
 
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
              

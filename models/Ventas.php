@@ -437,6 +437,19 @@
                 return null;
             }
         }
+
+        public function getValidInventario($idProducto, $cantidad)
+        {
+            $conexion= parent::Conexion();
+            parent::set_names();
+            $sql="SELECT * FROM `tbl_inventario` WHERE Id_Producto=? and Existencia>=?";          
+            $sql= $conexion->prepare($sql);
+            $sql->bindValue(1, $idProducto);
+            $sql->bindValue(2, $cantidad);
+
+            $sql->execute();
+            return $resultado=$sql->fetch(PDO::FETCH_ASSOC);
+        }
        
     }
 ?>

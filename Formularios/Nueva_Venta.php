@@ -36,6 +36,8 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
             display: none;
             }
 </style>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
 <body>
     <div class="col-md-12 cards-white" style="margin: 0 auto; width: 110%; max-width: none; margin-left: -20px;">
@@ -83,7 +85,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                                     <hr>
                                     <div id="btnagregarNuevoCliente">
                                         <input type="button" id="btnCancelar" onclick="Cancelar()" value="Cancelar" class="btn btn-danger">
-                                        <input type="button" id="btnagregarNuevoCliente" onclick="siguiente1()"  value="Siguiente" class="btn btn-success">
+                                        <a type="button" id="btnagregarNuevoCliente" onclick="siguiente1()"  value="Siguiente" style="color:white" class="btn btn-success">Siguiente <i class="bi bi-arrow-right-circle"></i></a>
                                     </div>
                                     <hr>
                                 </form>
@@ -123,7 +125,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                                 <div id="btnagregarDetalleVenta">
                                     <input type="submit" id="btnagregarDetalle"  value="Agregar" class="btn btn-info" onclick="AgregarDetalleVenta()">
                                     <input type="button" id="btnAtras" onclick="atras1()" value="Atras" class="btn btn-warning mr-2">
-                                        <input type="button" id="btnAvanzar" onclick="siguiente2()" value="Siguiente" class="btn btn-success">
+                                    <a type="button" id="btnagregarNuevoCliente" onclick="siguiente2()"  value="Siguiente" style="color:white" class="btn btn-success">Siguiente <i class="bi bi-arrow-right-circle"></i></a>
                                 </div>
                                 <div class="box-body">
                                 <div class="card-body table-responsive mt-4" id="tableVenta">
@@ -236,7 +238,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                                 <div id="btnagregarDetalleVenta">
                                     <a  id=""  value="Agregar" class="btn btn-info" onclick="agregarPromoción()">Agregar</a>
                                     <input type="button" id="btnAtras" onclick="atras2()" value="Atras" class="btn btn-warning mr-2">
-                                        <input type="button" id="btnAvanzar" onclick="siguiente3()" value="Siguiente" class="btn btn-success">
+                                    <a type="button" id="btnagregarNuevoCliente" onclick="siguiente3()"  value="Siguiente" style="color:white" class="btn btn-success">Siguiente <i class="bi bi-arrow-right-circle"></i></a>
                                 </div>
                         <div class="col-12">
                         <div class="card-body table-responsive mt-4" id="tableVenta">
@@ -286,18 +288,18 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                                     <option value="">Seleccione un descuento</option>
                                 </select>
                                 <label for=""><P>PORCENTAJE DEL DESCUENTO</P></label>
-                                <input type="text" id="Porcentaje" value="0" name="Porcentaje" class="form-control" placeholder="Porcentaje...">
+                                <input type="text" readonly id="Porcentaje" value="0" name="Porcentaje" class="form-control" placeholder="Porcentaje...">
                                 <label for="">Total Detalle Venta </label>
-                                <input type="text" id="totalDetalle" name="Total descontado" class="form-control" placeholder="">
+                                <input type="text" readonly id="totalDetalle" name="Total descontado" class="form-control" placeholder="">
                                 <label for="">TOTAL DESCONTADO </label>
-                                <input type="text" id="Totaldescontado" value="0" name="Total descontado" class="form-control" placeholder="Total descontado...">
+                                <input type="text" readonly id="Totaldescontado" value="0" name="Total descontado" class="form-control" placeholder="Total descontado...">
                                 <label for="">Subtotal </label>
-                                <input type="text" id="SubtotalDescuento" name="Total descontado" class="form-control" placeholder="">
+                                <input type="text" readonly id="SubtotalDescuento" name="Total descontado" class="form-control" placeholder="">
                                 <hr>
                                 <div id="btnagregarDescuento">
                                   <!--   <input type="submit" id="btnagregarDescuento" onclick="AgregarDescuento()" value="Agregar" class="btn btn-success"> -->
                                     <input type="button" id="btnAtras" onclick="atras3()" value="Atras" class="btn btn-warning mr-2">
-                                    <input type="button" id="btnAvanzar" onclick="siguiente4()" value="Siguiente" class="btn btn-success">
+                                    <a type="button" id="btnagregarNuevoCliente" onclick="siguiente4()"  value="Siguiente" style="color:white" class="btn btn-success">Siguiente <i class="bi bi-arrow-right-circle"></i></a>
                                 </div>
                             </form>
                         </div>
@@ -324,14 +326,14 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                                 </div>
                                 <div class="col-6">
                                   <label for="">SUBTOTAL</label>
-                                  <input type="number" id="Subtotal" class="form-control" onkeyup="calcularTotal()" placeholder="Subtotal...">
+                                  <input type="number" readonly id="Subtotal" class="form-control" onkeyup="calcularTotal()" placeholder="Subtotal...">
                                 </div>
                              </div> 
                                 <br>
                              <div class="row">
                                 <div class="col-6">
                                    <label for="" id="labelImpuesto">IMPUESTO</label>
-                                   <input type="text" onkeypress="calcularTotal()"; id="Impuesto" class="form-control" onkeyup="calcularTotal()" placeholder="Impuesto...">
+                                   <input type="text" readonly onkeypress="calcularTotal()"; id="Impuesto" class="form-control" onkeyup="calcularTotal()" placeholder="Impuesto...">
                                 </div>
                                 <div class="col-6">
                                    <label for="">RTN</label>
@@ -339,14 +341,14 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                                 </div>
                              </div>   
                                 <br>
-                             <div class="row">   
+                             <div class="row align-items-end">   
                                 <div class="col-6">
                                    <label for="">TOTAL</label>
                                    <input type="number" id="Total" class="form-control" placeholder="Total...">
                                 </div>   
                                 <div class="col-6">
                                   
-                                   <a onclick="event.preventDefault();CalcularImpuesto();" class="btn btn-success" "> Calcular Impuesto</a>
+                                   <a onclick="event.preventDefault();CalcularImpuesto();" class="btn btn-success" style="color:white;"> Calcular Impuesto</a>
                                 </div>   
                              </div>   
                                 <hr>
@@ -358,7 +360,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                                     <input type="button" onclick="generarFactura()" id="GenerarFactura" value="Generar Factura" class="btn btn-secondary">      
                                   </div>
                                   <div class="col-4">
-                                    <input type="text" id="Numero_factura" class="form-control" placeholder="Factura...">
+                                    <input type="text" readonly id="Numero_factura" class="form-control" placeholder="Factura...">
                                   </div>
                                 </div>
                                 <hr>
