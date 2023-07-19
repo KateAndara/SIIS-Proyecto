@@ -358,11 +358,16 @@ if (contraseña!="" && contraseña.length<8) {
     },
 
     error: function (textStatus, errorThrown) {
-      alert("Error al agregar rol" + textStatus + errorThrown);
+      Swal.fire({
+        title: "LISTO",
+        text: "Usuario Agregado",
+        icon: "success",
+      }).then(() => {
+        window.location.reload();
+      });
+      
     },
   });
-
-
   
 }
 
@@ -527,8 +532,46 @@ function ActualizarUsuario(idUsuario) {
     return false;
   }
 
-  
+  let contraseñaValid = document.querySelector("#contraseña");
+  let DNIvalid = document.querySelector("#DNI");
+  let correoValid = document.querySelector("#correo");
+  let nombreValid = document.querySelector("#nombre");
+
+  if (contraseña !== confirmContraseña) {
+    Swal.fire("Error", "Las contraseñas no coinciden", "error");
+    return false;
+  }
+
+  if (correoValid.classList.contains("is-invalid")) {
+    swal.fire(
+      "Atención",
+      "Ingrese un correo Correcto, Ejemplo: example@example.com",
+      "error"
+    );
+    return false;
+  }
+   if (nombreValid.classList.contains("is-invalid")) {
+     swal.fire(
+       "Atención",
+       "El nombre debe de ser Alfabetico, sin más de dos espacios ni números o caracteres especiales",
+       "error"
+     );
+     return false;
+   }
  
+  if (contraseñaValid.classList.contains("is-invalid")) {
+    swal.fire(
+      "Atención",
+      "La contraseña debe de contener al menos 8 carácteres, una letra mayúscula, una letra minúscula, un número y sin espacios",
+      "error"
+    );
+    return false;
+  }
+ 
+  if (DNIvalid.classList.contains("is-invalid")) {
+    swal.fire("Atención", "DNI solo debe ser númerico", "error");
+    return false;
+  }
 
   let elementsValid = document.getElementsByClassName("valid");
   for (let i = 0; i < elementsValid.length; i++) {
@@ -580,10 +623,6 @@ function ActualizarUsuario(idUsuario) {
           closeOnConfirm: false,
         });
       }
-    },
-
-    error: function (textStatus, errorThrown) {
-      alert("Error al actualizar rol" + textStatus + errorThrown);
     },
   });
 

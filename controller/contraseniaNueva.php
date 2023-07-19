@@ -12,7 +12,8 @@ $usuario = $_SESSION['usuario'];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Obtener la contraseña del formulario
-    $contraseniaActual=$_POST['contraseñaActual'];
+    $contrasenia_Actual=$_POST['contraseñaActual'];
+    $contraseniaActual = hash('sha256', $contrasenia_Actual);
     $contrasenia = $_POST['contraseña'];
     $confirmar_contrasenia = $_POST['confirmarcontraseña'];
 
@@ -56,6 +57,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }else{
                     // Escapar los caracteres especiales de la contraseña.
                     $password = mysqli_real_escape_string($conexion, $password);
+                    // Función pra encriptar contraseña
+                    function encriptar($pass) {
+                        $Encriptada = hash('sha256', $pass);
+                        return $Encriptada;
+                    }
+                    //Variable que almacena la contraseña encriptada
+                    $contrasenaEncriptada = encriptar($password);
 
                     // Realizar la consulta para buscar la contraseña.
                     $query = "SELECT * FROM tbl_ms_usuarios WHERE Contraseña = '$password' AND Id_Usuario='$id_usuario'";
@@ -69,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         //traer la información del usuario.
                         $sql=$conexion->query(" SELECT * FROM tbl_ms_usuarios WHERE Id_Usuario='$id_usuario' ");
                         //Actualizar la contraseña y el estado del usuario.
-                        $sql=$conexion->query(" UPDATE tbl_ms_usuarios SET Contraseña = '$password', Estado = 'Activo' where Id_Usuario='$id_usuario'");
+                        $sql=$conexion->query(" UPDATE tbl_ms_usuarios SET Contraseña = '$contrasenaEncriptada', Estado = 'Activo' where Id_Usuario='$id_usuario'");
                         
                         echo '<style>#btnContrasenia { display:none; }</style>';
                         echo '<style>#fila1 { display:none; }</style>';

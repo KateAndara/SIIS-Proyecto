@@ -73,8 +73,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Escapar los caracteres especiales de la contraseña.
                 $password = mysqli_real_escape_string($conexion, $password);
 
-                $sql=$conexion->query(" UPDATE tbl_ms_usuarios SET Contraseña = '$password', Estado = 'Activo' where Id_Usuario='$id_usuario'");
+                // Función pra encriptar contraseña
+                function encriptar($pass) {
+                    $Encriptada = hash('sha256', $pass);
+                    return $Encriptada;
+                }
+                //Variable que almacena la contraseña encriptada
+                $contrasenaEncriptada = encriptar($password);
+
+                // Realizar la consulta para buscar la contraseña.
+                $query = "SELECT * FROM tbl_ms_usuarios WHERE Contraseña = '$contrasenaEncriptada' AND Id_Usuario='$id_usuario'";
+                $resultado = mysqli_query($conexion, $query);
+
+                // Verificar si se encontró la misma contraseña del usuario.
+                if (mysqli_num_rows($resultado) > 0) {
+                    echo '<br>';
+                    echo '<div class="alert alert-danger">Debe ingresar una contraseña que no haya usado anteriormente.</div> ';
+                } else {
+
+                $sql=$conexion->query(" UPDATE tbl_ms_usuarios SET Contraseña = '$contrasenaEncriptada', Estado = 'Activo' where Id_Usuario='$id_usuario'");
                 header('Location: Login.php'); // Redireccionamiento al Login.
+                }
           
             }
             

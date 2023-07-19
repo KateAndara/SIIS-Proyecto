@@ -20,6 +20,9 @@
 
 <body>
     <div class="formulario">
+    <div id="mensaje" style="display: none; background-color: dark; padding: 5px; text-align: center;">
+    <span style="font-size: 14px; color: white;">Solo se permiten letras.</span>
+    </div>
         <div class="welcome-back">
             <div class="message">
                 <h2 class="text-white d-flex justify-content-center">RECUPERACIÓN DE CONTRASEÑA</h2>
@@ -28,7 +31,7 @@
             </div>
         <form class="form-horizontal" method="post">
             <br><br><p class="text-white fw-semibold">Ingrese su usuario</p>
-            <input class="form-control bg-light" type="text" placeholder="Usuario" name="usuario" id="inputUser3" onkeydown="this.value=Mayus(this.value)" onkeyup="this.value=Mayusculas(this.value)" oninput="validarCampoUsuario()" /> 
+            <input class="form-control bg-light" type="text" placeholder="Usuario" name="usuario" id="inputUser3" onkeydown="this.value=Mayus(this.value)" onkeyup="this.value=Mayusculas(this.value)" autocomplete="off" oninput="validarCampoUsuario()" onkeypress="javascript:return soloLetras(event)"onpaste="return false;"/> 
             <script>
                 function Mayus(string){//Solo mayusculas
                  var out = '';
@@ -48,6 +51,7 @@
 	                //Retornar valor convertido a mayusculas
 	                 return tx.toUpperCase();
                 }
+                
           </script>
             
             <div class="d-flex gap-1 justify-content-center mt-1">
@@ -59,6 +63,35 @@
             require_once("../controller/validacionUsuarioPS.php"); ?>
         </form>   
     </div> 
+    <script>
+    function soloLetras(e) {
+                key = e.keyCode || e.which;
+                tecla = String.fromCharCode(key).toLowerCase();
+                letras = " áéíóúabcdefghijklmnñopqrstuvwxyz";
+                especiales = "8-37-39-46";
+
+                tecla_especial = false;
+                for (var i in especiales) {
+                    if (key == especiales[i]) {
+                        tecla_especial = true;
+                        break;
+                    }
+                }
+
+                if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+                    // Mostrar el mensaje
+                    var mensajeElemento = document.getElementById("mensaje");
+                    mensajeElemento.style.display = "block";
+
+                    // Ocultar el mensaje después de 2 segundos (2000 ms)
+                    setTimeout(function() {
+                        mensajeElemento.style.display = "none";
+                    }, 3000);
+
+                    return false;
+                }
+            }
+    </script>
 </body> 
 
 </html>

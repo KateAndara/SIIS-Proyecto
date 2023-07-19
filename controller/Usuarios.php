@@ -112,6 +112,14 @@ $enviroment=0;
                 $selectUsuario=$usuarios->verificarUsuario($usuario);
                 $selectCorreo=$usuarios->verificarCorreo($correo);
 
+                // Función para encriptar contraseña
+                function encriptar($password) {
+                    $Encriptada = hash('sha256', $password);
+                    return $Encriptada;
+                }
+                //Variable que almacena la contraseña encriptada
+                $contrasenaEncriptada = encriptar($contrasena);
+
                 if (count($selectDNI)>0) {
                     $arrResponse = array("status" => false, "msg" => 'DNI ya existente, Verifique nuevamente');
                 }else if (count($selectUsuario)>0) {
@@ -119,7 +127,7 @@ $enviroment=0;
                 }else if (count($selectCorreo)>0) {
                     $arrResponse = array("status" => false, "msg" => 'CORREO ya existente, Verifique nuevamente');
                 }else{
-                    $datos=$usuarios->insert_Usuario($usuario,$nombre,$estado,$DNI,$correo,$contrasena,$rolSelect,$rolCargo,$fechaVencimiento,$CreadoPor);
+                    $datos=$usuarios->insert_Usuario($usuario,$nombre,$estado,$DNI,$correo,$contrasenaEncriptada,$rolSelect,$rolCargo,$fechaVencimiento,$CreadoPor);
 
                     if ($datos>0) {
                         
@@ -210,7 +218,13 @@ $enviroment=0;
                 $selectUsuario=$usuarios->verificarUsuario2($usuario,$id_Usuario);
                 $selectCorreo=$usuarios->verificarCorreo2($correo,$id_Usuario);
 
-            
+                // Función para encriptar contraseña
+                function encriptar($password) {
+                    $Encriptada = hash('sha256', $password);
+                    return $Encriptada;
+                }
+                //Variable que almacena la contraseña encriptada
+                $contrasenaEncriptada = encriptar($contrasena);
 
                 if (count($selectDNI)>0) {
                     $arrResponse = array("status" => false, "msg" => 'DNI ya existente, Verifique nuevamente');
@@ -221,7 +235,7 @@ $enviroment=0;
                 }else{
 
                     if (!empty($contrasena)) {
-                        $datos=$usuarios->update_Usuario($usuario,$nombre,$estado,$DNI,$correo,$contrasena,$rolSelect,$rolCargo,$fechaVencimiento,$modificadoPor,$id_Usuario);
+                        $datos=$usuarios->update_Usuario($usuario,$nombre,$estado,$DNI,$correo,$contrasenaEncriptada,$rolSelect,$rolCargo,$fechaVencimiento,$modificadoPor,$id_Usuario);
 
                     }else{
                         $datos=$usuarios->update_Usuario2($usuario,$nombre,$estado,$DNI,$correo,$rolSelect,$rolCargo,$fechaVencimiento,$modificadoPor,$id_Usuario);
@@ -261,4 +275,4 @@ $enviroment=0;
             break;
         }
 
-?>   
+?>

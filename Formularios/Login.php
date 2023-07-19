@@ -26,6 +26,15 @@
 
 <body>
   <div class="bg-black p-5 rounded-5 text-secondary shadow" style="width: 25rem">
+  <div id="mensaje" style="display: none; background-color: dark; padding: 5px; text-align: center;">
+    <span style="font-size: 14px; color: pink;">El campo "usuario" solo se permiten letras.</span>
+  </div>
+  <div id="mensaje2" style="display: none; background-color: dark; padding: 5px; text-align: center;">
+    <span style="font-size: 14px; color: pink;">El campo "Contraseña" no puede contener más de 15 caracteres.</span>
+  </div>
+  <div id="mensaje3" style="display: none; background-color: dark; padding: 5px; text-align: center;">
+    <span style="font-size: 14px; color: pink;">El campo 'Usuario' no puede contener más de 45 caracteres.</span>
+  </div>
     <div class="d-flex justify-content-center">
       <img src="https://cdn-icons-png.flaticon.com/512/5087/5087579.png" alt="login-icon" style="height: 7rem" />
     </div>
@@ -35,7 +44,7 @@
           <div class="input-group-text bg-light">
             <img src="https://icon-library.com/images/free-user-icon/free-user-icon-26.jpg" alt="username-icon" style="height: 2.5rem" />
           </div>
-          <input class="form-control bg-light" type="text" placeholder="Usuario" name="usuario" id="usuario" onkeydown="this.value=Mayus(this.value)" onkeyup="this.value=Mayusculas(this.value)" oninput="validarCampoUsuario()" />
+          <input class="form-control bg-light" type="text" placeholder="Usuario" name="usuario" id="usuario" onkeydown="this.value=Mayus(this.value)" onkeyup="this.value=Mayusculas(this.value)" autocomplete="off" oninput="validarCampoUsuario()" onkeypress="javascript:return soloLetras(event)" onpaste="return false;"/>
         </div>
         <script>
                 function Mayus(string){//Solo mayusculas
@@ -56,12 +65,41 @@
 	                //Retornar valor convertido a mayusculas
 	                 return tx.toUpperCase();
                 }
+
+                function soloLetras(e) {
+                key = e.keyCode || e.which;
+                tecla = String.fromCharCode(key).toLowerCase();
+                letras = " áéíóúabcdefghijklmnñopqrstuvwxyz";
+                especiales = "8-37-39-46";
+
+                tecla_especial = false;
+                for (var i in especiales) {
+                    if (key == especiales[i]) {
+                        tecla_especial = true;
+                        break;
+                    }
+                }
+
+                if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+                    // Mostrar el mensaje
+                    var mensajeElemento = document.getElementById("mensaje");
+                    mensajeElemento.style.display = "block";
+
+                    // Ocultar el mensaje después de 2 segundos (2000 ms)
+                    setTimeout(function() {
+                        mensajeElemento.style.display = "none";
+                    }, 3000);
+
+                    return false;
+                }
+            }
+
           </script>
         <div class="input-group mt-1">
           <div class="input-group-text bg-light">
           <button id="show_password" class="btn btn-dark"  type="button" style="width:40px" onclick="mostrarPassword('password')"> <span class="fa fa-eye-slash icon" ></span> </button>
           </div>
-          <input class="form-control bg-light" ID="password" type="Password" Class="form-control" placeholder="Contraseña" name="password" oninput="validarCampoContrasenia()">
+          <input class="form-control bg-light" ID="password" type="Password" Class="form-control" placeholder="Contraseña" name="password" oninput="validarCampoContrasenia()"onpaste="return false;"/>
         </div>
         <br>
         <div class="pt-1">

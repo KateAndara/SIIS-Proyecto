@@ -21,7 +21,16 @@ function validarCampoUsuario() {
   
   if (campo.value.length > maxCaracteres) { 
     campo.value = campo.value.slice(0, maxCaracteres); 
-    alert("El campo 'Usuario' no puede contener más de " + maxCaracteres + " caracteres"); 
+    // Mostrar el mensaje
+    var mensajeElemento = document.getElementById("mensaje3");
+    mensajeElemento.style.display = "block";
+
+    // Ocultar el mensaje después de 2 segundos (2000 ms)
+    setTimeout(function() {
+        mensajeElemento.style.display = "none";
+    }, 3000);
+
+    return false;
   }
 }
 
@@ -31,6 +40,15 @@ function validarCampoContrasenia() {
   
   if (campo.value.length > maxCaracteres) { 
     campo.value = campo.value.slice(0, maxCaracteres); 
-    alert("El campo 'Contraseña' no puede contener más de " + maxCaracteres + " caracteres"); 
+    // Mostrar el mensaje
+    var mensajeElemento = document.getElementById("mensaje2");
+    mensajeElemento.style.display = "block";
+
+    // Ocultar el mensaje después de 2 segundos (2000 ms)
+    setTimeout(function() {
+        mensajeElemento.style.display = "none";
+    }, 3000);
+
+    return false;
   }
 }
