@@ -21,9 +21,17 @@
         switch($_GET["opc"]){
 
             case "GetBitacoras":
-                $datos=$Bitacoras->get_Bitacoras();
+                $datos = $Bitacoras->get_Bitacoras();
+        
+                // Agregar una nueva columna llamada "Numero" con la secuencia de números
+                $secuencia = 1;
+                foreach ($datos as &$bitacora) {
+                    $bitacora["Numero"] = $secuencia;
+                    $secuencia++;
+                }
+        
                 echo json_encode($datos);
-            break;
+                break;
             case "GetBitacora": //Buscar por cualquier campo
                 $busqueda = isset($body["Nombre"]) ? $body["Nombre"] : (isset($body["Id_bitacora"]) ? $body["Id_bitacora"] : '');
                 $datos=$Bitacoras->get_Bitacora($body["$busqueda"]);

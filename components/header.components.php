@@ -9,6 +9,15 @@
         header("location: index.html");
         die();
     }
+  // Verificar si ha pasado más de 5 minutos desde la última actividad del usuario
+if (isset($_SESSION['time']) && (time() - $_SESSION['time']) > 600) {
+    // Si ha pasado más de 5 minutos, redirigir a la página de cierre de sesión
+    header("Location: inactividad.php");
+    die();
+}
+
+// Actualizar la última actividad del usuario en la variable de sesión
+$_SESSION['time'] = time();
     // Consulta para obtener el id_rol del usuario.
     $sql = "SELECT * FROM tbl_ms_usuarios WHERE Usuario='$varsesion' LIMIT 1";
     $resultado = $conexion->query($sql);

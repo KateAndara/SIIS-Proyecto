@@ -76,7 +76,7 @@
                     <table id="TablaBitacoras" class="table table-hover" >
                         <thead>
                             <tr>
-                                <th>ID BITÁCORA</th>
+                                <th>NÚMERO</th>
                                 <th>USUARIO</th>
                                 <th>OBJETO</th>
                                 <th>FECHA</th>
