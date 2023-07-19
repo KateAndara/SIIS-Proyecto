@@ -6,9 +6,10 @@
             $conexion = parent::Conexion();
             parent::set_names();
             $sql = "SELECT t1.*, t2.Usuario, t3.Objeto
-                    FROM tbl_ms_bitacora t1                              
-                    JOIN tbl_ms_usuarios t2 ON t1.Id_Usuario = t2.Id_Usuario
-                    JOIN tbl_objetos t3 ON t1.Id_Objeto = t3.Id_Objeto";
+            FROM tbl_ms_bitacora t1                              
+            JOIN tbl_ms_usuarios t2 ON t1.Id_Usuario = t2.Id_Usuario
+            JOIN tbl_objetos t3 ON t1.Id_Objeto = t3.Id_Objeto
+            ORDER BY t1.Fecha DESC"; // Ordenar por el campo "Fecha" de manera descendente (del más reciente al más viejo)
             $sql = $conexion->prepare($sql);
             $sql->execute();
             $resultados = $sql->fetchAll(PDO::FETCH_ASSOC);

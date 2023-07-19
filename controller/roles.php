@@ -112,52 +112,46 @@ session_start();
 
             //Permisos
             case "GetPermisos":
-
-                $id_Rol=$body['idRol'];
-
-
+                $id_Rol = $body['idRol'];
+            
                 $arrModulos = $roles->selectModulos();
-				$arrPermisosRol = $roles->selectPermisosRol($id_Rol);
-				
-                $rol=$roles->selectRol($id_Rol);
-          
-                $nombreRol=$rol[0]['Rol'];
-             
-                //$arrRol = $this->model->getRol($rolid);
+                $arrPermisosRol = $roles->selectPermisosRol($id_Rol);
+                $rol = $roles->selectRol($id_Rol);
+                $nombreRol = $rol[0]['Rol'];
+            
+                // Eliminar el objeto "permisos" del array de módulos
+                $arrModulos = array_filter($arrModulos, function($modulo) {
+                    return $modulo['Tipo_objeto'] !== 'Permisos';
+                });
+            
                 $arrPermisos = array('r' => 0, 'w' => 0, 'u' => 0, 'd' => 0);
                 $arrPermisoRol = array('idrol' => $id_Rol);
-                
-                if(empty($arrPermisosRol))
-				{
-					for ($i=0; $i < count($arrModulos) ; $i++) { 
-
-						$arrModulos[$i]['permisos'] = $arrPermisos;
-					}
-				}else{
-					for ($i=0; $i < count($arrModulos); $i++) {
-						$arrPermisos = array('r' => 0, 'w' => 0, 'u' => 0, 'd' => 0);
-						if(isset($arrPermisosRol[$i])){
-							$arrPermisos = array('r' => $arrPermisosRol[$i]['Permiso_consultar'], 
-												 'w' => $arrPermisosRol[$i]['Permiso_insercion'], 
-												 'u' => $arrPermisosRol[$i]['Permiso_actualizacion'], 
-												 'd' => $arrPermisosRol[$i]['Permiso_eliminacion'] 
-												);            
-						}
-						$arrModulos[$i]['permisos']=$arrPermisos;
-					 }
-					}
-
-                    $arrPermisoRol['modulos']=$arrModulos;
-
-
-                    
-                    $htmlPermisos = getFile('../Formularios/EditarPermisos',$arrPermisoRol);
-                 
-                    
-                    $arrResponse = array("status" => true, "msg" => 'Producto agregado',"htmlPermisos"=>$htmlPermisos,"nombreRol"=>$nombreRol);
-                    echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
-                
-                //echo json_encode("Rol Eliminado");
+            
+                if (empty($arrPermisosRol)) {
+                    for ($i = 0; $i < count($arrModulos); $i++) {
+                        $arrModulos[$i]['permisos'] = $arrPermisos;
+                    }
+                } else {
+                    for ($i = 0; $i < count($arrModulos); $i++) {
+                        $arrPermisos = array('r' => 0, 'w' => 0, 'u' => 0, 'd' => 0);
+                        if (isset($arrPermisosRol[$i])) {
+                            $arrPermisos = array(
+                                'r' => $arrPermisosRol[$i]['Permiso_consultar'],
+                                'w' => $arrPermisosRol[$i]['Permiso_insercion'],
+                                'u' => $arrPermisosRol[$i]['Permiso_actualizacion'],
+                                'd' => $arrPermisosRol[$i]['Permiso_eliminacion']
+                            );
+                        }
+                        $arrModulos[$i]['permisos'] = $arrPermisos;
+                    }
+                }
+            
+                $arrPermisoRol['modulos'] = $arrModulos;
+            
+                $htmlPermisos = getFile('../Formularios/EditarPermisos', $arrPermisoRol);
+            
+                $arrResponse = array("status" => true, "msg" => 'Producto agregado', "htmlPermisos" => $htmlPermisos, "nombreRol" => $nombreRol);
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
             break;
             case "setPermisos":
 
