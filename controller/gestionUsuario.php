@@ -33,6 +33,15 @@ error_reporting(E_ALL);
         $id_cargo=1;
         $id_rol = $_POST["Rol"];
         $contrasena = $_POST["Clave"];
+
+        // Función para encriptar contraseña
+        function encriptar($password) {
+          $Encriptada = hash('sha256', $password);
+          return $Encriptada;
+        }
+        //Variable que almacena la contraseña encriptada
+        $contrasenaEncriptada = encriptar($contrasena);
+        
         $correo = $_POST["Email"];
         $parametro = $_POST["fecha_v"];
 
@@ -107,7 +116,7 @@ error_reporting(E_ALL);
           echo '<br>';
           echo '<div class="alert alert-danger">El campo Contraseña no puede contener espacios en blanco.</div>';
         }else{
-          $sql=$conexion -> query("insert into tbl_ms_usuarios(Id_Rol,Id_Cargo,Usuario,Nombre,Estado,Contraseña,DNI,Correo_Electronico, Fecha_creacion, Creado_por, Fecha_vencimiento)values('$id_rol','$id_cargo','$usuario','$nombre','$estado','$contrasena','$dni','$correo','$Fecha', '$creadop', '$parametro')");
+          $sql=$conexion -> query("insert into tbl_ms_usuarios(Id_Rol,Id_Cargo,Usuario,Nombre,Estado,Contraseña,DNI,Correo_Electronico, Fecha_creacion, Creado_por, Fecha_vencimiento)values('$id_rol','$id_cargo','$usuario','$nombre','$estado','$contrasenaEncriptada','$dni','$correo','$Fecha', '$creadop', '$parametro')");
           echo '<br>';
           header('Location:../Formularios/GestionUsuarios.php?mensaje=guardado');
         

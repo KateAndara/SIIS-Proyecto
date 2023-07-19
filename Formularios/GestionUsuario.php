@@ -205,12 +205,12 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                           <div class="col-6">
                              
                             <label for="">USUARIO</label>
-                            <input type="text" id="usuario" onkeyup="javascript:this.value=this.value.toUpperCase();" name="usuario" class="form-control " placeholder="Ingrese el Usuario">
+                            <input type="text" id="usuario" onkeyup="javascript:this.value=this.value.toUpperCase();" name="usuario" autocomplete="off" class="form-control " placeholder="Ingrese el Usuario">
                           </div>
 
                           <div class="col-6">
                             <label for="">NOMBRE</label>
-                            <input type="text" id="nombre" name="Nombre" class="form-control valid validText" placeholder="Ingrese el Nombre">
+                            <input type="text" id="nombre" name="Nombre" class="form-control valid validText" autocomplete="off" placeholder="Ingrese el Nombre">
                           </div>
                       </div>
 
@@ -218,12 +218,12 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                           <div class="col-6">
                              
                             <label for="">DNI</label>
-                            <input type="text" id="DNI" name="DNI" class="form-control valid validNumberDni" placeholder="Ingrese el DNI">
+                            <input type="text" id="DNI" name="DNI" class="form-control valid validNumberDni" autocomplete="off" placeholder="Ingrese el DNI">
                           </div>
 
                           <div class="col-6">
                             <label for="">Correo Electronico</label>
-                            <input type="text" id="correo" name="correo" class="form-control valid validEmail" placeholder="Ingrese el Correo Electronico">
+                            <input type="text" id="correo" name="correo" class="form-control valid validEmail" autocomplete="off" placeholder="Ingrese el Correo Electronico">
                           </div>
                       </div>
 

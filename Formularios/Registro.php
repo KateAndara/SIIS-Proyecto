@@ -34,7 +34,7 @@
                <label class="text-light">Usuario</label>
                <div class="input-group-text bg-light ">
                    <img src="https://icon-library.com/images/free-user-icon/free-user-icon-26.jpg" alt="username-icon" style="height: 2.5rem" />
-                   <input class="form-control bg-light"  type="text" placeholder="Usuario..." name="Usuario"  
+                   <input class="form-control bg-light"  type="text" placeholder="Usuario..." autocomplete="off" onpaste="return false;" name="Usuario"  
                    id="inputUser3" maxlength="45" onkeydown="this.value=Mayus(this.value)" value="<?php if(isset($_POST["Usuario"])) echo $_POST["Usuario"]; ?>"
                    onkeyup="this.value=Mayusculas(this.value)" pattern="[A-Z]+" title="El usuario solo puede ir en Mayúsculas" required/>
                </div>
@@ -64,7 +64,7 @@
                 <label class="text-light">Nombre</label>
                 <div class="input-group-text bg-light ">
                     <img src="https://icon-library.com/images/name-icon/name-icon-4.jpg" alt="username-icon" style="height: 2.5rem" />
-                    <input class="form-control bg-light" type="text" placeholder="Nombre..." name="Nombre"
+                    <input class="form-control bg-light" type="text" placeholder="Nombre..." autocomplete="off" onpaste="return false;" name="Nombre"
                      id="inputname" maxlength="60" onkeyup="this.value=Letras(this.value)" 
                      value="<?php if(isset($_POST["Nombre"])) echo $_POST["Nombre"]; ?>"
                      pattern="[a-zA-Z ]+" title="El nombre solo debe contener letras y espacio" required/>
@@ -107,7 +107,7 @@
                  <label class="text-light">DNI</label>
                  <div class="input-group-text bg-light">
                      <img src="https://icon-library.com/images/card-icon/card-icon-14.jpg" alt="username-icon" style="height: 2.5rem" />
-                     <input class="form-control bg-light" type="text" placeholder="0000-0000-00000" 
+                     <input class="form-control bg-light" type="text" placeholder="0000-0000-00000" autocomplete="off" onpaste="return false;" 
                      name="Dni" value="<?php if(isset($_POST["Dni"])) echo $_POST["Dni"]; ?>"
                     id="inputdni" maxlength="16" onkeydown="this.value=Numeros(this.value)"
                     pattern="[0-9-]+" title="Solo se permiten números y guión" required/>
@@ -133,7 +133,7 @@
                   <label class="text-light">Correo Electrónico</label>
                   <div class="input-group-text bg-light ">
                        <img src="https://icon-library.com/images/free-e-mail-icon/free-e-mail-icon-12.jpg" alt="username-icon" style="height: 2.5rem" />
-                       <input class="form-control bg-light"  type="email" placeholder="john@example.com"
+                       <input class="form-control bg-light"  type="email" placeholder="john@example.com" autocomplete="off" onpaste="return false;"
                         name="Email" id="floatingInputEmail" maxlength="45" value="<?php if(isset($_POST["Email"])) echo $_POST["Email"]; ?>"
                         pattern="[a-zA-Z0-9!#$%&'*_+-]([\.]?[a-zA-Z0-9!#$%&'*_+-])+@[a-zA-Z0-9]([^@&%$\/()=?¿!.,:;]|\d)+[a-zA-Z0-9][\.][a-zA-Z]{2,4}([\.][a-zA-Z]{2})?"
                          title="El email debe contener un @ y un dominio (.com,.es,etc)" required/>

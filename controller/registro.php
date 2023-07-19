@@ -36,7 +36,7 @@
             echo '<div class="alert alert-danger">Este nombre de usuario ya existe</div> ';
         }else if(valcontraseña($clave)==false){ // Validación del campo del correo con @ y punto.
           echo '<br>';
-          echo '<div class="alert alert-danger">La contraseña debe tener minimo un carácter en mayúscula, minúscula, carácter númerico y carácter especial(!#$%&*^@&_+-.)</div>';
+          echo '<div class="alert alert-danger">La contraseña debe contener mínimo un caracter en mayúscula, minúscula, un caracter numérico y un caracter especial(!#$%&*^@&_+-.)</div>';
         }else if(strpbrk($clave, " ")){ // Validación de espacios en blanco en el campo Contraseña.
           echo '<br>';
           echo '<div class="alert alert-danger">El campo Contraseña no puede contener espacios en blanco.</div>';
@@ -69,11 +69,20 @@
             $nombre=$_POST["Nombre"];
             $dni=$_POST["Dni"];
             $contraseña=$_POST["Clave"];
+
+            // Función para encriptar contraseña
+            function encriptar($password) {
+              $Encriptada = hash('sha256', $password);
+              return $Encriptada;
+            }
+            //Variable que almacena la contraseña encriptada
+            $contrasenaEncriptada = encriptar($contraseña);
+
             $correo=$_POST["Email"];
             $Fecha=date("Y-m-d");
             $Fec_vencimiento=date("Y-m-d",strtotime("+30 days"));
             $estado="Nuevo";
-            $sql=$conexion -> query("insert into tbl_ms_usuarios(Id_Rol,Id_Cargo,Usuario,Nombre,Estado,Contraseña,Fecha_vencimiento,DNI,Correo_Electronico, Fecha_creacion)values('$id_rol','$id_cargo','$usuario','$nombre','$estado','$contraseña','$Fec_vencimiento','$dni','$correo','$Fecha')");
+            $sql=$conexion -> query("insert into tbl_ms_usuarios(Id_Rol,Id_Cargo,Usuario,Nombre,Estado,Contraseña,Fecha_vencimiento,DNI,Correo_Electronico, Fecha_creacion)values('$id_rol','$id_cargo','$usuario','$nombre','$estado','$contrasenaEncriptada','$Fec_vencimiento','$dni','$correo','$Fecha')");
             if ($sql==1){
                  echo '<div class="alert alert-success">Usuario registrado correctamente</div> ';
                 

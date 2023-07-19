@@ -2,18 +2,19 @@
 ob_start(); 
 if (!empty($_POST["btniniciarSesion"])){
     $usuario=$_POST["usuario"];
-    $clave=$_POST["password"];
+    $contrasenia=$_POST["password"];
+    $clave = hash('sha256', $contrasenia);
     $sql=$conexion->query(" select * from tbl_ms_usuarios where Usuario='$usuario' and Contraseña='$clave' ");
     session_start();
     $_SESSION['usuario'] = $usuario;
     
-    if ($usuario=="" ||$clave==""){ // Validación de campos vacíos.
+    if ($usuario=="" ||$contrasenia==""){ // Validación de campos vacíos.
       echo '<br>';
       echo '<div class="alert alert-danger">Debe llenar el o los campos vacíos.</div>';
     }else if(!ctype_upper($usuario)){ // Validación de solo mayúsculas en el campo Usuario.
       echo '<br>';
       echo '<div class="alert alert-danger">En el campo usuario solo se permiten mayúsculas.</div>';
-   }else if(strpbrk($clave, " ")){ // Validación de espacios en blanco en el campo Contraseña.
+   }else if(strpbrk($contrasenia, " ")){ // Validación de espacios en blanco en el campo Contraseña.
       echo '<br>';
       echo '<div class="alert alert-danger">El campo Contraseña no puede contener espacios en blanco.</div>';
     }else if ($datos=$sql->fetch_object()){ // Los datos ingresados son correctos.
@@ -175,24 +176,25 @@ if (!empty($_POST["btniniciarSesion"])){
         $sql = $conexion->query("Select id_usuario from tbl_ms_usuarios where Usuario = '$usuario';");
         $idusuario = $sql->fetch_object();
 
-        //limpiar datos
-        $informacion = json_encode($idusuario, true);
-        $posicion = strpos($informacion, ":") + 2;
-        $idusuario = substr($informacion, $posicion, -2);
-        $sql = $conexion->query("Select id_objeto from tbl_objetos where Objeto = 'login';");
-        $idobjeto = $sql->fetch_object();
+        // Solo si el usuario que intentó ingresar existe
+        if ($idusuario !== null) {
+          // Limpiar datos
+          $informacion = json_encode($idusuario, true);
+          $posicion = strpos($informacion, ":") + 2;
+          $idusuario = substr($informacion, $posicion, -2);
+          $sql = $conexion->query("SELECT id_objeto FROM tbl_objetos WHERE Objeto = 'login';");
+          $idobjeto = $sql->fetch_object();
 
-        // limpiar datos 
-        $informacion = json_encode($idobjeto, true);
+          // Limpiar datos 
+          $informacion = json_encode($idobjeto, true);
+          $posicion = strpos($informacion, ":") + 2;
+          $idobjeto = substr($informacion, $posicion, -2);
 
-        $posicion = strpos($informacion, ":") + 2;
-
-        $idobjeto = substr($informacion, $posicion, -2);
-        $sql = $conexion->query("INSERT INTO tbl_ms_bitacora(Id_Usuario,Id_Objeto,Fecha,Accion,Descripcion) VALUES($idusuario,$idobjeto,now(),'Inicio de Sesión fallido','El usuario $usuario ha intentado ingresar al sistema') ");
+          // Insertar en la tabla de bitácora 
+          $sql = $conexion->query("INSERT INTO tbl_ms_bitacora (Id_Usuario, Id_Objeto, Fecha, Accion, Descripcion) VALUES ($idusuario, $idobjeto, now(), 'Inicio de Sesión fallido', 'El usuario $usuario ha intentado ingresar al sistema')");
+        }
     }
 }
   ob_end_flush();
-
-
 
 ?>
