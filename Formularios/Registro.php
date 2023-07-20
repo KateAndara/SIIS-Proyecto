@@ -109,7 +109,7 @@
                      <img src="https://icon-library.com/images/card-icon/card-icon-14.jpg" alt="username-icon" style="height: 2.5rem" />
                      <input class="form-control bg-light" type="text" placeholder="0000-0000-00000" autocomplete="off" onpaste="return false;" 
                      name="Dni" value="<?php if(isset($_POST["Dni"])) echo $_POST["Dni"]; ?>"
-                    id="inputdni" maxlength="16" onkeydown="this.value=Numeros(this.value)"
+                    id="inputdni" maxlength="15" onkeydown="this.value=Numeros(this.value)"
                     pattern="[0-9-]+" title="Solo se permiten números y guión" required/>
                  </div>
               <script>

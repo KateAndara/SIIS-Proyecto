@@ -46,7 +46,7 @@
             echo "<div class='input-group-text bg-light'>";
             echo "<button id='show_password' class='btn btn-dark'  type='button' style='width:40px' onclick=\"mostrarPassword('contraseñaActual')\"> <span class='fa fa-eye-slash icon' ></span> </button>";
             echo "</div>";
-            echo "<input class='form-control bg-light' type='password'  name='contraseñaActual' id='contraseñaActual' placeholder='Contraseña actual' required><br>";
+            echo "<input class='form-control bg-light' type='password'  name='contraseñaActual' id='contraseñaActual' onpaste='return false;' placeholder='Contraseña actual' required><br>";
             echo "</div>";
             echo "<br>"; 
             echo "<span id='fila2' for='contraseña'>Ingrese la nueva contraseña:</span><br>";
@@ -54,7 +54,7 @@
             echo "<div class='input-group-text bg-light'>";
             echo "<button id='show_password' class='btn btn-dark'  type='button' style='width:40px' onclick=\"mostrarPassword('contraseña')\"> <span class='fa fa-eye-slash icon' ></span> </button>";
             echo "</div>";
-            echo "<input class='form-control bg-light' type='password'  name='contraseña' id='contraseña' placeholder='Contraseña' required><br>";
+            echo "<input class='form-control bg-light' type='password'  name='contraseña' id='contraseña' onpaste='return false;' placeholder='Contraseña' required><br>";
             echo "</div>";
             echo "<br>"; 
             echo "<span id='fila3' for='confirmarcontraseña'>Confirme la nueva contraseña:</span><br>";
@@ -62,7 +62,7 @@
             echo "<div class='input-group-text bg-light'>";
             echo "<button id='show_password' class='btn btn-dark'  type='button' style='width:40px' onclick=\"mostrarPassword('confirmarcontraseña')\"> <span class='fa fa-eye-slash icon' ></span> </button>";
             echo "</div>";
-            echo "<input class='form-control bg-light' type='password'  name='confirmarcontraseña' id='confirmarcontraseña' placeholder='Contraseña' required><br>";
+            echo "<input class='form-control bg-light' type='password'  name='confirmarcontraseña' id='confirmarcontraseña' onpaste='return false;' placeholder='Contraseña' required><br>";
             echo "</div>";
             echo "<br>"; 
             echo "<div class='d-flex gap-1 justify-content-center mt-1'>";

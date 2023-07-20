@@ -142,17 +142,10 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                 <?php } ?>
                 <button class="rounded" style="background-color: #fff; color: dark; float: right;"onclick="generarReporte('TablaUsuarios','REPORTE DE USUARIOS',60)">Generar PDF</button>            </form>
             </div>
-            <script>
-                $(document).ready(function(){          //Lee la búsqueda
+            <script> //Carga la función "generarReporte" de formulario "form-busqueda"
+                $(document).ready(function(){ 
                     $('#form-busqueda').submit(function(event){ 
                         event.preventDefault(); 
-
-                        var busqueda = $('#input-busqueda').val();
-                        if(busqueda == "") {
-                            CargarRoles();
-                        } else {
-                            BuscarRol(busqueda);
-                        }
                     });
                 });
             </script>
@@ -205,12 +198,12 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                           <div class="col-6">
                              
                             <label for="">USUARIO</label>
-                            <input type="text" id="usuario" onkeyup="javascript:this.value=this.value.toUpperCase();" name="usuario" autocomplete="off" class="form-control " placeholder="Ingrese el Usuario">
+                            <input type="text" id="usuario" onkeyup="javascript:this.value=this.value.toUpperCase();" name="usuario" autocomplete="off" onpaste="return false;" class="form-control " placeholder="Ingrese el Usuario">
                           </div>
 
                           <div class="col-6">
                             <label for="">NOMBRE</label>
-                            <input type="text" id="nombre" name="Nombre" class="form-control valid validText" autocomplete="off" placeholder="Ingrese el Nombre">
+                            <input type="text" id="nombre" name="Nombre" class="form-control valid validText" autocomplete="off" onpaste="return false;" placeholder="Ingrese el Nombre">
                           </div>
                       </div>
 
@@ -218,12 +211,12 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                           <div class="col-6">
                              
                             <label for="">DNI</label>
-                            <input type="text" id="DNI" name="DNI" class="form-control valid validNumberDni" autocomplete="off" placeholder="Ingrese el DNI">
+                            <input type="text" id="DNI" name="DNI" class="form-control valid validNumberDni" autocomplete="off" onpaste="return false;" placeholder="0000-0000-00000">
                           </div>
 
                           <div class="col-6">
                             <label for="">Correo Electronico</label>
-                            <input type="text" id="correo" name="correo" class="form-control valid validEmail" autocomplete="off" placeholder="Ingrese el Correo Electronico">
+                            <input type="text" id="correo" name="correo" class="form-control valid validEmail" autocomplete="off" onpaste="return false;" placeholder="Ingrese el Correo Electronico">
                           </div>
                       </div>
 
@@ -231,12 +224,12 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                           <div class="col-6">
                              
                             <label for="">Contraseña</label>
-                            <input type="password" name="contraseña " id="contraseña" class="form-control valid ValidContra" placeholder="Ingrese la contraseña ">
+                            <input type="password" name="contraseña " id="contraseña" class="form-control valid ValidContra" onpaste="return false;" placeholder="Ingrese la contraseña ">
                           </div>
 
                           <div class="col-6">
                             <label for="">Confirmar Contraseña</label>
-                            <input type="password" id="confirmContraseña" name="confirmContraseña" class="form-control valid ValidContra" placeholder="Ingrese la confirmación de la contraseña ">
+                            <input type="password" id="confirmContraseña" name="confirmContraseña" class="form-control valid ValidContra" onpaste="return false;" placeholder="Ingrese la confirmación de la contraseña ">
                           </div>
                       </div>
 

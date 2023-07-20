@@ -244,7 +244,7 @@ $enviroment=0;
             
 
                     if ($datos>0) {
-                        $arrResponse = array("status" => true, "msg" => 'Usuario Actualizado Con exito');
+                        $arrResponse = array("status" => true, "msg" => 'Usuario actualizado con éxito');
                     }
                 }
                 

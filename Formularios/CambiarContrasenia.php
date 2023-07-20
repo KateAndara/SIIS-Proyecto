@@ -40,7 +40,7 @@
             echo "<div class='input-group-text bg-light'>";
             echo "<button id='how_password' class='btn btn-dark'  type='button' style='width:40px' onclick='mostrarPassword1()'> <span class='fa fa-eye-slash icon' ></span> </button>";
             echo "</div>";
-            echo "<input class='form-control bg-light' type='password'  name='contraseña' id='txtPassword' placeholder='Contraseña' required><br>";
+            echo "<input class='form-control bg-light' type='password'  name='contraseña' id='txtPassword' onpaste='return false;' placeholder='Contraseña' required><br>";
             echo "</div>";
             echo "<script type='text/javascript'>";
             echo "function mostrarPassword1(){";
@@ -60,7 +60,7 @@
             echo "<div class='input-group-text bg-light'>";
             echo "<button id='how_password2' class='btn btn-dark'  type='button' style='width:40px' onclick='mostrarPassword2()'> <span class='fa fa-eye-slash icon' ></span> </button>";
             echo "</div>";
-            echo "<input class='form-control bg-light' type='password'  name='confirmarcontraseña' id='confirmarcontraseña' placeholder='Contraseña' required><br>";
+            echo "<input class='form-control bg-light' type='password'  name='confirmarcontraseña' id='confirmarcontraseña' onpaste='return false;' placeholder='Contraseña' required><br>";
             echo "</div>";
             echo "<script type='text/javascript'>";
             echo "function mostrarPassword2(){";

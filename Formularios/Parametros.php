@@ -53,20 +53,7 @@
             <form id="form-busqueda" autocomplete="off">
                 <button class="rounded" style="background-color: #fff; color: dark; float: right;"onclick="generarReporte('TablaParametros','REPORTE DE PARÁMETROS',60)">Generar PDF</button>            </form>
             </div>
-            <!--<script>
-                $(document).ready(function(){          //Lee la búsqueda
-                    $('#form-busqueda').submit(function(event){ 
-                        event.preventDefault(); 
-
-                        var busqueda = $('#input-busqueda').val();
-                        if(busqueda == "") {
-                            CargarRoles();
-                        } else {
-                            BuscarRol(busqueda);
-                        }
-                    });
-                });
-            </script>-->
+            
             <script>
             function mostrarFormulario() {
             var formulario = document.querySelector('.Formulario'); //Muestra el formulario de agregar y actualizar.

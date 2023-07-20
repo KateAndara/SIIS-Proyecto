@@ -77,7 +77,7 @@
             }
             echo "</select><br>";
             echo "<span for 'respuesta' id='fila1'>Ingrese la respuesta:</span>";
-            echo "<input class='form-control bg-light' type='text' name='respuesta' id='respuesta' placeholder='Respuesta' required><br>";
+            echo "<input class='form-control bg-light' type='text' name='respuesta' id='respuesta' autocomplete='off' onpaste='return false;' placeholder='Respuesta' required><br>";
             echo "<div class='d-flex gap-1 justify-content-center mt-1'>";
             echo "<div id='btnEnviarRespuestas'>";
             echo "<input id= 'btnAceptar' type='submit' name='btnAceptar' value='ACEPTAR' class='btn btn-info text-white w-100 mt-4 fw-semibold shadow-sm' >";

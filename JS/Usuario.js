@@ -72,12 +72,13 @@ function fntValidText() {
 }
 
 
+
 function fntValidNumberDni() {
   let validNumberDni = document.querySelectorAll(".validNumberDni");
-  validNumberDni.forEach(function (validNumberDni) {
-    validNumberDni.addEventListener("keyup", function () {
+  validNumberDni.forEach(function (inputElement) {
+    inputElement.addEventListener("keyup", function () {
       let inputValue = this.value;
-      if (!testEnteroDni(inputValue)) {
+      if (!testFormatoDni(inputValue)) {
         this.classList.add("is-invalid");
       } else {
         this.classList.remove("is-invalid");
@@ -85,6 +86,15 @@ function fntValidNumberDni() {
     });
   });
 }
+
+function testFormatoDni(inputValue) {
+  // Expresión regular para validar el formato "0000-0000-00000"
+  let formatoDniRegex = /^\d{4}-\d{4}-\d{5}$/;
+
+  // Testea si el valor coincide con el formato esperado
+  return formatoDniRegex.test(inputValue);
+}
+
 
 function fntValidEmail() {
   let validEmail = document.querySelectorAll(".validEmail");
@@ -228,10 +238,6 @@ function verUsuario(Id_Usuario) {
    
 
 function AgregarUsuario() {
-
-
-
-
   usuario=document.querySelector("#usuario").value;
   nombre = document.querySelector("#nombre").value;
   DNI = document.querySelector("#DNI").value;
@@ -289,7 +295,11 @@ function AgregarUsuario() {
  }
 
  if (DNIvalid.classList.contains("is-invalid")) {
-   swal.fire("Atención", "DNI solo debe ser númerico", "error");
+  swal.fire({
+    title: "Atención",
+    html: "El formato del DNI no es válido.<br>Debe ser: 0000-0000-00000",
+    icon: "error"
+  });  
    return false;
  }
 
@@ -341,7 +351,7 @@ if (contraseña!="" && contraseña.length<8) {
           icon: "success",
           confirmButtonText: "Aceptar",
           closeOnConfirm: false,
-          timer: 3000,
+          timer: 100,
           willClose: () => {
             window.location.reload();
           },
@@ -567,11 +577,15 @@ function ActualizarUsuario(idUsuario) {
     );
     return false;
   }
- 
+
   if (DNIvalid.classList.contains("is-invalid")) {
-    swal.fire("Atención", "DNI solo debe ser númerico", "error");
-    return false;
-  }
+    swal.fire({
+      title: "Atención",
+      html: "El formato del DNI no es válido.<br>Debe ser: 0000-0000-00000",
+      icon: "error"
+    });  
+     return false;
+   }
 
   let elementsValid = document.getElementsByClassName("valid");
   for (let i = 0; i < elementsValid.length; i++) {

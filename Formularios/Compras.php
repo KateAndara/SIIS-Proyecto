@@ -60,17 +60,10 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                 <button class="rounded" style="background-color: #fff; color: dark; float: right;"onclick="generarReporte('TablaCompras','REPORTE DE COMPRAS',60)">Generar PDF</button>          
             </form>
             </div>
-            <script>
-                $(document).ready(function(){          //Lee la búsqueda
+            <script> //Carga la función "generarReporte" de formulario "form-busqueda"
+                $(document).ready(function(){ 
                     $('#form-busqueda').submit(function(event){ 
                         event.preventDefault(); 
-
-                        var busqueda = $('#input-busqueda').val();
-                        if(busqueda == "") {
-                            CargarRoles();
-                        } else {
-                            BuscarRol(busqueda);
-                        }
                     });
                 });
             </script>
