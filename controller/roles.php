@@ -63,9 +63,7 @@ session_start();
 
                     }
 
-                $varsesion = $_SESSION['usuario'];
-                $Id_Usuario = intval($roles->get_user($varsesion));
-                $roles->registrar_bitacora($Id_Usuario, 37, 'Ingresar', 'Se ingresó a la pantalla de roles y permisos');
+                
 
                 echo json_encode($datos);
             break;
@@ -81,12 +79,23 @@ session_start();
                 echo json_encode($datos);
             break;
             case "InsertRol":
-                $datos=$roles->insert_rol($body["Rol"],$body["Descripcion"]);
+                // Obtiene el nombre del rol y la descripción desde el cuerpo de la solicitud
+                $Rol = $body["Rol"];
+                $Descripcion = $body["Descripcion"];
+            
+                // Llama al método para insertar el rol y obtén el nombre del rol insertado
+                $datos = $roles->insert_rol($Rol, $Descripcion);
+            
+                // Obtiene el Id_Usuario de la sesión
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($roles->get_user($varsesion));
-                $roles->registrar_bitacora($Id_Usuario, 37, 'Insertar', 'Se insertó un  rol');
+            
+                // Llama al método para registrar la bitácora con la información del rol insertado
+                $roles->registrar_bitacora($Id_Usuario, 37, 'Insertar', 'Se insertó el rol: ' . $Rol);
+            
                 echo json_encode("Se agregó el rol");
             break;
+            
             case "UpdateRol":
                 $datos=$roles->update_rol($body["Id_Rol"],$body["Rol"],$body["Descripcion"]);
                 $varsesion = $_SESSION['usuario'];
@@ -95,12 +104,28 @@ session_start();
                 echo json_encode("Rol Actualizado");
             break;
             case "DeleteRol":
-                $datos=$roles->delete_rol($body["Id_Rol"]);
+                // Obtiene el Id_Rol desde el cuerpo de la solicitud
+                $Id_Rol = $body["Id_Rol"];
+            
+                // Llama al método para eliminar el rol y obtén el nombre del rol eliminado
+                $datos = $roles->delete_rol($Id_Rol);
+                $rol_eliminado = $roles->get_roleditar($Id_Rol);
+            
+                // Obtiene el Id_Usuario de la sesión
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($roles->get_user($varsesion));
-                $roles->registrar_bitacora($Id_Usuario, 37, 'Eliminar', 'Se eliminó un  rol');
+            
+                // Llama al método para registrar la bitácora con la información del rol eliminado
+                if (!empty($rol_eliminado)) {
+                    $roles->registrar_bitacora($Id_Usuario, 37, 'Eliminar', 'Se eliminó el rol: ' . $rol_eliminado);
+                } else {
+                    // Si no se pudo obtener el nombre del rol eliminado, registrar una descripción sin el nombre del rol
+                    $roles->registrar_bitacora($Id_Usuario, 37, 'Eliminar', 'Se eliminó un rol');
+                }
+            
                 echo json_encode("Rol Eliminado");
             break;
+            
 
 
 

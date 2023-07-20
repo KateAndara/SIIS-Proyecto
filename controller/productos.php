@@ -50,9 +50,7 @@ session_start();
                     $datos[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
 
                 }
-                $varsesion = $_SESSION['usuario'];
-                $Id_Usuario = intval($productos->get_user($varsesion));
-                $productos->registrar_bitacora($Id_Usuario, 34, 'Ingresar', 'Se ingresó a la pantalla de Productos');
+              
                 echo json_encode($datos);
             break;
             case "GetProducto": //Buscar por cualquier campo 

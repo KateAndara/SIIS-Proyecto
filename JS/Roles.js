@@ -299,7 +299,7 @@ function EliminarRol(idRol){
             success: function (response) {
                 //Swal.fire("Cancelada!", "Compra Cancelada Correctamente.", "success");
                 Swal.fire({
-                  title: "Cancelada",
+                  title: "LISTO",
                   text: "Rol Eliminado Correctamente",
                   icon: "success",
                   timer: 3000,

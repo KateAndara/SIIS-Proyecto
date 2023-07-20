@@ -79,9 +79,7 @@ $enviroment=0;
                 }
 
 
-                $varsesion = $_SESSION['usuario'];
-                $Id_Usuario = intval($usuarios->get_user($varsesion));
-                $usuarios->registrar_bitacora($Id_Usuario, 36, 'Ingresar', 'Se ingresó a la pantalla de usuarios');
+               
                 echo json_encode($datos);
             break;
            

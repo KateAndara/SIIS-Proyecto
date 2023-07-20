@@ -49,9 +49,7 @@
                 $datos[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
 
             }
-                $varsesion = $_SESSION['usuario'];
-                $Id_Usuario = intval($talonario->get_user($varsesion));
-                $talonario->registrar_bitacora($Id_Usuario, 45, 'Ingresar', 'Se ingresó a la pantalla de talonario');
+               
                 echo json_encode($datos);
             break;
             case "urlEditarTalonario": //Trae la fila que se va a editar

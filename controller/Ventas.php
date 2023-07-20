@@ -54,9 +54,7 @@
                     $datos[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
 
                 }
-                $varsesion = $_SESSION['usuario'];
-                $Id_Usuario = intval($ventas->get_user($varsesion));
-                $ventas->registrar_bitacora($Id_Usuario, 24, 'Ingresar', 'Se ingresó a la pantalla de Ventas');
+               
               
                 echo json_encode($datos);
             break;

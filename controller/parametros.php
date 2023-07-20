@@ -45,9 +45,7 @@ session_start();
 
                 }
 
-                $varsesion = $_SESSION['usuario'];
-                $Id_Usuario = intval($Parametros->get_user($varsesion));
-                $Parametros->registrar_bitacora($Id_Usuario, 40, 'Ingresar', 'Se ingresó a la pantalla de parámetros');
+               
                 echo json_encode($datos);
             break;
             case "GetParametro":

@@ -42,9 +42,7 @@
                 }
                 session_start();
                 require_once("../config/conexion.php");
-                $varsesion = $_SESSION['usuario'];
-                $Id_Usuario = intval($Inventarios->get_user($varsesion));
-                $Inventarios->registrar_bitacora($Id_Usuario, 33, 'Ingresar', 'Se ingresó a la pantalla de Inventario');
+               
                 echo json_encode($datos);
             break;        
             case "GetMovimientos":

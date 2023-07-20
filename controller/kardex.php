@@ -34,9 +34,7 @@
                 }
                 session_start();
                 require_once("../config/conexion.php");
-                $varsesion = $_SESSION['usuario'];
-                $Id_Usuario = intval($Kardexs->get_user($varsesion));
-                $Kardexs->registrar_bitacora($Id_Usuario, 33, 'Ingresar', 'Se ingresó a la pantalla de Kardex');
+               
                 echo json_encode($datos);
             break;
             case "GetKardex":

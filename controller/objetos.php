@@ -49,9 +49,7 @@ session_start();
 
                 }
 
-                $varsesion = $_SESSION['usuario'];
-                $Id_Usuario = intval($Objetos->get_user($varsesion));
-                $Objetos->registrar_bitacora($Id_Usuario, 41, 'Ingresar', 'Se ingresó a la pantalla de objetos');
+                
                 echo json_encode($datos);
             break;
             case "GetObjeto":

@@ -49,9 +49,7 @@ session_start();
                     $datos[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
 
                 }
-                $varsesion = $_SESSION['usuario'];
-                $Id_Usuario = intval($tiposMovimientosMM->get_user($varsesion));
-                $tiposMovimientosMM->registrar_bitacora($Id_Usuario, 49, 'Ingresar', 'Se ingresó a la pantalla de Tipos de Movimientos');
+               
                 echo json_encode($datos);
             break;
             case "GetTipoMovimientoMM": //Buscar por cualquier campo 

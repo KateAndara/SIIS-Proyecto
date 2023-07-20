@@ -55,10 +55,7 @@
 
                 }
 
-                $varsesion = $_SESSION['usuario'];
-                $Id_Usuario = intval($compras->get_user($varsesion));
-                $compras->registrar_bitacora($Id_Usuario, 29, 'Ingresar', 'Se ingresó a la pantalla de Compras');
-
+               
                 echo json_encode($datos);
             break;
             case "getCompra":

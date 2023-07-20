@@ -49,9 +49,6 @@ session_start();
                     $datos[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
 
                 }
-                $varsesion = $_SESSION['usuario'];
-                $Id_Usuario = intval($contactosProveedoresMM->get_user($varsesion));
-                $contactosProveedoresMM->registrar_bitacora($Id_Usuario, 46, 'Ingresar', 'Se ingresó a la pantalla de los contactos de proveedores');
                 echo json_encode($datos);
             break;
             case "GetContactoProveedorMM": //Buscar por cualquier campo 

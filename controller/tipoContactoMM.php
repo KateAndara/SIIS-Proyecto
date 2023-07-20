@@ -48,9 +48,7 @@ session_start();
                     $datos[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
 
                 }
-                $varsesion = $_SESSION['usuario'];
-                $Id_Usuario = intval($tiposContactosMM->get_user($varsesion));
-                $tiposContactosMM->registrar_bitacora($Id_Usuario, 48, 'Ingresar', 'Se ingresó a la pantalla de Tipos de contactos');
+                
                 echo json_encode($datos);
             break;
             case "GetTipoContactoMM":

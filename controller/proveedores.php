@@ -49,9 +49,7 @@ session_start();
 
 
                 }
-                $varsesion = $_SESSION['usuario'];
-                $Id_Usuario = intval($proveedores->get_user($varsesion));
-                $proveedores->registrar_bitacora($Id_Usuario, 30, 'Ingresar', 'Se ingresó a la pantalla de Proveedores');
+                
                 echo json_encode($datos);
             break;
             case "GetProveedor": //Buscar por cualquier campo 

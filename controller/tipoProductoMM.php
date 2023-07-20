@@ -49,9 +49,7 @@ session_start();
                     $datos[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
 
                 }
-                $varsesion = $_SESSION['usuario'];
-                $Id_Usuario = intval($tiposProductosMM->get_user($varsesion));
-                $tiposProductosMM->registrar_bitacora($Id_Usuario, 44, 'Ingresar', 'Se ingresó a la pantalla de Tipos de productos');
+                
                 echo json_encode($datos);
             break;
             case "GetTipoProductoMM":

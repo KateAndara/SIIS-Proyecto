@@ -51,9 +51,7 @@
 
                 }
 
-                $varsesion = $_SESSION['usuario'];
-                $Id_Usuario = intval($especiesMM->get_user($varsesion));
-                $especiesMM->registrar_bitacora($Id_Usuario, 42, 'Ingresar', 'Se ingresó a la pantalla de especies');
+                
                 echo json_encode($datos);
             break;
             case "GetEspecieMM": //Buscar por cualquier campo 

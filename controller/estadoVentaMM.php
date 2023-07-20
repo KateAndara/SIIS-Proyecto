@@ -50,9 +50,7 @@ session_start();
                     $datos[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
 
                 }
-                $varsesion = $_SESSION['usuario'];
-                $Id_Usuario = intval($estadosVentasMM->get_user($varsesion));
-                $estadosVentasMM->registrar_bitacora($Id_Usuario, 43, 'Ingresar', 'Se ingresó a la pantalla de Estado de Ventas');
+                
                 echo json_encode($datos);
             break;
 

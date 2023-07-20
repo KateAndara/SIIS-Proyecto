@@ -51,9 +51,6 @@
 
                 }
 
-                $varsesion = $_SESSION['usuario'];
-                $Id_Usuario = intval($cargosMM->get_user($varsesion));
-                $cargosMM->registrar_bitacora($Id_Usuario, 42, 'Ingresar', 'Se ingresó a la pantalla de cargos');
                 echo json_encode($datos);
             break;
             case "GetCargoMM": //Buscar por cualquier campo 

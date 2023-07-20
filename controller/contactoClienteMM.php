@@ -46,9 +46,6 @@ session_start();
                     $datos[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
 
                 }
-                $varsesion = $_SESSION['usuario'];
-                $Id_Usuario = intval($contactosClientesMM->get_user($varsesion));
-                $contactosClientesMM->registrar_bitacora($Id_Usuario, 47, 'Ingresar', 'Se ingresó a la pantalla de contactos de Clientes');
 
                 echo json_encode($datos);
             break;
