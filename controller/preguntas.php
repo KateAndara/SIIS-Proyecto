@@ -78,16 +78,13 @@ session_start();
                 $Preguntas->registrar_bitacora($Id_Usuario, 31, 'Insertar', 'Se insertó la pregunta: ' . $Pregunta);
             
                 echo json_encode("Se agregó la pregunta");
-                echo '<script>
-                 mostrarSweetAlert("La pregunta ha sido agregada correctamente", "success");
-                </script>';
             break;
             
             case "UpdatePregunta":
                 $datos=$Preguntas->update_pregunta($body["Id_Pregunta"],$body["Pregunta"]);
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($Preguntas->get_user($varsesion));
-                $Preguntas->registrar_bitacora($Id_Usuario, 31, 'Actualizar', 'Se actualizó una pregunta');
+                $Preguntas->registrar_bitacora($Id_Usuario, 31, 'Actualizar', 'Se actualizó la pregunta' .$body["Pregunta"]);
                 echo json_encode("Pregunta Actualizada");
             break;
             case "DeletePregunta":
@@ -95,7 +92,7 @@ session_start();
                 $Id_Pregunta = $body["Id_Pregunta"];
             
                 // Obtén la pregunta antes de eliminarla
-                $pregunta_eliminada = $Preguntas->get_preguntaeditar($Id_Pregunta);
+                $pregunta_eliminada = $Preguntas->preguntaeliminar($Id_Pregunta);
             
                 // Llama al método para eliminar la pregunta
                 $datos = $Preguntas->delete_pregunta($Id_Pregunta);
@@ -105,12 +102,8 @@ session_start();
                 $Id_Usuario = intval($Preguntas->get_user($varsesion));
             
                 // Llama al método para registrar la bitácora con la información de la pregunta eliminada
-                if (!empty($pregunta_eliminada)) {
-                    $Preguntas->registrar_bitacora($Id_Usuario, 31, 'Eliminar', 'Se eliminó la pregunta: ' . $pregunta_eliminada[0]['Pregunta']);
-                } else {
-                    // Si no se pudo obtener la pregunta eliminada, registrar una descripción sin el nombre de la pregunta
-                    $Preguntas->registrar_bitacora($Id_Usuario, 31, 'Eliminar', 'Se eliminó una pregunta');
-                }
+                $Preguntas->registrar_bitacora($Id_Usuario, 31, 'Eliminar', 'Se eliminó la pregunta: ' . $pregunta_eliminada);
+                
             
                 echo json_encode("Pregunta Eliminada");
             break;

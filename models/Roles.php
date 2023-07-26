@@ -64,6 +64,30 @@
             return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
         }
 
+        public function roleliminar($Id_Rol){       
+            try {
+                $conectar = parent::Conexion();
+                parent::set_names();
+                $sql = "SELECT Rol FROM tbl_ms_roles WHERE Id_Rol = ?";
+                $sql = $conectar->prepare($sql);
+                if ($sql) {
+                    $sql->bindValue(1, $Id_Rol, PDO::PARAM_STR);
+                    $sql->execute();
+                    
+                    $resultado = $sql->fetch(PDO::FETCH_ASSOC);
+                    if ($resultado) {
+                        return $resultado['Rol'];
+                    } else {
+                        return "El rol con Id_Rol = $Id_Rol no existe.";
+                    }
+                } else {
+                    return "Error al preparar la consulta.";
+                }
+            } catch (PDOException $e) {
+                return "Error: " . $e->getMessage();
+            }
+        }
+
         public function insert_rol($Rol, $Descripcion){
             $conectar= parent::conexion();
             parent::set_names();

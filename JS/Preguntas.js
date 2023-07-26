@@ -109,25 +109,12 @@ function AgregarPregunta(){
         contentType: 'application/json',
         success: function(response){
             console.log(response);
-            Swal.fire({
-                title: 'Pregunta Agregada',
-                icon: 'success',
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'Aceptar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    CargarPreguntas();
-                }
-            });
+            alert('Pregunta agregada correctamente.');
+            CargarPreguntas();
         },
 
-        error: function(textStatus, errorThrown){
-            Swal.fire({
-                title: 'Error al agregar pregunta',
-                icon: 'error',
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'Aceptar'
-            });
+        error: function (textStatus, errorThrown) {
+            alert('Error al agregar la pregunta: ' + textStatus + ' ' + errorThrown);
         }
     });
 }

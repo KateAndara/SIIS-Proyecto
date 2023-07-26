@@ -53,6 +53,29 @@
             return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
         }
         
+        public function preguntaeliminar($Id_Pregunta){       
+            try {
+                $conectar = parent::Conexion();
+                parent::set_names();
+                $sql = "SELECT Pregunta FROM tbl_ms_preguntas WHERE Id_Pregunta = ?";
+                $sql = $conectar->prepare($sql);
+                if ($sql) {
+                    $sql->bindValue(1, $Id_Pregunta, PDO::PARAM_STR);
+                    $sql->execute();
+                    
+                    $resultado = $sql->fetch(PDO::FETCH_ASSOC);
+                    if ($resultado) {
+                        return $resultado['Pregunta'];
+                    } else {
+                        return "La pregunta con Id_Pregunta = $Id_Pregunta no existe.";
+                    }
+                } else {
+                    return "Error al preparar la consulta.";
+                }
+            } catch (PDOException $e) {
+                return "Error: " . $e->getMessage();
+            }
+        }
         public function get_preguntaeditar($Id_Pregunta){       //Trae los datos de la fila que se quiere editar.           
             $conectar = parent::Conexion();
             parent::set_names();

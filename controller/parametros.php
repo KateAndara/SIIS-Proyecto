@@ -66,7 +66,7 @@ session_start();
                 $datos=$Parametros->update_parametro($body["Id_Parametro"],$body["Parametro"],$body["Valor"]);
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($Parametros->get_user($varsesion));
-                $Parametros->registrar_bitacora($Id_Usuario, 40, 'Actualizar', 'Se actualizó un parámetro');
+                $Parametros->registrar_bitacora($Id_Usuario, 40, 'Actualizar', 'Se actualizó el valor del parámetro ' .$body["Parametro"] .' a '. $body["Valor"]);
                 echo json_encode("Parámetro Actualizado");
             break;
             /*case "DeleteParametro":

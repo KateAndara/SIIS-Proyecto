@@ -216,5 +216,28 @@
             $sql->execute();
             return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
         }
+        public function usuarioeliminar($id_Usuario){       
+            try {
+                $conectar = parent::Conexion();
+                parent::set_names();
+                $sql = "SELECT Usuario FROM tbl_ms_usuarios WHERE Id_Usuario = ?";
+                $sql = $conectar->prepare($sql);
+                if ($sql) {
+                    $sql->bindValue(1, $id_Usuario, PDO::PARAM_STR);
+                    $sql->execute();
+                    
+                    $resultado = $sql->fetch(PDO::FETCH_ASSOC);
+                    if ($resultado) {
+                        return $resultado['Rol'];
+                    } else {
+                        return "El usuario con Id_Usuario = $id_Usuario no existe.";
+                    }
+                } else {
+                    return "Error al preparar la consulta.";
+                }
+            } catch (PDOException $e) {
+                return "Error: " . $e->getMessage();
+            }
+        }
     }
 ?>

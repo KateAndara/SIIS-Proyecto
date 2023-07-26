@@ -62,10 +62,14 @@ session_start();
                 echo json_encode($datos);
             break;
             case "InsertObjeto":
-                $datos=$Objetos->insert_objeto($body["Objeto"],$body["Descripcion"],$body["Tipo_objeto"]);
+                $Objeto = $body["Objeto"];
+                $Descripción =  $body["Descripcion"];
+                $Tipo_Objeto =  $body["Tipo_objeto"];
+
+                $datos=$Objetos->insert_objeto($Objeto, $Descripción, $Tipo_Objeto);
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($Objetos->get_user($varsesion));
-                $Objetos->registrar_bitacora($Id_Usuario, 41, 'Insertar', 'Se insertó un objeto');
+                $Objetos->registrar_bitacora($Id_Usuario, 41, 'Insertar', 'Se insertó el objeto '. $Objeto);
                 echo json_encode("Se agregó el objeto");
             break;
             case "UpdateObjeto":

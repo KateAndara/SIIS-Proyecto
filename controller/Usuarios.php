@@ -193,7 +193,7 @@ $enviroment=0;
 
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($usuarios->get_user($varsesion));
-                $usuarios->registrar_bitacora($Id_Usuario, 36, 'Insertar', 'Se insertó un usuario');
+                $usuarios->registrar_bitacora($Id_Usuario, 36, 'Insertar', 'Se insertó el usuario '.$usuario);
                
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
             break;
@@ -250,11 +250,12 @@ $enviroment=0;
                 
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($usuarios->get_user($varsesion));
-                $usuarios->registrar_bitacora($Id_Usuario, 36, 'Actualizar', 'Se actualizó un usuario');
+                $usuarios->registrar_bitacora($Id_Usuario, 36, 'Actualizar', 'Se actualizó el usuario '.$body['usuario'].' con campos: ' .$body['nombre']
+            .', '.$body['DNI'].' y '.$body['correo']);
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
 
             break;
-            case "deleteUsuario":
+            case "deleteUsuario": 
                 $datos=$usuarios->delete_rol($body["idUsuario"]);
                 $arrResponse = array("status" => true, "msg" => 'Usuario Eliminado Correctamente');
                 $varsesion = $_SESSION['usuario'];
