@@ -51,7 +51,7 @@
             </div>
             <div style="margin: 0 18px;">
             <form id="form-busqueda" autocomplete="off">
-                <button class="rounded" style="background-color: #fff; color: dark; float: right;"onclick="generarReporte('TablaParametros','REPORTE DE PARÁMETROS',60)">Generar PDF</button>            </form>
+                <button class="rounded" style="background-color: #fff; color: dark; float: right;"onclick="generarReporte('TablaParametros','REPORTE DE PARÁMETROS',60)">Generar PDF</button>
             </div>
             
             <script>
@@ -67,7 +67,7 @@
                     <table class="table table-hover" id="TablaParametros">
                         <thead>
                             <tr>
-                                <th>ID PARÁMETRO</th>
+                                <th>N°</th>
                                 <th>PARÁMETRO</th>
                                 <th>VALOR</th>
                                 <th>OPCIONES</th>

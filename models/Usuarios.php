@@ -228,7 +228,7 @@
                     
                     $resultado = $sql->fetch(PDO::FETCH_ASSOC);
                     if ($resultado) {
-                        return $resultado['Rol'];
+                        return $resultado['Usuario'];
                     } else {
                         return "El usuario con Id_Usuario = $id_Usuario no existe.";
                     }

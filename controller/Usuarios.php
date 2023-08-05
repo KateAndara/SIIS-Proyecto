@@ -256,11 +256,14 @@ $enviroment=0;
 
             break;
             case "deleteUsuario": 
+                $id_Usuario=$body['idUsuario'];
+                // Obtén la pregunta antes de eliminarla
+                $usuario_eliminado = $usuarios->usuarioeliminar($id_Usuario);
                 $datos=$usuarios->delete_rol($body["idUsuario"]);
                 $arrResponse = array("status" => true, "msg" => 'Usuario Eliminado Correctamente');
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($usuarios->get_user($varsesion));
-                $usuarios->registrar_bitacora($Id_Usuario, 36, 'Eliminar', 'Se eliminó un usuario');
+                $usuarios->registrar_bitacora($Id_Usuario, 36, 'Eliminar', 'Se eliminó el usuario: ' .$usuario_eliminado);
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
 
             break;

@@ -89,7 +89,7 @@
                     <table class="table table-hover" id="TablaPreguntas">
                         <thead>
                             <tr>
-                                <th>ID PREGUNTA</th>
+                                <th>N°</th>
                                 <th>PREGUNTA</th>
                                 <th>OPCIONES</th>
                             </tr>

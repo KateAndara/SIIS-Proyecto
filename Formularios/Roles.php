@@ -165,7 +165,7 @@ function getModal(string $nameModal, $data)
                     <table class="table table-hover" id="TablaRoles">
                         <thead>
                             <tr>
-                                <th>ID ROL</th>
+                                <th>N°</th>
                                 <th>ROL</th>
                                 <th>DESCRIPCIÓN</th>
                                 <th>OPCIONES</th>

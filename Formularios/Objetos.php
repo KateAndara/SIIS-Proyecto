@@ -90,7 +90,7 @@
                     <table  id="TablaObjetos" class="table table-hover">
                         <thead>
                             <tr>
-                                <th>ID OBJETO</th>
+                                <th>N°</th>
                                 <th>OBJETO</th>
                                 <th>DESCRIPCIÓN</th>
                                 <th>TIPO DE OBJETO</th>
