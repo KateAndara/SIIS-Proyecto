@@ -48,6 +48,41 @@
                 return null;
             }
         }
+        public function proveedorcontactoeliminar($Id_Proveedores_Contacto){       
+            try {
+                $conectar = parent::Conexion();
+                parent::set_names();
+                $sql = "SELECT Contacto FROM tbl_proveedores_contacto WHERE Id_Proveedores_Contacto = ?";
+                $sql = $conectar->prepare($sql);
+                if ($sql) {
+                    $sql->bindValue(1, $Id_Proveedores_Contacto, PDO::PARAM_STR);
+                    $sql->execute();
+                    
+                    $resultado = $sql->fetch(PDO::FETCH_ASSOC);
+                    if ($resultado) {
+                        return $resultado['Contacto'];
+                    } else {
+                        return "El contacto del proveedor  con Id_Proveedores_Contacto = $Id_Proveedores_Contacto no existe.";
+                    }
+                } else {
+                    return "Error al preparar la consulta.";
+                }
+            } catch (PDOException $e) {
+                return "Error: " . $e->getMessage();
+            }
+        }
+        // Función para obtener el nombre del proveedor a partir del Id_Proveedor
+        public function obtener_nombre_proveedor_por_id($Id_Proveedores_Contacto) {
+            $conexion = parent::Conexion();
+            $sql = "SELECT Nombre FROM tbl_proveedores WHERE Id_Proveedor = :id";
+            $query = $conexion->prepare($sql);
+            $query->bindParam(":id", $Id_Proveedores_Contacto, PDO::PARAM_INT);
+            $query->execute();
+            $resultado = $query->fetch(PDO::FETCH_ASSOC);
+
+            // Si se encontró el proveedor, retornar su nombre; de lo contrario, retornar una cadena vacía
+            return ($resultado) ? $resultado['Nombre'] : '';
+        }
         public function get_ContactoProveedorMM($busqueda){  //Buscar por cualquier campo
             $conectar = parent::Conexion();
             parent::set_names();

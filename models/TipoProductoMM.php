@@ -67,7 +67,29 @@
                 return null;
             }
         }
-        
+        public function tipoproductoeliminar($Id_Tipo_Producto){       
+            try {
+                $conectar = parent::Conexion();
+                parent::set_names();
+                $sql = "SELECT Nombre_tipo FROM tbl_tipo_producto WHERE Id_Tipo_Producto = ?";
+                $sql = $conectar->prepare($sql);
+                if ($sql) {
+                    $sql->bindValue(1, $Id_Tipo_Producto, PDO::PARAM_STR);
+                    $sql->execute();
+                    
+                    $resultado = $sql->fetch(PDO::FETCH_ASSOC);
+                    if ($resultado) {
+                        return $resultado['Nombre_tipo'];
+                    } else {
+                        return "La pregunta con Id_Pregunta = $Id_Tipo_Producto no existe.";
+                    }
+                } else {
+                    return "Error al preparar la consulta.";
+                }
+            } catch (PDOException $e) {
+                return "Error: " . $e->getMessage();
+            }
+        }
         public function get_TipoProductoMM($busqueda){      //Si se nececita mostrar nombre en vez de ID. 
             $conectar = parent::Conexion();
             parent::set_names();

@@ -88,7 +88,7 @@
                 }
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($talonario->get_user($varsesion));
-                $talonario->registrar_bitacora($Id_Usuario, 45, 'Insertar', 'Se insertó un nuevo registro de Talonario');
+                $talonario->registrar_bitacora($Id_Usuario, 45, 'Insertar', 'Se insertó un nuevo registro de Talonario: '.$body['numCai'].' con rango inicial '.$body['rangeInicial'].' y rango final '.$body['rangeFinal']);
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
             break;
             case "UpdateTalonario": 
@@ -129,17 +129,20 @@
 
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($talonario->get_user($varsesion));
-                $talonario->registrar_bitacora($Id_Usuario, 45, 'Actualizar', 'Se actualizó un registro de Talonario');
+                $talonario->registrar_bitacora($Id_Usuario, 45, 'Actualizar', 'Se actualizó un registro de Talonario con número '.$body['numCai'].' con rango inicial '.$body['rangeInicial'].' y rango final '.$body['rangeFinal']);
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
 
             break;
             case "deleteTalonario":
-                $datos=$talonario->delete_Talonario($body["idTalonario"]);
+                $idTalonario = $body["idTalonario"];
+                $nombreTalonario = $talonario->talonarioeliminar($idTalonario); // Obtener el nombre del talonario antes de eliminarlo
+                $datos = $talonario->delete_Talonario($idTalonario);
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($talonario->get_user($varsesion));
-                $talonario->registrar_bitacora($Id_Usuario, 45, 'Eliminar', 'Se eliminó un registro de Talonario');
+                $talonario->registrar_bitacora($Id_Usuario, 45, 'Eliminar', 'Se eliminó el Talonario: ' . $nombreTalonario); // Usar el nombre del talonario eliminado en la bitácora
                 echo json_encode("Talonario Eliminado Correctamente");
             break;
+            
         }
 
 ?>   

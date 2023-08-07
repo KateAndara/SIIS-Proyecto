@@ -84,7 +84,7 @@ session_start();
                 $datos=$Preguntas->update_pregunta($body["Id_Pregunta"],$body["Pregunta"]);
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($Preguntas->get_user($varsesion));
-                $Preguntas->registrar_bitacora($Id_Usuario, 31, 'Actualizar', 'Se actualizó la pregunta' .$body["Pregunta"]);
+                $Preguntas->registrar_bitacora($Id_Usuario, 31, 'Actualizar', 'Se actualizó la pregunta ' .$body["Pregunta"]);
                 echo json_encode("Pregunta Actualizada");
             break;
             case "DeletePregunta":

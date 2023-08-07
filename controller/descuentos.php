@@ -64,17 +64,32 @@ session_start();
                 echo json_encode($datos);
             break;
             case "InsertDescuento":
-                $datos=$descuentos->insert_descuento($body["Nombre_descuento"],$body["Porcentaje_a_descontar"]);
+                $datos = $descuentos->insert_descuento($body["Nombre_descuento"], $body["Porcentaje_a_descontar"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($descuentos->get_user($varsesion));
+                $descuentos->registrar_bitacora($Id_Usuario, 25, 'Insertar', 'Se insertó el descuento: ' . $body["Nombre_descuento"] . ' con porcentaje: ' . $body["Porcentaje_a_descontar"]);
                 echo json_encode("Se agregó el descuento");
-            break;
+                break;
             case "UpdateDescuento":
-                $datos=$descuentos->update_descuento($body["Id_Descuento"],$body["Nombre_descuento"],$body["Porcentaje_a_descontar"]);
+                $datos = $descuentos->update_descuento($body["Id_Descuento"], $body["Nombre_descuento"], $body["Porcentaje_a_descontar"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($descuentos->get_user($varsesion));
+                $descuentos->registrar_bitacora($Id_Usuario, 25, 'Actualizar', 'Se actualizó el descuento a: ' . $body["Nombre_descuento"] . ' con porcentaje: ' . $body["Porcentaje_a_descontar"]);
                 echo json_encode("Descuento Actualizado");
-            break;
+                break;
             case "DeleteDescuento":
-                $datos=$descuentos->delete_descuento($body["Id_Descuento"]);
+                $Id_Descuento = $body["Id_Descuento"];
+                $nombreDescuento = $descuentos->descuentoeliminar($Id_Descuento); // Obtener el nombre del descuento antes de eliminarlo
+                $datos = $descuentos->delete_descuento($Id_Descuento);
+            
+                // Agregar el registro en la bitácora
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($descuentos->get_user($varsesion));
+                $descuentos->registrar_bitacora($Id_Usuario, 25, 'Eliminar', 'Se eliminó el Descuento: ' . $nombreDescuento);
+            
                 echo json_encode("Descuento Eliminado");
-            break;
+                break;
+            
         }
 
 ?>   

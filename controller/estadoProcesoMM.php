@@ -48,10 +48,6 @@ session_start();
                         $datos[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
 
                     }
-
-                    $varsesion = $_SESSION['usuario'];
-                    $Id_Usuario = intval($estadosProcesosMM->get_user($varsesion));
-                    $estadosProcesosMM->registrar_bitacora($Id_Usuario, 50, 'Ingresar', 'Se ingresó a la pantalla del Estado del proceso');
                 echo json_encode($datos);
             break;
             case "GetEstadoProcesoMM": //Buscar por cualquier campo 
@@ -77,7 +73,7 @@ session_start();
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($estadosProcesosMM->get_user($varsesion));
-                $estadosProcesosMM->registrar_bitacora($Id_Usuario, 50, 'Insertar', 'Se insertó un nuevo Estado para el proceso');
+                $estadosProcesosMM->registrar_bitacora($Id_Usuario, 50, 'Insertar', 'Se insertó el nuevo Estado para el proceso con nombre: '.$body["Descripcion"]);
             break;
             case "UpdateEstadoProcesoMM":
                 $nombreEstado=$body['Descripcion'];
@@ -96,15 +92,18 @@ session_start();
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($estadosProcesosMM->get_user($varsesion));
-                $estadosProcesosMM->registrar_bitacora($Id_Usuario, 50, 'Actualizar', 'Se actualizó un Estado del proceso');
+                $estadosProcesosMM->registrar_bitacora($Id_Usuario, 50, 'Actualizar', 'Se actualizó el Estado del proceso a: '.$body["Descripcion"]);
             break;
             case "DeleteEstadoProcesoMM":
-                $datos=$estadosProcesosMM->delete_EstadoProcesoMM($body["Id_Estado_Proceso"]);
+                $Id_Estado_Proceso = $body["Id_Estado_Proceso"];
+                $nombreEstadoProceso = $estadosProcesosMM->estadoeliminar($Id_Estado_Proceso); // Obtener el nombre del estado del proceso antes de eliminarlo
+                $datos = $estadosProcesosMM->delete_EstadoProcesoMM($Id_Estado_Proceso);
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($estadosProcesosMM->get_user($varsesion));
-                $estadosProcesosMM->registrar_bitacora($Id_Usuario, 50, 'Eliminar', 'Se eliminó un Estado para el proceso');
+                $estadosProcesosMM->registrar_bitacora($Id_Usuario, 50, 'Eliminar', 'Se eliminó el Estado del Proceso: ' . $nombreEstadoProceso); // Usar el nombre del estado del proceso eliminado en la bitácora
                 echo json_encode("Estado del proceso Eliminado");
             break;
+            
         }
 
 ?>   

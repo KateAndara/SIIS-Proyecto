@@ -67,6 +67,29 @@
                 return null;
             }
         }
+        public function estadoeliminar($Id_Estado_Proceso){       
+            try {
+                $conectar = parent::Conexion();
+                parent::set_names();
+                $sql = "SELECT Descripcion FROM tbl_estado_proceso WHERE Id_Estado_Proceso = ?";
+                $sql = $conectar->prepare($sql);
+                if ($sql) {
+                    $sql->bindValue(1, $Id_Estado_Proceso, PDO::PARAM_STR);
+                    $sql->execute();
+                    
+                    $resultado = $sql->fetch(PDO::FETCH_ASSOC);
+                    if ($resultado) {
+                        return $resultado['Descripcion'];
+                    } else {
+                        return "La pregunta con Id_Pregunta = $Id_Estado_Proceso no existe.";
+                    }
+                } else {
+                    return "Error al preparar la consulta.";
+                }
+            } catch (PDOException $e) {
+                return "Error: " . $e->getMessage();
+            }
+        }
         public function get_EstadoProcesoMM($busqueda){      //Si se nececita mostrar nombre en vez de ID. 
             $conectar = parent::Conexion();
             parent::set_names();

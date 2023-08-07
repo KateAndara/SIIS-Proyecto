@@ -277,7 +277,7 @@ $_SESSION['time'] = time();
                                             <?php } 
                                                 if (!empty($_SESSION['permisos'][MCONTACTOPROVEEDORES]['r']) ) {
                                             ?>
-                                            <a href="ContactoProveedorMM.php" class="dropdown-item">Contactos de Proveedores</a>
+                                            <!--<a href="ContactoProveedorMM.php" class="dropdown-item">Contactos de Proveedores</a>-->
                                             <?php } 
                                                 if (!empty($_SESSION['permisos'][MCONTACTOCLIENTES]['r']) ) {
                                             ?>

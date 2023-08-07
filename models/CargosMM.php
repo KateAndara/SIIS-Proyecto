@@ -38,6 +38,29 @@
                 return null;
             }
         }
+        public function cargoeliminar($Id_Cargo){       
+            try {
+                $conectar = parent::Conexion();
+                parent::set_names();
+                $sql = "SELECT Nombre_cargo FROM tbl_cargos WHERE Id_Cargo = ?";
+                $sql = $conectar->prepare($sql);
+                if ($sql) {
+                    $sql->bindValue(1, $Id_Cargo, PDO::PARAM_STR);
+                    $sql->execute();
+                    
+                    $resultado = $sql->fetch(PDO::FETCH_ASSOC);
+                    if ($resultado) {
+                        return $resultado['Nombre_cargo'];
+                    } else {
+                        return "El cargo  con Id_Cargo = $Id_Cargo no existe.";
+                    }
+                } else {
+                    return "Error al preparar la consulta.";
+                }
+            } catch (PDOException $e) {
+                return "Error: " . $e->getMessage();
+            }
+        }
 
         public function selectCargo($nombreCargo){  //Buscar por cualquier campo
             $conectar = parent::Conexion();

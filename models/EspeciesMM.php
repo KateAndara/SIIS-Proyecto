@@ -39,6 +39,29 @@
             }
         }
 
+        public function especieeliminar($Id_Especie){       
+            try {
+                $conectar = parent::Conexion();
+                parent::set_names();
+                $sql = "SELECT Nombre_Especie FROM tbl_especies WHERE Id_Especie = ?";
+                $sql = $conectar->prepare($sql);
+                if ($sql) {
+                    $sql->bindValue(1, $Id_Especie, PDO::PARAM_STR);
+                    $sql->execute();
+                    
+                    $resultado = $sql->fetch(PDO::FETCH_ASSOC);
+                    if ($resultado) {
+                        return $resultado['Nombre_Especie'];
+                    } else {
+                        return "La pregunta con Id_Pregunta = $Id_Especie no existe.";
+                    }
+                } else {
+                    return "Error al preparar la consulta.";
+                }
+            } catch (PDOException $e) {
+                return "Error: " . $e->getMessage();
+            }
+        }
         public function selectEspecie($nombreEspecie){  //Buscar por cualquier campo
             $conectar = parent::Conexion();
             parent::set_names();
@@ -113,7 +136,7 @@
         public function delete_EspecieMM($Id_Especie){
             $conectar= parent::conexion();
             parent::set_names(); 
-            $sql = "DELETE FROM tbl_especies WHERE Id_CargoEspecie =?";
+            $sql = "DELETE FROM tbl_especies WHERE Id_Especie =?";
             $sql=$conectar->prepare($sql);
             $sql->bindvalue(1, $Id_Especie);
             $sql->execute();

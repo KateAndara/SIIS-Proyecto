@@ -17,12 +17,15 @@
             // Formatear la fecha en cada resultado antes de devolverlos
             foreach ($resultados as &$resultado) {
                 $fecha_bd = $resultado['Fecha']; // Suponiendo que el campo de fecha se llama "Fecha"
-                $fecha_formateada = date('d-m-Y', strtotime($fecha_bd));
+                $fecha_dt = new DateTime($fecha_bd, new DateTimeZone('UTC'));
+                $fecha_dt->setTimezone(new DateTimeZone('America/Tegucigalpa'));
+                $fecha_formateada = $fecha_dt->format('d-m-Y');
                 $resultado['Fecha'] = $fecha_formateada;
             }
         
             return $resultados;
         }
+        
         
 
         public function get_Bitacora($Id_bitacora){    //Si se nececita mostrar nombre en vez de ID.         

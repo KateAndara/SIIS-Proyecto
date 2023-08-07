@@ -4,7 +4,10 @@
         public function get_Usuarios(){               //Si no se nececita mostrar nombre en vez de ID.
             $conexion= parent::Conexion();
             parent::set_names();
-            $sql="SELECT u.*,r.Rol FROM `tbl_ms_usuarios` u INNER JOIN tbl_ms_roles r on u.Id_Rol = r.Id_Rol Where Estado!='Eliminado'";          
+            $sql="SELECT u.*, r.Rol 
+            FROM `tbl_ms_usuarios` u 
+            INNER JOIN tbl_ms_roles r ON u.Id_Rol = r.Id_Rol 
+            WHERE u.Estado != 'Eliminado';";         
             $sql= $conexion->prepare($sql);
             $sql->execute();
             return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
@@ -43,7 +46,7 @@
             $conectar = parent::Conexion();
             parent::set_names();
         
-            $sql = "SELECT * FROM tbl_ms_roles;";       
+            $sql = "SELECT * FROM tbl_ms_roles WHERE Estado = 'activo'";       
             $sql = $conectar->prepare($sql);
             $sql->execute();
         

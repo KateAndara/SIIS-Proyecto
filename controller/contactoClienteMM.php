@@ -59,24 +59,45 @@ session_start();
                 echo json_encode($datos);
             break;
             case "InsertContactoClienteMM": 
-                $datos=$contactosClientesMM->insert_ContactoClienteMM($body["Id_Tipo_Contacto"],$body["Id_Cliente"],$body["Contacto"]);
-                $varsesion = $_SESSION['usuario'];
-                $Id_Usuario = intval($contactosClientesMM->get_user($varsesion));
-                $contactosClientesMM->registrar_bitacora($Id_Usuario, 47, 'Insertar', 'Se insertó un nuevo de contacto de un Cliente');
-                echo json_encode("Se agregó el  Contacto del cliente");
+                $datos = $contactosClientesMM->insert_ContactoClienteMM($body["Id_Tipo_Contacto"], $body["Id_Cliente"], $body["Contacto"]);
+                $nombre_cliente = $contactosClientesMM->obtener_nombre_cliente_por_id($body["Id_Cliente"]);
+
+                if (!empty($nombre_cliente)) {
+                    $varsesion = $_SESSION['usuario'];
+                    $Id_Usuario = intval($contactosClientesMM->get_user($varsesion));
+                    $contactosClientesMM->registrar_bitacora($Id_Usuario, 47, 'Insertar', 'Se insertó el contacto: ' . $body["Contacto"] . ' para el cliente ' . $nombre_cliente);
+
+                    echo json_encode("Se agregó el Contacto del cliente");
+                } else {
+                    echo json_encode("Error: No se encontró el nombre del cliente para el Id_Cliente proporcionado.");
+                }
             break;
             case "UpdateContactoClienteMM":
-                $datos=$contactosClientesMM->update_ContactoClienteMM($body["Id_Cliente_Contacto"],$body["Id_Tipo_Contacto"],$body["Id_Cliente"],$body["Contacto"]);
-                $varsesion = $_SESSION['usuario'];
-                $Id_Usuario = intval($contactosClientesMM->get_user($varsesion));
-                $contactosClientesMM->registrar_bitacora($Id_Usuario, 47, 'Actualizar', 'Se actualizó un contacto de un Cliente');
-                echo json_encode("Conatcto Actualizado");
+                $datos = $contactosClientesMM->update_ContactoClienteMM($body["Id_Cliente_Contacto"], $body["Id_Tipo_Contacto"], $body["Id_Cliente"], $body["Contacto"]);
+
+                // Obtener el nombre del cliente utilizando la función del modelo
+                $nombre_cliente = $contactosClientesMM->obtener_nombre_cliente_por_id($body["Id_Cliente"]);
+
+                // Verificar si se encontró el nombre del cliente
+                if (!empty($nombre_cliente)) {
+                    // Llamada al método para registrar la bitácora con el nombre del cliente actualizado
+                    $varsesion = $_SESSION['usuario'];
+                    $Id_Usuario = intval($contactosClientesMM->get_user($varsesion));
+                    $contactosClientesMM->registrar_bitacora($Id_Usuario, 47, 'Actualizar', 'Se actualizó el contacto: ' . $body["Contacto"] . ' del cliente: ' . $nombre_cliente);
+
+                    echo json_encode("Contacto Actualizado");
+                } else {
+                    echo json_encode("Error: No se encontró el nombre del cliente para el Id_Cliente proporcionado.");
+                }
+
             break;
             case "DeleteContactoClienteMM":
-                $datos=$contactosClientesMM->delete_ContactoClienteMM($body["Id_Cliente_Contacto"]);
+                $Id_Cliente_Contacto = $body["Id_Cliente_Contacto"];
+                $contacto_eliminado = $contactosClientesMM->contactoclienteeliminar($Id_Cliente_Contacto);
+                $datos = $contactosClientesMM->delete_ContactoClienteMM($body[$Id_Cliente_Contacto]);
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($contactosClientesMM->get_user($varsesion));
-                $contactosClientesMM->registrar_bitacora($Id_Usuario, 47, 'Eliminar', 'Se eliminó un contacto de un Cliente');
+                $contactosClientesMM->registrar_bitacora($Id_Usuario, 47, 'Eliminar', 'Se eliminó el contacto: ' . $contacto_eliminado);
                 echo json_encode("Contacto Eliminado");
             break; 
             //Datos de otra tabla

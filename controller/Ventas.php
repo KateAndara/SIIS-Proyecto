@@ -473,6 +473,9 @@
                     } 
                                                         
                 }
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($compras->get_user($varsesion)); 
+                $compras->registrar_bitacora($Id_Usuario, 24, 'Insertar', 'Se agregó la venta N° ' . $idVenta .' el '.$body['fechaCompra'].', con un total de: '.$body['total'].', con la forma de pago: '.$body['observacion']);
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
             break;
             case "getVentaListar":

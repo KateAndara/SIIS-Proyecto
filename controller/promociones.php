@@ -63,15 +63,31 @@
             break;   
             case "InsertPromocion":
                 $datos=$promociones->insert_promocion($body["Nombre_Promocion"], $body["Precio_Venta"], $body["Fecha_inicio"],$body["Fecha_final"]);                    
-               
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($promociones->get_user($varsesion));
+                $promociones->registrar_bitacora($Id_Usuario, 26, 'Insertar', 'Se insertó la promoción: ' . $body["Nombre_Promocion"] . ' desde: ' . $body["Fecha_inicio"] . ' hasta: ' . $body["Fecha_final"]);
+            
                 echo json_encode("Se agregó la promoción");
             break;
             case "UpdatePromocion":
                 $datos=$promociones->update_promocion($body["Id_Promocion"],$body["Nombre_Promocion"],$body["Precio_Venta"],$body["Fecha_inicio"],$body["Fecha_final"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($promociones->get_user($varsesion));
+                $promociones->registrar_bitacora($Id_Usuario, 26, 'Actualizar', 'Se actualizó la promoción a: ' . $body["Nombre_Promocion"] . ' desde: ' . $body["Fecha_inicio"] . ' hasta: ' . $body["Fecha_final"]);
+            
                 echo json_encode("Promoción Actualizada");
             break;
             case "DeletePromocion":
+                $Id_Promocion = $body["Id_Promocion"];
+                $nombrePromocion = $promociones->promocióneliminar($Id_Promocion); // Obtener el nombre de la promoción antes de eliminarla
                 $datos=$promociones->delete_promocion($body["Id_Promocion"]);
+            
+                // Agregar el registro en la bitácora
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($promociones->get_user($varsesion));
+                $promociones->registrar_bitacora($Id_Usuario, 26, 'Eliminar', 'Se eliminó la Promoción: ' . $nombrePromocion);
+            
+                
                 echo json_encode("Promoción Eliminada");
             break;
             

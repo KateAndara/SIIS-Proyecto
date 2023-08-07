@@ -66,6 +66,29 @@
                 return null;
             }
         }
+        public function tipocontactoeliminar($Id_Tipo_Contacto){       
+            try {
+                $conectar = parent::Conexion();
+                parent::set_names();
+                $sql = "SELECT Nombre_tipo_contacto FROM tbl_tipo_contacto WHERE Id_Tipo_Contacto = ?";
+                $sql = $conectar->prepare($sql);
+                if ($sql) {
+                    $sql->bindValue(1, $Id_Tipo_Contacto, PDO::PARAM_STR);
+                    $sql->execute();
+                    
+                    $resultado = $sql->fetch(PDO::FETCH_ASSOC);
+                    if ($resultado) {
+                        return $resultado['Nombre_tipo_contacto'];
+                    } else {
+                        return "La pregunta con Id_Pregunta = $Id_Tipo_Contacto no existe.";
+                    }
+                } else {
+                    return "Error al preparar la consulta.";
+                }
+            } catch (PDOException $e) {
+                return "Error: " . $e->getMessage();
+            }
+        }
         public function get_TipoContactoMM($busqueda){      //Si se nececita mostrar nombre en vez de ID. 
             $conectar = parent::Conexion();
             parent::set_names();

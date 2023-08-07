@@ -38,6 +38,29 @@
                 return null;
             }
         }
+        public function proveedoreliminar($Id_Proveedor){       
+            try {
+                $conectar = parent::Conexion();
+                parent::set_names();
+                $sql = "SELECT Nombre FROM tbl_proveedores WHERE Id_Proveedor = ?";
+                $sql = $conectar->prepare($sql);
+                if ($sql) {
+                    $sql->bindValue(1, $Id_Proveedor, PDO::PARAM_STR);
+                    $sql->execute();
+                    
+                    $resultado = $sql->fetch(PDO::FETCH_ASSOC);
+                    if ($resultado) {
+                        return $resultado['Nombre'];
+                    } else {
+                        return "El proveedor con Id_Proveedor = $Id_Proveedor no existe.";
+                    }
+                } else {
+                    return "Error al preparar la consulta.";
+                }
+            } catch (PDOException $e) {
+                return "Error: " . $e->getMessage();
+            }
+        }
         public function get_proveedor($busqueda){  //Buscar por cualquier campo
             $conectar = parent::Conexion();
             parent::set_names();

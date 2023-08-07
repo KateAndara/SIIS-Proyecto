@@ -66,21 +66,23 @@ session_start();
                 $datos=$productos->insert_producto($body["Id_Tipo_Producto"],$body["Nombre"],$body["Unidad_medida"],$body["Precio"],$body["Cantidad_maxima"],$body["Cantidad_minima"]);
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($productos->get_user($varsesion));
-                $productos->registrar_bitacora($Id_Usuario, 34, 'Insertar', 'Se insertó un Producto');
+                $productos->registrar_bitacora($Id_Usuario, 34, 'Insertar', 'Se insertó el Producto: '.$body["Nombre"]);
                 echo json_encode("Se agregó el producto");
             break;
             case "UpdateProducto":
                 $datos=$productos->update_producto($body["Id_Producto"],$body["Id_Tipo_Producto"],$body["Nombre"],$body["Unidad_medida"],$body["Precio"],$body["Cantidad_maxima"],$body["Cantidad_minima"]);
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($productos->get_user($varsesion));
-                $productos->registrar_bitacora($Id_Usuario, 34, 'Actualizar', 'Se actualizó un Producto');
+                $productos->registrar_bitacora($Id_Usuario, 34, 'Actualizar', 'Se actualizó el Producto: '.$body["Nombre"]. ' con campos: '.$body["Unidad_medida"].', '.$body["Precio"].', '.$body["Cantidad_maxima"].', '.$body["Cantidad_minima"]);
                 echo json_encode("Producto actualizado");
             break;
             case "DeleteProducto":
+                $idproducto = $body["Id_Producto"];
+                $producto_eliminado = $productos->productoeliminar($Id_Producto);
                 $datos=$productos->delete_producto($body["Id_Producto"]);
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($productos->get_user($varsesion));
-                $productos->registrar_bitacora($Id_Usuario, 34, 'Eliminar', 'Se eliminó un Producto');
+                $productos->registrar_bitacora($Id_Usuario, 34, 'Eliminar', 'Se eliminó el Producto: '.$producto_eliminado);
                 echo json_encode("Producto eliminado");
             break;
             //Datos de otra tabla

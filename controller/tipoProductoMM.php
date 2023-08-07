@@ -73,7 +73,7 @@ session_start();
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($tiposProductosMM->get_user($varsesion));
-                $tiposProductosMM->registrar_bitacora($Id_Usuario, 44, 'Insertar', 'Se insertó un tipo de producto');
+                $tiposProductosMM->registrar_bitacora($Id_Usuario, 44, 'Insertar', 'Se insertó el tipo de producto: '.$body['Nombre_tipo']);
             break;
             case "UpdateTipoProductoMM":
                 $nombreTipo=$body['Nombre_tipo'];
@@ -92,15 +92,18 @@ session_start();
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE); 
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($tiposProductosMM->get_user($varsesion));
-                $tiposProductosMM->registrar_bitacora($Id_Usuario, 44, 'Actualizar', 'Se actualizó un tipo de producto');
+                $tiposProductosMM->registrar_bitacora($Id_Usuario, 44, 'Actualizar', 'Se actualizó el tipo de producto: '.$body['Nombre_tipo']);
             break;
             case "DeleteTipoProductoMM":
-                $datos=$tiposProductosMM->delete_TipoProductoMM($body["Id_Tipo_Producto"]);
+                $Id_Tipo_Producto = $body["Id_Tipo_Producto"];
+                $nombreTipoProducto = $tiposProductosMM->tipoproductoeliminar($Id_Tipo_Producto); // Obtener el nombre del tipo de producto antes de eliminarlo
+                $datos = $tiposProductosMM->delete_TipoProductoMM($Id_Tipo_Producto);
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($tiposProductosMM->get_user($varsesion));
-                $tiposProductosMM->registrar_bitacora($Id_Usuario, 44, 'Eliminar', 'Se eliminó un tipo de producto');
+                $tiposProductosMM->registrar_bitacora($Id_Usuario, 44, 'Eliminar', 'Se eliminó el Tipo de Producto: ' . $nombreTipoProducto); // Usar el nombre del tipo de producto eliminado en la bitácora
                 echo json_encode("Tipo De Producto Eliminado");
-            break; 
+            break;
+            
         }
 
 ?>   

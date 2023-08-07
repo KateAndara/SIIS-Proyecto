@@ -67,6 +67,29 @@
                 return null;
             }
         }
+        public function movimientoeliminar($Id_Tipo_Movimiento){       
+            try {
+                $conectar = parent::Conexion();
+                parent::set_names();
+                $sql = "SELECT Descripcion FROM tbl_tipo_movimiento WHERE Id_Tipo_Movimiento = ?";
+                $sql = $conectar->prepare($sql);
+                if ($sql) {
+                    $sql->bindValue(1, $Id_Tipo_Movimiento, PDO::PARAM_STR);
+                    $sql->execute();
+                    
+                    $resultado = $sql->fetch(PDO::FETCH_ASSOC);
+                    if ($resultado) {
+                        return $resultado['Descripcion'];
+                    } else {
+                        return "La pregunta con Id_Pregunta = $Id_Tipo_Movimiento no existe.";
+                    }
+                } else {
+                    return "Error al preparar la consulta.";
+                }
+            } catch (PDOException $e) {
+                return "Error: " . $e->getMessage();
+            }
+        }
         public function get_TipoMovimientoMM($busqueda){      //Si se nececita mostrar nombre en vez de ID. 
             $conectar = parent::Conexion();
             parent::set_names();

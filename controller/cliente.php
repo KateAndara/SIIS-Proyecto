@@ -69,16 +69,26 @@ session_start();
             break;
             case "InsertCliente":
                 $datos=$clientes->insert_cliente($body["Nombre"],$body["Fecha_nacimiento"],$body["DNI"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($clientes->get_user($varsesion));
+                $clientes->registrar_bitacora($Id_Usuario, 28, 'Insertar', 'Se insertó un nuevo cliente con nombre: ' . $body["Nombre"]);
                 echo json_encode("Se agregó el Cliente");
-            break;
+                break;    
             case "UpdateCliente":
                 $datos=$clientes->update_cliente($body["Id_Cliente"],$body["Nombre"],$body["Fecha_nacimiento"], $body["DNI"]);
-                echo json_encode("Cliente Actualizado");
-            break;
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($clientes->get_user($varsesion));
+                $clientes->registrar_bitacora($Id_Usuario, 28, 'Actualizar', 'Se actualizó el cliente: ' . $body["Nombre"].' con fecha de nacimiento '.$body["Fecha_nacimiento"]. ' y DNI '.$body["DNI"]);
+                echo json_encode("Cliente Actualizado");            break;
             case "DeleteCliente":
+                $Id_Cliente = $body["Id_Cliente"];
+                $cliente_eliminado = $clientes->clienteeliminar($body["Id_Cliente"]);
                 $datos=$clientes->delete_cliente($body["Id_Cliente"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($clientes->get_user($varsesion));
+                $clientes->registrar_bitacora($Id_Usuario, 28, 'Eliminar', 'Se eliminó el cliente ' . $cliente_eliminado);
                 echo json_encode("Cliente Eliminado");
-            break;
+                break;          
         
         }
 

@@ -78,7 +78,7 @@ session_start();
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($estadosVentasMM->get_user($varsesion));
-                $estadosVentasMM->registrar_bitacora($Id_Usuario, 43, 'Insertar', 'Se insertó un Estado de Venta');
+                $estadosVentasMM->registrar_bitacora($Id_Usuario, 43, 'Insertar', 'Se insertó el Estado de Venta: '.$body['Nombre_estado']);
             break;
             case "UpdateEstadoVentaMM":
                 $nombreEstado=$body['Nombre_estado'];
@@ -96,18 +96,20 @@ session_start();
                 }
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($estadosVentasMM->get_user($varsesion));
-                $estadosVentasMM->registrar_bitacora($Id_Usuario, 43, 'Actualizar', 'Se actualizó un Estado de Venta');
+                $estadosVentasMM->registrar_bitacora($Id_Usuario, 43, 'Actualizar', 'Se actualizó el Estado de Venta: '.$body['Nombre_estado']);
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
 
             break;
 
             case "DeleteEstadoVentaMM":
-                $datos=$estadosVentasMM->delete_EstadoVentaMM($body["Id_Estado_Venta"]);
+                $Id_Estado_Venta = $body["Id_Estado_Venta"];
+                $nombreEstadoVenta = $estadosVentasMM->estadodeventaeliminar($Id_Estado_Venta); // Obtener el nombre del estado de venta antes de eliminarlo
+                $datos = $estadosVentasMM->delete_EstadoVentaMM($Id_Estado_Venta);
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($estadosVentasMM->get_user($varsesion));
-                $estadosVentasMM->registrar_bitacora($Id_Usuario, 43, 'Insertar', 'Se insertó un Estado de Venta');
+                $estadosVentasMM->registrar_bitacora($Id_Usuario, 43, 'Eliminar', 'Se eliminó el Estado de Venta: ' . $nombreEstadoVenta); // Usar el nombre del estado de venta eliminado en la bitácora
                 echo json_encode("Estado De Venta Eliminado");
-            break;
+                break;
         }
 
 ?>   

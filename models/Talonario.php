@@ -51,6 +51,29 @@
                 return null;
             }
         }
+        public function talonarioeliminar($Id_Talonario){       
+            try {
+                $conectar = parent::Conexion();
+                parent::set_names();
+                $sql = "SELECT Numero_CAI FROM tbl_talonario WHERE Id_Talonario = ?";
+                $sql = $conectar->prepare($sql);
+                if ($sql) {
+                    $sql->bindValue(1, $Id_Talonario, PDO::PARAM_STR);
+                    $sql->execute();
+                    
+                    $resultado = $sql->fetch(PDO::FETCH_ASSOC);
+                    if ($resultado) {
+                        return $resultado['Numero_CAI'];
+                    } else {
+                        return "La pregunta con Id_Pregunta = $Id_Talonario no existe.";
+                    }
+                } else {
+                    return "Error al preparar la consulta.";
+                }
+            } catch (PDOException $e) {
+                return "Error: " . $e->getMessage();
+            }
+        }
         public function get_roleditar($Id_Talonario){       //Trae los datos de la fila que se quiere editar.           
             $conectar = parent::Conexion();
             parent::set_names();

@@ -72,7 +72,7 @@ session_start();
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($tiposContactosMM->get_user($varsesion));
-                $tiposContactosMM->registrar_bitacora($Id_Usuario, 48, 'Insertar', 'Se insertó un tipo de contacto');
+                $tiposContactosMM->registrar_bitacora($Id_Usuario, 48, 'Insertar', 'Se insertó el tipo de contacto: '.$body['Nombre_tipo_contacto']);
             break;
             case "UpdateTipoContactoMM":
                 $nombreTipo=$body['Nombre_tipo_contacto'];
@@ -91,15 +91,17 @@ session_start();
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE); 
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($tiposContactosMM->get_user($varsesion));
-                $tiposContactosMM->registrar_bitacora($Id_Usuario, 48, 'Actualizar', 'Se actualizó un tipo de contacto');
+                $tiposContactosMM->registrar_bitacora($Id_Usuario, 48, 'Actualizar', 'Se actualizó el tipo de contacto a: '.$body['Nombre_tipo_contacto']);
             break;
             case "DeleteTipoContactoMM":
-                $datos=$tiposContactosMM->delete_TipoContactoMM($body["Id_Tipo_Contacto"]);
+                $Id_Tipo_Contacto = $body["Id_Tipo_Contacto"];
+                $nombreTipoContacto = $tiposContactosMM->tipocontactoeliminar($Id_Tipo_Contacto); // Obtener el nombre del tipo de contacto antes de eliminarlo
+                $datos = $tiposContactosMM->delete_TipoContactoMM($Id_Tipo_Contacto);
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($tiposContactosMM->get_user($varsesion));
-                $tiposContactosMM->registrar_bitacora($Id_Usuario, 48, 'Eliminar', 'Se eliminó un tipo de contacto');
+                $tiposContactosMM->registrar_bitacora($Id_Usuario, 48, 'Eliminar', 'Se eliminó el Tipo de Contacto: ' . $nombreTipoContacto); // Usar el nombre del tipo de contacto eliminado en la bitácora
                 echo json_encode("Tipo de contacto Eliminado");
-            break; 
+            break;
         }
 
 ?>   

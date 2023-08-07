@@ -1,13 +1,13 @@
 <?php
     class Rol extends Conectar{
 
-        public function get_roles(){               //Si no se nececita mostrar nombre en vez de ID.
-            $conexion= parent::Conexion();
+        public function get_roles() {
+            $conexion = parent::Conexion();
             parent::set_names();
-            $sql="SELECT * FROM tbl_ms_roles";          
-            $sql= $conexion->prepare($sql);
+            $sql = "SELECT * FROM tbl_ms_roles WHERE Estado = 'activo'";
+            $sql = $conexion->prepare($sql);
             $sql->execute();
-            return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
+            return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
         }
 
         public function get_rol($busqueda){  //Buscar por cualquier campo
@@ -88,17 +88,18 @@
             }
         }
 
-        public function insert_rol($Rol, $Descripcion){
-            $conectar= parent::conexion();
+        public function insert_rol($Rol, $Descripcion) {
+            $conectar = parent::conexion();
             parent::set_names();
-            $sql="INSERT INTO tbl_ms_roles(Rol, Descripcion)
-            VALUES (?,?);";
-            $sql=$conectar->prepare($sql);
+            $sql = "INSERT INTO tbl_ms_roles(Rol, Descripcion, Estado)
+                    VALUES (?, ?, 'activo');"; // Aquí agregamos 'activo' como valor por defecto para el campo 'Estado'.
+            $sql = $conectar->prepare($sql);
             $sql->bindValue(1, $Rol);
             $sql->bindValue(2, $Descripcion);
             $sql->execute();
-            return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
+            return true; // O cualquier otra respuesta que desees devolver para indicar que el registro fue insertado correctamente.
         }
+        
 
         public function update_rol($Id_Rol, $Rol, $Descripcion){
             $conectar= parent::conexion();
@@ -112,16 +113,15 @@
             return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
         }
 
-        public function delete_rol($Id_Rol){
-            $conectar= parent::conexion();
+        public function delete_rol($Id_Rol) {
+            $conectar = parent::conexion();
             parent::set_names();
-            $sql = "DELETE FROM tbl_ms_roles WHERE Id_Rol =?";
-            $sql=$conectar->prepare($sql);
+            $sql = "UPDATE tbl_ms_roles SET Estado = 'inactivo' WHERE Id_Rol = ?";
+            $sql = $conectar->prepare($sql);
             $sql->bindvalue(1, $Id_Rol);
             $sql->execute();
-            return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
+            return true; // O cualquier otra respuesta que desees devolver para indicar que el registro fue marcado como inactivo.
         }
-
 
 
 

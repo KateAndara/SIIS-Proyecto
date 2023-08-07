@@ -66,6 +66,29 @@
                 return null;
             }
         }
+        public function estadodeventaeliminar($Id_Estado_Venta){       
+            try {
+                $conectar = parent::Conexion();
+                parent::set_names();
+                $sql = "SELECT Nombre_estado FROM tbl_estado_venta WHERE Id_Estado_Venta = ?";
+                $sql = $conectar->prepare($sql);
+                if ($sql) {
+                    $sql->bindValue(1, $Id_Estado_Venta, PDO::PARAM_STR);
+                    $sql->execute();
+                    
+                    $resultado = $sql->fetch(PDO::FETCH_ASSOC);
+                    if ($resultado) {
+                        return $resultado['Nombre_estado'];
+                    } else {
+                        return "El Estado de Venta con Id_Estado_Venta = $Id_Estado_Venta no existe.";
+                    }
+                } else {
+                    return "Error al preparar la consulta.";
+                }
+            } catch (PDOException $e) {
+                return "Error: " . $e->getMessage();
+            }
+        }
         public function get_EstadoVentaMM($busqueda){      //Si se nececita mostrar nombre en vez de ID. 
             $conectar = parent::Conexion();
             parent::set_names();

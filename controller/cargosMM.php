@@ -79,7 +79,7 @@
 
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($cargosMM->get_user($varsesion));
-                $cargosMM->registrar_bitacora($Id_Usuario, 42, 'Insertar', 'Se insertó un cargo');
+                $cargosMM->registrar_bitacora($Id_Usuario, 42, 'Insertar', 'Se insertó el cargo: ' .$body["Nombre_cargo"]);
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
                 
             break;
@@ -117,14 +117,16 @@
 
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($cargosMM->get_user($varsesion));
-                $cargosMM->registrar_bitacora($Id_Usuario, 42, 'Actualizar', 'Se actualizó un cargo');
+                $cargosMM->registrar_bitacora($Id_Usuario, 42, 'Actualizar', 'Se actualizó el cargo '.$body['Nombre_cargo']);
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
             break;
             case "DeleteCargoMM":
-                $datos=$cargosMM->delete_CargoMM($body["Id_Cargo"]);
+                $Id_Cargo = $body["Id_Cargo"];
+                $cargo_eliminado = $cargosMM->cargoeliminar($Id_Cargo); // Obtener el nombre del cargo antes de eliminarlo
+                $datos = $cargosMM->delete_CargoMM($Id_Cargo);
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($cargosMM->get_user($varsesion));
-                $cargosMM->registrar_bitacora($Id_Usuario, 42, 'Eliminar', 'Se eliminó un cargo');
+                $cargosMM->registrar_bitacora($Id_Usuario, 42, 'Eliminar', 'Se eliminó el cargo: ' . $cargo_eliminado); // Usar el nombre del cargo eliminado en la bitácora
                 echo json_encode("Cargo Eliminado");
             break;
         }

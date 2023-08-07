@@ -89,7 +89,7 @@
                     <table class="table table-hover" id="TablaCargos">
                         <thead>
                             <tr>
-                                <th>ID CARGOS </th>
+                                <th>N° </th>
                                 <th>NOMBRE DEL CARGO</th>
                                 <th>OPCIONES</th>
                             </tr>

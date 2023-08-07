@@ -80,7 +80,7 @@
 
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($especiesMM->get_user($varsesion));
-                $especiesMM->registrar_bitacora($Id_Usuario, 42, 'Insertar', 'Se insertó una especie');
+                $especiesMM->registrar_bitacora($Id_Usuario, 53, 'Insertar', 'Se insertó la especie: '.$body['Nombre_Especie']);
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
                 
             break;
@@ -106,16 +106,19 @@
 
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($especiesMM->get_user($varsesion));
-                $especiesMM->registrar_bitacora($Id_Usuario, 42, 'Actualizar', 'Se actualizó una especie');
+                $especiesMM->registrar_bitacora($Id_Usuario, 53, 'Actualizar', 'Se actualizó la especie a: '.$body['Nombre_Especie']);
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
             break;
             case "DeleteEspecieMM":
-                $datos=$especiesMM->delete_EspecieMM($body["Id_Especie"]);
+                $Id_Especie = $body["Id_Especie"];
+                $nombreEspecie = $especiesMM->especieeliminar($Id_Especie); // Obtener el nombre de la especie antes de eliminarla
+                $datos = $especiesMM->delete_EspecieMM($Id_Especie);
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($especiesMM->get_user($varsesion));
-                $especiesMM->registrar_bitacora($Id_Usuario, 42, 'Eliminar', 'Se eliminó una especie');
+                $especiesMM->registrar_bitacora($Id_Usuario, 53, 'Eliminar', 'Se eliminó la Especie: ' . $nombreEspecie); // Usar el nombre de la especie eliminada en la bitácora
                 echo json_encode("Especie Eliminada");
             break;
+            
         }
 
 ?>   

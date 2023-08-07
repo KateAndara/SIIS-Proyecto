@@ -73,7 +73,7 @@ session_start();
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($tiposMovimientosMM->get_user($varsesion));
-                $tiposMovimientosMM->registrar_bitacora($Id_Usuario, 49, 'Insertar', 'Se insertó un Tipo de Movimiento');
+                $tiposMovimientosMM->registrar_bitacora($Id_Usuario, 49, 'Insertar', 'Se insertó el Tipo de Movimiento: '.$body['Descripcion']);
             break;
             case "UpdateTipoMovimientoMM":
                 $nombreTipo=$body['Descripcion'];
@@ -92,15 +92,18 @@ session_start();
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE); 
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($tiposMovimientosMM->get_user($varsesion));
-                $tiposMovimientosMM->registrar_bitacora($Id_Usuario, 49, 'Actualizar', 'Se actualizó un Tipo de Movimiento');
+                $tiposMovimientosMM->registrar_bitacora($Id_Usuario, 49, 'Actualizar', 'Se actualizó el Tipo de Movimiento a: '.$body['Descripcion']);
             break;
             case "DeleteTipoMovimientoMM":
-                $datos=$tiposMovimientosMM->delete_TipoMovimientoMM($body["Id_Tipo_Movimiento"]);
+                $Id_Tipo_Movimiento = $body["Id_Tipo_Movimiento"];
+                $nombreTipoMovimiento = $tiposMovimientosMM->movimientoeliminar($Id_Tipo_Movimiento); // Obtener el nombre del tipo de movimiento antes de eliminarlo
+                $datos = $tiposMovimientosMM->delete_TipoMovimientoMM($Id_Tipo_Movimiento);
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($tiposMovimientosMM->get_user($varsesion));
-                $tiposMovimientosMM->registrar_bitacora($Id_Usuario, 49, 'Eliminar', 'Se eliminó un Tipo de Movimiento');
-                echo json_encode("Cargo Eliminado");
+                $tiposMovimientosMM->registrar_bitacora($Id_Usuario, 49, 'Eliminar', 'Se eliminó el Tipo de Movimiento: ' . $nombreTipoMovimiento); // Usar el nombre del tipo de movimiento eliminado en la bitácora
+                echo json_encode("Tipo de Movimiento Eliminado");
             break;
+            
         }
 
 ?>    

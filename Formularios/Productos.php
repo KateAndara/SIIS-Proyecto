@@ -92,7 +92,7 @@
                     <table class="table table-hover" id="TablaProductos">
                         <thead>
                             <tr>
-                                <th>ID PRODUCTO</th>
+                                <th>N°</th>
                                 <th>TIPO PRODUCTO</th>
                                 <th>NOMBRE</th> 
                                 <th>UNIDAD MEDIDA</th> 

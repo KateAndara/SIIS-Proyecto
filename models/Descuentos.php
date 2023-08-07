@@ -97,5 +97,60 @@
             $sql->execute();
             return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
         }
+
+        //Bitácora 
+        public function registrar_bitacora($id_usuario, $id_objeto, $accion, $descripcion){
+            $conexion= parent::Conexion();
+            parent::set_names();
+            
+            $sql="INSERT INTO tbl_ms_bitacora (Id_Usuario, Id_Objeto, Fecha, Accion, Descripcion) 
+                  VALUES (:id_usuario, :id_objeto, :fecha, :accion, :descripcion)";
+            $stmt= $conexion->prepare($sql);
+            $fecha = date("Y-m-d H:i:s");
+            $stmt->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
+            $stmt->bindParam(":id_objeto", $id_objeto, PDO::PARAM_INT);
+            $stmt->bindParam(":fecha", $fecha, PDO::PARAM_STR);
+            $stmt->bindParam(":accion", $accion, PDO::PARAM_STR);
+            $stmt->bindParam(":descripcion", $descripcion, PDO::PARAM_STR);
+            $stmt->execute();
+        }
+        public function get_user($user){
+            $conexion = parent::Conexion();
+            parent::set_names();
+            $sql = "SELECT Id_Usuario FROM tbl_ms_usuarios WHERE Usuario = ?";
+            $stmt = $conexion->prepare($sql);
+            if ($stmt) {
+                $stmt->bindValue(1, $user, PDO::PARAM_STR);
+                $stmt->execute();
+                $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+                return $resultado['Id_Usuario'];
+            } else {
+                return null;
+            }
+        }
+        public function descuentoeliminar($Id_Descuento){       
+            try {
+                $conectar = parent::Conexion();
+                parent::set_names();
+                $sql = "SELECT Nombre_descuento FROM tbl_descuentos WHERE Id_Descuento = ?";
+                $sql = $conectar->prepare($sql);
+                if ($sql) {
+                    $sql->bindValue(1, $Id_Descuento, PDO::PARAM_STR);
+                    $sql->execute();
+                    
+                    $resultado = $sql->fetch(PDO::FETCH_ASSOC);
+                    if ($resultado) {
+                        return $resultado['Nombre_descuento'];
+                    } else {
+                        return "El contacto del proveedor  con Id_Proveedores_Contacto = $Id_Descuento no existe.";
+                    }
+                } else {
+                    return "Error al preparar la consulta.";
+                }
+            } catch (PDOException $e) {
+                return "Error: " . $e->getMessage();
+            }
+        }
+    
     }
 ?>

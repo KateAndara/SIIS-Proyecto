@@ -41,6 +41,30 @@
                 return null;
             }
         }
+
+        public function productoeliminar($Id_Producto){       
+            try {
+                $conectar = parent::Conexion();
+                parent::set_names();
+                $sql = "SELECT Nombre FROM tbl_productos WHERE Id_Producto = ?";
+                $sql = $conectar->prepare($sql);
+                if ($sql) {
+                    $sql->bindValue(1, $Id_Producto, PDO::PARAM_STR);
+                    $sql->execute();
+                    
+                    $resultado = $sql->fetch(PDO::FETCH_ASSOC);
+                    if ($resultado) {
+                        return $resultado['Nombre'];
+                    } else {
+                        return "El producto con Id_Producto = $Id_Producto no existe.";
+                    }
+                } else {
+                    return "Error al preparar la consulta.";
+                }
+            } catch (PDOException $e) {
+                return "Error: " . $e->getMessage();
+            }
+        }
         public function get_producto($busqueda){    //Si no se nececita mostrar nombre en vez de ID.
             $conectar= parent::Conexion();
             parent::set_names();

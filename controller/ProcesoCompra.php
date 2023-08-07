@@ -72,7 +72,7 @@
                 $datos=$compras->deleteCompra($idCompra);
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($compras->get_user($varsesion));
-                $compras->registrar_bitacora($Id_Usuario, 29, 'Eliminar', 'Se eliminó una compra');
+                $compras->registrar_bitacora($Id_Usuario, 29, 'Eliminar', 'Se canceló la compra N° '.$body['idCompra']);
                 echo json_encode($datos);
             break;
             case "GetProveedores":
@@ -209,10 +209,6 @@
                 $observacion=$body['observacion'];
                 $idPersona=$_SESSION['Id_Usuario'];
                 $nombre=$_SESSION['nombre'];
-                
-         
-                
-                
                 if (!empty($_SESSION['compraDetalle'])) {
                     $request_compra=$compras->insertCompra($proveedor,
                                                                 $fechaCompra,
@@ -240,9 +236,6 @@
 
                             $compras->insertDetalleProducto($detalleCompra,$especie,$pesoVivo,$canal,$Rendimiento);
 
-
-
-
                             
                             /* //Aumentar stock
                             $this->model->updateStock($id['COD_PRODUCTO'],$nuevoStock); 
@@ -259,7 +252,9 @@
                             }                                             
                 }
 
-
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($compras->get_user($varsesion)); 
+                $compras->registrar_bitacora($Id_Usuario, 29, 'Insertar', 'Se agregó la compra N° ' . $idCompra .' el '.$body['fechaCompra'].', con un total de: '.$body['total'].', con la forma de pago: '.$body['observacion']);
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
             break;
            
