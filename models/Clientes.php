@@ -6,8 +6,7 @@
         public function get_clientes(){                 //Si se nececita mostrar nombre en vez de ID.         
             $conexion= parent::Conexion();
             parent::set_names();
-            $sql="SELECT *
-                  FROM tbl_clientes";
+            $sql="SELECT * FROM tbl_clientes WHERE Estado = 'activo'";
             $sql= $conexion->prepare($sql);
             $sql->execute();
             return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);                
