@@ -53,8 +53,8 @@
         public function insert_cliente($Nombre_cliente, $Fecha_nacimiento,$DNI){
             $conectar= parent::conexion();
             parent::set_names();
-            $sql="INSERT INTO tbl_clientes(Nombre, Fecha_nacimiento,DNI)
-            VALUES (?,?,?);";
+            $sql="INSERT INTO tbl_clientes(Nombre, Fecha_nacimiento,DNI,Estado)
+            VALUES (?,?,?,'activo');";
             $sql=$conectar->prepare($sql);
             $sql->bindValue(1, $Nombre_cliente);
             $sql->bindValue(2, $Fecha_nacimiento);
@@ -79,7 +79,7 @@
         public function delete_cliente($Id_Cliente){
             $conectar= parent::conexion();
             parent::set_names();
-            $sql = "DELETE FROM tbl_clientes WHERE Id_Cliente =?";
+            $sql = "UPDATE tbl_clientes SET Estado = 'inactivo' WHERE Id_Cliente =?";
             $sql=$conectar->prepare($sql);
             $sql->bindvalue(1, $Id_Cliente);
             $sql->execute();
