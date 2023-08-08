@@ -154,7 +154,7 @@ function CargarPromocionProducto(idPromocion){
              });
             //Cambiar el título del formulario.
             var titulo = '<div class="Col-12" id="titulo">'+
-            '<h3>Editar Promoción del producto</h3></div>';
+            '<h3 style="color: black;">Editar Promoción del producto</h3></div>';
             $('#titulo').html(titulo); 
 
             // Agrega la clase "select2" al select de ProductoFinal y Promocion

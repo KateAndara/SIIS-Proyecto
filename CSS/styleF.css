@@ -3,8 +3,8 @@
     --primary: #3616eb;
     --secondary: #191C24;
     --light: #6C7293;
-    --dark: #000000;
-    --prueba: #ae9c8f;
+    --dark: hsl(0, 0%, 100%);
+    --prueba: #ffffff;
 
 }
 
@@ -38,8 +38,8 @@
 }
 
 
-.cards-white{
-    background: #ae9c8f;
+.cards-white{/*Tabla sobre datatable*/
+    background: #ece9e9;
     padding: 11px;
     border-radius: 11px;
 }

@@ -148,7 +148,7 @@ function CargarContactoClienteMM(idContacto){ //Función que trae los campos que
              });
             //Cambiar el título del formulario.
             var titulo = '<div class="Col-12" id="titulo">'+
-            '<h3>Editar Contacto Del Cliente</h3></div>';
+            '<h3 style="color: black;">Editar Contacto Del Cliente</h3></div>';
             $('#titulo').html(titulo); 
         }
     });

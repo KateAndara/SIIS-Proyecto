@@ -231,7 +231,7 @@ function CargarRol(idRol){ //Función que trae los campos que se eligieron edita
              });
             //Cambiar el título del formulario.
             var titulo = '<div class="Col-12" id="titulo">'+
-            '<h3>Editar Rol</h3></div>';
+            '<h3 style="color: black;">Editar Rol</h3></div>';
             $('#titulo').html(titulo); 
         }
     });

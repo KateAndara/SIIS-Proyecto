@@ -141,7 +141,7 @@ function CargarEstadoProcesoMM(idEstadoProceso){ //Función que trae los campos 
              });
             //Cambiar el título del formulario.
             var titulo = '<div class="Col-12" id="titulo">'+
-            '<h3>Editar Estado del proceso</h3></div>';
+            '<h3 style="color: black;">Editar Estado del proceso</h3></div>';
             $('#titulo').html(titulo); 
         }
     });

@@ -158,7 +158,7 @@ function CargarPregunta(idPregunta){ //Función que trae los campos que se eligi
              });
             //Cambiar el título del formulario.
             var titulo = '<div class="Col-12" id="titulo">'+
-            '<h3>Editar Pregunta</h3></div>';
+            '<h3 style="color: black;">Editar Pregunta</h3></div>';
             $('#titulo').html(titulo); 
         }
     });

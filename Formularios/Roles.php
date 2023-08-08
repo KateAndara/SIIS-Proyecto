@@ -38,6 +38,7 @@ function getModal(string $nameModal, $data)
     <link href="../CSS/datatable.css" rel="stylesheet">
     <!-- Última versión de jspdf -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <link href="../CSS/styleF.css" rel="stylesheet">
 
     <!-- Última versión de AutoTable -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.26/jspdf.plugin.autotable.min.js"></script>
@@ -109,11 +110,11 @@ function getModal(string $nameModal, $data)
 <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="col-md-12 cards-white" style="margin: 0 auto; width: 110%; max-width: none; margin-left: auto; margin-right: auto">
+    <div class="col-md-12 cards-white" style="margin: 0 auto; width: 110%; max-width: none; margin-left: auto; margin-right: auto; border: 1px solid black;">
         <div class="consulta mt-4" id="consulta">
             <div class="row">
                 <div class="col-12 text-center">
-                    <h3>
+                    <h3 style="color: black;">
                         Lista de Roles
                     </h3>
                 </div>
@@ -182,7 +183,7 @@ function getModal(string $nameModal, $data)
         <div class="Formulario" style="display: none;">
             <div class="row">
                 <div class="Col-12" id="titulo">
-                    <h3>
+                    <h3 style="color: black;">
                         Agregar Rol
                     </h3>
                 </div>

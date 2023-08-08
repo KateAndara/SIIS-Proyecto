@@ -38,15 +38,15 @@
 
     <!-- Última versión de AutoTable -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.26/jspdf.plugin.autotable.min.js"></script>
-
+    <link href="../CSS/styleF.css" rel="stylesheet">
     <script src="../Reportes/ReporteH.js"></script>
 </head>
 <body>
-    <div class="col-md-12 cards-white" style="margin: 0 auto; width: 110%; max-width: none; margin-left: -20px;">
+    <div class="col-md-12 cards-white" style="margin: 0 auto; width: 110%; max-width: none; margin-left: -20px; border: 1px solid black;">
         <div class="consulta mt-4">
             <div class="row">
                 <div class="col-12 text-center">
-                    <h3>
+                    <h3 style="color: black;">
                         Kardex
                     </h3>
                 </div>

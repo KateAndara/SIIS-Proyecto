@@ -43,6 +43,7 @@ date_default_timezone_set('America/Tegucigalpa');
     <link href="
 https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
 " rel="stylesheet">
+    <link href="../CSS/styleF.css" rel="stylesheet">
 </head>
 <body>
 
@@ -123,11 +124,11 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
 
 
 
-    <div class="col-md-12 cards-white" style="margin: 0 auto; width: 110%; max-width: none; margin-left: auto; margin-right: auto">
+    <div class="col-md-12 cards-white" style="margin: 0 auto; width: 110%; max-width: none; margin-left: auto; margin-right: auto; ; border: 1px solid black;">
         <div class="consulta mt-4" id="consulta">
             <div class="row">
                 <div class="col-12 text-center">
-                    <h3>
+                    <h3 style="color: black;">
                         Lista de Usuarios
                     </h3>
                 </div>
@@ -187,7 +188,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
         <div class="Formulario" style="display: none;">
             <div class="row">
                 <div class="Col-12" id="titulo">
-                    <h3>
+                    <h3 style="color: black;">
                         Agregar Usuario
                     </h3>
                 </div>

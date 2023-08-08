@@ -39,15 +39,15 @@
 
     <script src="../Reportes/ReporteOH.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
-
+    <link href="../CSS/styleF.css" rel="stylesheet">
 </head>
 
 <body>
-    <div class="col-md-12 cards-white" style="margin: 0 auto; width: 110%; max-width: none; margin-left: -20px;">
+    <div class="col-md-12 cards-white" style="margin: 0 auto; width: 110%; max-width: none; margin-left: -20px; border: 1px solid black;">
         <div class="consulta mt-4" id="consulta">
             <div class="row">
                 <div class="col-12 text-center">
-                    <h3>
+                    <h3 style="color: black;">
                         Lista de Productos
                     </h3>
                 </div>
@@ -114,7 +114,7 @@
         <div class="Formulario" style="display: none;">
             <div class="row">
                 <div class="Col-12" id="titulo">
-                    <h3>
+                    <h3 style="color: black;">
                         Agregar Producto 
                     </h3>
                 </div>

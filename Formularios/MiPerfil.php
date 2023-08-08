@@ -49,6 +49,7 @@ if (!isset($_SESSION['usuario'])) {
     <link href="
 https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
 " rel="stylesheet">
+<link href="../CSS/styleF.css" rel="stylesheet">
 </head>
 <body>
 

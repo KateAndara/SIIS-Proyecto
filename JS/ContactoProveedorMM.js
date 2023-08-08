@@ -144,7 +144,7 @@ function CargarContactoProveedorMM(idContacto){ //Función que trae los campos q
              });
             //Cambiar el título del formulario.
             var titulo = '<div class="Col-12" id="titulo">'+
-            '<h3>Editar Contacto Del Proveedor</h3></div>';
+            '<h3 style="color: black;">Editar Contacto Del Proveedor</h3></div>';
             $('#titulo').html(titulo); 
         }
     });

@@ -37,14 +37,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.26/jspdf.plugin.autotable.min.js"></script>
 
     <script src="../Reportes/Reporte.js"></script>
-
+    <link href="../CSS/styleF.css" rel="stylesheet">
 </head>
 <body>
-    <div class="col-md-12 cards-white" style="margin: 0 auto; width: 110%; max-width: none; margin-left: auto; margin-right: auto">
+    <div class="col-md-12 cards-white" style="margin: 0 auto; width: 110%; max-width: none; margin-left: auto; margin-right: auto; border: 1px solid black;">
         <div class="consulta mt-4" id="consulta">
             <div class="row">
                 <div class="col-12 text-center">
-                    <h3>
+                    <h3 style="color: black;">
                         Lista de Parámetros
                     </h3>
                 </div>
@@ -84,7 +84,7 @@
         <div class="Formulario" style="display: none;">
             <div class="row">
                 <div class="Col-12" id="titulo">
-                    <h3>
+                    <h3 style="color: black;">
                         Agregar Parámetro
                     </h3>
                 </div>

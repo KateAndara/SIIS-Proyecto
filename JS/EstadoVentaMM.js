@@ -147,7 +147,7 @@ function CargarEstadoVentaMM(idEstadoVenta){ //Función que trae los campos que 
              });
             //Cambiar el título del formulario.
             var titulo = '<div class="Col-12" id="titulo">'+
-            '<h3>Editar Estado De Venta</h3></div>';
+            '<h3 style="color: black;">Editar Estado De Venta</h3></div>';
             $('#titulo').html(titulo); 
         }
     });

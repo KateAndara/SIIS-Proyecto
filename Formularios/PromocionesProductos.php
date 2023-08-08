@@ -39,14 +39,14 @@
   
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
+    <link href="../CSS/styleF.css" rel="stylesheet">
 </head>
 <body>
-    <div class="col-md-12 cards-white" style="margin: 0 auto; width: 110%; max-width: none; margin-left: auto; margin-right: auto">
+    <div class="col-md-12 cards-white" style="margin: 0 auto; width: 110%; max-width: none; margin-left: auto; margin-right: auto; border: 1px solid black;">
         <div class="consulta mt-4" id="consulta">
             <div class="row">
                 <div class="col-12 text-center">
-                    <h3>
+                    <h3 style="color: black;">
                         Lista de Promociones en Productos
                     </h3>
                 </div>
@@ -100,7 +100,7 @@
         <div class="Formulario" style="display: none;">
             <div class="row">
                 <div class="Col-12" id="titulo">
-                    <h3>
+                    <h3 style="color: black;">
                         Agregar Promoción a Productos
                     </h3>
                 </div>

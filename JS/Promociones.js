@@ -148,7 +148,7 @@ function CargarPromocion(idPromocion){ //Función que trae los campos que se eli
              });
             //Cambiar el título del formulario.
             var titulo = '<div class="Col-12" id="titulo">'+
-            '<h3>Editar Promocion</h3></div>';
+            '<h3 style="color: black;">Editar Promocion</h3></div>';
             $('#titulo').html(titulo);
         }
     });

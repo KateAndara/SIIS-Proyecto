@@ -468,7 +468,7 @@ function CargarUsuario(idUsuario) {
       });
       //Cambiar el título del formulario.
       var titulo =
-        '<div class="Col-12" id="titulo">' + "<h3>Editar Usuario</h3></div>";
+        '<div class="Col-12" id="titulo">' + "<h3 style='color: black;'>Editar Usuario</h3></div>";
       $("#titulo").html(titulo);
     },
   });

@@ -219,7 +219,7 @@ function CargarEditarTalonario(idTalonario) {
       });
       //Cambiar el título del formulario.
       var titulo =
-        '<div class="Col-12" id="titulo">' + "<h3>Editar Talonario</h3></div>";
+        '<div class="Col-12" id="titulo">' + "<h3  style='color: black;' >Editar Talonario</h3></div>";
       $("#titulo").html(titulo);
     },
   });

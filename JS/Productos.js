@@ -189,7 +189,7 @@ function CargarProducto(idProducto){ //Función que trae los campos que se eligi
              });
             //Cambiar el título del formulario.
             var titulo = '<div class="Col-12" id="titulo">'+
-            '<h3>Editar Producto</h3></div>';
+            '<h3 style="color: black;">Editar Producto</h3></div>';
             $('#titulo').html(titulo); 
         }
     });
