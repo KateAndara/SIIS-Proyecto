@@ -4,7 +4,7 @@
         public function get_EstadosVentaMM(){                 //Si se nececita mostrar nombre en vez de ID.         
             $conexion= parent::Conexion();
             parent::set_names();
-            $sql="SELECT * FROM tbl_estado_venta";          
+            $sql = "SELECT * FROM tbl_estado_venta WHERE Estado = 'activo'";
             $sql= $conexion->prepare($sql);
             $sql->execute();
             return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);                
@@ -15,7 +15,7 @@
             parent::set_names();
         
             $sql = "SELECT * FROM tbl_estado_venta 
-                    WHERE Nombre_estado =?"; 
+                    WHERE Nombre_estado =? && Estado = 'activo'"; 
             $sql = $conectar->prepare($sql);
             $sql->bindValue(1, $nombreEstado);
             $sql->execute();
@@ -28,7 +28,7 @@
             parent::set_names();
         
             $sql = "SELECT * FROM tbl_estado_venta 
-                    WHERE Nombre_estado =? && Id_Estado_Venta!=?"; 
+                    WHERE Nombre_estado =? && Id_Estado_Venta!=? && Estado = 'activo'"; 
             $sql = $conectar->prepare($sql);
             $sql->bindValue(1, $nombreEstado);
             $sql->bindValue(2, $idEstadoVenta);
@@ -113,8 +113,8 @@
         public function insert_EstadoVentaMM($Nombre_estado){
             $conectar= parent::conexion();
             parent::set_names();
-            $sql="INSERT INTO tbl_estado_venta(Nombre_estado)
-            VALUES (?);";
+            $sql="INSERT INTO tbl_estado_venta(Nombre_estado, Estado)
+            VALUES (?, 'activo');";
             $sql=$conectar->prepare($sql);
             $sql->bindValue(1, $Nombre_estado);
             $sql->execute();
@@ -135,7 +135,7 @@
         public function delete_EstadoVentaMM($Id_Estado_Venta){
             $conectar= parent::conexion();
             parent::set_names();
-            $sql = "DELETE FROM tbl_estado_venta WHERE Id_Estado_Venta =?";
+            $sql = "UPDATE tbl_estado_venta SET Estado = 'inactivo' WHERE Id_Estado_Venta = ?";
             $sql=$conectar->prepare($sql);
             $sql->bindvalue(1, $Id_Estado_Venta);
             $sql->execute();

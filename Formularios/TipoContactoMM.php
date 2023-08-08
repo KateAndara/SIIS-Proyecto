@@ -92,7 +92,7 @@
                     <table class="table table-hover" id="TablaTipoContactos">
                         <thead>
                             <tr>
-                                <th>ID TIPO DE CONTACTO </th>
+                                <th>N° </th>
                                 <th>NOMBRE DEL TIPO DE PRODUCTO</th>
                                 <th>OPCIONES</th>
                             </tr>

@@ -90,7 +90,7 @@
                     <table class="table table-hover" id="TablaEstadosVenta">
                         <thead>
                             <tr>
-                                <th>ID ESTADO DE VENTA</th>
+                                <th>N° </th>
                                 <th>NONRE DE ESTADO</th>
                                 <th>OPCIONES</th>
                             </tr>

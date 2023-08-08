@@ -5,7 +5,7 @@
         public function get_TipoProductosMM(){                 //Si se nececita mostrar nombre en vez de ID.         
             $conexion= parent::Conexion();
             parent::set_names();
-            $sql="SELECT * FROM tbl_tipo_producto";          
+            $sql="SELECT * FROM tbl_tipo_producto WHERE Estado = 'activo'";          
             $sql= $conexion->prepare($sql);
             $sql->execute();
             return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);                
@@ -16,7 +16,7 @@
             parent::set_names();
         
             $sql = "SELECT * FROM tbl_tipo_producto 
-                    WHERE Nombre_tipo =?"; 
+                    WHERE Nombre_tipo =? && Estado = 'activo'"; 
             $sql = $conectar->prepare($sql);
             $sql->bindValue(1, $nombreTipo);
             $sql->execute();
@@ -29,7 +29,7 @@
             parent::set_names();
         
             $sql = "SELECT * FROM tbl_tipo_producto 
-                    WHERE Nombre_tipo =? && Id_Tipo_Producto!=?"; 
+                    WHERE Nombre_tipo =? && Id_Tipo_Producto!=? && Estado = 'activo'"; 
             $sql = $conectar->prepare($sql);
             $sql->bindValue(1, $nombreTipo);
             $sql->bindValue(2, $idTipo);
@@ -114,8 +114,8 @@
         public function insert_TipoProductoMM($Nombre_tipo){
             $conectar= parent::conexion();
             parent::set_names();
-            $sql="INSERT INTO tbl_tipo_producto(Nombre_tipo)
-            VALUES (?);";
+            $sql="INSERT INTO tbl_tipo_producto(Nombre_tipo, Estado)
+            VALUES (?, 'activo');";
             $sql=$conectar->prepare($sql);
             $sql->bindValue(1, $Nombre_tipo);
             $sql->execute();
@@ -136,7 +136,7 @@
         public function delete_TipoProductoMM($Id_Tipo_Producto){
             $conectar= parent::conexion();
             parent::set_names();
-            $sql = "DELETE FROM tbl_tipo_producto WHERE Id_Tipo_Producto =?";
+            $sql = "UPDATE tbl_tipo_producto SET Estado = 'inactivo' WHERE Id_Tipo_Producto = ?";
             $sql=$conectar->prepare($sql);
             $sql->bindvalue(1, $Id_Tipo_Producto);
             $sql->execute();

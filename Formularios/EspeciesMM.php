@@ -82,7 +82,7 @@
                     <table class="table table-hover" id="TablaEspecies">
                         <thead>
                             <tr>
-                                <th>ID ESPECIE </th>
+                                <th>N° </th>
                                 <th>NOMBRE DE LA ESPECIE</th>
                                 <th>OPCIONES</th>
                             </tr>

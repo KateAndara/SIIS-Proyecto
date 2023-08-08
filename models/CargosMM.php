@@ -4,7 +4,8 @@
         public function get_CargosMM(){                 //Si se nececita mostrar nombre en vez de ID.         
             $conexion= parent::Conexion();
             parent::set_names();
-            $sql="SELECT * FROM tbl_cargos";          
+            //$sql="SELECT * FROM tbl_cargos";      
+            $sql = "SELECT * FROM tbl_cargos WHERE Estado = 'activo'";
             $sql= $conexion->prepare($sql);
             $sql->execute();
             return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);                
@@ -67,7 +68,7 @@
             parent::set_names();
         
             $sql = "SELECT * FROM tbl_cargos 
-                    WHERE Nombre_cargo =?"; 
+                    WHERE Nombre_cargo =? && Estado = 'activo'"; 
             $sql = $conectar->prepare($sql);
             $sql->bindValue(1, $nombreCargo);
             $sql->execute();
@@ -80,7 +81,7 @@
             parent::set_names();
         
             $sql = "SELECT * FROM tbl_cargos 
-                    WHERE Nombre_cargo =? && Id_Cargo!=?"; 
+                    WHERE Nombre_cargo =? && Id_Cargo!=? && Estado = 'activo'"; 
             $sql = $conectar->prepare($sql);
             $sql->bindValue(1, $nombreCargo);
             $sql->bindValue(2, $idCargo);
@@ -114,8 +115,8 @@
         public function insert_CargoMM($Nombre_cargo){
             $conectar= parent::conexion();
             parent::set_names();
-            $sql="INSERT INTO tbl_cargos(Nombre_cargo)
-            VALUES (?);";
+            $sql="INSERT INTO tbl_cargos(Nombre_cargo, Estado)
+            VALUES (?,'activo');";
             $sql=$conectar->prepare($sql);
             $sql->bindValue(1, $Nombre_cargo);
             $sql->execute();
@@ -136,7 +137,9 @@
         public function delete_CargoMM($Id_Cargo){
             $conectar= parent::conexion();
             parent::set_names();
-            $sql = "DELETE FROM tbl_cargos WHERE Id_Cargo =?";
+            //$sql = "DELETE FROM tbl_cargos WHERE Id_Cargo =?";
+            $sql = "UPDATE tbl_cargos SET Estado = 'inactivo' WHERE Id_Cargo = ?";
+
             $sql=$conectar->prepare($sql);
             $sql->bindvalue(1, $Id_Cargo);
             $sql->execute();

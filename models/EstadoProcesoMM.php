@@ -5,7 +5,7 @@
         public function get_EstadoProcesosMM(){                 //Si se nececita mostrar nombre en vez de ID.         
             $conexion= parent::Conexion();
             parent::set_names();
-            $sql="SELECT * FROM tbl_estado_proceso";          
+            $sql = "SELECT * FROM tbl_estado_proceso WHERE Estado = 'activo'";
             $sql= $conexion->prepare($sql);
             $sql->execute();
             return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);                
@@ -16,7 +16,7 @@
             parent::set_names();
         
             $sql = "SELECT * FROM tbl_estado_proceso 
-                    WHERE Descripcion =?"; 
+                    WHERE Descripcion =? && Estado = 'activo'"; 
             $sql = $conectar->prepare($sql);
             $sql->bindValue(1, $nombreTipo);
             $sql->execute();
@@ -29,7 +29,7 @@
             parent::set_names();
         
             $sql = "SELECT * FROM tbl_estado_proceso 
-                    WHERE Descripcion =? && Id_Estado_Proceso!=?"; 
+                    WHERE Descripcion =? && Id_Estado_Proceso!=? && Estado = 'activo'"; 
             $sql = $conectar->prepare($sql);
             $sql->bindValue(1, $nombreTipo);
             $sql->bindValue(2, $idEstadoProceso);
@@ -114,8 +114,8 @@
         public function insert_EstadoProcesoMM($Descripcion){
             $conectar= parent::conexion();
             parent::set_names();
-            $sql="INSERT INTO tbl_estado_proceso(Descripcion)
-            VALUES (?);";
+            $sql="INSERT INTO tbl_estado_proceso(Descripcion, Estado)
+            VALUES (?, 'activo');";
             $sql=$conectar->prepare($sql);
             $sql->bindValue(1, $Descripcion);
             $sql->execute();
@@ -136,7 +136,7 @@
         public function delete_EstadoProcesoMM($Id_Estado_Proceso){
             $conectar= parent::conexion();
             parent::set_names();
-            $sql = "DELETE FROM tbl_estado_proceso WHERE Id_Estado_Proceso =?";
+            $sql = "UPDATE tbl_estado_proceso SET Estado = 'inactivo' WHERE Id_Estado_Proceso = ?";
             $sql=$conectar->prepare($sql);
             $sql->bindvalue(1, $Id_Estado_Proceso);
             $sql->execute();

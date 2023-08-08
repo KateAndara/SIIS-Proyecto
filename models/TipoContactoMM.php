@@ -4,7 +4,8 @@
         public function get_TipoContactosMM(){                 //Si se nececita mostrar nombre en vez de ID.         
             $conexion= parent::Conexion();
             parent::set_names();
-            $sql="SELECT * FROM tbl_tipo_contacto";          
+            $sql="SELECT * FROM tbl_tipo_contacto";   
+            $sql = "SELECT * FROM tbl_tipo_contacto WHERE Estado = 'activo'";       
             $sql= $conexion->prepare($sql);
             $sql->execute();
             return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);                
@@ -15,7 +16,7 @@
             parent::set_names();
         
             $sql = "SELECT * FROM tbl_tipo_contacto 
-                    WHERE Nombre_tipo_contacto =?"; 
+                    WHERE Nombre_tipo_contacto =? && Estado = 'activo'"; 
             $sql = $conectar->prepare($sql);
             $sql->bindValue(1, $nombreTipo);
             $sql->execute();
@@ -28,7 +29,7 @@
             parent::set_names();
         
             $sql = "SELECT * FROM tbl_tipo_contacto 
-                    WHERE Nombre_tipo_contacto =? && Id_Tipo_Contacto!=?"; 
+                    WHERE Nombre_tipo_contacto =? && Id_Tipo_Contacto!=? && Estado = 'activo'"; 
             $sql = $conectar->prepare($sql);
             $sql->bindValue(1, $nombreTipo);
             $sql->bindValue(2, $idTipo);
@@ -113,8 +114,8 @@
         public function insert_TipoContactoMM($Nombre_tipo_contacto){
             $conectar= parent::conexion();
             parent::set_names();
-            $sql="INSERT INTO tbl_tipo_contacto(Nombre_tipo_contacto)
-            VALUES (?);";
+            $sql="INSERT INTO tbl_tipo_contacto(Nombre_tipo_contacto, Estado)
+            VALUES (?, 'activo');";
             $sql=$conectar->prepare($sql);
             $sql->bindValue(1, $Nombre_tipo_contacto);
             $sql->execute();
@@ -135,7 +136,7 @@
         public function delete_TipoContactoMM($Id_Tipo_Contacto){
             $conectar= parent::conexion();
             parent::set_names();
-            $sql = "DELETE FROM tbl_tipo_contacto WHERE Id_Tipo_Contacto =?";
+            $sql = "UPDATE tbl_tipo_contacto SET Estado = 'inactivo' WHERE Id_Tipo_Contacto = ?";
             $sql=$conectar->prepare($sql);
             $sql->bindvalue(1, $Id_Tipo_Contacto);
             $sql->execute();

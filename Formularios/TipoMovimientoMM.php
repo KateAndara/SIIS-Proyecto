@@ -90,7 +90,7 @@
                     <table class="table table-hover" id="TablaTipoMovimientos">
                         <thead>
                             <tr>
-                                <th>ID TIPO DE MOVIMIENTO </th>
+                                <th>N° </th>
                                 <th>NOMBRE DEL TIPO DE MOVIMIENTO</th>
                                 <th>OPCIONES</th>
                             </tr>

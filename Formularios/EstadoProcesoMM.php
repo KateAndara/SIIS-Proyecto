@@ -91,7 +91,7 @@
                     <table class="table table-hover" id="TablaEstadoProcesos">
                         <thead>
                             <tr>
-                                <th>ID ESTADO DEL PROCESO </th>
+                                <th>N° </th>
                                 <th>DESCRIPCION</th>
                                 <th>OPCIONES</th>
                             </tr>

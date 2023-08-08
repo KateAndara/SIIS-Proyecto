@@ -91,7 +91,7 @@
                     <table class="table table-hover" id="TablaTiposProducto">
                         <thead>
                             <tr>
-                                <th>ID TIPO DE PRODUCTO </th>
+                                <th>N° </th>
                                 <th>NOMBRE DEL TIPO DE PRODUCTO</th>
                                 <th>OPCIONES</th>
                             </tr>

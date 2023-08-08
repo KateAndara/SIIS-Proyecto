@@ -4,7 +4,7 @@
         public function get_EspeciesMM(){                 //Si se nececita mostrar nombre en vez de ID.         
             $conexion= parent::Conexion();
             parent::set_names();
-            $sql="SELECT * FROM tbl_especies";          
+            $sql="SELECT * FROM tbl_especies  WHERE Estado = 'activo'";          
             $sql= $conexion->prepare($sql);
             $sql->execute();
             return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);                
@@ -67,7 +67,7 @@
             parent::set_names();
         
             $sql = "SELECT * FROM tbl_especies 
-                    WHERE Nombre_Especie =?"; 
+                    WHERE Nombre_Especie =? && Estado = 'activo'"; 
             $sql = $conectar->prepare($sql);
             $sql->bindValue(1, $nombreEspecie);
             $sql->execute();
@@ -80,7 +80,7 @@
             parent::set_names();
         
             $sql = "SELECT * FROM tbl_especies 
-                    WHERE Nombre_Especie =? && Id_Especie!=?"; 
+                    WHERE Nombre_Especie =? && Id_Especie!=? && Estado = 'activo'"; 
             $sql = $conectar->prepare($sql);
             $sql->bindValue(1, $nombreEspecie);
             $sql->bindValue(2, $idEspecie);
@@ -114,8 +114,8 @@
         public function insert_EspecieMM($Nombre_Especie){
             $conectar= parent::conexion();
             parent::set_names();
-            $sql="INSERT INTO tbl_especies(Nombre_Especie)
-            VALUES (?);";
+            $sql="INSERT INTO tbl_especies(Nombre_Especie, Estado)
+            VALUES (?, 'activo');";
             $sql=$conectar->prepare($sql);
             $sql->bindValue(1, $Nombre_Especie);
             $sql->execute();
@@ -136,7 +136,7 @@
         public function delete_EspecieMM($Id_Especie){
             $conectar= parent::conexion();
             parent::set_names(); 
-            $sql = "DELETE FROM tbl_especies WHERE Id_Especie =?";
+            $sql = "UPDATE tbl_especies SET Estado = 'inactivo' WHERE Id_Especie = ?";
             $sql=$conectar->prepare($sql);
             $sql->bindvalue(1, $Id_Especie);
             $sql->execute();

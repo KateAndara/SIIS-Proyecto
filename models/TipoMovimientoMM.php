@@ -4,7 +4,7 @@
         public function get_TipoMovimientosMM(){                 //Si se nececita mostrar nombre en vez de ID.         
             $conexion= parent::Conexion();
             parent::set_names();
-            $sql="SELECT * FROM tbl_tipo_movimiento";          
+            $sql="SELECT * FROM tbl_tipo_movimiento WHERE Estado = 'activo'";          
             $sql= $conexion->prepare($sql);
             $sql->execute();
             return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);                
@@ -15,7 +15,7 @@
             parent::set_names();
         
             $sql = "SELECT * FROM tbl_tipo_movimiento 
-                    WHERE Descripcion =?"; 
+                    WHERE Descripcion =? && Estado = 'activo'"; 
             $sql = $conectar->prepare($sql);
             $sql->bindValue(1, $nombreTipo);
             $sql->execute();
@@ -28,7 +28,7 @@
             parent::set_names();
         
             $sql = "SELECT * FROM tbl_tipo_movimiento 
-                    WHERE Descripcion =? && Id_Tipo_Movimiento!=?"; 
+                    WHERE Descripcion =? && Id_Tipo_Movimiento!=? && Estado = 'activo'"; 
             $sql = $conectar->prepare($sql);
             $sql->bindValue(1, $nombreTipo);
             $sql->bindValue(2, $idTipo);
@@ -114,8 +114,8 @@
         public function insert_TipoMovimientoMM($Descripcion){
             $conectar= parent::conexion();
             parent::set_names();
-            $sql="INSERT INTO tbl_tipo_movimiento(Descripcion)
-            VALUES (?);";
+            $sql="INSERT INTO tbl_tipo_movimiento(Descripcion, Estado)
+            VALUES (?, 'activo');";
             $sql=$conectar->prepare($sql);
             $sql->bindValue(1, $Descripcion);
             $sql->execute();
@@ -136,7 +136,7 @@
         public function delete_TipoMovimientoMM($Id_Tipo_Movimiento){
             $conectar= parent::conexion();
             parent::set_names();
-            $sql = "DELETE FROM tbl_tipo_movimiento WHERE Id_Tipo_Movimiento =?";
+            $sql = "UPDATE tbl_tipo_movimiento SET Estado = 'inactivo' WHERE Id_Tipo_Movimiento = ?";
             $sql=$conectar->prepare($sql);
             $sql->bindvalue(1, $Id_Tipo_Movimiento);
             $sql->execute();
