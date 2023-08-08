@@ -5,7 +5,7 @@
             $conexion= parent::Conexion();
             parent::set_names();
             $sql="SELECT * 
-                  FROM tbl_promociones";
+                  FROM tbl_promociones WHERE Estado = 'activo'";
             $sql= $conexion->prepare($sql);
             $sql->execute();
             return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);                
@@ -38,8 +38,8 @@
         public function insert_promocion($Nombre_Promocion, $Precio_Venta, $Fecha_inicio, $Fecha_final){
             $conectar= parent::conexion();
             parent::set_names();
-            $sql="INSERT INTO tbl_promociones(Nombre_Promocion, Precio_Venta, Fecha_inicio, Fecha_final)
-            VALUES (?,?,?,?);";
+            $sql="INSERT INTO tbl_promociones(Nombre_Promocion, Precio_Venta, Fecha_inicio, Fecha_final, Estado)
+            VALUES (?,?,?,?,'activo');";
             $sql=$conectar->prepare($sql);
             $sql->bindValue(1, $Nombre_Promocion);
             $sql->bindValue(2, $Precio_Venta);
@@ -68,7 +68,7 @@
         public function delete_promocion($Id_Promocion){
             $conectar= parent::conexion();
             parent::set_names();
-            $sql = "DELETE FROM tbl_promociones WHERE Id_Promocion =?";
+            $sql = "UPDATE tbl_promociones SET Estado = 'inactivo' WHERE Id_Promocion =?";
             $sql=$conectar->prepare($sql);
             $sql->bindvalue(1, $Id_Promocion);
             $sql->execute();
