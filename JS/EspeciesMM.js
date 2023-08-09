@@ -128,7 +128,7 @@ function CargarEspecieMM(idEspecie){ //Función que trae los campos que se eligi
         success: function(reponse){
             var MisItems = reponse;
             //Muestra el id junto con su título que se encuentra oculto en el Agregar.
-            $('#Id_Especie').removeAttr('hidden'); // ID
+            document.getElementById('Id_Especie').style.display = 'none';
             $('label[for="Id_Especie"]').removeAttr('hidden'); //Título
         
             $('#Id_Especie').val(MisItems[0].Id_Especie).prop('readonly', true);  // Propiedad para que no se pueda modificar el campo.

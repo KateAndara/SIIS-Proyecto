@@ -128,7 +128,7 @@ function CargarCargoMM(idCargo){ //Función que trae los campos que se eligieron
         success: function(reponse){
             var MisItems = reponse;
             //Muestra el id junto con su título que se encuentra oculto en el Agregar.
-            $('#Id_Cargo').removeAttr('hidden'); // ID
+            document.getElementById('Id_Cargo').style.display = 'none';
             $('label[for="Id_Cargo"]').removeAttr('hidden'); //Título
         
             $('#Id_Cargo').val(MisItems[0].Id_Cargo).prop('readonly', true);  // Propiedad para que no se pueda modificar el campo.

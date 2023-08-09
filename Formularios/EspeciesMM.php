@@ -105,7 +105,6 @@
                 </div>
                 <div class="col-12">
                     <form class="InsertEspecies">
-                        <label for="Id_Especie" hidden>ID ESPECIE</label>
                         <input type="number" id="Id_Especie" class="form-control" placeholder="Ingrese el código de la especie"hidden>
                         
                         <label for="">NOMBRE DE LA ESPECIE</label>

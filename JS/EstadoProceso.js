@@ -126,7 +126,7 @@ function CargarEstadoProcesoMM(idEstadoProceso){ //Función que trae los campos 
         success: function(reponse){
             var MisItems = reponse;
             //Muestra el id junto con su título que se encuentra oculto en el Agregar.
-            $('#Id_Estado_Proceso').removeAttr('hidden'); // ID
+            document.getElementById('Id_Estado_Proceso').style.display = 'none';
             $('label[for="Id_Estado_Proceso"]').removeAttr('hidden'); //Título
         
             $('#Id_Estado_Proceso').val(MisItems[0].Id_Estado_Proceso).prop('readonly', true);  // Propiedad para que no se pueda modificar el campo.

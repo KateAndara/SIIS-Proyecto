@@ -94,7 +94,7 @@ session_start();
             case "DeleteContactoClienteMM":
                 $Id_Cliente_Contacto = $body["Id_Cliente_Contacto"];
                 $contacto_eliminado = $contactosClientesMM->contactoclienteeliminar($Id_Cliente_Contacto);
-                $datos = $contactosClientesMM->delete_ContactoClienteMM($body[$Id_Cliente_Contacto]);
+                $datos = $contactosClientesMM->delete_ContactoClienteMM($body["Id_Cliente_Contacto"]);
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($contactosClientesMM->get_user($varsesion));
                 $contactosClientesMM->registrar_bitacora($Id_Usuario, 47, 'Eliminar', 'Se eliminó el contacto: ' . $contacto_eliminado);

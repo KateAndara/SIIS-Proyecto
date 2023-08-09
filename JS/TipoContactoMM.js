@@ -125,8 +125,9 @@ function CargarTipoContactoMM(idTipoContacto){ //Función que trae los campos qu
         contentType: 'application/json',
         success: function(reponse){
             var MisItems = reponse;
+            
             //Muestra el id junto con su título que se encuentra oculto en el Agregar.
-            $('#Id_Tipo_Contacto').removeAttr('hidden'); // ID
+            document.getElementById('Id_Tipo_Contacto').style.display = 'none';
             $('label[for="Id_Tipo_Contacto"]').removeAttr('hidden'); //Título
         
             $('#Id_Tipo_Contacto').val(MisItems[0].Id_Tipo_Contacto).prop('readonly', true);  // Propiedad para que no se pueda modificar el campo.

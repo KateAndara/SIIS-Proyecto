@@ -132,7 +132,7 @@ function CargarEstadoVentaMM(idEstadoVenta){ //Función que trae los campos que 
         success: function(reponse){
             var MisItems = reponse;
             //Muestra el id junto con su título que se encuentra oculto en el Agregar.
-            $('#Id_Estado_Venta').removeAttr('hidden'); // ID
+            document.getElementById('Id_Estado_Venta').style.display = 'none';
             $('label[for="Id_Estado_Venta"]').removeAttr('hidden'); //Título
         
             $('#Id_Estado_Venta').val(MisItems[0].Id_Estado_Venta).prop('readonly', true);  // Propiedad para que no se pueda modificar el campo.

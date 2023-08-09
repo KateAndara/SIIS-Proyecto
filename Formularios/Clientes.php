@@ -93,7 +93,7 @@
                     <table id="TablaClientes" class="table table-hover">
                         <thead>
                             <tr>
-                                <th>ID </th>
+                                <th>N° </th>
                                 <th>NOMBRE DEL CLIENTE</th>
                                 <th>FECHA DE NACIMIENTO</th>
                                 <th>DNI</th>
@@ -118,7 +118,6 @@
                 </div>
                 <div class="col-6">
                     <form class="InsertCliente">
-                        <label for="Id_Cliente" hidden>ID del Cliente</label>
                         <input type="number" id="Id_Cliente" name="Id_Cliente" class="form-control" placeholder="Ingrese el código del cliente"hidden>
                         <label for="">NOMBRE DEL CLIENTE</label>
                         <input type="text" id="Nombre" onkeyup=" javascript:this.value=this.value.toUpperCase();"  name="Nombre" class="form-control" placeholder="Inrese el nombre del cliente"oninput="validarEntrada(this)">

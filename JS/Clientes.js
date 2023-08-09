@@ -18,6 +18,13 @@ function CargarClientes(){
         datatype: 'JSON',
         success: function(reponse){
             var MisItems = reponse;
+            var secuencia = 1; // Agregar una variable para la secuencia de números
+            
+            // Recorrer los datos y agregar la secuencia de números
+            for (i = 0; i < MisItems.length; i++) {
+                MisItems[i].Numero = secuencia;
+                secuencia++;
+            }
             // Si la tabla ya ha sido inicializada previamente, destruye la instancia
             if ($.fn.DataTable.isDataTable('#TablaClientes')) {
              $('#TablaClientes').DataTable().destroy();
@@ -29,7 +36,7 @@ function CargarClientes(){
                 url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json",
               },
               columns: [
-                { data: "Id_Cliente" },
+                { data: "Numero" },
                 { data: "Nombre" },
                 { data: "Fecha_nacimiento" },
                 { data: "DNI" },
@@ -133,7 +140,7 @@ function CargarCliente(IdCliente){ //Función que trae los campos que se eligier
         success: function(reponse){
             var MisItems = reponse;
             //Muestra el id junto con su título que se encuentra oculto en el Agregar.
-            $('#Id_Cliente').removeAttr('hidden'); // ID
+            document.getElementById('Id_Cliente').style.display = 'none';
             $('label[for="Id_Cliente"]').removeAttr('hidden'); //Título
         
             $('#Id_Cliente').val(MisItems[0].Id_Cliente).prop('readonly', true);  // Propiedad para que no se pueda modificar el campo.

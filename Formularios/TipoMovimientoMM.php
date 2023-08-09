@@ -112,7 +112,6 @@
                 </div>
                 <div class="col-12">
                     <form class="InsertTipoMovimiento">
-                        <label for="Id_Tipo_Movimiento" hidden>ID TIPO MOVIMIENTO</label>
                         <input type="number" id="Id_Tipo_Movimiento" class="form-control" placeholder="Ingrese el código del tipo de movimiento"hidden>
                         
                         <label for="">NOMBRE TIPO MOVIMIENTO</label>

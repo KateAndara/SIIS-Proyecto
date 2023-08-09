@@ -112,7 +112,6 @@
                 </div>
                 <div class="col-12">
                     <form class="InsertCargos" onsubmit="validarFormulario()">
-                        <label for="Id_Cargo" hidden>ID CARGOS</label>
                         <input type="number" id="Id_Cargo" class="form-control" placeholder="Ingrese el código del  cargo"hidden>
                         
                         <label for="">NOMBRE DEL CARGO</label>

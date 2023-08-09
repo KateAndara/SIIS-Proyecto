@@ -126,7 +126,7 @@ function CargarTipoMovimientoMM(idTipoMovimiento){ //Función que trae los campo
         success: function(reponse){
             var MisItems = reponse;
             //Muestra el id junto con su título que se encuentra oculto en el Agregar.
-            $('#Id_Tipo_Movimiento').removeAttr('hidden'); // ID
+            document.getElementById('Id_Tipo_Movimiento').style.display = 'none';
             $('label[for="Id_Tipo_Movimiento"]').removeAttr('hidden'); //Título
         
             $('#Id_Tipo_Movimiento').val(MisItems[0].Id_Tipo_Movimiento).prop('readonly', true);  // Propiedad para que no se pueda modificar el campo.

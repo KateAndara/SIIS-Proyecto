@@ -7,7 +7,7 @@
             $sql="SELECT t1.*, t2.Nombre_tipo_contacto, t3.Nombre
                   FROM tbl_clientes_contacto t1                              
                   JOIN tbl_tipo_contacto t2 ON t1.Id_Tipo_Contacto = t2.Id_Tipo_Contacto 
-                  JOIN tbl_clientes t3 ON t1.Id_Cliente = t3.Id_Cliente where t1.Id_Cliente=:id_cliente" ;
+                  JOIN tbl_clientes t3 ON t1.Id_Cliente = t3.Id_Cliente where t1.Id_Cliente=:id_cliente && t1.Estado = 'activo' " ;
             $sql = $conectar->prepare($sql);
             $sql->bindValue(':id_cliente',$id_cliente);
            
@@ -134,8 +134,8 @@
         public function insert_ContactoClienteMM($Id_Tipo_Contacto, $Id_Cliente, $Contacto){
             $conectar= parent::conexion();
             parent::set_names();
-            $sql="INSERT INTO tbl_clientes_contacto(Id_Tipo_Contacto, Id_Cliente, Contacto)
-            VALUES (?,?,?);";
+            $sql="INSERT INTO tbl_clientes_contacto(Id_Tipo_Contacto, Id_Cliente, Contacto, Estado)
+            VALUES (?,?,?,'activo');";
             $sql=$conectar->prepare($sql);
             $sql->bindValue(1, $Id_Tipo_Contacto);
             $sql->bindValue(2, $Id_Cliente);
@@ -160,7 +160,7 @@
         public function delete_ContactoClienteMM($Id_Cliente_Contacto){
             $conectar= parent::conexion();
             parent::set_names();
-            $sql = "DELETE FROM tbl_clientes_contacto WHERE Id_Cliente_Contacto =?";
+            $sql = "UPDATE tbl_clientes_contacto SET Estado = 'inactivo' WHERE Id_Cliente_Contacto = ?";
             $sql=$conectar->prepare($sql);
             $sql->bindvalue(1, $Id_Cliente_Contacto);
             $sql->execute();
@@ -170,7 +170,7 @@
         public function get_Contactos(){    
             $conexion= parent::Conexion();
             parent::set_names();
-            $sql="SELECT * FROM tbl_tipo_contacto";          
+            $sql="SELECT * FROM tbl_tipo_contacto  WHERE Estado = 'activo'";          
             $sql= $conexion->prepare($sql);
             $sql->execute();
             return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
@@ -179,7 +179,7 @@
         public function get_Clientes(){    
             $conexion= parent::Conexion();
             parent::set_names();
-            $sql="SELECT * FROM tbl_clientes";          
+            $sql="SELECT * FROM tbl_clientes WHERE  Estado = 'activo'";          
             $sql= $conexion->prepare($sql);
             $sql->execute();
             return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);

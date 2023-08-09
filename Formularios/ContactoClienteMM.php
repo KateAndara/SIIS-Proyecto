@@ -95,7 +95,7 @@
                     <table class="table table-hover" id="TablaContactoClientes">
                         <thead>
                             <tr>
-                                <th>ID CONTACTO CLIENTE </th>
+                                <th>N° </th>
                                 <th>TIPO DE CONTACTO</th>
                                 <th>CLIENTE</th>
                                 <th>CONTACTO</th>
@@ -125,7 +125,6 @@
                 </div>
                 <div class="col-12">
                     <form class="InsertContactoCliente">
-                        <label for="Id_Cliente_Contacto" hidden>ID CONTACTO DEL CLIENTE</label>
                         <input type="number" id="Id_Cliente_Contacto" class="form-control" placeholder="Ingrese el código del contacto del cliente"hidden>
                         <label for="">SELECCIONE UN TIPO DE CONTACTO</label> 
                         <select id="Select_Contacto" class="form-control">

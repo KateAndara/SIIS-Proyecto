@@ -112,7 +112,6 @@
                 </div>
                 <div class="col-12">
                     <form class="InsertEstadoVenta">
-                        <label for="Id_Estado_Venta" hidden>ID ESTADO DE VENTA</label>
                         <input type="number" id="Id_Estado_Venta" class="form-control" placeholder="Ingrese el código del esatdo de venta"hidden>
                         
                         <label for="">NOMBRE DEL ESTADO DE VENTA</label>

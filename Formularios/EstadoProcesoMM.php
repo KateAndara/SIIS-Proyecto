@@ -113,7 +113,6 @@
                 </div>
                 <div class="col-12">
                     <form class="InsertEstadoProceso">
-                        <label for="Id_Estado_Proceso" hidden>ID ESTADO DEL PROCESO</label>
                         <input type="number" id="Id_Estado_Proceso" class="form-control" placeholder="Ingrese el código del  estado del proceso"hidden>
                         
                         <label for="">NOMBRE DE ESTADO DEL PROCESO</label>
