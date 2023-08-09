@@ -92,7 +92,7 @@ if (!empty($_POST["btniniciarSesion"])){
     }else{ // Si los datos ingresados no existen en la base de datos.
       echo '<br>';
 
-      echo '<div class="alert alert-danger">Acceso Denegado. Usuario/Contraseña inválidos.</div>';
+      echo '<div class="alert alert-danger" id="mensaje-error">Acceso Denegado. Usuario/Contraseña inválidos.</div>';
       
       // Consulta SQL para obtener el valor del campo "Parametro".
       $sql = "SELECT Valor FROM tbl_ms_parametros where Parametro='ADMIN_INTENTOS'"; 
@@ -108,11 +108,15 @@ if (!empty($_POST["btniniciarSesion"])){
           $intentos = isset($_SESSION['intentos']) ? $_SESSION['intentos'] : 1;
 
         if ($intentos == $max_intentos) { //Si el usuario alcanza los intentos permitidos.
-            echo "Ha alcanzado el número máximo de intentos permitidos.";
+            echo '<style>#mensaje-error { display:none; }</style>';
             echo '<style>#fila { display:none; }</style>';
+            echo '<br>';
+            echo '<div class="alert alert-danger" >Acceso Denegado.<br>Ha alcanzado el número máximo de intentos permitidos.</div>';
         }else{
           if ($intentos > $max_intentos) { //Si el usuario supera los intentos permitidos.
-            echo "Ha excedido el número máximo de intentos permitidos. Su usuario se ha bloqueado.";
+            echo '<style>#mensaje-error { display:none; }</style>';
+            echo '<br>';
+            echo '<div class="alert alert-danger" >Ha excedido el número máximo de intentos permitidos. Su usuario se ha bloqueado.</div>';
             $sql=$conexion->query(" UPDATE tbl_ms_usuarios SET Estado = 'Bloqueado' where Usuario='$usuario' ");
            unset($_SESSION["intentos"]);
                  //Bitácora
@@ -140,9 +144,7 @@ if (!empty($_POST["btniniciarSesion"])){
           }
         
         }
-          //El usuario aún tiene intentos disponibles
-          echo "<span id='fila'>Se ha registrado el intento fallido. Le queda ", $max_intentos - $intentos, " intento/s más.</span>";
-
+       
           //Incrementar el contador de intentos
           $_SESSION['intentos'] = $intentos + 1;
       }else{
@@ -153,11 +155,15 @@ if (!empty($_POST["btniniciarSesion"])){
           $intentos = isset($_SESSION['intentos']) ? $_SESSION['intentos'] : 1;
 
           if ($intentos == $max_intentos) { //Si el usuario alcanza los intentos permitidos.
-            echo "Ha alcanzado el número máximo de intentos permitidos.";
+            echo '<style>#mensaje-error { display:none; }</style>';
             echo '<style>#fila { display:none; }</style>';
+            echo '<br>';
+            echo '<div class="alert alert-danger" >Acceso Denegado.<br>Ha alcanzado el número máximo de intentos permitidos.</div>';
           }else{
           if ($intentos > $max_intentos) { //Si el usuario supera los intentos permitidos.
-            echo "Ha excedido el número máximo de intentos permitidos. Su usuario se ha bloqueado.";
+            echo '<style>#mensaje-error { display:none; }</style>';
+            echo '<br>';
+            echo '<div class="alert alert-danger" >Ha excedido el número máximo de intentos permitidos. Su usuario se ha bloqueado.</div>';
             $sql=$conexion->query(" UPDATE tbl_ms_usuarios SET Estado = 'Bloqueado' where Usuario='$usuario' ");
            unset($_SESSION["intentos"]);
      
@@ -165,9 +171,6 @@ if (!empty($_POST["btniniciarSesion"])){
           }
            
         }
-          //El usuario aún tiene intentos disponibles
-          echo "<span id='fila'>Se ha registrado el intento fallido. Le queda ", $max_intentos - $intentos, " intento/s más.</span>";
-
           //Incrementar el contador de intentos
           $_SESSION['intentos'] = $intentos + 1;
           }

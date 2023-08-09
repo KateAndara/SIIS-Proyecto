@@ -190,16 +190,22 @@ session_start();
         }
 
         public function insert_procesoProduccion($Id_Estado_Proceso, $Fecha){
-            $conectar= parent::conexion();
+            $conectar = parent::conexion();
             parent::set_names();
-            $sql="INSERT INTO tbl_proceso_produccion(Id_Estado_Proceso, Fecha)
-            VALUES (?,?);";
-            $sql=$conectar->prepare($sql);
+        
+            // Formatear la fecha al formato yyyy-mm-dd
+            $fechaFormateada = date("Y-m-d", strtotime(str_replace('/', '-', $Fecha)));
+        
+            $sql = "INSERT INTO tbl_proceso_produccion(Id_Estado_Proceso, Fecha)
+                    VALUES (?,?);";
+            $sql = $conectar->prepare($sql);
             $sql->bindValue(1, $Id_Estado_Proceso);
-            $sql->bindValue(2, $Fecha);
+            $sql->bindValue(2, $fechaFormateada); // Usar la fecha formateada
             $sql->execute();
-            return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
+        
+            return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
         }
+        
 
         //Si se necesita traer datos de otra tabla para seleccionarlos como entrada
         public function get_productosMP(){    

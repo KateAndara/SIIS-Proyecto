@@ -67,7 +67,7 @@
                                         <option value="">Seleccione un estado</option>
                                     </select>
                                     <label for="Fecha">FECHA</label>
-                                    <input type="date" id="Fecha" class="form-control" pattern="\d{4}/\d{2}/\d{2}" max="{{ date.today().strftime('%Y-%m-%d') }}">
+                                    <input type="text" id="Fecha" class="form-control" readonly>
                                     <hr>
                                     <div id="btnagregarProcesoProduccion">
                                         <input type="submit" id="btnagregar" onclick="AgregarProcesoProduccion(); mostrarDiv(); document.querySelector('.nav-tabs li:nth-child(2) a').click(); return false;" value="Siguiente" class="btn btn-dark">
@@ -100,7 +100,7 @@
                                     
                                 </select>
                                 <label for="">CANTIDAD</label>
-                                <input type="number" id="Cantidad" class="form-control" placeholder="Ingrese la cantidad del producto">
+                                <input type="number" id="Cantidad" class="form-control" placeholder="Ingrese la cantidad de producto a utilizar" autocomplete="off" onpaste="return false;">
                                 <hr>
                                 <div id="btnagregarProductoTerminado" style="display:flex; justify-content:space-between; align-items:center;">
                                     <input type="submit" id="btnagregarMP" onclick="AgregarProductoTerminadoMP(event)" value="Agregar" class="btn btn-success" style="margin-right:300px;">
@@ -132,7 +132,7 @@
                                     
                                 </select>
                                 <label for="">CANTIDAD</label>
-                                <input type="number" id="CantidadF" class="form-control" placeholder="Ingrese la cantidad del producto">
+                                <input type="number" id="CantidadF" class="form-control" placeholder="Ingrese la cantidad del producto" autocomplete="off" onpaste="return false;">
                                 <hr>
                                 <div id="btnagregarProductoTerminadoFinal" style="display:flex; justify-content:space-between; align-items:center;">
                                     <input type="submit" id="btnagregarPF" onclick="AgregarProductoTerminadoFinal(event)" value="Agregar" class="btn btn-success" style="margin-right:350px;">
@@ -194,22 +194,45 @@
         }
     </script> 
 
-    <script>
-    // Obtiene la fecha actual en el formato YYYY-MM-DD
-    var today = new Date().toISOString().substr(0, 10);
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-    // Establece el valor del campo de fecha al valor actual
-    document.getElementById("Fecha").value = today;
 
-    // Obtiene el elemento de entrada de fecha
-    var inputFecha = document.getElementById("Fecha");
+<script>
+    $(function() {
+        // Configura la localización en español
+        $.datepicker.regional['es'] = {
+            closeText: 'Cerrar',
+            prevText: '&#x3C;Ant',
+            nextText: 'Sig&#x3E;',
+            currentText: 'Hoy',
+            monthNames: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],
+            monthNamesShort: ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
+            dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
+            dayNamesShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
+            dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
+            weekHeader: 'Sm',
+            dateFormat: 'dd-mm-yy', // Formato día-mes-año
+            firstDay: 1,
+            isRTL: false,
+            showMonthAfterYear: false,
+            yearSuffix: ''
+        };
+        $.datepicker.setDefaults($.datepicker.regional['es']);
 
-    // Obtiene la fecha actual
-    var fechaActual = new Date().toISOString().split("T")[0];
+        // Inicializa el DatePicker con el formato deseado
+        $("#Fecha").datepicker({
+            maxDate: 0 // Limita la fecha máxima a hoy
+        });
 
-    // Establece el valor máximo de la fecha actual
-    inputFecha.setAttribute("max", fechaActual);
-    </script>
+        // Establece la fecha actual como valor predeterminado
+        var fechaActual = new Date();
+        $("#Fecha").datepicker("setDate", fechaActual);
+    });
+</script>
+
+
     
      <script>
     function mostrarDiv() {

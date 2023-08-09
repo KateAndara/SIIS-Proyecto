@@ -16,7 +16,16 @@ function validarCampoUsuario() {
   
   if (campo.value && !regex.test(campo.value)) { 
     campo.value = campo.value.replace(/[^a-zA-Z]/g, ''); 
-    alert("El campo 'Usuario' solo debe contener letras"); 
+     // Mostrar el mensaje
+     var mensajeElemento = document.getElementById("mensaje");
+     mensajeElemento.style.display = "block";
+ 
+     // Ocultar el mensaje después de 3 segundos (3000 ms)
+     setTimeout(function() {
+         mensajeElemento.style.display = "none";
+     }, 3000);
+ 
+     return false;
   }
   
   if (campo.value.length > maxCaracteres) { 
@@ -25,10 +34,10 @@ function validarCampoUsuario() {
     var mensajeElemento = document.getElementById("mensaje3");
     mensajeElemento.style.display = "block";
 
-    // Ocultar el mensaje después de 2 segundos (2000 ms)
+    // Ocultar el mensaje después de 4 segundos (4000 ms)
     setTimeout(function() {
         mensajeElemento.style.display = "none";
-    }, 3000);
+    }, 4000);
 
     return false;
   }

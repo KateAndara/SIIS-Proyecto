@@ -86,7 +86,7 @@
   <tbody>
   <tr>
           <td>Fecha Proceso:</td>
-          <td><?= $Proceso['Fecha']?></td>
+          <td><?= date('d-m-Y', strtotime($Proceso['Fecha'])) ?></td>
       </tr>
       
   </tbody>

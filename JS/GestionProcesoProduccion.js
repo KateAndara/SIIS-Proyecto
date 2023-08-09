@@ -16,6 +16,13 @@ function CargarProcesos(){
         
         success: function(reponse){
             var MisItems = reponse;
+            var secuencia = 1; // Agregar una variable para la secuencia de números
+            
+            // Recorrer los datos y agregar la secuencia de números
+            for (i = 0; i < MisItems.length; i++) {
+                MisItems[i].Numero = secuencia;
+                secuencia++;
+            }
             // Si la tabla ya ha sido inicializada previamente, destruye la instancia
             if ($.fn.DataTable.isDataTable('#TablaProcesosProduccion')) {
                 $('#TablaProcesosProduccion').DataTable().destroy();
@@ -27,7 +34,7 @@ function CargarProcesos(){
                    url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json",
                  },
                  columns: [
-                   { data: "Id_Proceso_Produccion" },
+                   { data: "Numero" },
                    { data: "Descripcion" },
                    { data: "Fecha" },
                    { data: "options" },
@@ -66,11 +73,18 @@ function CargarProcesoProduccion(idProceso) {
         contentType: 'application/json',
         success: function(reponse) {
             var MisItems = reponse;
+            var fechaDesdeMisItems = MisItems[0].Fecha;
+            var partesFecha = fechaDesdeMisItems.split("-"); // Divide la fecha en partes
+
+            // Formatea la fecha en el formato deseado (dd-mm-yy)
+            var fechaFormateada = partesFecha[2] + "-" + partesFecha[1] + "-" + partesFecha[0];
+
             $('#Id_Proceso_Produccion').removeAttr('hidden');
             $('#Id_Proceso_Produccion').val(MisItems[0].Id_Proceso_Produccion).prop('readonly', true);
+            document.getElementById('Id_Proceso_Produccion').style.display = 'none';
             $('#Select_Estados_Proceso').val(MisItems[0].Id_Estado_Proceso);
             $('#Select_Estado_Proceso').val(MisItems[0].Id_Estado_Proceso); // añade esta línea para actualizar el otro select
-            $('#Fecha').val(MisItems[0].Fecha);
+            $('#Fecha').val(fechaFormateada);
 
             //-----------------------------------------------------Botones del tab "Inico de proceso"-------------------------------------------------
             // Crear el botón de actualización

@@ -18,10 +18,39 @@ $(document).ready(function(){
 
 function AgregarProductoTerminadoMP(event){
     event.preventDefault();
-    var datosProductoTerminadoMP = {
-        Id_Producto: $('#Select_ProductoMP').val(),
-        Cantidad: $('#Cantidad').val()
-    };
+        // Obtener los valores de los campos
+        var productoSeleccionado = $('#Select_ProductoMP').val();
+        var cantidadIngresada = $('#Cantidad').val();
+        
+        // Validar que se haya seleccionado un producto
+        if (productoSeleccionado === "") {
+            Swal.fire({
+                title: 'Seleccione un producto de materia prima',
+                icon: 'error',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Aceptar'
+            });
+            return;
+        }
+        
+        // Validar que la cantidad sea un número mayor a 0
+        if (!(/^\d+$/.test(cantidadIngresada)) || parseInt(cantidadIngresada) <= 0) {
+            Swal.fire({
+                title: 'Ingrese una cantidad válida',
+                text: 'La cantidad debe ser un número entero mayor a 0.',
+                icon: 'error',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Aceptar'
+            });
+            document.querySelector("#Cantidad").value = ""; // limpiar el valor ingresado
+            return;
+        }
+        
+        // Crear el objeto con los datos
+        var datosProductoTerminadoMP = {
+            Id_Producto: productoSeleccionado,
+            Cantidad: cantidadIngresada
+        };
     var datosProductoTerminadoJson= JSON.stringify(datosProductoTerminadoMP );
 
     $.ajax({
@@ -60,9 +89,38 @@ function AgregarProductoTerminadoMP(event){
 
 function AgregarProductoTerminadoMPEditandoProceso(event, idProceso){
     event.preventDefault();
+    // Obtener los valores de los campos
+    var productoSeleccionado = $('#Select_ProductoMP').val();
+    var cantidadIngresada = $('#Cantidad').val();
+    
+    // Validar que se haya seleccionado un producto
+    if (productoSeleccionado === "") {
+        Swal.fire({
+            title: 'Seleccione un producto de materia prima',
+            icon: 'error',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Aceptar'
+        });
+        return;
+    }
+    
+    // Validar que la cantidad sea un número mayor a 0
+    if (!(/^\d+$/.test(cantidadIngresada)) || parseInt(cantidadIngresada) <= 0) {
+        Swal.fire({
+            title: 'Ingrese una cantidad válida',
+            text: 'La cantidad debe ser un número entero mayor a 0.',
+            icon: 'error',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Aceptar'
+        });
+        document.querySelector("#Cantidad").value = ""; // limpiar el valor ingresado
+        return;
+    }
+    
+    // Crear el objeto con los datos
     var datosProductoTerminadoMP = {
-        Id_Producto: $('#Select_ProductoMP').val(),
-        Cantidad: $('#Cantidad').val(),
+        Id_Producto: productoSeleccionado,
+        Cantidad: cantidadIngresada,
         Id_Proceso_Produccion: idProceso
     };
     var datosProductoTerminadoJson= JSON.stringify(datosProductoTerminadoMP );
@@ -105,10 +163,40 @@ function AgregarProductoTerminadoMPEditandoProceso(event, idProceso){
 
 function AgregarProductoTerminadoFinal(event){
     event.preventDefault();
+    // Obtener los valores de los campos
+    var productoSeleccionado = $('#Select_ProductoFinal').val();
+    var cantidadIngresada = $('#CantidadF').val();
+    
+    // Validar que se haya seleccionado un producto
+    if (productoSeleccionado === "") {
+        Swal.fire({
+            title: 'Seleccione un producto',
+            icon: 'error',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Aceptar'
+        });
+        return;
+    }
+    
+    // Validar que la cantidad sea un número mayor a 0
+    if (!(/^\d+$/.test(cantidadIngresada)) || parseInt(cantidadIngresada) <= 0) {
+        Swal.fire({
+            title: 'Ingrese una cantidad válida',
+            text: 'La cantidad debe ser un número entero mayor a 0.',
+            icon: 'error',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Aceptar'
+        });
+        document.querySelector("#CantidadF").value = ""; // limpiar el valor ingresado
+        return;
+    }
+    
+    // Crear el objeto con los datos
     var datosProductoTerminadoFinal = {
-        Id_Producto: $('#Select_ProductoFinal').val(),
-        Cantidad: $('#CantidadF').val()
+        Id_Producto: productoSeleccionado,
+        Cantidad: cantidadIngresada
     };
+    
     var datosProductoTerminadoFinalJson= JSON.stringify(datosProductoTerminadoFinal );
 
     $.ajax({
@@ -148,11 +236,41 @@ function AgregarProductoTerminadoFinal(event){
 
 function AgregarProductoTerminadoFinalEditandoProceso(event, idProceso){
     event.preventDefault();
+    // Obtener los valores de los campos
+    var productoSeleccionado = $('#Select_ProductoFinal').val();
+    var cantidadIngresada = $('#CantidadF').val();
+    
+    // Validar que se haya seleccionado un producto
+    if (productoSeleccionado === "") {
+        Swal.fire({
+            title: 'Seleccione un producto',
+            icon: 'error',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Aceptar'
+        });
+        return;
+    }
+    
+    // Validar que la cantidad sea un número mayor a 0
+    if (!(/^\d+$/.test(cantidadIngresada)) || parseInt(cantidadIngresada) <= 0) {
+        Swal.fire({
+            title: 'Ingrese una cantidad válida',
+            text: 'La cantidad debe ser un número entero mayor a 0.',
+            icon: 'error',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Aceptar'
+        });
+        document.querySelector("#CantidadF").value = ""; // limpiar el valor ingresado
+        return;
+    }
+    
+    // Crear el objeto con los datos
     var datosProductoTerminadoFinal = {
-        Id_Producto: $('#Select_ProductoFinal').val(),
-        Cantidad: $('#CantidadF').val(),
+        Id_Producto: productoSeleccionado,
+        Cantidad: cantidadIngresada,
         Id_Proceso_Produccion: idProceso
     };
+   
     var datosProductoTerminadoFinalJson= JSON.stringify(datosProductoTerminadoFinal );
 
     $.ajax({

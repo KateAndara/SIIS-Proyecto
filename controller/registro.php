@@ -10,7 +10,27 @@
        } else {
         $usuario=$_POST["Usuario"];
         $clave=$_POST["Clave"];
-        
+        $_dni=$_POST["Dni"];
+        $_correo=$_POST["Email"];
+
+        //Validar formato DNI
+        function testFormatoDni($_dni) {
+          // Expresión regular para validar el formato "0000-0000-00000"
+          $formatoDniRegex = '/^\d{4}-\d{4}-\d{5}$/';
+      
+          // Testea si el valor coincide con el formato esperado
+          return preg_match($formatoDniRegex, $_dni);
+        }
+        //Validar correo
+        function fntEmailValidate($email) {
+          $stringEmail = '/^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})$/';
+          if (preg_match($stringEmail, $email) == 0) {
+              return false;
+          } else {
+              return true;
+          }
+      }
+      
         // Funcion para validar contraseña
         function valcontraseña($clave){
           if (!preg_match('`[a-z]`',$clave)){
@@ -36,7 +56,13 @@
             echo '<div class="alert alert-danger">Este nombre de usuario ya existe</div> ';
         }else if(valcontraseña($clave)==false){ // Validación del campo del correo con @ y punto.
           echo '<br>';
-          echo '<div class="alert alert-danger">La contraseña debe contener mínimo un caracter en mayúscula, minúscula, un caracter numérico y un caracter especial(!#$%&*^@&_+-.)</div>';
+          echo '<div class="alert alert-danger">La contraseña debe contener mínimo un caracter en mayúscula, minúscula, un caracter numérico y un caracter especial (!#$%&*^@&_+-.)</div>';
+        }else if(testFormatoDni($_dni)==false){ // Validación del Formato DNI.
+          echo '<br>';
+          echo '<div class="alert alert-danger">El formato del DNI es inválido.</div>';
+        }else if(fntEmailValidate($_correo)==false){ // Validación de correo.
+          echo '<br>';
+          echo '<div class="alert alert-danger">El correo no es válido.</div>';
         }else if(strpbrk($clave, " ")){ // Validación de espacios en blanco en el campo Contraseña.
           echo '<br>';
           echo '<div class="alert alert-danger">El campo Contraseña no puede contener espacios en blanco.</div>';

@@ -27,7 +27,7 @@
 <body>
   <div class="bg-black p-5 rounded-5 text-secondary shadow" style="width: 25rem">
   <div id="mensaje" style="display: none; background-color: dark; padding: 5px; text-align: center;">
-    <span style="font-size: 14px; color: pink;">El campo "usuario" solo se permiten letras.</span>
+    <span style="font-size: 14px; color: pink;">En el campo "usuario" solo se permiten letras.</span>
   </div>
   <div id="mensaje2" style="display: none; background-color: dark; padding: 5px; text-align: center;">
     <span style="font-size: 14px; color: pink;">El campo "Contraseña" no puede contener más de 15 caracteres.</span>

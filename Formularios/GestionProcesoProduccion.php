@@ -32,6 +32,9 @@
 
     <!-- Agregar jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     <!-- Agregar DataTables -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.css"/>
@@ -87,7 +90,7 @@
                     <table class="table table-hover" id="TablaProcesosProduccion">
                         <thead>
                             <tr>
-                                <th>ID PROCESO DE PRODUCCIÓN</th>
+                                <th>N°</th>
                                 <th>ESTADO DEL PROCESO</th>
                                 <th>FECHA</th>
                                 <th>OPCIONES</th>
@@ -129,14 +132,13 @@
                             </div>
                             <div class="col-12">
                                 <form class="InsertProcesoProduccion">
-                                    <label for="Id_Proceso_Produccion" aria-hidden="true">ID PROCESO</label>
                                     <input type="number" id="Id_Proceso_Produccion" class="form-control" hidden>
                                     <label for="">SELECCIONE EL ESTADO DEL PROCESO</label> 
                                     <select id="Select_Estados_Proceso" class="form-control">
                                         <option value="">Seleccione un estado</option>
                                     </select>
                                     <label for="Fecha">FECHA</label>
-                                    <input type="date" id="Fecha" class="form-control" pattern="\d{4}/\d{2}/\d{2}">
+                                    <input type="text" id="Fecha" class="form-control" readonly>
                                     <hr>
                                     <div id="btnagregarProcesoProduccion">
                                         <input type="submit" id="btnagregar" onclick="AgregarProcesoProduccion(); document.querySelector('.nav-tabs li:nth-child(2) a').click(); return false;" value="Siguiente" class="btn btn-dark">
@@ -146,6 +148,38 @@
                                     </div>
                                 </form>
                             </div>
+                            <script>
+    $(function() {
+        // Configura la localización en español
+        $.datepicker.regional['es'] = {
+            closeText: 'Cerrar',
+            prevText: '&#x3C;Ant',
+            nextText: 'Sig&#x3E;',
+            currentText: 'Hoy',
+            monthNames: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],
+            monthNamesShort: ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
+            dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
+            dayNamesShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
+            dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
+            weekHeader: 'Sm',
+            dateFormat: 'dd-mm-yy', // Formato día-mes-año
+            firstDay: 1,
+            isRTL: false,
+            showMonthAfterYear: false,
+            yearSuffix: ''
+        };
+        $.datepicker.setDefaults($.datepicker.regional['es']);
+
+        // Inicializa el DatePicker con el formato deseado
+        $("#Fecha").datepicker({
+            maxDate: 0 // Limita la fecha máxima a hoy
+        });
+
+        // Establece la fecha actual como valor predeterminado
+        var fechaActual = new Date();
+        $("#Fecha").datepicker("setDate", fechaActual);
+    });
+</script>
                         </div>
                     </div>
                 </div>
@@ -169,7 +203,7 @@
                                     
                                 </select>
                                 <label for="">CANTIDAD</label>
-                                <input type="number" id="Cantidad" class="form-control" placeholder="Ingrese la cantidad del producto">
+                                <input type="number" id="Cantidad" class="form-control" placeholder="Ingrese la cantidad de producto a utilizar" autocomplete="off" onpaste="return false;">
                                 <hr>
                                 <div id="btnagregarProductoTerminadoMP" style="display:flex; justify-content:space-between; align-items:center;">
                                     <input type="submit" id="btnagregarMP"  value="Agregar" class="btn btn-success" style="margin-right:400px;">
@@ -201,7 +235,7 @@
                                     
                                 </select>
                                 <label for="">CANTIDAD</label>
-                                <input type="number" id="CantidadF" class="form-control" placeholder="Ingrese la cantidad del producto">
+                                <input type="number" id="CantidadF" class="form-control" placeholder="Ingrese la cantidad del producto" autocomplete="off" onpaste="return false;">
                                 <label for="">SELECCIONE EL ESTADO DEL PROCESO</label> 
                                     <select id="Select_Estado_Proceso" class="form-control">
                                         <option value="">Seleccione un estado</option>
