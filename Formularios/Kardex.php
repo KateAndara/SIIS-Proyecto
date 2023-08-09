@@ -61,7 +61,7 @@
                     <table class="table table-hover" id="TablaKardex">
                         <thead>
                             <tr>
-                                <th>ID KARDEX</th>
+                                <th>N°</th>
                                 <th>USUARIO</th> 
                                 <th>NOMBRE PRODUCTO</th>                                 
                                 <th>TIPO MOVIMIENTO</th>    

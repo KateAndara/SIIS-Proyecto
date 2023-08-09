@@ -6,7 +6,8 @@
             parent::set_names();
             $sql="SELECT t1.*, t2.Nombre_tipo
                   FROM tbl_productos t1                              
-                  JOIN tbl_tipo_producto t2 ON t1.Id_Tipo_Producto = t2.Id_Tipo_Producto";
+                  JOIN tbl_tipo_producto t2 ON t1.Id_Tipo_Producto = t2.Id_Tipo_Producto
+                  WHERE t1.Estado = 'activo'";
             $sql= $conexion->prepare($sql);
             $sql->execute();
             return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);                

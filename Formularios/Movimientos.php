@@ -40,20 +40,20 @@ $id=$_GET['id'];
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.26/jspdf.plugin.autotable.min.js"></script>
 
     <script src="../Reportes/ReporteH.js"></script>
-
+    <link href="../CSS/styleF.css" rel="stylesheet">
 </head>
 <body>
-    <div class="col-md-12 cards-white" style="margin: 0 auto; width: 110%; max-width: none; margin-left: -20px;">
+    <div class="col-md-12 cards-white" style="margin: 0 auto; width: 110%; max-width: none; margin-left: -20px; border: 1px solid black;">
         <div class="consulta mt-4">
             <div class="row">
                 <div class="col-12 text-center">
-                    <h3 id="tituloPrincipal">
+                    <h3 style="color: black;" id="tituloPrincipal">
                         Inventario
                     </h3>
                 </div>
             </div>
             <div style="margin: 0 18px;">
-                <button class="rounded" style="background-color: #fff; color: dark; float: right;"onclick="generarReporte('tableMovimientos','REPORTE DE INVENTARIO',60)">Generar PDF</button>
+                <button class="rounded" style="background-color: #fff; color: dark; float: right;"onclick="generarReporte('tableMovimientos','REPORTE DE LOS MOVIMIENTOS DEL PRODUCTO',60)">Generar PDF</button>
             </div>
 
             <div class="box-body">
@@ -61,9 +61,8 @@ $id=$_GET['id'];
                 <table class="table table-hover" id="tableMovimientos" style="width: 100%;">
                         <thead>
                             <tr>
-                                <th>ID KARDEX</th>
+                                <th>N°</th>
                                 <th>USUARIO</th>
-                                <th>NOMBRE PRODUCTO</th>
                                 <th>TIPO MOVIMIENTO</th>  
                                 <th>CANTIDAD</th>
                                 <th>FECHA</th>

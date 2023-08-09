@@ -21,7 +21,7 @@ date_default_timezone_set('America/Tegucigalpa');
     <link href="
 https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
 " rel="stylesheet">
-
+    <link href="../CSS/styleF.css" rel="stylesheet">
 
     <style>
         .item1 {
@@ -31,7 +31,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
 
 </head>
 <body>
-    <div class="col-md-12 cards-white" style="margin: 0 auto; width: 110%; max-width: none; margin-left: -20px;">
+    <div class="col-md-12 cards-white" style="margin: 0 auto; width: 110%; max-width: none; margin-left: -20px; border: 1px solid black;">
        
 
         <div class="tab-content">

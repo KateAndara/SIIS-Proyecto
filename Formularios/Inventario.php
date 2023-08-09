@@ -60,7 +60,7 @@
                     <table class="table table-hover" id="TablaInventario">
                         <thead>
                             <tr>
-                                <th>ID INVENTARIO</th>
+                                <th>N°</th>
                                 <th>NOMBRE PRODUCTO</th>
                                 <th>EXISTENCIA</th>  
                                 <th>PORCENTAJE</th>  

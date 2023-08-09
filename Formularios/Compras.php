@@ -81,7 +81,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                     <table class="table table-hover" id="TablaCompras">
                         <thead>
                             <tr>
-                                <th style="width: 60px;">ID COMPRA</th>
+                                <th style="width: 60px;">N°</th>
                                 <th style="width: 90px;">PROVEEDOR</th>
                                 <th style="width: 80px;">FECHA</th>
                                 <th style="width: 80px;">TOTAL</th>

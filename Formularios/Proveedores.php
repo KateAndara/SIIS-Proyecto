@@ -87,7 +87,7 @@
                     <table class="table table-hover" id="TablaProveedores">
                         <thead>
                             <tr>
-                                <th>ID PROVEEDOR</th>
+                                <th>N°</th>
                                 <th>NOMBRE</th>
                                 <th>RTN</th>
                                 <th>OPCIONES</th>
