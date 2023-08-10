@@ -336,9 +336,22 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                                    <input type="text" readonly onkeypress="calcularTotal()"; id="Impuesto" class="form-control" onkeyup="calcularTotal()" placeholder="Impuesto...">
                                 </div>
                                 <div class="col-6">
-                                   <label for="">RTN</label>
-                                   <input type="text" id="RTN" class="form-control" placeholder="RTN...">
+                                    <label for="RTN">RTN</label>
+                                    <input type="number" id="RTN" class="form-control" placeholder="ejem: 08011990100114" maxlength="14" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value.length > 14) this.value = this.value.slice(0, 14);">
+                                    <small id="rtnValidationMessage" class="text-danger"></small>
                                 </div>
+                                <script>
+                                    const rtnInput = document.getElementById("RTN");
+                                    const validationMessage = document.getElementById("rtnValidationMessage");
+
+                                    rtnInput.addEventListener("input", function() {
+                                        if (rtnInput.value.length !== 14) {
+                                            validationMessage.textContent = "El RTN debe tener exactamente 14 dígitos numéricos.";
+                                        } else {
+                                            validationMessage.textContent = "";
+                                        }
+                                    });
+                                </script>
                              </div>   
                                 <br>
                              <div class="row align-items-end">   
