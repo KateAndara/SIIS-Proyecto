@@ -52,9 +52,10 @@
     " rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <link href="../CSS/styleF.css" rel="stylesheet">
 </head>
 <body>
-    <div id="consulta" class="col-md-12 cards-white" style="margin: 0 auto; width: 110%; max-width: none; margin-left: -20px;">
+    <div id="consulta" class="col-md-12 cards-white" style="margin: 0 auto; width: 110%; max-width: none; margin-left: -20px; border: 1px solid black;">
         <div class="consulta mt-4">
             <div class="row">
                 <div class="col-12 text-center">
@@ -106,7 +107,7 @@
         </div>
     </div>
 
-    <div id="editarProceso" class="col-md-12 cards-white" style="margin: 0 auto; width: 110%; max-width: none; margin-left: -20px; display: none;">
+    <div id="editarProceso" class="col-md-12 cards-white" style="margin: 0 auto; width: 110%; max-width: none; margin-left: -20px; display: none; border: 1px solid black;">
         <ul class="nav nav-tabs">
             <li class="nav-item">
                 <a class="nav-link active" data-toggle="tab" href="#pestaña1" style="color:black">Inicio de proceso</a>

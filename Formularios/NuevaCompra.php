@@ -81,9 +81,19 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                                     <input type="date" id="Fecha_Compra" class="form-control" max=<?php $hoy=date("Y-m-d"); echo $hoy;?> pattern="\d{4}/\d{2}/\d{2}">
                                     <label for="">TOTAL</label>
                                     <input type="number" id="Total" class="form-control" placeholder="Ingrese el total de la compra">
-                                    <label for="">OBSERVACION</label>
-                                    <input type="text" id="Observacion" class="form-control" placeholder="Ingrese si la compra fue al crédito o contado">
+                                    <label for="">FORMA DE PAGO</label>
+                                    
+                                    <select name="selecformadepago"  id="selecformadepago" class="form-select">
+                                    <option value="Contado">Contado</option>
+                                    <option value="Crédito">Credito</option>
+
+                                   </select>
                                     <hr>
+                                    
+                            
+                            
+
+                          
                                     <div id="btnagregarNuevaCompra">
                                         <input type="button" id="btnagregarCompra" onclick="siguiente1()" value="Siguiente" class="btn btn-success">
                                         <button class="btn btn-secondary" type="button" onclick="location.href='../Formularios/Compras.php'">

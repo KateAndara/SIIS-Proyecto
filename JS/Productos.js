@@ -170,7 +170,6 @@ function CargarProducto(idProducto){ //Función que trae los campos que se eligi
         success: function(reponse){
             var MisItems = reponse;
             //Muestra el id junto con su título que se encuentra oculto en el Agregar.
-            $('#Id_Producto').removeAttr('hidden'); // ID
             $('label[for="Id_Producto"]').removeAttr('hidden'); //Título
         
             $('#Id_Producto').val(MisItems[0].Id_Producto).prop('readonly', true);  // Propiedad para que no se pueda modificar el campo.

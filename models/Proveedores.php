@@ -4,7 +4,7 @@
         public function get_proveedores(){               //Si no se nececita mostrar nombre en vez de ID.
             $conexion= parent::Conexion();
             parent::set_names();
-            $sql="SELECT * FROM tbl_proveedores";          
+            $sql="SELECT * FROM tbl_proveedores where Estado='activo'";          
             $sql= $conexion->prepare($sql);
             $sql->execute();
             return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
@@ -89,8 +89,8 @@
         public function insert_proveedor($Nombre, $RTN){
             $conectar= parent::conexion();
             parent::set_names();
-            $sql="INSERT INTO tbl_proveedores(Nombre, RTN)
-            VALUES (?,?);";
+            $sql="INSERT INTO tbl_proveedores(Nombre, RTN, Estado)
+            VALUES (?,?, 'activo');";
             $sql=$conectar->prepare($sql);
             $sql->bindValue(1, $Nombre);
             $sql->bindValue(2, $RTN);
@@ -113,7 +113,7 @@
         public function delete_proveedor($Id_Proveedor){
             $conectar= parent::conexion();
             parent::set_names();
-            $sql = "DELETE FROM tbl_proveedores WHERE Id_Proveedor =?";
+            $sql = "UPDATE tbl_proveedores SET Estado = 'inactivo' WHERE Id_Proveedor =?";
             $sql=$conectar->prepare($sql);
             $sql->bindvalue(1, $Id_Proveedor);
             $sql->execute();
