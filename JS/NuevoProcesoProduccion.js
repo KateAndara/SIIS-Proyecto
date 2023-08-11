@@ -312,39 +312,42 @@ function AgregarProductoTerminadoFinalEditandoProceso(event, idProceso){
 let procesoAgregado = false;
 
 function AgregarProcesoProduccion() {
-  if (procesoAgregado) {
-    return; 
+    if (procesoAgregado) {
+      return; 
+    }
+    
+    // Establecer la variable booleana en true
+    procesoAgregado = true;
+  
+    var datosProcesoProduccion = {
+      Id_Estado_Proceso: $('#Select_Estados_Proceso').val(),
+      Fecha: $('#Fecha').val()
+    };
+    var datosProcesoProduccionJson = JSON.stringify(datosProcesoProduccion);
+  
+    $.ajax({
+      url: UrlInsertarProcesoProduccion,
+      type: 'POST',
+      data: datosProcesoProduccionJson,
+      datatype: 'JSON',
+      contentType: 'application/json',
+      success: function (reponse) {
+        console.log(reponse);
+        CargarProductosTerminadosMP();
+        CargarProductosTerminadosFinal();
+      },
+  
+      error: function (textStatus, errorThrown) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al iniciar proceso',
+        }).then(function () {
+          location.reload();
+        });
+      }
+    });
   }
   
-  // Establecer la variable booleana en true
-  procesoAgregado = true;
-
-  var datosProcesoProduccion = {
-    Id_Estado_Proceso: $('#Select_Estados_Proceso').val(),
-    Fecha: $('#Fecha').val()
-  };
-  var datosProcesoProduccionJson = JSON.stringify(datosProcesoProduccion);
-
-  $.ajax({
-    url: UrlInsertarProcesoProduccion,
-    type: 'POST',
-    data: datosProcesoProduccionJson,
-    datatype: 'JSON',
-    contentType: 'application/json',
-    success: function (reponse) {
-      console.log(reponse);
-      CargarProductosTerminadosMP();
-      CargarProductosTerminadosFinal();
-    },
-
-    error: function (textStatus, errorThrown) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Error al agregar proceso',
-          });          
-    }
-  });
-}
 
 
 //Función para traer los datos de otra tabla para poder ser seleccionados en una lista desplegable

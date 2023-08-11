@@ -73,18 +73,13 @@ function CargarProcesoProduccion(idProceso) {
         contentType: 'application/json',
         success: function(reponse) {
             var MisItems = reponse;
-            var fechaDesdeMisItems = MisItems[0].Fecha;
-            var partesFecha = fechaDesdeMisItems.split("-"); // Divide la fecha en partes
-
-            // Formatea la fecha en el formato deseado (dd-mm-yy)
-            var fechaFormateada = partesFecha[2] + "-" + partesFecha[1] + "-" + partesFecha[0];
-
+    
             $('#Id_Proceso_Produccion').removeAttr('hidden');
             $('#Id_Proceso_Produccion').val(MisItems[0].Id_Proceso_Produccion).prop('readonly', true);
             document.getElementById('Id_Proceso_Produccion').style.display = 'none';
             $('#Select_Estados_Proceso').val(MisItems[0].Id_Estado_Proceso);
             $('#Select_Estado_Proceso').val(MisItems[0].Id_Estado_Proceso); // añade esta línea para actualizar el otro select
-            $('#Fecha').val(fechaFormateada);
+            $('#Fecha').val(MisItems[0].Fecha);
 
             //-----------------------------------------------------Botones del tab "Inico de proceso"-------------------------------------------------
             // Crear el botón de actualización
