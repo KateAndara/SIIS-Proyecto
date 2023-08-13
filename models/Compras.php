@@ -7,7 +7,19 @@
             $sql="SELECT c.*, p.Nombre as nombreProveedor FROM  tbl_compras c INNER JOIN tbl_proveedores p on c.Id_Proveedor=p.Id_Proveedor Where c.Cancelada!=1";          
             $sql= $conexion->prepare($sql);
             $sql->execute();
-            return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
+            $resultados = $sql->fetchALL(PDO::FETCH_ASSOC);
+        
+            // Formatear la fecha en cada resultado
+            foreach ($resultados as &$resultado) {
+                $fecha_dt = new DateTime($resultado['Fecha_compra']);  
+                $fecha_dt->setTimezone(new DateTimeZone('America/Tegucigalpa'));
+                $fecha_formateada = $fecha_dt->format('d-m-Y');
+                $resultado['Fecha_compra'] = $fecha_formateada;
+            }
+        
+            return $resultados;
+        
+    
         }
 
         public function get_ultimaCompra(){              

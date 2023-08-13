@@ -115,14 +115,28 @@
                         <input type="number" id="Id_Proveedor" class="form-control" placeholder="Ingrese el código del proveedor"hidden>
                         <label for="">NOMBRE</label>
                         <input type="text" id="Nombre" class="form-control" placeholder="Ingrese el nombre del proveedor" onkeyup=" javascript:this.value=this.value.toUpperCase();"oninput="validarEntrada(this)" >
-                        <label for="">RTN</label>
-                        <input type="text" id="RTN" class="form-control" placeholder="Ingrese el RTN del proveedor" oninput="validarEntrada2(this)">
+                        <label for="RTN">RTN</label>
+                                    <input type="number" id="RTN" class="form-control" placeholder="ejem: 08011990100114" maxlength="14" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value.length > 14) this.value = this.value.slice(0, 14);">
+                                    <small id="rtnValidationMessage" class="text-danger"></small>
+                        
                         <hr>
                         <div id="btnagregarProveedor">
                             <input type="submit" id="btnagregar" onclick="AgregarProveedor()" value="Agregar Proveedor" class="btn btn-success">
                             <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button>
                         </div>
                     </form>
+                    <script>
+                        const rtnInput = document.getElementById("RTN");
+                        const validationMessage = document.getElementById("rtnValidationMessage");
+
+                            rtnInput.addEventListener("input", function() {
+                                if (rtnInput.value.length !== 14) {
+                                        validationMessage.textContent = "El RTN debe tener exactamente 14 dígitos numéricos.";
+                                } else {
+                                        validationMessage.textContent = "";
+                                        }
+                                    });
+                     </script>
                     <script> //Cancela la acción
                     document.getElementById("btncancelar").onclick = function() {
                         location.href = "http://localhost/SIIS-PROYECTO/Formularios/Proveedores.php";

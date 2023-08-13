@@ -204,13 +204,13 @@ function ActualizarContactoProveedorMM(idContacto){
 
 function EliminarContactoProveedorMM(idContacto) {
     Swal.fire({
-      title: "¿Eliminar estado del contacto del proveesor?",
-      text: "Estas Seguro que quieres Eliminar el contacto del proveedor, esta acción es irreversible",
+      title: "¿Eliminar el contacto del proveedor?",
+      text: "¿Estás seguro que quieres eliminar el contacto del proveedor? Esta acción es irreversible.",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Si, Eliminar!",
+      confirmButtonText: "¡Sí, eliminar!",
     }).then((result) => { 
       if (result.isConfirmed) {
         var datosEstadoProcesoMM = {

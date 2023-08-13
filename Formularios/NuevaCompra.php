@@ -83,11 +83,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                                     <input type="number" id="Total" class="form-control" placeholder="Ingrese el total de la compra">
                                     <label for="">FORMA DE PAGO</label>
                                     
-                                    <select name="selecformadepago"  id="selecformadepago" class="form-select">
-                                    <option value="Contado">Contado</option>
-                                    <option value="Crédito">Credito</option>
-
-                                   </select>
+                                    <input type="text" id="Observacion" class="form-control" placeholder="Ingrese si la compra fue al crédito o contado">
                                     <hr>
                                     
                             

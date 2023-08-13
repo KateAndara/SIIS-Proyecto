@@ -262,12 +262,12 @@ function ActualizarProveedor(idProveedor){
 function EliminarProveedor(idProveedor) {
     Swal.fire({
       title: "¿Eliminar proveedor?",
-      text: "Estas Seguro que quieres Eliminar el proveedor, esta acción es irreversible",
+      text: "¿Estás seguro que quieres Eliminar el proveedor? Esta acción es irreversible.",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Si, Eliminar!",
+      confirmButtonText: "¡Sí, eliminar!",
     }).then((result) => { 
       if (result.isConfirmed) {
         var datosProveedor = {

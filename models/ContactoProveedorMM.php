@@ -5,10 +5,11 @@
         public function get_ContactoProveedoresMM($id_proveedor){                  //Si se nececita mostrar nombre en vez de ID.         
             $conectar= parent::Conexion();
             parent::set_names();
-            $sql="SELECT t1.*, t2.Nombre_tipo_contacto, t3.Nombre
-                  FROM tbl_proveedores_contacto t1                              
-                  JOIN tbl_tipo_contacto t2 ON t1.Id_Tipo_Contacto = t2.Id_Tipo_Contacto 
-                  JOIN tbl_proveedores t3 ON t1.Id_Proveedor = t3.Id_Proveedor where t1.Id_Proveedor=:id_proveedor" ;
+            $sql ="SELECT t1.*, t2.Nombre_tipo_contacto, t3.Nombre
+            FROM tbl_proveedores_contacto t1                              
+            JOIN tbl_tipo_contacto t2 ON t1.Id_Tipo_Contacto = t2.Id_Tipo_Contacto 
+            JOIN tbl_proveedores t3 ON t1.Id_Proveedor = t3.Id_Proveedor 
+            WHERE t1.Id_Proveedor = :id_proveedor AND t1.Estado = 'activo'";
             $sql = $conectar->prepare($sql);
             $sql->bindValue(':id_proveedor',$id_proveedor);
            
@@ -124,8 +125,8 @@
         public function insert_ContactoProveedorMM($Id_Tipo_Contacto, $Id_Proveedor, $Contacto){
             $conectar= parent::conexion();
             parent::set_names();
-            $sql="INSERT INTO tbl_proveedores_contacto(Id_Tipo_Contacto, Id_Proveedor, Contacto)
-            VALUES (?,?,?);";
+            $sql="INSERT INTO tbl_proveedores_contacto(Id_Tipo_Contacto, Id_Proveedor, Contacto, Estado)
+            VALUES (?,?,?, 'activo');";
             $sql=$conectar->prepare($sql);
             $sql->bindValue(1, $Id_Tipo_Contacto);
             $sql->bindValue(2, $Id_Proveedor);
@@ -150,7 +151,7 @@
         public function delete_ContactoProveedorMM($Id_Proveedores_Contacto){
             $conectar= parent::conexion();
             parent::set_names();
-            $sql = "DELETE FROM tbl_proveedores_contacto WHERE Id_Proveedores_Contacto =?";
+            $sql = "UPDATE tbl_proveedores_contacto SET Estado = 'inactivo' WHERE Id_Proveedores_Contacto =?";
             $sql=$conectar->prepare($sql);
             $sql->bindvalue(1, $Id_Proveedores_Contacto);
             $sql->execute();
@@ -160,7 +161,7 @@
         public function get_Contactos(){    
             $conexion= parent::Conexion();
             parent::set_names();
-            $sql="SELECT * FROM tbl_tipo_contacto";          
+            $sql="SELECT * FROM tbl_tipo_contacto WHERE Estado = 'activo'";          
             $sql= $conexion->prepare($sql);
             $sql->execute();
             return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
@@ -169,7 +170,7 @@
         public function get_Proveedores(){    
             $conexion= parent::Conexion();
             parent::set_names();
-            $sql="SELECT * FROM tbl_proveedores";          
+            $sql="SELECT * FROM tbl_proveedores WHERE Estado = 'activo'";          
             $sql= $conexion->prepare($sql);
             $sql->execute();
             return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
