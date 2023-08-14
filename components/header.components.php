@@ -314,6 +314,12 @@ $_SESSION['time'] = time();
                                             <a href="../Formularios/AcercaDe.php" class="dropdown-item">Acerca de</a>                                            
                                         </div>
                                     </div>
+                                    <div class="nav-item dropdown">
+                                        <a href="" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-file-contract"></i></i>REPORTES</a><i class=""></i>
+                                        <div class="dropdown-menu bg-transparent border-0">                                           
+                                           <a href="../Formularios/ReporteEspecializado.php" class="dropdown-item">Crear Reporte</a>
+                                        </div>
+                                    </div>
                                 </div>
                             </nav>
 

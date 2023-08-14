@@ -143,7 +143,8 @@ function CargarObjeto(idObjeto){ //Función que trae los campos que se eligieron
             $('#Id_Objeto').removeAttr('hidden'); // ID
             $('label[for="Id_Objeto"]').removeAttr('hidden'); //Título
         
-            $('#Id_Objeto').val(MisItems[0].Id_Objeto).prop('readonly', true);  // Propiedad para que no se pueda modificar el campo.
+            //$('#Id_Objeto').val(MisItems[0].Id_Objeto).prop('readonly', true);  // Propiedad para que no se pueda modificar el campo.
+            document.getElementById('Id_Objeto').display = 'none';
             $('#Objeto').val(MisItems[0].Objeto).prop('readonly', true); ;
             $('#Descripcion').val(MisItems[0].Descripcion);
             $('#Tipo_objeto').val(MisItems[0].Tipo_objeto).prop('readonly', true); ;

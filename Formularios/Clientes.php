@@ -37,7 +37,7 @@
     <!-- Última versión de AutoTable -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.26/jspdf.plugin.autotable.min.js"></script>
     
-    <script src="../Reportes/Reporte.js"></script>
+    <script src="../Reportes/ReporteClientes.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
     <link href="../CSS/styleF.css" rel="stylesheet">
 

@@ -55,7 +55,7 @@
             if ($_SESSION['permisosMod']['c']) {
                 # code...
                 ?>
-                <button class="rounded" style="background-color:  #147c4c; color: white; float: right; margin-left: 10px;" onclick="mostrarFormulario()">Agregar</button>
+                <!--<button class="rounded" style="background-color:  #147c4c; color: white; float: right; margin-left: 10px;" onclick="mostrarFormulario()">Agregar</button>-->
                 <?php } ?>
                 <button class="rounded" style="background-color: #fff; color: dark; float: right;"onclick="generarReporte('TablaObjetos','REPORTE DE OBJETOS',60)">Generar PDF</button>
 
@@ -114,7 +114,7 @@
                 </div>
                 <div class="col-12">
                     <form class="InsertObjeto">
-                        <label for="Id_Objeto" hidden>ID OBJETO</label>
+                        <!--<label for="Id_Objeto" hidden>ID OBJETO</label>-->
                         <input type="number" id="Id_Objeto" class="form-control" placeholder="Ingrese el código del objeto"hidden>
                         <label for="">OBJETO</label>
                         <input type="text" id="Objeto" class="form-control" placeholder="Ingrese el nombre del objeto"onkeyup="this.value=this.value.toUpperCase()">

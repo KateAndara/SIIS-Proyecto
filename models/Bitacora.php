@@ -14,10 +14,9 @@
             $sql->execute();
             $resultados = $sql->fetchAll(PDO::FETCH_ASSOC);
         
-            // Formatear la fecha en cada resultado antes de devolverlos
+            // Formatear la fecha en cada resultado
             foreach ($resultados as &$resultado) {
-                $fecha_bd = $resultado['Fecha']; // Suponiendo que el campo de fecha se llama "Fecha"
-                $fecha_dt = new DateTime($fecha_bd, new DateTimeZone('UTC'));
+                $fecha_dt = new DateTime($resultado['Fecha']);  
                 $fecha_dt->setTimezone(new DateTimeZone('America/Tegucigalpa'));
                 $fecha_formateada = $fecha_dt->format('d-m-Y');
                 $resultado['Fecha'] = $fecha_formateada;

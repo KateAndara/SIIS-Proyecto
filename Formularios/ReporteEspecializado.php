@@ -90,30 +90,53 @@
                     Generación de Reportes con Filtros de Fechas
                     </h1>
                 </div>    
-                <form id="reportForm" method="post" onsubmit="return validateForm()" action="../controller/reporte-visualizar.php" target="_blank">
-                        <div>
+                <script>
+        function validateForm() {
+            // Validación del formulario (si es necesario)
+            return true;
+        }
+        
+        function setFormAction() {
+            var categorySelect = document.getElementById('tableSelect').value;
+            var form = document.getElementById('reportForm');
+            
+            if (categorySelect === 'ventas') {
+                form.action = '../controller/reporte-ventas.php';
+            } else if (categorySelect === 'compras') {
+                form.action = '../controller/reporte-compras.php';
+            } else if (categorySelect === 'produccion') {
+                form.action = '../controller/reporte-produccion.php';
+            } else if (categorySelect === 'inventario') {
+                form.action = '../controller/reporte-inventario.php';
+            }
+        }
+    </script>
+</head>
+<body>
+          <form id="reportForm" method="post" onsubmit="return validateForm() "target="_blank">
+        <div>
             <label for="tableSelect">Selecciona un módulo:</label>
-        <select id="tableSelect" name="categorySelect">
-            <option value="">Selecciona una categoría...</option>
-            <option value="ventas">Ventas</option>
-            <option value="compras">Compras</option>
-            <option value="produccion">Producción</option>
-            <option value="inventario">Inventario</option>
-        </select>
+            <select id="tableSelect" name="categorySelect">
+                <option value="">Selecciona una categoría...</option>
+                <option value="ventas">Ventas</option>
+                <option value="compras">Compras</option>
+                <option value="produccion">Producción</option>
+                <option value="inventario">Inventario</option>
+            </select>
         </div>
         
         <div>
-            <label for="startDate">Fecha de inicio:</label>
-            <input type="date" id="startDate" name="startDate">
+        <label for="startDate">Fecha de inicio:</label>
+        <input type="date" id="startDate" name="startDate" max="<?php echo date('Y-m-d'); ?>" value="<?php echo date('Y-01-01'); ?>">
         </div>
-        
+
         <div>
             <label for="endDate">Fecha de fin:</label>
-            <input type="date" id="endDate" name="endDate">
+            <input type="date" id="endDate" name="endDate" max="<?php echo date('Y-m-d'); ?>">
         </div>
-        
+
         <div style="text-align: center;">
-            <button type="submit">Generar Reporte</button>
+            <button type="submit" onclick="setFormAction()">Generar Reporte</button>
         </div>
     </form>
 
@@ -141,13 +164,44 @@
             return false;
         }
 
+        // Obtener la fecha de hoy
+        var today = new Date();
+
+        // Obtener el año actual
+        var currentYear = today.getFullYear();
+
+        // Crear una fecha para el 1 de enero del año actual
+        var firstDayOfYear = new Date(currentYear, 0, 1);
+
+        // Convertir las fechas ingresadas en objetos Date
+        var startDateObject = new Date(startDate);
+        var endDateObject = new Date(endDate);
+
+        // Validar que la fecha de inicio no sea posterior a la fecha de hoy
+        if (startDateObject > today) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'La fecha de inicio no puede ser posterior a la fecha de hoy.'
+            });
+            return false;
+        }
+
+        // Validar que la fecha de inicio no sea anterior al 1 de enero del año actual
+        if (startDateObject < firstDayOfYear) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'La fecha de inicio no puede ser anterior al 1 de enero del año actual.'
+            });
+            return false;
+        }
+
         // Aquí podrías agregar más validaciones si es necesario
 
         return true; // Permite que el formulario se envíe si todas las validaciones son exitosas
     }
 </script>
-
-
 
 
     

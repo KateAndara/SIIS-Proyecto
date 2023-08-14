@@ -126,9 +126,10 @@ function CargarParametro(idParametro){ //Función que trae los campos que se eli
         success: function(reponse){
             var MisItems = reponse;
             //Muestra el id junto con su título que se encuentra oculto en el Agregar.
-            $('#Id_Parametro').removeAttr('hidden'); // ID
+            //$('#Id_Parametro').removeAttr('hidden'); // ID
+            document.getElementById('Id_Parametro').style.display = 'none';
             $('label[for="Id_Parametro"]').removeAttr('hidden'); //Título
-        
+
             $('#Id_Parametro').val(MisItems[0].Id_Parametro).prop('readonly', true);  // Propiedad para que no se pueda modificar el campo.
             $('#Parametro').val(MisItems[0].Parametro).prop('readonly', true); ;
             $('#Valor').val(MisItems[0].Valor);

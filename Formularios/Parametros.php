@@ -90,7 +90,7 @@
                 </div>
                 <div class="col-12">
                     <form class="InsertParametro">
-                        <label for="Id_Objeto" hidden>ID PARÁMETRO</label>
+                        <label for="Id_Parametro" hidden>ID PARÁMETRO</label>
                         <input type="number" id="Id_Parametro" class="form-control" placeholder="Ingrese el código del parámetro"hidden>
                         <label for="">PARÁMETRO</label>
                         <input type="text" id="Parametro" class="form-control" placeholder="Ingrese el parámetro">

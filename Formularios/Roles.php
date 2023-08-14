@@ -192,9 +192,9 @@ function getModal(string $nameModal, $data)
                         <label for="Id_Rol" hidden>ID ROL</label>
                         <input type="number" id="Id_Rol" class="form-control" placeholder="Ingrese el código del rol"hidden>
                         <label for="">ROL</label>
-                        <input type="text" id="Rol" class="form-control" placeholder="Ingrese el rol"onkeyup="this.value=this.value.toUpperCase()">
+                        <input type="text" id="Rol" class="form-control" placeholder="Ingrese el rol"onkeyup="this.value=this.value.toUpperCase()"oninput="validarEntrada(this)" >
                         <label for="">DESCRIPCIÓN</label>
-                        <input type="text" id="Descripcion" class="form-control" placeholder="Ingrese la descripción del rol"onkeyup="this.value=this.value.toUpperCase()">
+                        <input type="text" id="Descripcion" class="form-control" placeholder="Ingrese la descripción del rol"onkeyup="this.value=this.value.toUpperCase()"oninput="validarEntrada(this)">
                         <hr>
                         <div id="btnagregarRol">
                             <input type="submit" id="btnagregar" onclick="AgregarRol()" value="Agregar Rol" class="btn btn-success">
@@ -210,6 +210,16 @@ function getModal(string $nameModal, $data)
             </div>
         </div>
 
+        <script>
+function validarEntrada(input) { 
+  const patron = /^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/;
+  const valor = input.value;
+  if (!patron.test(valor)) {
+    swal.fire('Error', 'Solo se permite ingresar letras', 'error');
+    input.value = ''; // Vaciar el campo
+  }
+}
+</script>
 
         
         <div class="Formulario2" style="display: none;">

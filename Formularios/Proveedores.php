@@ -36,9 +36,10 @@
     <!-- Última versión de AutoTable -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.26/jspdf.plugin.autotable.min.js"></script>
 
-    <script src="../Reportes/Reporte.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
     <link href="../CSS/styleF.css" rel="stylesheet">
+    <script src="../Reportes/ReporteProveedores.js"></script>
+
 </head>
 <body>
     <div class="col-md-12 cards-white" style="margin: 0 auto; width: 110%; max-width: none; margin-left: auto; margin-right: auto; border: 1px solid black;">
@@ -57,7 +58,8 @@
                 # code...
                 ?>
                 <button class="rounded" style="background-color:  #147c4c; color: white; float: right; margin-left: 10px;" onclick="mostrarFormulario()">Agregar</button>
-                <?php } ?>                <button class="rounded" style="background-color: #fff; color: dark; float: right;"onclick="generarReporte('TablaProveedores','REPORTE DE PROVEEDORES',60)">Generar PDF</button>            
+                <?php } ?>               
+                <button class="rounded" style="background-color: #fff; color: dark; float: right;"onclick="generarReporte('TablaProveedores','REPORTE DE PROVEEDORES',60)">Generar PDF</button>
             </form>
             </div>
             <script>

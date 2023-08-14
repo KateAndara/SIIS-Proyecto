@@ -161,23 +161,41 @@ function BuscarRol(NombreRol){
         }
     });
 }*/
-function AgregarRol() {
+function validarFormulario(event) {
     var Rol = $('#Rol').val();
     var Descripcion = $('#Descripcion').val();
-    //Permitir letras y espacios
-    var patron = /^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/;
-    //validar que no hayan campos vacíos 
-    if (Rol.trim() == "" || Descripcion.trim() == "") {
-        alert("Por favor, complete todos los campos.");
-        return false;
-    } else if (!patron.test(Rol) || !patron.test(Descripcion)) {
-        alert("Por favor, ingrese solo letras y espacios en los campos.");
+    
+    if (Rol.trim() === "" || Descripcion.trim() === "") {
+        swal.fire("Atención", "Todos los campos son obligatorios.", "error");
+        event.preventDefault(); // Prevenir el envío del formulario
         return false;
     }
+    return true; // Permitir el envío del formulario
+}
 
+function AgregarRol() {
+    var isValid = validarFormulario(event); // Llama a la función de validación
+    
+    if (!isValid) {
+        return false; // Prevenir el envío del formulario
+    }
+    
+
+    Rol=document.querySelector("#Rol").value;
+    Descripcion=document.querySelector("#Descripcion").value;
+
+
+    console.log(Rol);
+    console.log(Descripcion);
+
+    
+    if ( Rol == "" ||Descripcion == "") {
+        swal.fire("Atención", "Todos los campos son obligatorios.", "error");
+        return false;
+     }
     var datosRol = {
-        Rol: Rol,
-        Descripcion: Descripcion
+        Rol: $('#Rol').val(),
+        Descripcion: $('#Descripcion').val()
     };
 
     var datosRolJson = JSON.stringify(datosRol);
@@ -188,18 +206,37 @@ function AgregarRol() {
         data: datosRolJson,
         datatype: 'JSON',
         contentType: 'application/json',
-        success: function (reponse) {
-            console.log(reponse);
-            alert('Rol agregado correctamente.');
-            CargarTablaRoles();
+        success: function(reponse){
+            console.log(reponse.status);
+              swal.fire({
+                title: "LISTO!",
+                text: reponse.msg,
+                icon: "success",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                timer: 3000,
+                willClose: () => {
+                  window.location.reload();
+                },
+              });
         },
-        error: function (textStatus, errorThrown) {
-            alert('Error al agregar el rol: ' + textStatus + ' ' + errorThrown);
-        }
+        error: function(textStatus, errorThrown){
+            swal.fire({
+                title: "Error!",
+                text: "Error al guardar el Rol",
+                icon: "error",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                timer: 4000,
+               
+              });
+        },
     });
 
-    return false;
+    return false; // Prevenir el envío del formulario después de la acción AJAX
 }
+
+
 
 function CargarRol(idRol){ //Función que trae los campos que se eligieron editar.
     var datosRol = {
@@ -216,7 +253,9 @@ function CargarRol(idRol){ //Función que trae los campos que se eligieron edita
         success: function(reponse){
             var MisItems = reponse;
             //Muestra el id junto con su título que se encuentra oculto en el Agregar.
-            $('#Id_Rol').removeAttr('hidden'); // ID
+            //$('#Id_Rol').removeAttr('hidden'); // ID
+            document.getElementById('Id_Rol').style.display = 'none';
+
             $('label[for="Id_Rol"]').removeAttr('hidden'); //Título
         
             $('#Id_Rol').val(MisItems[0].Id_Rol).prop('readonly', true);  // Propiedad para que no se pueda modificar el campo.
@@ -238,21 +277,14 @@ function CargarRol(idRol){ //Función que trae los campos que se eligieron edita
 }
 
 function ActualizarRol(idRol){
+    var isValid = validarFormulario(event); // Llama a la función de validación
+    
+    if (!isValid) {
+        return false; // Prevenir el envío del formulario
+    }
     var rol = $('#Rol').val();
     var descripcion = $('#Descripcion').val();
     
-    // Validar campos vacíos
-    if (rol.trim() === '' || descripcion.trim() === '') {
-        alert('Por favor completa todos los campos');
-        return;
-    }
-    
-    // Validar solo letras y espacios
-    var regex = /^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/;
-    if (!regex.test(rol) || !regex.test(descripcion)) {
-        alert('Por favor utiliza solo letras y espacios');
-        return;
-    }
     
     var datosRol = {
         Id_Rol: idRol,
@@ -273,9 +305,9 @@ function ActualizarRol(idRol){
         },
 
         error: function(textStatus, errorThrown){
-            alert('Error al actualizar rol' + textStatus + errorThrown);
+            alert('Error al actualizar rol');
         }
-    });
+    }); 
     alert('Aviso');
 }
 

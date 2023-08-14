@@ -112,10 +112,10 @@
                 </div>
                 <div class="col-12">
                     <form class="InsertPregunta">
-                        <label for="Id_Pregunta" hidden>ID PREGUNTA</label>
+                        <!--<label for="Id_Pregunta" hidden>ID PREGUNTA</label>-->
                         <input type="number" id="Id_Pregunta" class="form-control" placeholder="Ingrese el código de la pregunta"hidden>
                         <label for="">PREGUNTA</label>
-                        <input type="text" id="Pregunta" class="form-control" placeholder="Ingrese la pregunta"onkeyup="this.value=this.value.toUpperCase()">
+                        <input type="text" id="Pregunta" class="form-control" placeholder="Ingrese la pregunta"onkeyup="this.value=this.value.toUpperCase()"oninput="validarPregunta(this)">
                         <hr>
                         <div id="btnagregarPregunta">
                             <input type="submit" id="btnagregar" onclick="AgregarPregunta()" value="Agregar Pregunta" class="btn btn-success">
@@ -127,10 +127,22 @@
                         location.href = "http://localhost/SIIS-PROYECTO/Formularios/Preguntas.php";
                     };
                     </script>
+
                 </div>
             </div>
         </div>
     </div>
+    <script>
+    function validarPregunta(input) {
+        const patron = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s?¿]+$/;
+        const valor = input.value;
+        
+        if (!patron.test(valor)) {
+            swal.fire("Atención", "Por favor utiliza solo letras, signos de pregunta y espacios", "error");
+            input.value = ''; // Vaciar el campo
+        }
+    }
+</script>
       
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
 <!-- JavaScript Bundle with Popper -->

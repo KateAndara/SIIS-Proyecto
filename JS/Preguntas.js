@@ -88,45 +88,56 @@ function BuscarPregunta(NombrePregunta){
     });
 }
 
-function AgregarPregunta(){
+function validarFormularioPregunta(event) {
     var pregunta = $('#Pregunta').val();
     
-    //Permitir letras y espacios
-    var patron = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s?¿]+$/;
-    //validar que no hayan campos vacíos 
-    if (pregunta.trim() == "") {
-        alert("Por favor, complete todos los campos.");
-        return false;
-    } else if (!patron.test(pregunta)) {
-        alert("Por favor utiliza solo letras, signos de pregunta y espacios");
+    if (pregunta.trim() === "") {
+        swal.fire("Atención", "Por favor, complete todos los campos.", "error");
+        event.preventDefault(); // Prevenir el envío del formulario
         return false;
     }
+    return true; // Permitir el envío del formulario
+}
 
+function AgregarPregunta() {
+    var isValid = validarFormularioPregunta(event); // Llama a la función de validación
+    
+    if (!isValid) {
+        return false; // Prevenir el envío del formulario
+    }
     
     var datosPregunta = {
-        Pregunta: pregunta
+        Pregunta: $('#Pregunta').val()
     };
-    var datosPreguntaJson= JSON.stringify(datosPregunta);
+    var datosPreguntaJson = JSON.stringify(datosPregunta);
 
     $.ajax({
-        url:UrlInsertarPregunta,
+        url: UrlInsertarPregunta,
         type: 'POST',
         data: datosPreguntaJson,
         datatype: 'JSON',
         contentType: 'application/json',
         success: function(response){
             console.log(response);
-            alert('Pregunta agregada correctamente.');
-            CargarPreguntas();
+            swal.fire({
+                title: "Éxito",
+                text: "Pregunta agregada correctamente.",
+                icon: "success"
+            }).then(function() {
+                CargarPreguntas();
+            });
         },
-
         error: function (textStatus, errorThrown) {
-            alert('Error al agregar la pregunta: ' + textStatus + ' ' + errorThrown);
+            swal.fire({
+                title: "Error",
+                text: "Error al agregar la pregunta: ",
+                icon: "error"
+            });
         }
     });
+
+    return false; // Prevenir el envío del formulario después de la acción AJAX
 }
-
-
 
 
 function CargarPregunta(idPregunta){ //Función que trae los campos que se eligieron editar.
@@ -144,7 +155,8 @@ function CargarPregunta(idPregunta){ //Función que trae los campos que se eligi
         success: function(reponse){
             var MisItems = reponse;
             //Muestra el id junto con su título que se encuentra oculto en el Agregar.
-            $('#Id_Pregunta').removeAttr('hidden'); // ID
+           //$('#Id_Pregunta').removeAttr('hidden'); // ID
+           document.getElementById('Id_Pregunta').style.display = 'none';
             $('label[for="Id_Pregunta"]').removeAttr('hidden'); //Título
         
             $('#Id_Pregunta').val(MisItems[0].Id_Pregunta).prop('readonly', true);  // Propiedad para que no se pueda modificar el campo.
@@ -165,19 +177,15 @@ function CargarPregunta(idPregunta){ //Función que trae los campos que se eligi
 }
 
 function ActualizarPregunta(idPregunta){
+    var isValid = validarFormularioPregunta(event); // Llama a la función de validación
+    
+    if (!isValid) {
+        return false; // Prevenir el envío del formulario
+    }
     
     var pregunta = $('#Pregunta').val();
     
-    //Permitir letras y espacios
-    var patron = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s?¿]+$/;
-    //validar que no hayan campos vacíos 
-    if (pregunta.trim() == "") {
-        alert("Por favor, complete todos los campos.");
-        return false;
-    } else if (!patron.test(pregunta)) {
-        alert("Por favor utiliza solo letras, signos de pregunta y espacios");
-        return false;
-    }
+    
     
     var datosPregunta={
         Id_Pregunta: idPregunta,

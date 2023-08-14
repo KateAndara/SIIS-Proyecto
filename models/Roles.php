@@ -4,7 +4,7 @@
         public function get_roles() {
             $conexion = parent::Conexion();
             parent::set_names();
-            $sql = "SELECT * FROM tbl_ms_roles WHERE Estado = 'activo'";
+            $sql = "SELECT * FROM tbl_ms_roles WHERE Estado = 'activo' AND NOT Rol = 'Administrador';";
             $sql = $conexion->prepare($sql);
             $sql->execute();
             return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);

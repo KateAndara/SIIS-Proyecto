@@ -6,7 +6,7 @@
         public function get_preguntas(){               //Si no se nececita mostrar nombre en vez de ID.
             $conexion= parent::Conexion();
             parent::set_names();
-            $sql="SELECT * FROM tbl_ms_preguntas";          
+            $sql="SELECT * FROM tbl_ms_preguntas WHERE Estado = 'activo' ";          
             $sql= $conexion->prepare($sql);
             $sql->execute();
             return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
@@ -90,8 +90,8 @@
         public function insert_pregunta($Pregunta){
             $conectar= parent::conexion();
             parent::set_names();
-            $sql="INSERT INTO tbl_ms_preguntas(Pregunta)
-            VALUES (?);";
+            $sql="INSERT INTO tbl_ms_preguntas(Pregunta, Estado)
+            VALUES (?, 'activo');";
             $sql=$conectar->prepare($sql);
             $sql->bindValue(1, $Pregunta);
             $sql->execute();
@@ -113,7 +113,7 @@
         public function delete_pregunta($Id_Pregunta){
             $conectar= parent::conexion();
             parent::set_names();
-            $sql = "DELETE FROM tbl_ms_preguntas WHERE Id_Pregunta =?";
+            $sql = "UPDATE tbl_ms_preguntas SET Estado = 'inactivo' WHERE Id_Pregunta = ?";
             $sql=$conectar->prepare($sql);
             $sql->bindvalue(1, $Id_Pregunta);
             $sql->execute();
