@@ -223,8 +223,11 @@ $enviroment=0;
                 }
                 //Variable que almacena la contraseña encriptada
                 $contrasenaEncriptada = encriptar($contrasena);
-
-                if (count($selectDNI)>0) {
+                $selectHistorialContrasenia=$usuarios->verificarHistorialContrasenia($contrasenaEncriptada, $id_Usuario);
+                
+                if ($selectHistorialContrasenia) {
+                    $arrResponse = array("status" => false, "msg" => 'Debe ingresar una contraseña que no haya usado anteriormente.');
+                }else if (count($selectDNI)>0) {
                     $arrResponse = array("status" => false, "msg" => 'DNI ya existente, Verifique nuevamente');
                 }else if (count($selectUsuario)>0) {
                     $arrResponse = array("status" => false, "msg" => 'USUARIO ya existente, Verifique nuevamente');

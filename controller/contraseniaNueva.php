@@ -78,7 +78,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $sql=$conexion->query(" SELECT * FROM tbl_ms_usuarios WHERE Id_Usuario='$id_usuario' ");
                         //Actualizar la contraseña y el estado del usuario.
                         $sql=$conexion->query(" UPDATE tbl_ms_usuarios SET Contraseña = '$contrasenaEncriptada', Estado = 'Activo' where Id_Usuario='$id_usuario'");
-                        
+                       //Traer el nombre del usuario
+                        $nombreQuery = $conexion->query("SELECT Nombre FROM tbl_ms_usuarios WHERE Id_Usuario = '$id_usuario'");
+                        if ($nombreQuery) {
+                            $nombreResultado = $nombreQuery->fetch_assoc();
+                            $nombre = $nombreResultado['Nombre'];
+                            //Insertar contraseña en historial de contraseñas del usuario
+                            $insertHistorial = $conexion->query("INSERT INTO tbl_ms_hist_contraseña (Id_Usuario, Contraseña, Modificado_por, Fecha_modificacion) VALUES ('$id_usuario', '$contrasenaEncriptada', '$nombre', CURRENT_TIMESTAMP())");
+                        } 
+        
                         echo '<style>#btnContrasenia { display:none; }</style>';
                         echo '<style>#fila1 { display:none; }</style>';
                         echo '<style>#fila2 { display:none; }</style>';

@@ -80,8 +80,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     //Variable que almacena la contraseña encriptada
                     $contrasenaEncriptada = encriptar($password);
 
-                  // Realizar la consulta para buscar la contraseña.
-                  $query = "SELECT * FROM tbl_ms_usuarios WHERE Contraseña = '$contrasenaEncriptada' AND Id_Usuario='$id_usuario'";
+                  // Realizar la consulta para buscar la contraseña en el historial de contraseña.
+                  $query = "SELECT * FROM tbl_ms_hist_contraseña WHERE Contraseña = '$contrasenaEncriptada' AND Id_Usuario='$id_usuario'";
                   $resultado = mysqli_query($conexion, $query);
 
                   // Verificar si se encontró la misma contraseña del usuario.
@@ -98,6 +98,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                       $sql=$conexion->query(" SELECT * FROM tbl_ms_usuarios WHERE Id_Usuario='$id_usuario' ");
                       //Actualizar la contraseña y el estado del usuario.
                       $sql=$conexion->query(" UPDATE tbl_ms_usuarios SET Contraseña = '$contrasenaEncriptada', Estado = 'Activo' where Id_Usuario='$id_usuario'");
+                      
+                      // Traer el nombre del usuario
+                        $nombreQuery = $conexion->query("SELECT Nombre FROM tbl_ms_usuarios WHERE Id_Usuario = '$id_usuario'");
+                        if ($nombreQuery) {
+                            $nombreResultado = $nombreQuery->fetch_assoc();
+                            $nombre = $nombreResultado['Nombre'];
+
+                            // Obtener la cantidad de contraseñas registradas para el usuario
+                            $cantidadContraseñasQuery = $conexion->query("SELECT COUNT(*) AS Total FROM tbl_ms_hist_contraseña WHERE Id_Usuario = '$id_usuario'");
+                            if ($cantidadContraseñasQuery) {
+                                $cantidadContraseñasResultado = $cantidadContraseñasQuery->fetch_assoc();
+                                $cantidadContraseñas = $cantidadContraseñasResultado['Total'];
+
+                                // Si hay 10 contraseñas, eliminar la más antigua
+                                if ($cantidadContraseñas >= 10) {
+                                    $eliminarQuery = $conexion->query("DELETE FROM tbl_ms_hist_contraseña WHERE Id_Usuario = '$id_usuario' ORDER BY Fecha_modificacion ASC LIMIT 1");
+                                }
+
+                                // Insertar la nueva contraseña en el historial
+                                $insertHistorial = $conexion->query("INSERT INTO tbl_ms_hist_contraseña (Id_Usuario, Contraseña, Modificado_por, Fecha_modificacion) VALUES ('$id_usuario', '$contrasenaEncriptada', '$nombre', CURRENT_TIMESTAMP())");
+                            } 
+                        }
                       //header('Location: Login.php'); // Redireccionamiento al Login.
                       ?>
                       <script> 

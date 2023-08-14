@@ -105,11 +105,16 @@
             $contrasenaEncriptada = encriptar($contraseña);
 
             $correo=$_POST["Email"];
-            $Fecha=date("Y-m-d");
             $Fec_vencimiento=date("Y-m-d",strtotime("+30 days"));
             $estado="Nuevo";
-            $sql=$conexion -> query("insert into tbl_ms_usuarios(Id_Rol,Id_Cargo,Usuario,Nombre,Estado,Contraseña,Fecha_vencimiento,DNI,Correo_Electronico, Fecha_creacion)values('$id_rol','$id_cargo','$usuario','$nombre','$estado','$contrasenaEncriptada','$Fec_vencimiento','$dni','$correo','$Fecha')");
+            $sql = $conexion->query("INSERT INTO tbl_ms_usuarios (Id_Rol, Id_Cargo, Usuario, Nombre, Estado, Contraseña, Fecha_vencimiento, DNI, Correo_Electronico, Fecha_creacion)
+            VALUES ('$id_rol', '$id_cargo', '$usuario', '$nombre', '$estado', '$contrasenaEncriptada', '$Fec_vencimiento', '$dni', '$correo', CURRENT_TIMESTAMP())");
+
+
             if ($sql==1){
+                $lastInsertedId = $conexion->insert_id;
+                $sqlHistorial = $conexion->query("INSERT INTO tbl_ms_hist_contraseña (Id_Usuario, Contraseña, Fecha_creacion)
+                                 VALUES ('$lastInsertedId', '$contrasenaEncriptada', CURRENT_TIMESTAMP())");
                  echo '<div class="alert alert-success">Usuario registrado correctamente</div> ';
                 
                  //Bitácora

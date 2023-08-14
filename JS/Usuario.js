@@ -653,13 +653,13 @@ function EliminarUsuario(idUsuario){
     
 
    Swal.fire({
-     title: "Eliminar Usuario?",
-     text: "Estas Seguro que quieres Eliminar el Usuario, esta acción es irreversible",
+     title: "¿Eliminar Usuario?",
+     text: "¿Está seguro que desea eliminar el usuario? Esta acción es irreversible",
      icon: "warning",
      showCancelButton: true,
      confirmButtonColor: "#3085d6",
      cancelButtonColor: "#d33",
-     confirmButtonText: "Si, Eliminar!",
+     confirmButtonText: "Sí, eliminar",
    }).then((result) => {
      if (result.isConfirmed) {
        var datosUsuario = {
@@ -672,10 +672,9 @@ function EliminarUsuario(idUsuario){
          data: datosUsuario,
          datatype: "JSON",
          success: function (response) {
-           //Swal.fire("Cancelada!", "Compra Cancelada Correctamente.", "success");
            Swal.fire({
-             title: "Cancelada",
-             text: "Usuario Eliminado Correctamente",
+             title: "Listo",
+             text: "Usuario eliminado correctamente",
              icon: "success",
              timer: 3000,
              willClose: () => {

@@ -124,6 +124,21 @@
             $sql->execute();
             return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
         }
+
+        public function verificarHistorialContrasenia($contraseña, $id_Usuario) {
+            $conectar = parent::Conexion();
+            parent::set_names();
+            
+            $sql = "SELECT * FROM `tbl_ms_hist_contraseña` WHERE Id_Usuario = ? AND Contraseña = ?";
+            $sql = $conectar->prepare($sql);
+            $sql->bindvalue(1, $id_Usuario);
+            $sql->bindvalue(2, $contraseña);
+        
+            $sql->execute();
+            
+            return $resultado = $sql->fetch(PDO::FETCH_ASSOC);
+        }
+        
         public function verificarCorreo2($correo,$id_Usuario){       //Trae los datos de la fila que se quiere editar.           
             $conectar = parent::Conexion();
             parent::set_names();
@@ -135,16 +150,17 @@
             return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
         }
 
-        public function insert_Usuario($usuario,$nombre,$estado,$DNI,$correo,$contrasena,$rolSelect,$rolCargo,$fechaVencimiento,$CreadoPor){
-            $conectar= parent::conexion();
+
+        public function insert_Usuario($usuario, $nombre, $estado, $DNI, $correo, $contrasena, $rolSelect, $rolCargo, $fechaVencimiento, $CreadoPor) {
+            $conectar = parent::conexion();
             parent::set_names();
-            $sql="INSERT INTO `tbl_ms_usuarios` (`Id_Rol`, `Id_Cargo`, `Usuario`, `Nombre`, `Estado`, `Contraseña`, `Fecha_ultima_conexion`, `Preguntas_contestadas`, `Primer_ingreso`, `Fecha_vencimiento`, `DNI`, `Correo_Electronico`, `Creado_por`, `Fecha_creacion`, `Modificado_por`, `Fecha_modificacion`) 
             
-            VALUES (?,?, ?, ?, ?, ?,  NULL, NULL, NULL, ?, ?, ?, ?, CURRENT_TIMESTAMP(), NULL, NULL);";
-            $sql=$conectar->prepare($sql);
+            $sql = "INSERT INTO `tbl_ms_usuarios` (`Id_Rol`, `Id_Cargo`, `Usuario`, `Nombre`, `Estado`, `Contraseña`, `Fecha_ultima_conexion`, `Preguntas_contestadas`, `Primer_ingreso`, `Fecha_vencimiento`, `DNI`, `Correo_Electronico`, `Creado_por`, `Fecha_creacion`, `Modificado_por`, `Fecha_modificacion`) 
+                    VALUES (?, ?, ?, ?, ?, ?, NULL, NULL, NULL, ?, ?, ?, ?, CURRENT_TIMESTAMP(), NULL, NULL);";
+            
+            $sql = $conectar->prepare($sql);
             $sql->bindValue(1, $rolSelect);
             $sql->bindValue(2, $rolCargo);
-
             $sql->bindValue(3, $usuario);
             $sql->bindValue(4, $nombre);
             $sql->bindValue(5, "Nuevo");
@@ -153,24 +169,56 @@
             $sql->bindValue(8, $DNI);
             $sql->bindValue(9, $correo);
             $sql->bindValue(10, $CreadoPor);
-
             $sql->execute();
-            $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
-            $resultado = $conectar->lastInsertId();
             
-            return $resultado;
+            $idUsuarioInsertado = $conectar->lastInsertId();
+            
+            // Insertar en tbl_ms_hist_contraseña
+            $sqlHistContraseña = "INSERT INTO `tbl_ms_hist_contraseña` (`Id_Usuario`, `Contraseña`, `Creado_por`, `Fecha_creacion`) 
+                                  VALUES (?, ?, ?, CURRENT_TIMESTAMP());";
+            $sqlHistContraseña = $conectar->prepare($sqlHistContraseña);
+            $sqlHistContraseña->bindValue(1, $idUsuarioInsertado);
+            $sqlHistContraseña->bindValue(2, $contrasena);
+            $sqlHistContraseña->bindValue(3, $CreadoPor);
+            $sqlHistContraseña->execute();
+            
+            return $idUsuarioInsertado;
         }
+        
 
-        public function update_Usuario($usuario,$nombre,$estado,$DNI,$correo,$contrasena,$rolSelect,$rolCargo,$fechaVencimiento,$modificadoPor,$id_Usuario){
-            $conectar= parent::conexion();
+        public function update_Usuario($usuario, $nombre, $estado, $DNI, $correo, $contrasena, $rolSelect, $rolCargo, $fechaVencimiento, $modificadoPor, $id_Usuario){
+            $conectar = parent::conexion();
             parent::set_names();
-            $sql="UPDATE `tbl_ms_usuarios` SET `Id_Rol` = ?, `Id_Cargo` = ?, `Usuario` = ?, `Nombre` = ?, `Estado` = ?, `Contraseña` = ?,`Fecha_vencimiento`=?, `DNI` = ?, `Correo_Electronico` = ?,`Modificado_por` = ?, `Fecha_modificacion` =CURRENT_TIMESTAMP()  WHERE `tbl_ms_usuarios`.`Id_Usuario` = ?;";
 
+            // Verificar el número de contraseñas en el historial
+            $sqlCount = "SELECT COUNT(*) as total FROM `tbl_ms_hist_contraseña` WHERE `Id_Usuario` = ?";
+            $sqlCountStmt = $conectar->prepare($sqlCount);
+            $sqlCountStmt->bindValue(1, $id_Usuario);
+            $sqlCountStmt->execute();
+            $totalContraseñas = $sqlCountStmt->fetch(PDO::FETCH_ASSOC)['total'];
 
-            $sql=$conectar->prepare($sql);
+            if ($totalContraseñas >= 10) {
+                // Eliminar la contraseña más antigua del historial
+                $sqlDeleteOldest = "DELETE FROM `tbl_ms_hist_contraseña` WHERE `Id_Usuario` = ? ORDER BY `Fecha_modificacion` ASC LIMIT 1";
+                $sqlDeleteStmt = $conectar->prepare($sqlDeleteOldest);
+                $sqlDeleteStmt->bindValue(1, $id_Usuario);
+                $sqlDeleteStmt->execute();
+            }
+
+            // Insertar la nueva contraseña en el historial
+            $sqlHistContraseña = "INSERT INTO `tbl_ms_hist_contraseña` (`Id_Usuario`, `Contraseña`, `Modificado_por`, `Fecha_modificacion`) 
+            VALUES (?, ?, ?, CURRENT_TIMESTAMP());";
+            $sqlInsertHistContraseña = $conectar->prepare($sqlHistContraseña);
+            $sqlInsertHistContraseña->bindValue(1, $id_Usuario);
+            $sqlInsertHistContraseña->bindValue(2, $contrasena);
+            $sqlInsertHistContraseña->bindValue(3, $modificadoPor);
+            $sqlInsertHistContraseña->execute();
+
+            // Actualizar los demás datos del usuario
+            $sql = "UPDATE `tbl_ms_usuarios` SET `Id_Rol` = ?, `Id_Cargo` = ?, `Usuario` = ?, `Nombre` = ?, `Estado` = ?, `Contraseña` = ?, `Fecha_vencimiento` = ?, `DNI` = ?, `Correo_Electronico` = ?, `Modificado_por` = ?, `Fecha_modificacion` = CURRENT_TIMESTAMP()  WHERE `tbl_ms_usuarios`.`Id_Usuario` = ?;";
+            $sql = $conectar->prepare($sql);
             $sql->bindValue(1, $rolSelect);
             $sql->bindValue(2, $rolCargo);
-
             $sql->bindValue(3, $usuario);
             $sql->bindValue(4, $nombre);
             $sql->bindValue(5, $estado);
@@ -180,11 +228,11 @@
             $sql->bindValue(9, $correo);
             $sql->bindValue(10, $modificadoPor);
             $sql->bindValue(11, $id_Usuario);
-
-
             $sql->execute();
-            return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
+
+            return $resultado = $sql->fetchALL(PDO::FETCH_ASSOC);
         }
+
         public function update_Usuario2($usuario,$nombre,$estado,$DNI,$correo,$rolSelect,$rolCargo,$fechaVencimiento,$modificadoPor,$id_Usuario){
             $conectar= parent::conexion();
             parent::set_names();
