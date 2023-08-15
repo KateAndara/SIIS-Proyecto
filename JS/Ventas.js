@@ -376,6 +376,40 @@ function agregarPromoción() {
     promocion = document.querySelector("#Select_Promocion").value;
     cantidad = document.querySelector("#cantidadPromociones").value;
     precio = document.querySelector("#precioPromocion").value;
+
+    // Validar que se haya seleccionado una promoción
+    if (Producto === "") {
+      Swal.fire({
+          title: 'Seleccione un producto',
+          icon: 'error',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'Aceptar'
+      });
+      return;
+    }
+
+    // Validar que se haya seleccionado una promoción
+    if (precio === "") {
+      Swal.fire({
+          title: 'Seleccione la promoción',
+          icon: 'error',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'Aceptar'
+      });
+      return;
+    }
+     // Validar que la cantidad sea un número mayor a 0
+     if (!(/^\d+$/.test(cantidad)) || parseInt(cantidad) <= 0) {
+      Swal.fire({
+          title: 'Ingrese una cantidad de promoción válida',
+          text: 'La cantidad debe ser un número entero mayor a 0.',
+          icon: 'error',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'Aceptar'
+      });
+      document.querySelector("#cantidadPromociones").value = ""; 
+      return;
+    }
     var datosPromocion = {
       promocion: promocion,
       cantidad: cantidad,
@@ -561,17 +595,40 @@ function AgregarDetalleVenta(){
   Cantidad= $("#Cantidad").val();
   Precio= $("#Precio").val();
 
+  // Validar que se haya seleccionado un producto
+  if (Producto === "") {
+    Swal.fire({
+        title: 'Seleccione un producto',
+        icon: 'error',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Aceptar'
+    });
+    return;
+  }
 
-if (
-Producto == "" ||
-Cantidad == "" ||
-Precio == "" 
-) {
-swal.fire("Atención", "Todos los campos son obligatorios.", "error");
-return false;
-}
+  // Validar que se haya seleccionado un producto
+  if (Precio === "") {
+    Swal.fire({
+        title: 'Seleccione un producto',
+        icon: 'error',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Aceptar'
+    });
+    return;
+  }
 
-
+   // Validar que la cantidad sea un número mayor a 0
+   if (!(/^\d+$/.test(Cantidad)) || parseInt(Cantidad) <= 0) {
+    Swal.fire({
+        title: 'Ingrese una cantidad de producto válida',
+        text: 'La cantidad debe ser un número entero mayor a 0.',
+        icon: 'error',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Aceptar'
+    });
+    document.querySelector("#Cantidad").value = ""; 
+    return;
+  }
 
 var DatosProducto = {
   Producto: $("#Select_Producto").val(),
@@ -722,16 +779,17 @@ function siguiente1() {
     nombre = document.querySelector("#Select_Cliente").value;
     fechanacimiento = document.querySelector("#FechaNacimiento").value;
     dni = document.querySelector("#Dni").value;
-    
-  
-     if (
-       nombre == "" ||
-       fechanacimiento == "" ||
-       dni == ""
-     ) {
-       swal.fire("Atención", "Todos los campos son obligatorios.", "error");
-       return false;
-     }
+
+    // Validar que se haya seleccionado un cliente
+    if (nombre === "") {
+      Swal.fire({
+          title: 'Seleccione el cliente',
+          icon: 'error',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'Aceptar'
+      });
+      return;
+    }
   
     document.querySelector("#pestaña1").classList.remove("active");
     document.querySelector("#pestaña1").classList.remove("show");
