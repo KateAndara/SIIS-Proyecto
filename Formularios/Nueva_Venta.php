@@ -114,9 +114,9 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                                 </select>
                                 <br>
                                 <label for="">PRECIO </label>
-                                <input type="number" id="Precio" readonly  name="Precio"  class="form-control" placeholder="Ingrese ingrese el precio por libra">
+                                <input type="number" id="Precio" readonly  name="Precio"  class="form-control" placeholder="Precio por libra">
                                 <label for="">CANTIDAD</label>
-                                <input type="number" id="Cantidad" name="Cantidad" class="form-control" placeholder="Ingrese ingrese la cantidad del producto">
+                                <input type="number" id="Cantidad" name="Cantidad" class="form-control" placeholder="Ingrese la cantidad del producto" autocomplete="off" onpaste="return false;">
                            
                                     <!-- <option value="">Seleccione un producto</option> -->
                                     
@@ -228,7 +228,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                                 </select>
 
                                 <label for="">CANTIDAD PROMOCIONES</label>
-                                <input type="number" id="cantidadPromociones" name="cantidadPromociones" class="form-control" placeholder="Ingrese ingrese la cantidad del producto">
+                                <input type="number" id="cantidadPromociones" name="cantidadPromociones" class="form-control" placeholder="Ingrese la cantidad de la promoción" autocomplete="off" onpaste="return false;">
 
                                 <label for="">PRECIO PROMOCION</label>
                                 <input type="number" id="precioPromocion" readonly  name="precioPromocion"  class="form-control" >
@@ -357,7 +357,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                              <div class="row align-items-end">   
                                 <div class="col-6">
                                    <label for="">TOTAL</label>
-                                   <input type="number" id="Total" class="form-control" placeholder="Total...">
+                                   <input type="number" id="Total" class="form-control" placeholder="Total..." readonly>
                                 </div>   
                                 <div class="col-6">
                                   
