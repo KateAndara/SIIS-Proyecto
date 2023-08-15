@@ -746,19 +746,6 @@ function siguiente1() {
   }
 
   function siguiente2() {
-
-    Producto = document.querySelector("#Select_Producto").value;
-    Precio = document.querySelector("#Precio").value;
-    Cantidad = document.querySelector("#Cantidad").value;
-
-    if (
-      Producto == "" ||
-      Precio == "" ||
-      Cantidad == ""
-    ) {
-      swal.fire("Atención", "Todos los campos son obligatorios.", "error");
-      return false;
-    }     
   
     document.querySelector("#pestaña2").classList.remove("active");
     document.querySelector("#pestaña2").classList.remove("show");
