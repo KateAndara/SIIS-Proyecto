@@ -84,13 +84,13 @@ function CargarCompras() {
 
 function cancelarCompra(idCompra) {
   Swal.fire({
-    title: "Cancelar Compra?",
-    text: "Estas Seguro que quieres cancelar la Compra, esta acción es irreversible",
+    title: "¿Cancelar compra?",
+    text: "¿Está seguro que desea cancelar la compra? Esta acción es irreversible",
     icon: "warning",
     showCancelButton: true,
     confirmButtonColor: "#3085d6",
     cancelButtonColor: "#d33",
-    confirmButtonText: "Si, Cancelar!",
+    confirmButtonText: "Sí, cancelar",
   }).then((result) => {
     if (result.isConfirmed) {
 
@@ -108,7 +108,7 @@ function cancelarCompra(idCompra) {
       //Swal.fire("Cancelada!", "Compra Cancelada Correctamente.", "success");
       Swal.fire({
         title: "Cancelada",
-        text: "Compra Cancelada Correctamente.",
+        text: "Compra cancelada correctamente.",
         icon: "success",
         timer: 3000,
         willClose: () => {
@@ -124,10 +124,9 @@ function cancelarCompra(idCompra) {
 }
 
 
-
 function calcularRendimiento() {
-  peso = document.querySelector("#PesoVivo").value;
-  canal = document.querySelector("#Canal").value;
+  peso = parseFloat(document.querySelector("#PesoVivo").value);
+  canal = parseFloat(document.querySelector("#Canal").value);
   rendimiento = (canal * 100) / peso;
 
   console.log(peso);
@@ -135,8 +134,10 @@ function calcularRendimiento() {
 
   console.log(rendimiento);
 
+  rendimiento = rendimiento.toFixed(2); // 2 decimales
   document.querySelector("#Rendimiento").value = rendimiento;
 }
+
 
 function verCompra(idCompra){
 
@@ -175,8 +176,19 @@ function listarCompra(idCompra) {
          "Compra #" + MisItems["Compra"][0]["Id_Compra"];
        document.querySelector("#Select_Proveedor").value =
          MisItems["Compra"][0]["nombreProveedor"];
-       document.querySelector("#Fecha_Compra").value =
-         MisItems["Compra"][0]["Fecha_compra"];
+
+         // Obtener la fecha en el formato "año-mes-día" desde MisItems
+        var fechaOriginal = MisItems["Compra"][0]["Fecha_compra"];
+
+        // Dividir la fecha en partes (año, mes, día)
+        var partesFecha = fechaOriginal.split("-");
+
+        // Crear una nueva fecha en el formato "mes-dia-año"
+        var fechaFormateada = partesFecha[2] + "-" + partesFecha[1] + "-" + partesFecha[0];
+
+        // Asignar la fecha formateada al campo de texto
+        document.querySelector("#Fecha_Compra").value = fechaFormateada;
+
        document.querySelector("#Total").value = MisItems["Compra"][0]["Total"];
        document.querySelector("#Observacion").value =
          MisItems["Compra"][0]["Observacion"];
@@ -313,14 +325,29 @@ function siguiente1() {
   total = document.querySelector("#Total").value;
   observacion = document.querySelector("#Observacion").value;
 
-   if (
-     proveedor == "" ||
-     fechaCompra == "" ||
-     total == ""
-   ) {
-     swal.fire("Atención", "Todos los campos son obligatorios.", "error");
-     return false;
-   }
+  // Validar que se haya seleccionado un proveedor
+  if (proveedor === "") {
+    Swal.fire({
+        title: 'No ha seleccionado un proveedor',
+        icon: 'error',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Aceptar'
+    });
+    return;
+  }
+
+  // Validar que el total sea un número mayor a 0 con dos decimales después del punto
+  if (!/^\d+(\.\d{1,2})?$/.test(total) || parseFloat(total) <= 0) {
+    Swal.fire({
+        title: 'Total de la compra inválido',
+        text: 'El total debe ser un número válido con hasta dos decimales y mayor a 0.',
+        icon: 'error',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Aceptar'
+    });
+    document.querySelector("#Total").value = ""; 
+    return;
+  }
 
   document.querySelector("#pestaña1").classList.remove("active");
   document.querySelector("#pestaña1").classList.remove("show");
@@ -360,22 +387,79 @@ function AgregarDetalleCompra(){
       canal= $("#Canal").val();
       Rendimiento= $("#Rendimiento").val();
 
+    // Validar que se haya seleccionado un producto
+    if (Producto === "") {
+      Swal.fire({
+          title: 'Seleccione un producto',
+          icon: 'error',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'Aceptar'
+      });
+      return;
+    }
 
+    // Validar que la cantidad sea un número mayor a 0
+    if (!(/^\d+$/.test(Cantidad)) || parseInt(Cantidad) <= 0) {
+      Swal.fire({
+          title: 'Ingrese una cantidad de producto válida',
+          text: 'La cantidad debe ser un número entero mayor a 0.',
+          icon: 'error',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'Aceptar'
+      });
+      document.querySelector("#Cantidad").value = ""; 
+      return;
+    }
 
-  if (
-    Producto == "" ||
-    Cantidad == "" ||
-    Precio_Libra == "" ||
-    especie == "" ||
-    pesoVivo == "" ||
-    canal == "" ||
-    Rendimiento == ""
-  ) {
-    swal.fire("Atención", "Todos los campos son obligatorios.", "error");
-    return false;
-  }
+    // Validar que el precio sea un número mayor a 0 con dos decimales después del punto
+    if (!/^\d+(\.\d{1,2})?$/.test(Precio_Libra) || parseFloat(Precio_Libra) <= 0) {
+      Swal.fire({
+          title: 'Ingrese un precio por libra válido',
+          text: 'El precio debe ser un número válido con hasta dos decimales y mayor a 0.',
+          icon: 'error',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'Aceptar'
+      });
+      document.querySelector("#Precio_Libra").value = ""; 
+      return;
+    }
 
+    // Validar que se haya seleccionado una especie
+    if (especie === "") {
+      Swal.fire({
+          title: 'Seleccione la especie',
+          icon: 'error',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'Aceptar'
+      });
+      return;
+    }
 
+    // Validar que el peso vivo sea un número mayor a 0
+    if (!(/^\d+$/.test(pesoVivo)) || parseInt(pesoVivo) <= 0) {
+      Swal.fire({
+          title:'Peso vivo inválido',
+          text: 'El peso vivo debe ser un número entero mayor a 0.',
+          icon: 'error',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'Aceptar'
+      });
+      document.querySelector("#PesoVivo").value = ""; 
+      return;
+    }
+
+     // Validar que el canal sea un número mayor a 0 con dos decimales después del punto
+     if (!/^\d+(\.\d{1,2})?$/.test(canal) || parseFloat(canal) <= 0) {
+      Swal.fire({
+          title:'Canal inválido',
+          text: 'El canal debe ser un número válido con hasta dos decimales y mayor a 0.',
+          icon: 'error',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'Aceptar'
+      });
+      document.querySelector("#Canal").value = ""; 
+      return;
+    }
 
     var DatosProducto = {
       Producto: $("#Select_Producto").val(),
@@ -536,11 +620,11 @@ function finalizarCompra() {
               /* var imprimir = confirm("¿Desea imprimir la ficha de la compra?"); */
               swal.fire({
                 title: "Ficha de compra",
-                text: "Desea imprimir la ficha de la compra?",
+                text: "¿Desea imprimir la ficha de la compra?",
                 icon: "warning",
                 showCancelButton: true,
-                confirmButtonText: "Si, imprimir!",
-                cancelButtonText: "No, Cancelar!",
+                confirmButtonText: "Sí, imprimir",
+                cancelButtonText: "No, cancelar",
                 closeOnConfirm: false,
                 closeOnCancel: true,
               }).then((result)=>{

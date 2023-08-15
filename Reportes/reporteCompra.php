@@ -36,7 +36,10 @@ $arrCompra=[];
                
               
     $idDetalle=$detalle['Id_Detalle_Compra'];
-    $sql="SELECT `Id_Detalle_Producto_Comprado`,`Especie`,`Peso_vivo`,`Canal`,`Rendimiento` FROM `tbl_detalle_producto_comprado` WHERE `Id_Detalle_Compra`= $idDetalle";          
+    $sql="SELECT dpc.`Id_Detalle_Producto_Comprado`, es.`Nombre_Especie`, dpc.`Peso_vivo`, dpc.`Canal`, dpc.`Rendimiento`
+    FROM `tbl_detalle_producto_comprado` dpc
+    JOIN `tbl_especies` es ON dpc.`Especie` = es.`Id_Especie`
+    WHERE dpc.`Id_Detalle_Compra` = $idDetalle;";          
     $resultado = mysqli_query($conn, $sql);
     $resultado=mysqli_fetch_array($resultado,1);
     

@@ -99,9 +99,9 @@ $_SESSION['time'] = time();
 
                         <div class="sidebar pe-4 pb-3">
                             <nav class="navbar">
-                                <a href="" class="navbar-brand mx-4 mb-3">
-                                    <h2>SIIS</h2>
-                                </a>
+                            <a href="../Formularios/inicio.php" class="navbar-brand mx-4 mb-3">
+                                <h2 class="siis-text">SIIS</h2>
+                            </a>
                                 <div class="navbar-nav w-100">
 
                                 <?php

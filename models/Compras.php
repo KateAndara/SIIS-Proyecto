@@ -4,6 +4,7 @@
         public function get_compras(){              
             $conexion= parent::Conexion();
             parent::set_names();
+            date_default_timezone_set('America/Tegucigalpa'); // Configuración de la zona horaria
             $sql="SELECT c.*, p.Nombre as nombreProveedor FROM  tbl_compras c INNER JOIN tbl_proveedores p on c.Id_Proveedor=p.Id_Proveedor Where c.Cancelada!=1";          
             $sql= $conexion->prepare($sql);
             $sql->execute();

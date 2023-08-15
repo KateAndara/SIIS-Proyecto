@@ -78,18 +78,17 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                                     
                                      </select>
                                     <label for="Fecha">FECHA DE COMPRA</label>
-                                    <input type="date" id="Fecha_Compra" class="form-control" max=<?php $hoy=date("Y-m-d"); echo $hoy;?> pattern="\d{4}/\d{2}/\d{2}">
+                                    <input type="date" id="Fecha_Compra" class="form-control" />
                                     <label for="">TOTAL</label>
-                                    <input type="number" id="Total" class="form-control" placeholder="Ingrese el total de la compra">
-                                    <label for="">FORMA DE PAGO</label>
-                                    
-                                    <input type="text" id="Observacion" class="form-control" placeholder="Ingrese si la compra fue al crédito o contado">
+                                    <input type="number" id="Total" class="form-control" placeholder="Ingrese el total de la compra" autocomplete="off" onpaste="return false;">
+                                    <label for="FormaDePago">FORMA DE PAGO</label>
+                                    <select id="Observacion" class="form-select">
+                                        <option value="Al contado">Al contado</option>
+                                        <option value="Al crédito">Al crédito</option>
+                                    </select>
+
                                     <hr>
                                     
-                            
-                            
-
-                          
                                     <div id="btnagregarNuevaCompra">
                                         <input type="button" id="btnagregarCompra" onclick="siguiente1()" value="Siguiente" class="btn btn-success">
                                         <button class="btn btn-secondary" type="button" onclick="location.href='../Formularios/Compras.php'">
@@ -125,14 +124,14 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                                     <div class="col-6">
                                         <label for="">CANTIDAD</label>
                                        
-                                        <input type="number" id="Cantidad" class="form-control" placeholder="Ingrese ingrese la cantidad del producto">
+                                        <input type="number" id="Cantidad" class="form-control" placeholder="Ingrese la cantidad del producto" autocomplete="off" onpaste="return false;">
                                     </div>
                                 </div>
 
                                 <div class="col-12 mt-2 row">
                                     <div class="col-6">
                                         <label for="">PRECIO LIBRA</label>
-                                        <input type="number" id="Precio_Libra" class="form-control" placeholder="Ingrese ingrese el precio por libra">
+                                        <input type="number" id="Precio_Libra" class="form-control" placeholder="Ingrese el precio por libra" autocomplete="off" onpaste="return false;">
                                     </div>
                                     <div class="col-6">
                                     
@@ -156,19 +155,19 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                                     </div>
                                     <div class="col-6">
                                         <label for="">PESO VIVO</label>
-                                        <input type="number" id="PesoVivo" onkeyup="calcularRendimiento()" class="form-control" placeholder="Ingrese el peso vivo">
+                                        <input type="number" id="PesoVivo" onkeyup="calcularRendimiento()" class="form-control" placeholder="Ingrese el peso vivo" autocomplete="off" onpaste="return false;">
                                     </div>
                                 </div>
 
                                 <div class="col-12 mt-2 row">
                                     <div class="col-6">
                                     <label for="">CANAL</label>
-                                        <input type="number" id="Canal" onkeyup="calcularRendimiento()" class="form-control" placeholder="Ingrese el canal">
+                                        <input type="number" id="Canal" onkeyup="calcularRendimiento()" class="form-control" placeholder="Ingrese el canal" autocomplete="off" onpaste="return false;">
                                     </div>
                                     <div class="col-6">
                                        
                                         <label for="">RENDIMIENTO</label>
-                                        <input type="number" id="Rendimiento" class="form-control" placeholder="Ingrese el rendimiento">
+                                        <input type="number" id="Rendimiento" class="form-control" placeholder="Se calculará el rendimiento" readonly>
                                     </div>
                                 </div>
                                
@@ -247,22 +246,27 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                                 </table>
                             </div>
     
-    <script>
-    // Obtiene la fecha actual en el formato YYYY-MM-DD
-    var today = new Date().toISOString().substr(0, 10);
+        <script>
+            // Evitar que se pueda escribir en el campo de entrada
+            document.getElementById('Fecha_Compra').addEventListener('keydown', function(event) {
+                event.preventDefault();
+            });
 
-    // Establece el valor del campo de fecha al valor actual
-    document.getElementById("Fecha_Compra").value = today;
+            // Obtiene la fecha y hora actual en la zona horaria "America/Tegucigalpa"
+            var now = new Date();
+            var timeZoneOffset = -360; // Offset en minutos para "America/Tegucigalpa"
+            var timeZoneDifference = timeZoneOffset * 60 * 1000; // Convertir minutos a milisegundos
+            var localDateTime = new Date(now.getTime() + timeZoneDifference);
+            
+            // Convierte la fecha y hora local a una cadena en formato "YYYY-MM-DD"
+            var formattedDate = localDateTime.toISOString().split('T')[0];
 
-    // Obtiene el elemento de entrada de fecha
-    var inputFecha = document.getElementById("Fecha_Compra");
+            // Establece el valor del campo de fecha al valor actual en la zona horaria local
+            document.getElementById('Fecha_Compra').value = formattedDate;
 
-    // Obtiene la fecha actual
-    var fechaActual = new Date().toISOString().split("T")[0];
-
-    // Establece el valor máximo de la fecha actual
-    inputFecha.setAttribute("max", fechaActual);
-    </script>
+            // Establece la fecha máxima seleccionable en el campo de entrada de fecha
+            document.getElementById('Fecha_Compra').setAttribute('max', formattedDate);
+     </script>
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 <script src="../JS/Compra.js"></script>

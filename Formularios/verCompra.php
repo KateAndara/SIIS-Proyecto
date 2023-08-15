@@ -63,7 +63,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                                     </div>
                                     <div class="col-6">
                                     <label for="Fecha">FECHA DE COMPRA</label>
-                                    <input disabled type="date" id="Fecha_Compra" class="form-control" max=<?php $hoy=date("Y-m-d"); echo $hoy;?> pattern="\d{4}/\d{2}/\d{2}">
+                                    <input disabled type="text" id="Fecha_Compra" class="form-control" value="<?php echo date('d/m/Y'); ?>" pattern="\d{2}/\d{2}/\d{4}">
                                     </div>
                                 </div>
 
@@ -73,7 +73,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                                         <input disabled type="number" id="Total" class="form-control" placeholder="Ingrese el total de la compra">
                                     </div>
                                     <div class="col-6">
-                                    <label for="">OBSERVACIÓN</label>
+                                    <label for="">FORMA DE PAGO</label>
                                     <input disabled type="text" id="Observacion" class="form-control" placeholder="Ingrese si la compra fue al crédito o contado">
                                     </div>
                                 </div>

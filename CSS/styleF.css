@@ -78,3 +78,6 @@ a.nav-link.dropdown-toggle{ /* Color de letra del menú */
 a.nav-item.nav-link{ /* Color de letra de "Acerca de"*/
     color: rgb(255, 255, 255);
 }
+.siis-text {
+    color: white; 
+}

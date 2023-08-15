@@ -102,12 +102,12 @@
           <td>Proveedor:</td>
           <td><?= $Compra['nombreProveedor'] ?></td>
           <td>Fecha Compra:</td>
-          <td><?= $Compra['Fecha_compra']?></td>
+          <td><?= date('d-m-Y', strtotime($Compra['Fecha_compra'])) ?></td>
       </tr>
       <tr>
           <td class="wd11">Total:</td>
           <td class="wd40"><?= $Compra['Total']?></td>
-          <td class="wd11">Observación:</td>
+          <td class="wd11">Forma de pago:</td>
           <td class="wd40"><?= $Compra['Observacion']?></td>
       </tr>
   </tbody>
@@ -137,7 +137,7 @@
            <td class="wd10 text-center"><?=' '.($producto['Nombre']) ?></td>
            <td class="wd10 text-center"><?= $producto['Cantidad']?></td>
            <td class="wd10 text-right"><?='L. '. $producto['Precio_libra'] ?></td>
-           <td class="wd10 text-right"><?=' '. $producto[0]['Especie'] ?></td>
+           <td class="wd10 text-right"><?=' '. $producto[0]['Nombre_Especie'] ?></td>
            <td class="wd10 text-right"><?=' '. $producto[0]['Peso_vivo'] ?></td>
            <td class="wd10 text-right"><?=' '. $producto[0]['Canal'] ?></td>
            <td class="wd10 text-right"><?=' '. $producto[0]['Rendimiento'] ?></td> 

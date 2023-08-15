@@ -139,7 +139,7 @@
                                         <option value="">Seleccione un estado</option>
                                     </select>
                                     <label for="Fecha">FECHA</label>
-                                    <input type="date" id="Fecha" class="form-control" onkeydown="return false" onblur="this.focus()" />
+                                    <input type="date" id="Fecha" class="form-control" />
                                     <hr>
                                     <div id="btnagregarProcesoProduccion">
                                         <input type="submit" id="btnagregar" onclick="AgregarProcesoProduccion(); document.querySelector('.nav-tabs li:nth-child(2) a').click(); return false;" value="Siguiente" class="btn btn-dark">
@@ -258,21 +258,20 @@
             event.preventDefault();
         });
 
-        // Mantener el foco en el campo de entrada después de perderlo
-        document.getElementById('Fecha').addEventListener('blur', function() {
-            this.focus();
-        });
+        // Obtiene la fecha y hora actual en la zona horaria "America/Tegucigalpa"
+        var now = new Date();
+        var timeZoneOffset = -360; // Offset en minutos para "America/Tegucigalpa"
+        var timeZoneDifference = timeZoneOffset * 60 * 1000; // Convertir minutos a milisegundos
+        var localDateTime = new Date(now.getTime() + timeZoneDifference);
+        
+        // Convierte la fecha y hora local a una cadena en formato "YYYY-MM-DD"
+        var formattedDate = localDateTime.toISOString().split('T')[0];
 
-        // Obtiene la fecha actual en el formato YYYY-MM-DD
-        var today = new Date().toISOString().substr(0, 10);
-        // Establece el valor del campo de fecha al valor actual
-        document.getElementById("Fecha").value = today;
-        // Obtiene el elemento de entrada de fecha
-        var inputFecha = document.getElementById("Fecha");
-        // Obtiene la fecha actual
-        var fechaActual = new Date().toISOString().split("T")[0];
-        // Establece el valor máximo de la fecha actual
-        inputFecha.setAttribute("max", fechaActual);
+        // Establece el valor del campo de fecha al valor actual en la zona horaria local
+        document.getElementById('Fecha').value = formattedDate;
+
+        // Establece la fecha máxima seleccionable en el campo de entrada de fecha
+        document.getElementById('Fecha').setAttribute('max', formattedDate);
     </script>
 
     <script>
