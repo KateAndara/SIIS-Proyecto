@@ -12,10 +12,35 @@
             return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);                
         }
 
+        public function verficaDNI($DNI){   //Buscar por cualquier campo
+            $conectar = parent::Conexion();
+            parent::set_names();
         
+            $sql = "SELECT * FROM tbl_clientes 
+                    WHERE DNI =? && Estado = 'activo'"; 
+            $sql = $conectar->prepare($sql);
+            $sql->bindValue(1, $DNI);
+            $sql->execute();
+        
+            return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+        }
+        public function verficaDNI2($DNI,$idCliente){       //Trae los datos de la fila que se quiere editar.           
+            $conectar = parent::Conexion();
+            parent::set_names();
+        
+            $sql = "SELECT * FROM tbl_clientes 
+                    WHERE DNI =? && Id_Cliente!=? && Estado = 'activo'"; 
+            $sql = $conectar->prepare($sql);
+            $sql->bindValue(1, $DNI);
+            $sql->bindValue(2, $idCliente);
+
+            $sql->execute();
+        
+            return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+        }
         
         public function get_cliente($busqueda){  //Buscar por nombre y id               
-            $conectar = parent::Conexion();
+            $conectar = parent::Conexion(); 
             parent::set_names();
         
             // Verificar si la búsqueda es un número o una cadena

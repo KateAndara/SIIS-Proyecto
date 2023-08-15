@@ -8,8 +8,40 @@ var UrlContactoCliente = 'http://localhost/SIIS-PROYECTO/Formularios/ContactoCli
 
 $(document).ready(function(){
    CargarClientes();
+   fntValidNumberDni();
 });
 
+
+function testEnteroDni(intCant) {
+  var intCantidad = new RegExp(/^([0-9]{13})$/);
+  if (intCantidad.test(intCant)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function testFormatoDni(inputValue) {
+  // Expresión regular para validar el formato "0000-0000-00000"
+  let formatoDniRegex = /^\d{4}-\d{4}-\d{5}$/;
+
+  // Testea si el valor coincide con el formato esperado
+  return formatoDniRegex.test(inputValue);
+}
+
+function fntValidNumberDni() {
+  let validNumberDni = document.querySelectorAll(".validNumberDni");
+  validNumberDni.forEach(function (inputElement) {
+    inputElement.addEventListener("keyup", function () {
+      let inputValue = this.value;
+      if (!testFormatoDni(inputValue)) {
+        this.classList.add("is-invalid");
+      } else {
+        this.classList.remove("is-invalid");
+      }
+    });
+  });
+}
 function CargarClientes(){
     
     $.ajax({
@@ -83,44 +115,61 @@ function AgregarCliente(){
          swal.fire("Atención", "Todos los campos son obligatorios.", "error");
          return false;
       }
+
+      let DNIvalid = document.querySelector("#DNI");
+      if (DNIvalid.classList.contains("is-invalid")) {
+        swal.fire({
+          title: "Atención",
+          html: "El formato del DNI no es válido.<br>Debe ser: 0000-0000-00000",
+          icon: "error"
+        });  
+         return false;
+       }
     var datosCliente = {
     Nombre: $('#Nombre').val(),
     Fecha_nacimiento: $('#Fecha_nacimiento').val(),
     DNI: $('#DNI').val()
     };
     var datosClienteJson= JSON.stringify(datosCliente);
-
     $.ajax({
         url:UrlInsertarClientes,
         type: 'POST',
         data: datosClienteJson,
         datatype: 'JSON',
         contentType: 'application/json',
-        success: function(reponse){
-            console.log(reponse.status);
-              swal.fire({
-                title: "LISTO!",
-                text: reponse.msg,
-                icon: "success",
-                confirmButtonText: "Aceptar",
-                closeOnConfirm: false,
-                timer: 3000,
-                willClose: () => {
-                  window.location.reload();
-                },
-              });
-        },
-
-        error: function(textStatus, errorThrown){
+        
+        success: function (reponse) {
+          if (reponse.status) {
             swal.fire({
-                title: "Error!",
-                text: "Error al guardar el Cargo",
-                icon: "error",
-                confirmButtonText: "Aceptar",
-                closeOnConfirm: false,
-                timer: 4000,
-               
-              });
+              title: "LISTO!",
+              text: reponse.msg,
+              icon: "success",
+              confirmButtonText: "Aceptar",
+              closeOnConfirm: false,
+              timer: 3000,
+              willClose: () => {
+                window.location.reload();
+              },
+            });
+          } else {
+            swal.fire({
+              title: "Error!",
+              text: reponse.msg,
+              icon: "error",
+              confirmButtonText: "Aceptar",
+              closeOnConfirm: false,
+            });
+          }
+        },
+        error: function (textStatus, errorThrown) {
+          Swal.fire({
+            title: "LISTO",
+            text: "Cliente Agregado",
+            icon: "success",
+          }).then(() => {
+            window.location.reload();
+          });
+          
         },
     });
 }
@@ -177,6 +226,16 @@ function ActualizarCliente(IdCliente){
          swal.fire("Atención", "Todos los campos son obligatorios.", "error");
          return false;
       }
+    
+    let DNIvalid = document.querySelector("#DNI");
+    if (DNIvalid.classList.contains("is-invalid")) {
+      swal.fire({
+        title: "Atención",
+        html: "El formato del DNI no es válido.<br>Debe ser: 0000-0000-00000",
+        icon: "error"
+      });  
+       return false;
+     }
     var datosCliente={
     Id_Cliente: IdCliente,
     Nombre: $('#Nombre').val(),
@@ -191,34 +250,39 @@ function ActualizarCliente(IdCliente){
         data: datosClienteJson,
         datatype: 'JSON',
         contentType: 'application/json',
-        success: function(reponse){
-                swal.fire({
-                  title: "LISTO!",
-                  text: reponse.msg,
-                  icon: "success",
-                  confirmButtonText: "Aceptar",
-                  closeOnConfirm: false,
-                  timer: 3000,
-                  willClose: () => {
-                    window.location.reload();
-                  },
-                });
-              
-        },
-
-        error: function(textStatus, errorThrown){
+        success: function (reponse) {
+          if (reponse.status) {
             swal.fire({
-                title: "Error!",
-                text: reponse,
-                icon: "success",
-                confirmButtonText: "Aceptar",
-                closeOnConfirm: false,
-                timer: 3000,
-                willClose: () => {
-                  window.location.reload();
-                },
-              });       
-             },
+              title: "LISTO!",
+              text: reponse.msg,
+              icon: "success",
+              confirmButtonText: "Aceptar",
+              closeOnConfirm: false,
+              timer: 3000,
+              willClose: () => {
+                window.location.reload();
+              },
+            });
+          } else {
+            swal.fire({
+              title: "Error!",
+              text: reponse.msg,
+              icon: "error",
+              confirmButtonText: "Aceptar",
+              closeOnConfirm: false,
+            });
+          }
+        },
+        error: function (textStatus, errorThrown) {
+          Swal.fire({
+            title: "LISTO",
+            text: "Cliente actualizado",
+            icon: "success",
+          }).then(() => {
+            window.location.reload();
+          });
+          
+        },
     });
 }
 

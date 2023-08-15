@@ -155,7 +155,7 @@ date_default_timezone_set('America/Tegucigalpa');
 
                                     <div class="col-6">
                                     <label for="">Fecha Vencimiento</label>
-                                    <input type="date" min=<?php $hoy=date("Y-m-d"); echo $hoy;?> id="date_vencimiento" class="form-control" placeholder="Ingrese el rango actual del talonario">
+                                    <input type="date" min=<?php $hoy=date("Y-m-d"); echo $hoy;?> id="date_vencimiento" class="form-control" placeholder="Ingrese la fecha del talonario">
                                     </div>
                                 </div>
                        
@@ -217,10 +217,10 @@ var slider = document.getElementById("rangeInicial");
 
 
     function validarEntrada(input) { 
-  const patron = /^[0-9-]+$/;
+  const patron = /^[0-9-a-z-A-Z]+$/;
   const valor = input.value;
   if (!patron.test(valor)) {
-    swal.fire('Error','Solo se permiten números del 0 al 9 y guiones', 'error');
+    swal.fire('Error','Solo se permiten números del 0 al 9,guiones y letras ', 'error');
     input.value = input.value.slice(0, -1);
   } else {
   

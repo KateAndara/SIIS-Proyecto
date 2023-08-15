@@ -120,11 +120,11 @@
                     <form class="InsertCliente">
                         <input type="number" id="Id_Cliente" name="Id_Cliente" class="form-control" placeholder="Ingrese el código del cliente"hidden>
                         <label for="">NOMBRE DEL CLIENTE</label>
-                        <input type="text" id="Nombre" onkeyup=" javascript:this.value=this.value.toUpperCase();"  name="Nombre" class="form-control" placeholder="Inrese el nombre del cliente"oninput="validarEntrada(this)">
+                        <input type="text" id="Nombre" onkeyup=" javascript:this.value=this.value.toUpperCase();"  name="Nombre" class="form-control" placeholder="Inrese el nombre del cliente" oninput="validarEntrada(this)">
                         <label for="">FECHA DE NACIMIENTO</label>
                         <input type="date" id="Fecha_nacimiento" name="Fecha_nacimiento" class="form-control">
                         <label for="">DNI</label>
-                        <input type="number" id="DNI" name="DNI"class="form-control"  placeholder="Ingrese el DNI del cliente" oninput="validarEntrada2(this)">
+                        <input type="text" id="DNI" name="DNI" class="form-control valid validNumberDni" autocomplete="off" onpaste="return false;" placeholder="0000-0000-00000" oninput="validarEntrada2(this)">
                         <hr>
                         <div id="btnagregarCliente">
                             <a  id="btnagregar" onclick="AgregarCliente()" value="Agregar Cliente" class="btn btn-success">Agregar Cliente</a>
@@ -159,7 +159,7 @@
 }
 
 function validarEntrada2(input) { 
-
+ 
 const patron = /^[0-9 -]+$/;
 const valor = input.value;
 if (!patron.test(valor)) {
