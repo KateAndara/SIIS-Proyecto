@@ -134,7 +134,7 @@
                         <input id="Select_Cliente" type="text" class="form-control" value="<?php echo isset($_GET['id']) ? $_GET['id'] : 'null'; ?>" readonly>
 
                         <label for="">CONTACTO</label>
-                        <input type="text" id="Contacto" class="form-control js-example-basic-single"  placeholder="Ingrese ingrese la información del contacto" oninput="validarEntrada(this)" >
+                        <input type="text" id="Contacto" class="form-control js-example-basic-single"  placeholder="Ingrese la información del contacto" oninput="validarEntrada(this)" >
                         <hr>
                         <div id="btnagregarContactoCliente">
                             <a id="btnagregar" onclick="AgregarContactoClienteMM()" value="Agregar Contacto Del Cliente" class="btn btn-success">Agregar Contacto Del Cliente</a>
