@@ -746,10 +746,6 @@ function siguiente1() {
   }
 
   function siguiente2() {
-
-    Producto = document.querySelector("#Select_Producto").value;
-    Precio = document.querySelector("#Precio").value;
-    Cantidad = document.querySelector("#Cantidad").value;
   
     document.querySelector("#pestaña2").classList.remove("active");
     document.querySelector("#pestaña2").classList.remove("show");
