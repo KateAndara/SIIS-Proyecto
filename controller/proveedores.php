@@ -47,19 +47,8 @@ session_start();
                     //unimos los botontes
                     $datos[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
 
-
                 }
-                //Bitácora
-
-                $varsesion = $_SESSION['usuario'];
-                $Id_Usuario = intval($proveedores->get_user($varsesion));
-
-                if (!isset($_SESSION['ingreso_registrado_pantalla_proveedores'])) {
-                    $proveedores->registrar_bitacora($Id_Usuario, 30,  'Ingresar', 'Se ingresó a la pantalla de proveedores ');
-
-                    // Marcar que el ingreso ha sido registrado para esta pantalla de ventas
-                    $_SESSION['ingreso_registrado_pantalla_proveedores'] = true;
-                }
+                
                 echo json_encode($datos);
             break;
             case "GetProveedor": //Buscar por cualquier campo 
@@ -79,18 +68,41 @@ session_start();
                 echo json_encode($datos);
             break;
             case "InsertProveedor":
-                $datos=$proveedores->insert_proveedor($body["Nombre"],$body["RTN"]);
+                $RTN=$body['RTN'];
+
+                $selectDNI=$proveedores->verficaDNI($RTN);
+
+                if (count($selectDNI)>0) {
+                    $arrResponse = array("status" => false, "msg" => 'RTN ya existente. Verifique nuevamente');
+                }else{
+                    $datos=$proveedores->insert_proveedor($body["Nombre"],$body["RTN"]);
+                    $arrResponse = array("status" => true, "msg" => 'Se agregó el proveedor');
+                }
+
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE); 
+
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($proveedores->get_user($varsesion));
                 $proveedores->registrar_bitacora($Id_Usuario, 30, 'Insertar', 'Se insertó un nuevo proveedor con nombre: '.$body["Nombre"]);
-                echo json_encode("Se agregó el proveedor");
             break;
             case "UpdateProveedor":
-                $datos=$proveedores->update_proveedor($body["Id_Proveedor"],$body["Nombre"],$body["RTN"]);
+                $nombre=$body['Nombre'];
+                $RTN=$body['RTN'];
+                $idProveedor=$body['Id_Proveedor'];
+               
+                $selectDNI=$proveedores->verficaDNI2($RTN,$idProveedor);
+                
+                if ($selectDNI) {
+                    $arrResponse = array("status" => false, "msg" => 'RTN ya existente. Verifique nuevamente');
+                }else{
+                    $datos=$proveedores->update_proveedor($body["Id_Proveedor"],$body["Nombre"],$body["RTN"]);
+                    $arrResponse = array("status" => true, "msg" => 'Proveedor actualizado correctamente');
+                }
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE); 
+
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($proveedores->get_user($varsesion));
                 $proveedores->registrar_bitacora($Id_Usuario, 30, 'Actualizar', 'Se actualizó el proveedor: '.$body["Nombre"] .' con RTN: '.$body["RTN"]);
-                echo json_encode("Proveedor Actualizado");
             break;
             case "DeleteProveedor":
                 $Id_Proveedor = $body["Id_Proveedor"];
@@ -104,3 +116,5 @@ session_start();
         }
 
 ?>   
+
+

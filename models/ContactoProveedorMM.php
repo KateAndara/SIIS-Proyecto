@@ -170,7 +170,14 @@
         public function get_Proveedores(){    
             $conexion= parent::Conexion();
             parent::set_names();
-            $sql="SELECT * FROM tbl_proveedores WHERE Estado = 'activo'";          
+            
+            $sql ="SELECT t1.*, t2.Nombre
+            FROM tbl_proveedores_contacto t1                              
+            JOIN tbl_proveedores t2 ON t1.Id_Proveedor = t2.Id_Proveedor 
+            WHERE t1.Id_Proveedor = :id_proveedor AND t1.Estado = 'activo'";
+            $sql = $conectar->prepare($sql);
+            $sql->bindValue(':id_proveedor',$id_proveedor);
+
             $sql= $conexion->prepare($sql);
             $sql->execute();
             return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);

@@ -9,6 +9,32 @@
             $sql->execute();
             return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
         }
+        public function verficaDNI($RTN){   //Buscar por cualquier campo
+            $conectar = parent::Conexion();
+            parent::set_names();
+        
+            $sql = "SELECT * FROM tbl_proveedores 
+                    WHERE RTN =? && Estado = 'activo'"; 
+            $sql = $conectar->prepare($sql);
+            $sql->bindValue(1, $RTN);
+            $sql->execute();
+        
+            return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+        }
+        public function verficaDNI2($RTN,$idProveedor){       //Trae los datos de la fila que se quiere editar.           
+            $conectar = parent::Conexion();
+            parent::set_names();
+        
+            $sql = "SELECT * FROM tbl_proveedores 
+                    WHERE RTN =? && Id_Proveedor!=? && Estado = 'activo'"; 
+            $sql = $conectar->prepare($sql);
+            $sql->bindValue(1, $RTN);
+            $sql->bindValue(2, $idProveedor);
+
+            $sql->execute();
+        
+            return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+        }
         public function registrar_bitacora($id_usuario, $id_objeto, $accion, $descripcion){
             $conexion= parent::Conexion();
             parent::set_names();

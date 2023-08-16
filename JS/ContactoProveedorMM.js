@@ -31,6 +31,13 @@ console.log(datosProveedor);
         datatype: 'JSON',
         success: function(reponse){
             var MisItems = reponse;
+            var secuencia = 1; // Agregar una variable para la secuencia de números
+            
+            // Recorrer los datos y agregar la secuencia de números
+            for (i = 0; i < MisItems.length; i++) {
+                MisItems[i].Numero = secuencia;
+                secuencia++;
+            }
             // Si la tabla ya ha sido inicializada previamente, destruye la instancia
             if ($.fn.DataTable.isDataTable('#TablaContactoProveedores')) {
                 $('#TablaContactoProveedores').DataTable().destroy();
@@ -42,7 +49,7 @@ console.log(datosProveedor);
                    url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json",
                  },
                  columns: [
-                   { data: "Id_Proveedores_Contacto" },
+                   { data: "Numero" },
                    { data: "Nombre_tipo_contacto" },
                    { data: "Nombre" },
                    { data: "Contacto" },
@@ -126,7 +133,7 @@ function CargarContactoProveedorMM(idContacto){ //Función que trae los campos q
         success: function(reponse){
             var MisItems = reponse;
             //Muestra el id junto con su título que se encuentra oculto en el Agregar.
-            $('#Id_Proveedores_Contacto').removeAttr('hidden'); // ID
+            document.getElementById('Id_Proveedores_Contacto').style.display = 'none';
             $('label[for="Id_Proveedores_Contacto"]').removeAttr('hidden'); //Título
         
             $('#Id_Proveedores_Contacto').val(MisItems[0].Id_Proveedores_Contacto).prop('readonly', true);  // Propiedad para que no se pueda modificar el campo.
@@ -279,6 +286,7 @@ function CargarProveedores(){
             for(i=0; i<MisItems.length; i++){ //Muestra Id y nombre
                 opciones += '<option value="' + MisItems[i].Id_Proveedor + '">' + ' ID ' + MisItems[i].Id_Proveedor + ' - ' + MisItems[i].Nombre + '</option>';
             }
+            
             $('#Select_Proveedor').html(opciones);
         }
     });

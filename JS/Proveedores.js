@@ -8,7 +8,39 @@ var UrlContactoProveedor = 'http://localhost/SIIS-PROYECTO/Formularios/ContactoP
 
 $(document).ready(function(){
    CargarProveedores();
+   fntValidNumberDni();
 });
+
+function testEnteroDni(intCant) {
+  var intCantidad = new RegExp(/^([0-9]{14})$/);
+  if (intCantidad.test(intCant)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function testFormatoDni(inputValue) {
+  // Expresión regular para validar el formato "0000-0000-00000"
+  let formatoDniRegex = /^\d{4}-\d{4}-\d{6}$/;
+
+  // Testea si el valor coincide con el formato esperado
+  return formatoDniRegex.test(inputValue);
+}
+
+function fntValidNumberDni() {
+  let validNumberDni = document.querySelectorAll(".validNumberDni");
+  validNumberDni.forEach(function (inputElement) {
+    inputElement.addEventListener("keyup", function () {
+      let inputValue = this.value;
+      if (!testFormatoDni(inputValue)) {
+        this.classList.add("is-invalid");
+      } else {
+        this.classList.remove("is-invalid");
+      }
+    });
+  });
+}
 
 function CargarProveedores(){
     
@@ -65,64 +97,38 @@ function CargarProveedores(){
        });
    }
 
-/*
-function BuscarProveedor(NombreProveedor){
-    var datosProveedor = {
-        Nombre: isNaN(NombreProveedor) ? NombreProveedor : null,
-        Id_Proveedor: isNaN(NombreProveedor) ? null : parseInt(NombreProveedor),
-        RTN:isNaN(NombreProveedor) ? null : parseInt(NombreProveedor)
-    };
-    var datosProveedorJson = JSON.stringify(datosProveedor);
-
-    $.ajax({
-        url: UrlProveedor,
-        type: 'POST',
-        data: datosProveedorJson,
-        datatype: 'JSON',
-        contentType: 'application/json',
-        success: function(reponse){
-            var MisItems = reponse;
-            var Valores='';
-            
-            for(i=0; i<MisItems.length; i++){
-                Valores+= '<tr>'+
-                '<td>'+ MisItems[i].Id_Proveedor +'</td>'+
-                '<td>'+ MisItems[i].Nombre +'</td>'+
-                '<td>'+ MisItems[i].RTN +'</td>'+
-                '<td>'+ 
-                '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick=" CargarProveedor('+MisItems[i].Id_Proveedor +'); mostrarFormulario();">Editar</button>'+ 
-                '<button class="rounded" style="background-color: #D6234A; color: white; display: inline-block; width: 67px;"  onclick="EliminarProveedor('+MisItems[i].Id_Proveedor +')">Eliminar</button>'+
-                '</td>'+
-            '</tr>';
-            }
-            $('#DataProveedores').html(Valores);
-        }
-    });
-}*/
-
 function CargarContactoProveedor(Id_Proveedor) {
     window.location.href = UrlContactoProveedor + Id_Proveedor;
 }
   
 
 function AgregarProveedor() {
-    var Nombre = $('#Nombre').val();
-    var RTN = $('#RTN').val();
-    //Permitir letras y espacios
-    var patron = /^[a-zA-ZáéíóúÁÉÍÓÚ\s]+$/;
+    nombre=document.querySelector("#Nombre").value;
+    rtn=document.querySelector("#RTN").value;
+   
+    console.log(nombre);
+    console.log(rtn);
+
     //validar que no hayan campos vacíos 
-    if (Nombre.trim() == "" || RTN.trim() == "") {
-        alert("Por favor, complete todos los campos.");
-        return false;
-    } else if (!patron.test(Nombre)) {
-        alert("Por favor, ingrese solo letras y espacios en los campos.");
-        return false;
-    }
+
+    if ( nombre == "" ||rtn == "") {
+      swal.fire("Atención", "Todos los campos son obligatorios.", "error");
+      return false;
+    } 
+    let DNIvalid = document.querySelector("#RTN");
+      if (DNIvalid.classList.contains("is-invalid")) {
+        swal.fire({
+          title: "Atención",
+          html: "El formato del RTN no es válido.<br>Debe ser: 0000-0000-000000",
+          icon: "error"
+        });  
+         return false;
+       }
 
     var datosProveedor = {
-        Nombre: Nombre,
-        RTN: RTN
-    };
+      Nombre: $('#Nombre').val(),
+      RTN: $('#RTN').val()
+      };
 
     var datosProveedorJson = JSON.stringify(datosProveedor);
 
@@ -132,31 +138,40 @@ function AgregarProveedor() {
         data: datosProveedorJson,
         datatype: 'JSON',
         contentType: 'application/json',
-        success: function(reponse){
-            console.log(reponse.status);
-              swal.fire({
-                title: "LISTO!",
-                text: reponse.msg,
-                icon: "success",
-                confirmButtonText: "Aceptar",
-                closeOnConfirm: false,
-                timer: 3000,
-                willClose: () => {
-                  window.location.reload();
-                },
-              });
+
+        success: function (reponse) {
+          if (reponse.status) {
+            swal.fire({
+              title: "LISTO!",
+              text: reponse.msg,
+              icon: "success",
+              confirmButtonText: "Aceptar",
+              closeOnConfirm: false,
+              timer: 3000,
+              willClose: () => {
+                window.location.reload();
+              },
+            });
+          } else {
+            swal.fire({
+              title: "Error!",
+              text: reponse.msg,
+              icon: "error",
+              confirmButtonText: "Aceptar",
+              closeOnConfirm: false,
+            });
+          }
         },
 
-        error: function(textStatus, errorThrown){
-            swal.fire({
-                title: "Error!",
-                text: "Error al guardar el proveedor",
-                icon: "error",
-                confirmButtonText: "Aceptar",
-                closeOnConfirm: false,
-                timer: 4000,
-               
-              });
+        error: function (textStatus, errorThrown) {
+          Swal.fire({
+            title: "LISTO",
+            text: "Proveedor Agregado",
+            icon: "success",
+          }).then(() => {
+            window.location.reload();
+          });
+          
         },
     });
 }
@@ -176,7 +191,7 @@ function CargarProveedor(idProveedor){ //Función que trae los campos que se eli
         success: function(reponse){
             var MisItems = reponse;
             //Muestra el id junto con su título que se encuentra oculto en el Agregar.
-            $('#Id_Proveedor').removeAttr('hidden'); // ID
+            document.getElementById('Id_Proveedor').style.display = 'none';
             $('label[for="Id_Proveedor"]').removeAttr('hidden'); //Título
         
             $('#Id_Proveedor').val(MisItems[0].Id_Proveedor).prop('readonly', true);  // Propiedad para que no se pueda modificar el campo.
@@ -213,11 +228,21 @@ function ActualizarProveedor(idProveedor){
         alert('Por favor utiliza solo letras y espacios');
         return;
     }
+
+    let DNIvalid = document.querySelector("#RTN");
+      if (DNIvalid.classList.contains("is-invalid")) {
+        swal.fire({
+          title: "Atención",
+          html: "El formato del RTN no es válido.<br>Debe ser: 0000-0000-000000",
+          icon: "error"
+        });  
+         return false;
+       }
     
     var datosProveedor = {
         Id_Proveedor: idProveedor,
-        Nombre: nombre,
-        RTN: rtn
+        Nombre: $('#Nombre').val(),
+        RTN: $('#RTN').val()
     };
     var datosProveedorJson = JSON.stringify(datosProveedor);
 
@@ -227,34 +252,29 @@ function ActualizarProveedor(idProveedor){
         data: datosProveedorJson,
         datatype: 'JSON',
         contentType: 'application/json',
-        success: function(reponse){
-                swal.fire({
-                  title: "LISTO!",
-                  text: reponse.msg,
-                  icon: "success",
-                  confirmButtonText: "Aceptar",
-                  closeOnConfirm: false,
-                  timer: 3000,
-                  willClose: () => {
-                    window.location.reload();
-                  },
-                });
-              
-        },
-
-        error: function(textStatus, errorThrown){
+        success: function (reponse) {
+          if (reponse.status) {
             swal.fire({
-                title: "Error!",
-                text: reponse,
-                icon: "success",
-                confirmButtonText: "Aceptar",
-                closeOnConfirm: false,
-                timer: 3000,
-                willClose: () => {
-                  window.location.reload();
-                },
-              });       
-             },
+              title: "LISTO!",
+              text: reponse.msg,
+              icon: "success",
+              confirmButtonText: "Aceptar",
+              closeOnConfirm: false,
+              timer: 3000,
+              willClose: () => {
+                window.location.reload();
+              },
+            });
+          } else {
+            swal.fire({
+              title: "Error!",
+              text: reponse.msg,
+              icon: "error",
+              confirmButtonText: "Aceptar",
+              closeOnConfirm: false,
+            });
+          }
+        },
     });
 }
 

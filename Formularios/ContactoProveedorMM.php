@@ -93,7 +93,7 @@
                     <table class="table table-hover" id="TablaContactoProveedores">
                         <thead>
                             <tr>
-                                <th>ID CONTACTO PROVEEDOR </th>
+                                <th>N° </th>
                                 <th>TIPO DE CONTACTO</th>
                                 <th>PROVEEDOR</th>
                                 <th>CONTACTO</th>
@@ -123,7 +123,6 @@
                 </div>
                 <div class="col-12">
                     <form class="InsertContactoProveedor">
-                        <label for="Id_Proveedores_Contacto" hidden>ID CONTACTO DEL PROVEEDOR</label>
                         <input type="number" id="Id_Proveedores_Contacto" class="form-control" placeholder="Ingrese el código del contacto del proveedor"hidden>
                         <label for="">SELECCIONE UN TIPO DE PROVEEDOR</label> 
                         <select id="Select_Contacto" class="form-control">

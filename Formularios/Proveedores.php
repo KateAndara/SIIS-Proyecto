@@ -113,17 +113,14 @@
                 </div>
                 <div class="col-12">
                     <form class="InsertProveedor" >
-                        <label for="Id_Proveedor" hidden>ID PROVEEDOR</label>
                         <input type="number" id="Id_Proveedor" class="form-control" placeholder="Ingrese el código del proveedor"hidden>
                         <label for="">NOMBRE</label>
-                        <input type="text" id="Nombre" class="form-control" placeholder="Ingrese el nombre del proveedor" onkeyup=" javascript:this.value=this.value.toUpperCase();"oninput="validarEntrada(this)" >
+                        <input type="text" id="Nombre" onkeyup=" javascript:this.value=this.value.toUpperCase();"  name="Nombre" class="form-control" placeholder="Inrese el nombre del proveedor" oninput="validarEntrada(this)" autocomplete="off" onpaste="return false;">
                         <label for="RTN">RTN</label>
-                                    <input type="number" id="RTN" class="form-control" placeholder="ejem: 08011990100114" maxlength="14" oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value.length > 14) this.value = this.value.slice(0, 14);">
-                                    <small id="rtnValidationMessage" class="text-danger"></small>
-                        
+                        <input type="text" id="RTN" name="RTN" class="form-control valid validNumberDni" autocomplete="off" onpaste="return false;" placeholder="0000-0000-000000" oninput="validarEntrada2(this)">
                         <hr>
                         <div id="btnagregarProveedor">
-                            <input type="submit" id="btnagregar" onclick="AgregarProveedor()" value="Agregar Proveedor" class="btn btn-success">
+                            <a  id="btnagregar" onclick="AgregarProveedor()" value="Agregar Proveedor" class="btn btn-success">Agregar Proveedor</a>
                             <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button>
                         </div>
                     </form>
