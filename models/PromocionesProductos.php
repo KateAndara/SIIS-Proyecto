@@ -81,6 +81,61 @@
             $sql->execute();
             return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
         }
+
+        public function registrar_bitacora($id_usuario, $id_objeto, $accion, $descripcion){
+            $conexion= parent::Conexion();
+            parent::set_names();
+            
+            $sql="INSERT INTO tbl_ms_bitacora (Id_Usuario, Id_Objeto, Fecha, Accion, Descripcion) 
+                  VALUES (:id_usuario, :id_objeto, :fecha, :accion, :descripcion)";
+            $stmt= $conexion->prepare($sql);
+            $fecha = date("Y-m-d H:i:s");
+            $stmt->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
+            $stmt->bindParam(":id_objeto", $id_objeto, PDO::PARAM_INT);
+            $stmt->bindParam(":fecha", $fecha, PDO::PARAM_STR);
+            $stmt->bindParam(":accion", $accion, PDO::PARAM_STR);
+            $stmt->bindParam(":descripcion", $descripcion, PDO::PARAM_STR);
+            $stmt->execute();
+        }
+        public function get_user($user){
+            $conexion = parent::Conexion();
+            parent::set_names();
+            $sql = "SELECT Id_Usuario FROM tbl_ms_usuarios WHERE Usuario = ?";
+            $stmt = $conexion->prepare($sql);
+            if ($stmt) {
+                $stmt->bindValue(1, $user, PDO::PARAM_STR);
+                $stmt->execute();
+                $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+                return $resultado['Id_Usuario'];
+            } else {
+                return null;
+            }
+        }
+        function obtenerNombrePromocion($idPromocion) {
+            // Aquí realizas la consulta a la base de datos para obtener el nombre de la promoción
+            $conexion = parent::Conexion();
+            $sql = "SELECT Nombre_Promocion FROM tbl_promociones WHERE Id_Promocion = :idPromocion";
+            $stmt = $conexion->prepare($sql);
+            $stmt->bindParam(':idPromocion', $idPromocion, PDO::PARAM_INT);
+            $stmt->execute();
+            
+            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            return $resultado['Nombre_Promocion'];
+        }
+        
+        function obtenerNombreProducto($idProducto) {
+            // Aquí realizas la consulta a la base de datos para obtener el nombre del producto
+            $conexion = parent::Conexion();
+            $sql = "SELECT Nombre FROM tbl_productos WHERE Id_Producto = :idProducto";
+            $stmt = $conexion->prepare($sql);
+            $stmt->bindParam(':idProducto', $idProducto, PDO::PARAM_INT);
+            $stmt->execute();
+            
+            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            return $resultado['Nombre'];
+        }
         
     }
 ?>

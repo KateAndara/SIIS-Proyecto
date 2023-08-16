@@ -38,6 +38,9 @@
             case "CancelarProcesoProduccion":
                 $idProceso=$body['idProceso'];
                 $datos=$productosTerminadosFinal->cancelarProcesoProduccion($idProceso);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($productosTerminadosFinal->get_user($varsesion));
+                $productosTerminadosFinal->registrar_bitacora($Id_Usuario, 32, 'Eliminar', 'Se canceló el proceso de producción N° '.$body['idProceso']);
                 echo json_encode($datos);
             break;
         }

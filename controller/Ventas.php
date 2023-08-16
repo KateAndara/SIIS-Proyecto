@@ -52,6 +52,18 @@
                     
                     //unimos los botontes
                     $datos[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
+                    //Bitácora
+                    $varsesion = $_SESSION['usuario'];
+                    $Id_Usuario = intval($ventas->get_user($varsesion));
+                    
+                    if (!isset($_SESSION['ingreso_registrado_pantalla_ventas'])) {
+                        // Registrar el ingreso a la pantalla de ventas
+                        $ventas->registrar_bitacora($Id_Usuario, 24, 'Ingresar', 'Se ingresó a la pantalla de ventas');
+                    
+                        // Marcar que el ingreso ha sido registrado para esta pantalla de ventas
+                        $_SESSION['ingreso_registrado_pantalla_ventas'] = true;
+                    }
+    
 
                 }
                
@@ -333,7 +345,7 @@
 
             case "finalVenta":
           
-            
+
                 $idCliente=$body['idCliente'];
                 $idDescuento=$body['idDescuento'];
                 $Porcentaje=$body['Porcentaje'];
@@ -474,8 +486,8 @@
                                                         
                 }
                 $varsesion = $_SESSION['usuario'];
-                $Id_Usuario = intval($compras->get_user($varsesion)); 
-                $compras->registrar_bitacora($Id_Usuario, 24, 'Insertar', 'Se agregó la venta N° ' . $idVenta .' el '.$body['fechaCompra'].', con un total de: '.$body['total'].', con la forma de pago: '.$body['observacion']);
+                $Id_Usuario = intval($ventas->get_user($varsesion)); 
+                $ventas->registrar_bitacora($Id_Usuario, 24, 'Insertar', 'Se agregó la venta N° ' . $idVenta .', con un subtotal de: '.$body['Subtotal'].' y un impuesto de '.$body['Impuesto']. ' siendo un total de: '.$body['Total']);
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);
             break;
             case "getVentaListar":

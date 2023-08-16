@@ -118,8 +118,9 @@
                         <input type="text" id="Pregunta" class="form-control" placeholder="Ingrese la pregunta"onkeyup="this.value=this.value.toUpperCase()"oninput="validarPregunta(this)">
                         <hr>
                         <div id="btnagregarPregunta">
-                            <input type="submit" id="btnagregar" onclick="AgregarPregunta()" value="Agregar Pregunta" class="btn btn-success">
-                            <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button>
+                        <a id="btnagregar" onclick="AgregarPregunta()" value="Agregar Pregunta" class="btn btn-success">Agregar Pregunta</a>
+ 
+                        <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button>
                         </div>
                     </form>
                     <script> //Cancela la acción

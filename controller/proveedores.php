@@ -49,7 +49,17 @@ session_start();
 
 
                 }
-                
+                //Bitácora
+
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($proveedores->get_user($varsesion));
+
+                if (!isset($_SESSION['ingreso_registrado_pantalla_proveedores'])) {
+                    $proveedores->registrar_bitacora($Id_Usuario, 30,  'Ingresar', 'Se ingresó a la pantalla de proveedores ');
+
+                    // Marcar que el ingreso ha sido registrado para esta pantalla de ventas
+                    $_SESSION['ingreso_registrado_pantalla_proveedores'] = true;
+                }
                 echo json_encode($datos);
             break;
             case "GetProveedor": //Buscar por cualquier campo 

@@ -197,7 +197,9 @@ function getModal(string $nameModal, $data)
                         <input type="text" id="Descripcion" class="form-control" placeholder="Ingrese la descripción del rol"onkeyup="this.value=this.value.toUpperCase()"oninput="validarEntrada(this)">
                         <hr>
                         <div id="btnagregarRol">
-                            <input type="submit" id="btnagregar" onclick="AgregarRol()" value="Agregar Rol" class="btn btn-success">
+                            <!--<input type="submit" id="btnagregar" onclick="AgregarRol()" value="Agregar Rol" class="btn btn-success">-->
+                            <a id="btnagregar" onclick="AgregarRol()" value="Agregar Rol" class="btn btn-success">Agregar Rol</a>
+
                             <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button>
                         </div>
                     </form>

@@ -46,7 +46,17 @@ session_start();
                     $datos[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
 
                 }
+                //Bitácora
 
+                $varsesion = $_SESSION['usuario'];
+                    $Id_Usuario = intval($contactosClientesMM->get_user($varsesion));
+
+                if (!isset($_SESSION['ingreso_registrado_pantalla_contactosC'])) {
+                    $contactosClientesMM->registrar_bitacora($Id_Usuario, 47, 'Ingresar', 'Se ingresó a la pantalla de contactos de clientes ');
+
+                    // Marcar que el ingreso ha sido registrado para esta pantalla de ventas
+                    $_SESSION['ingreso_registrado_pantalla_contactosC'] = true;
+                }
                 echo json_encode($datos);
             break;
             case "GetContactoClienteMM": //Buscar por cualquier campo 

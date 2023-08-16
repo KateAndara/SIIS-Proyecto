@@ -45,7 +45,17 @@ session_start();
 
                 }
 
-               
+               //Bitácora
+
+               $varsesion = $_SESSION['usuario'];
+               $Id_Usuario = intval($Parametros->get_user($varsesion));
+
+               if (!isset($_SESSION['ingreso_registrado_pantalla_parametros'])) {
+                $Parametros->registrar_bitacora($Id_Usuario, 40,  'Ingresar', 'Se ingresó a la pantalla de parámetros ');
+
+                   // Marcar que el ingreso ha sido registrado para esta pantalla de ventas
+                   $_SESSION['ingreso_registrado_pantalla_parametros'] = true;
+               }
                 echo json_encode($datos);
             break;
             case "GetParametro":

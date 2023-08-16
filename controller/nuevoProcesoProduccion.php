@@ -22,6 +22,9 @@
 
             case "InsertProcesoProduccion":
                 $datos=$proceso->insert_procesoProduccion($body["Id_Estado_Proceso"],$body["Fecha"]);
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($proceso->get_user($varsesion));
+                $proceso->registrar_bitacora($Id_Usuario, 32, 'Insertar', 'Se realizó un proceso de producción');
                 echo json_encode("Se agregó el proceso");
             break;
 

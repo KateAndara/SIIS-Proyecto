@@ -78,7 +78,16 @@ $enviroment=0;
 
                 }
 
+                 //Bitácora
+                 $varsesion = $_SESSION['usuario'];
+                 $Id_Usuario = intval($usuarios->get_user($varsesion));
 
+               if (!isset($_SESSION['ingreso_registrado_pantalla_usuarios'])) {
+                $usuarios->registrar_bitacora($Id_Usuario, 36,  'Ingresar', 'Se ingresó a la pantalla de usuarios ');
+
+                   // Marcar que el ingreso ha sido registrado para esta pantalla de ventas
+                   $_SESSION['ingreso_registrado_pantalla_usuarios'] = true;
+               }
                
                 echo json_encode($datos);
             break;

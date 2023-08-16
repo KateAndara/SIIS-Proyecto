@@ -1,4 +1,5 @@
 <?php
+session_start();
     if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
         header('Access-Control-Allow-Origin: *');
         header('Access-Control-Allow-Methods: POST, GET, DELETE, PUT, PATCH, OPTIONS');
@@ -22,9 +23,20 @@
 
             case "GetPromocionesApli":
                 $datos=$promocionesapli->get_promocionesapli();
+                //Bitácora
+
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($promocionesapli->get_user($varsesion));
+
+                if (!isset($_SESSION['ingreso_registrado_pantalla_descuentos'])) {
+                    $promocionesapli->registrar_bitacora($Id_Usuario, 56,  'Ingresar', 'Se ingresó a la pantalla de promociones en ventas ');
+
+                    // Marcar que el ingreso ha sido registrado para esta pantalla de ventas
+                    $_SESSION['ingreso_registrado_pantalla_descuentos'] = true;
+                }
                 echo json_encode($datos);
             break;
-            
+                
         }
 
 ?>   

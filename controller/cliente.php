@@ -46,7 +46,17 @@ session_start();
                     //unimos los botontes
                     $datos[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
                 }
+                    //Bitácora
 
+                    $varsesion = $_SESSION['usuario'];
+                     $Id_Usuario = intval($clientes->get_user($varsesion));
+
+                    if (!isset($_SESSION['ingreso_registrado_pantalla_clientes'])) {
+                        $clientes->registrar_bitacora($Id_Usuario, 28,  'Ingresar', 'Se ingresó a la pantalla de clientes ');
+
+                        // Marcar que el ingreso ha sido registrado para esta pantalla de ventas
+                        $_SESSION['ingreso_registrado_pantalla_clientes'] = true;
+                    }
                 echo json_encode($datos);
                 
 

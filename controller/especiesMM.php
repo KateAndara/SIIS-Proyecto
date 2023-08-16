@@ -51,7 +51,17 @@
 
                 }
 
-                
+                //Bitácora
+
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($especiesMM->get_user($varsesion));
+
+                if (!isset($_SESSION['ingreso_registrado_pantalla_especies'])) {
+                    $especiesMM->registrar_bitacora($Id_Usuario, 53,  'Ingresar', 'Se ingresó a la pantalla de especies ');
+
+                    // Marcar que el ingreso ha sido registrado para esta pantalla de ventas
+                    $_SESSION['ingreso_registrado_pantalla_especies'] = true;
+                }
                 echo json_encode($datos);
             break;
             case "GetEspecieMM": //Buscar por cualquier campo 

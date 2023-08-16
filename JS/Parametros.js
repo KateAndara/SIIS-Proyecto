@@ -134,8 +134,8 @@ function CargarParametro(idParametro){ //Función que trae los campos que se eli
             $('#Parametro').val(MisItems[0].Parametro).prop('readonly', true); ;
             $('#Valor').val(MisItems[0].Valor);
             //Usar el mismo botón de agregar con la funcionalidad de actualizar.
-            var btnactualizar = '<input type="submit" id="btn_actualizar" onclick="ActualizarParametro(' +MisItems[0].Id_Parametro+')"'+
-            'value="Actualizar Parámetro" class="btn btn-primary"> <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button></input>';
+            var btnactualizar = '<a id="btn_actualizar" onclick="ActualizarParametro(' +MisItems[0].Id_Parametro+')"'+
+            'value="Actualizar Parámetro" class="btn btn-primary"> Actualizar Parámetro</a> <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button></input>';
             $('#btnagregarParametro').html(btnactualizar);
             $('#btncancelar').click(function(){ //Cancela la acción
                 location.href = "http://localhost/SIIS-PROYECTO/Formularios/Parametros.php";
@@ -150,13 +150,18 @@ function CargarParametro(idParametro){ //Función que trae los campos que se eli
 
 function ActualizarParametro(idParametro){
     if ($('#Parametro').val() == '' || $('#Valor').val() == '') {
-        alert('No se permiten campos vacíos');
+        swal.fire({
+            title: "Campos Vacíos",
+            text: "No se permiten campos vacíos.",
+            icon: "warning"
+        });
         return;
     }
-    var datosParametro={
-    Id_Parametro: idParametro,
-    Parametro: $('#Parametro').val(),
-    Valor: $('#Valor').val()
+    
+    var datosParametro = {
+        Id_Parametro: idParametro,
+        Parametro: $('#Parametro').val(),
+        Valor: $('#Valor').val()
     };
     var datosParametroJson = JSON.stringify(datosParametro);
 
@@ -166,17 +171,26 @@ function ActualizarParametro(idParametro){
         data: datosParametroJson,
         datatype: 'JSON',
         contentType: 'application/json',
-        success: function(reponse){
-            console.log(reponse);
-            alert('Parámetro Actualizado');
+        success: function(response){
+            console.log(response);
+            swal.fire({
+                title: "Éxito",
+                text: "Parámetro actualizado correctamente.",
+                icon: "success"
+            }).then(function() {
+                location.reload();
+            });
         },
-
         error: function(textStatus, errorThrown){
-            alert('Error al actualizar parámetro' + textStatus + errorThrown);
+            swal.fire({
+                title: "Error",
+                text: "Error al actualizar el parámetro.",
+                icon: "error"
+            });
         }
     });
-    alert('Aviso');
 }
+
 
 
 function EliminarParametro(idParametro){

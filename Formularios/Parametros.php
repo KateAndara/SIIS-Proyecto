@@ -98,7 +98,7 @@
                         <input type="text" id="Valor" class="form-control" placeholder="Ingrese el valor del parámetro">
                         <hr>
                         <div id="btnagregarParametro">
-                            <input type="submit" id="btnagregar" onclick="AgregarParametro()" value="Agregar Parametro" class="btn btn-success">
+                            <a id="btnagregar" onclick="AgregarParametro()" value="Agregar Parametro" class="btn btn-success">Agregar Parámetro</a>
                             <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button>
                         </div>
                     </form>
@@ -112,6 +112,7 @@
         </div>
     </div>
       
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
 
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>

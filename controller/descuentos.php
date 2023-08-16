@@ -49,6 +49,19 @@ session_start();
                     
                     //unimos los botontes
                     $datos[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
+                    
+                    //Bitácora
+
+                    $varsesion = $_SESSION['usuario'];
+                    $Id_Usuario = intval($descuentos->get_user($varsesion));
+
+                    if (!isset($_SESSION['ingreso_registrado_pantalla_descuentos'])) {
+                        $descuentos->registrar_bitacora($Id_Usuario, 25,  'Ingresar', 'Se ingresó a la pantalla de descuentos ');
+
+                        // Marcar que el ingreso ha sido registrado para esta pantalla de ventas
+                        $_SESSION['ingreso_registrado_pantalla_descuentos'] = true;
+                    }
+    
 
                 }
 

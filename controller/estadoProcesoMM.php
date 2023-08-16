@@ -48,6 +48,17 @@ session_start();
                         $datos[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
 
                     }
+                    //Bitácora
+
+                    $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($estadosProcesosMM->get_user($varsesion));
+
+                    if (!isset($_SESSION['ingreso_registrado_pantalla_estadosp'])) {
+                        $estadosProcesosMM->registrar_bitacora($Id_Usuario, 50, 'Ingresar', 'Se ingresó a la pantalla de estados del proceso ');
+
+                        // Marcar que el ingreso ha sido registrado para esta pantalla de ventas
+                        $_SESSION['ingreso_registrado_pantalla_estadosp'] = true;
+                    }
                 echo json_encode($datos);
             break;
             case "GetEstadoProcesoMM": //Buscar por cualquier campo 

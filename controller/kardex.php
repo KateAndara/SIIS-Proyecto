@@ -1,4 +1,5 @@
 <?php
+
     if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
         header('Access-Control-Allow-Origin: *');
         header('Access-Control-Allow-Methods: POST, GET, DELETE, PUT, PATCH, OPTIONS');
@@ -33,8 +34,19 @@
                    }                    
                 }
                 session_start();
+
                 require_once("../config/conexion.php");
-               
+                //Bitácora
+
+               $varsesion = $_SESSION['usuario'];
+               $Id_Usuario = intval($Kardexs->get_user($varsesion));
+
+               if (!isset($_SESSION['ingreso_registrado_pantalla_kardex'])) {
+                   $Kardexs->registrar_bitacora($Id_Usuario, 35,  'Ingresar', 'Se ingresó a la pantalla de Kardex ');
+
+                   // Marcar que el ingreso ha sido registrado para esta pantalla de ventas
+                   $_SESSION['ingreso_registrado_pantalla_kardex'] = true;
+               }
                 echo json_encode($datos);
             break;
             case "GetKardex":

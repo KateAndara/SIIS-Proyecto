@@ -210,7 +210,7 @@ function AgregarRol() {
             console.log(reponse.status);
               swal.fire({
                 title: "LISTO!",
-                text: reponse.msg,
+                text: "Rol agregado con éxito",
                 icon: "success",
                 confirmButtonText: "Aceptar",
                 closeOnConfirm: false,
@@ -262,8 +262,8 @@ function CargarRol(idRol){ //Función que trae los campos que se eligieron edita
             $('#Rol').val(MisItems[0].Rol);
             $('#Descripcion').val(MisItems[0].Descripcion);
             //Usar el mismo botón de agregar con la funcionalidad de actualizar.
-            var btnactualizar = '<input type="submit" id="btn_actualizar" onclick="ActualizarRol(' +MisItems[0].Id_Rol+')"'+
-            'value="Actualizar Rol" class="btn btn-primary"> <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button></input>';
+            var btnactualizar = '<a id="btn_actualizar" onclick="ActualizarRol(' +MisItems[0].Id_Rol+')"'+
+            'value="Actualizar Rol" class="btn btn-primary">Actualizar Rol</a> <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button></input>';
             $('#btnagregarRol').html(btnactualizar);
             $('#btncancelar').click(function(){ //Cancela la acción
                 location.href = "http://localhost/SIIS-PROYECTO/Formularios/Roles.php";
@@ -275,41 +275,49 @@ function CargarRol(idRol){ //Función que trae los campos que se eligieron edita
         }
     });
 }
-
 function ActualizarRol(idRol){
-    var isValid = validarFormulario(event); // Llama a la función de validación
-    
-    if (!isValid) {
-        return false; // Prevenir el envío del formulario
-    }
-    var rol = $('#Rol').val();
-    var descripcion = $('#Descripcion').val();
-    
-    
-    var datosRol = {
-        Id_Rol: idRol,
-        Rol: rol,
-        Descripcion: descripcion
-    };
-    var datosRolJson = JSON.stringify(datosRol);
+  var isValid = validarFormulario(event); // Llama a la función de validación
+  
+  if (!isValid) {
+      return false; // Prevenir el envío del formulario
+  }
+  var rol = $('#Rol').val();
+  var descripcion = $('#Descripcion').val();
+  
+  var datosRol = {
+      Id_Rol: idRol,
+      Rol: rol,
+      Descripcion: descripcion
+  };
+  var datosRolJson = JSON.stringify(datosRol);
 
-    $.ajax({
-        url: UrlActualizarRol,
-        type: 'PUT',
-        data: datosRolJson,
-        datatype: 'JSON',
-        contentType: 'application/json',
-        success: function(reponse){
-            console.log(reponse);
-            alert('Rol Actualizado');
-        },
+  $.ajax({
+      url: UrlActualizarRol,
+      type: 'PUT',
+      data: datosRolJson,
+      datatype: 'JSON',
+      contentType: 'application/json',
+      success: function(response){
+          console.log(response);
+          swal.fire({
+              title: "Éxito",
+              text: "Rol actualizado correctamente.",
+              icon: "success"
+          }).then(function() {
+            window.location.reload();
 
-        error: function(textStatus, errorThrown){
-            alert('Error al actualizar rol');
-        }
-    }); 
-    alert('Aviso');
+          });
+      },
+      error: function(textStatus, errorThrown){
+          swal.fire({
+              title: "Error",
+              text: "Error al actualizar el rol.",
+              icon: "error"
+          });
+      }
+  });
 }
+
 
 
 function EliminarRol(idRol){

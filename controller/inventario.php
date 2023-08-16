@@ -42,7 +42,17 @@
                 }
                 session_start();
                 require_once("../config/conexion.php");
-               
+               //Bitácora
+
+               $varsesion = $_SESSION['usuario'];
+               $Id_Usuario = intval($Inventarios->get_user($varsesion));
+
+               if (!isset($_SESSION['ingreso_registrado_pantalla_inventario'])) {
+                   $Inventarios->registrar_bitacora($Id_Usuario, 33,  'Ingresar', 'Se ingresó a la pantalla de Inventario ');
+
+                   // Marcar que el ingreso ha sido registrado para esta pantalla de ventas
+                   $_SESSION['ingreso_registrado_pantalla_inventario'] = true;
+               }
                 echo json_encode($datos);
             break;        
             case "GetMovimientos":

@@ -100,12 +100,13 @@ function validarFormularioPregunta(event) {
 }
 
 function AgregarPregunta() {
-    var isValid = validarFormularioPregunta(event); // Llama a la función de validación
-    
+
+    var isValid = validarFormularioPregunta(event);
+
     if (!isValid) {
-        return false; // Prevenir el envío del formulario
+        return false;
     }
-    
+
     var datosPregunta = {
         Pregunta: $('#Pregunta').val()
     };
@@ -124,7 +125,7 @@ function AgregarPregunta() {
                 text: "Pregunta agregada correctamente.",
                 icon: "success"
             }).then(function() {
-                CargarPreguntas();
+                window.location.reload();
             });
         },
         error: function (textStatus, errorThrown) {
@@ -136,8 +137,9 @@ function AgregarPregunta() {
         }
     });
 
-    return false; // Prevenir el envío del formulario después de la acción AJAX
+    // No necesitas retornar "false" aquí
 }
+
 
 
 function CargarPregunta(idPregunta){ //Función que trae los campos que se eligieron editar.
@@ -162,8 +164,8 @@ function CargarPregunta(idPregunta){ //Función que trae los campos que se eligi
             $('#Id_Pregunta').val(MisItems[0].Id_Pregunta).prop('readonly', true);  // Propiedad para que no se pueda modificar el campo.
             $('#Pregunta').val(MisItems[0].Pregunta);
             //Usar el mismo botón de agregar con la funcionalidad de actualizar.
-            var btnactualizar = '<input type="submit" id="btn_actualizar" onclick="ActualizarPregunta(' +MisItems[0].Id_Pregunta+')"'+
-            'value="Actualizar Pregunta" class="btn btn-primary"> <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button></input>';
+            var btnactualizar = '<a id="btn_actualizar" onclick="ActualizarPregunta(' +MisItems[0].Id_Pregunta+')"'+
+            'value="Actualizar Pregunta" class="btn btn-primary"> Actualizar Pregunta</a> <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button></input>';
             $('#btnagregarPregunta').html(btnactualizar);
             $('#btncancelar').click(function(){ //Cancela la acción
                 location.href = "http://localhost/SIIS-PROYECTO/Formularios/Preguntas.php";
@@ -185,9 +187,7 @@ function ActualizarPregunta(idPregunta){
     
     var pregunta = $('#Pregunta').val();
     
-    
-    
-    var datosPregunta={
+    var datosPregunta = {
         Id_Pregunta: idPregunta,
         Pregunta: pregunta
     };
@@ -199,17 +199,26 @@ function ActualizarPregunta(idPregunta){
         data: datosPreguntaJson,
         datatype: 'JSON',
         contentType: 'application/json',
-        success: function(reponse){
-            console.log(reponse);
-            alert('Pregunta Actualizada');
+        success: function(response){
+            console.log(response);
+            swal.fire({
+                title: "Éxito",
+                text: "Pregunta actualizada correctamente.",
+                icon: "success"
+            }).then(function() {
+                window.location.reload();
+            });
         },
-
         error: function(textStatus, errorThrown){
-            alert('Error al actualizar pregunta' + textStatus + errorThrown);
+            swal.fire({
+                title: "Error",
+                text: "Error al actualizar la pregunta.",
+                icon: "error"
+            });
         }
     });
-    alert('Aviso');
 }
+
 
 function EliminarPregunta(idPregunta){
     Swal.fire({

@@ -49,7 +49,17 @@ session_start();
 
                 }
 
-                
+                //Bitácora
+
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($Objetos->get_user($varsesion));
+
+                if (!isset($_SESSION['ingreso_registrado_pantalla_objetos'])) {
+                    $Objetos->registrar_bitacora($Id_Usuario, 41,  'Ingresar', 'Se ingresó a la pantalla de objetos ');
+
+                    // Marcar que el ingreso ha sido registrado para esta pantalla de ventas
+                    $_SESSION['ingreso_registrado_pantalla_objetos'] = true;
+                }
                 echo json_encode($datos);
             break;
             case "GetObjeto":

@@ -49,7 +49,17 @@ session_start();
                     $datos[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
 
                 }
-                
+                //Bitácora
+
+                $varsesion = $_SESSION['usuario'];
+                $Id_Usuario = intval($tiposProductosMM->get_user($varsesion));
+
+                if (!isset($_SESSION['ingreso_registrado_pantalla_descuentos'])) {
+                    $tiposProductosMM->registrar_bitacora($Id_Usuario, 44, 'Ingresar', 'Se ingresó a la pantalla de tipos de productos ');
+
+                    // Marcar que el ingreso ha sido registrado para esta pantalla de ventas
+                    $_SESSION['ingreso_registrado_pantalla_descuentos'] = true;
+                }
                 echo json_encode($datos);
             break;
             case "GetTipoProductoMM":

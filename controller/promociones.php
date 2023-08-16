@@ -49,7 +49,18 @@
                     
                     //unimos los botontes
                     $datos[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
+                    
+                    //Bitácora
 
+                    $varsesion = $_SESSION['usuario'];
+                    $Id_Usuario = intval($promociones->get_user($varsesion));
+
+                    if (!isset($_SESSION['ingreso_registrado_pantalla_promociones'])) {
+                    $promociones->registrar_bitacora($Id_Usuario, 26, 'Ingresar', 'Se ingresó a la pantalla de promoción: ');
+
+                        // Marcar que el ingreso ha sido registrado para esta pantalla de ventas
+                        $_SESSION['ingreso_registrado_pantalla_promociones'] = true;
+                    }
                 }
                 echo json_encode($datos);
             break;
