@@ -74,7 +74,7 @@ session_start();
                 $selectDNI=$clientes->verficaDNI($DNI);
                 
                 if (count($selectDNI)>0) {
-                    $arrResponse = array("status" => false, "msg" => 'DNI ya existente, Verifique nuevamente');
+                    $arrResponse = array("status" => false, "msg" => 'DNI ya existente. Verifique nuevamente');
                 }else{
                     $datos=$clientes->insert_cliente($body["Nombre"],$body["Fecha_nacimiento"],$body["DNI"]);
                     $arrResponse = array("status" => true, "msg" => 'Se agregó el cliente');
@@ -91,21 +91,20 @@ session_start();
                 $DNI=$body['DNI'];
                 $idCliente=$body['Id_Cliente'];
 
-                $selectDNI=$clientes->verficaDNI2($nombre,$fecha_nacimiento,$DNI,$idCliente);
+                $selectDNI=$clientes->verficaDNI2($DNI,$idCliente);
 
-                if (count($selectDNI)>1) {
-                    $arrResponse = array("status" => false, "msg" => 'DNI ya existente, Verifique nuevamente');
+                if ($selectDNI) {
+                    $arrResponse = array("status" => false, "msg" => 'DNI ya existente. Verifique nuevamente');
                 }else{
-                    $datos=$clientes->update_cliente($body["Nombre"],$body["Fecha_nacimiento"],$body["DNI"]);
-
-                    $datos=$clientes->update_cliente($nombre,$fecha_nacimiento,$DNI,$idCliente);
-                    $arrResponse = array("status" => true, "msg" => 'Cliente Actualizado Correctamente');
+                    $datos=$clientes->update_cliente($idCliente,$nombre,$fecha_nacimiento,$DNI);
+                    $arrResponse = array("status" => true, "msg" => 'Cliente actualizado correctamente');
                 }
                 echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE); 
 
                 $varsesion = $_SESSION['usuario'];
                 $Id_Usuario = intval($clientes->get_user($varsesion));
                 $clientes->registrar_bitacora($Id_Usuario, 28, 'Actualizar', 'Se actualizó el cliente: ' . $body["Nombre"].' con fecha de nacimiento '.$body["Fecha_nacimiento"]. ' y DNI '.$body["DNI"]);
+                break; 
             case "DeleteCliente":
                 $Id_Cliente = $body["Id_Cliente"];
                 $cliente_eliminado = $clientes->clienteeliminar($body["Id_Cliente"]);

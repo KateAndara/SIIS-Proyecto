@@ -246,27 +246,39 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                                 </table>
                             </div>
     
-        <script>
-            // Evitar que se pueda escribir en el campo de entrada
-            document.getElementById('Fecha_Compra').addEventListener('keydown', function(event) {
-                event.preventDefault();
-            });
+    <script>
+        // Evitar que se pueda escribir en el campo de entrada
+        document.getElementById('Fecha_Compra').addEventListener('keydown', function(event) {
+            event.preventDefault();
+        });
 
-            // Obtiene la fecha y hora actual en la zona horaria "America/Tegucigalpa"
-            var now = new Date();
-            var timeZoneOffset = -360; // Offset en minutos para "America/Tegucigalpa"
-            var timeZoneDifference = timeZoneOffset * 60 * 1000; // Convertir minutos a milisegundos
-            var localDateTime = new Date(now.getTime() + timeZoneDifference);
-            
-            // Convierte la fecha y hora local a una cadena en formato "YYYY-MM-DD"
-            var formattedDate = localDateTime.toISOString().split('T')[0];
+        // Obtener la fecha actual
+        var now = new Date();
 
-            // Establece el valor del campo de fecha al valor actual en la zona horaria local
-            document.getElementById('Fecha_Compra').value = formattedDate;
+        // Restar 6 meses a la fecha actual
+        var sixMonthsAgo = new Date();
+        sixMonthsAgo.setMonth(now.getMonth() - 6);
 
-            // Establece la fecha máxima seleccionable en el campo de entrada de fecha
-            document.getElementById('Fecha_Compra').setAttribute('max', formattedDate);
-     </script>
+        // Convertir la fecha a una cadena en formato "YYYY-MM-DD"
+        var formattedSixMonthsAgo = sixMonthsAgo.toISOString().split('T')[0];
+
+        // Establecer el valor mínimo del campo de fecha a 6 meses antes en la zona horaria local
+        document.getElementById('Fecha_Compra').setAttribute('min', formattedSixMonthsAgo);
+
+        // Obtener la fecha y hora actual en la zona horaria "America/Tegucigalpa"
+        var timeZoneOffset = -360; // Offset en minutos para "America/Tegucigalpa"
+        var timeZoneDifference = timeZoneOffset * 60 * 1000; // Convertir minutos a milisegundos
+        var localDateTime = new Date(now.getTime() + timeZoneDifference);
+
+        // Convertir la fecha y hora local a una cadena en formato "YYYY-MM-DD"
+        var formattedDate = localDateTime.toISOString().split('T')[0];
+
+        // Establecer el valor del campo de fecha al valor actual en la zona horaria local
+        document.getElementById('Fecha_Compra').value = formattedDate;
+
+        // Establecer la fecha máxima seleccionable en el campo de entrada de fecha
+        document.getElementById('Fecha_Compra').setAttribute('max', formattedDate);
+    </script>
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 <script src="../JS/Compra.js"></script>

@@ -120,9 +120,9 @@
                     <form class="InsertCliente">
                         <input type="number" id="Id_Cliente" name="Id_Cliente" class="form-control" placeholder="Ingrese el código del cliente"hidden>
                         <label for="">NOMBRE DEL CLIENTE</label>
-                        <input type="text" id="Nombre" onkeyup=" javascript:this.value=this.value.toUpperCase();"  name="Nombre" class="form-control" placeholder="Inrese el nombre del cliente" oninput="validarEntrada(this)">
+                        <input type="text" id="Nombre" onkeyup=" javascript:this.value=this.value.toUpperCase();"  name="Nombre" class="form-control" placeholder="Inrese el nombre del cliente" oninput="validarEntrada(this)" autocomplete="off" onpaste="return false;">
                         <label for="">FECHA DE NACIMIENTO</label>
-                        <input type="date" id="Fecha_nacimiento" name="Fecha_nacimiento" class="form-control">
+                        <input type="date" id="Fecha_nacimiento" class="form-control" />
                         <label for="">DNI</label>
                         <input type="text" id="DNI" name="DNI" class="form-control valid validNumberDni" autocomplete="off" onpaste="return false;" placeholder="0000-0000-00000" oninput="validarEntrada2(this)">
                         <hr>
@@ -141,6 +141,37 @@
         </div>
     </div>
       
+    <script>
+    // Evitar que se pueda escribir en el campo de entrada
+    document.getElementById('Fecha_nacimiento').addEventListener('keydown', function(event) {
+        event.preventDefault();
+    });
+
+    // Obtener la fecha actual
+    var now = new Date();
+
+    // Restar 100 años a la fecha actual
+    var oneHundredYearsAgo = new Date();
+    oneHundredYearsAgo.setFullYear(now.getFullYear() - 100);
+
+    // Convertir la fecha a una cadena en formato "YYYY-MM-DD"
+    var formattedOneHundredYearsAgo = oneHundredYearsAgo.toISOString().split('T')[0];
+
+    // Establecer el valor mínimo del campo de fecha a 100 años antes en la zona horaria local
+    document.getElementById('Fecha_nacimiento').setAttribute('min', formattedOneHundredYearsAgo);
+
+    // Obtener la fecha y hora actual en la zona horaria "America/Tegucigalpa"
+    var timeZoneOffset = -360; // Offset en minutos para "America/Tegucigalpa"
+    var timeZoneDifference = timeZoneOffset * 60 * 1000; // Convertir minutos a milisegundos
+    var localDateTime = new Date(now.getTime() + timeZoneDifference);
+
+    // Convertir la fecha y hora local a una cadena en formato "YYYY-MM-DD"
+    var formattedDate = localDateTime.toISOString().split('T')[0];
+
+    // Establecer la fecha máxima seleccionable en el campo de entrada de fecha
+    document.getElementById('Fecha_nacimiento').setAttribute('max', formattedDate);
+</script>
+
 
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>

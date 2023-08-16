@@ -6,10 +6,21 @@
         public function get_clientes(){                 //Si se nececita mostrar nombre en vez de ID.         
             $conexion= parent::Conexion();
             parent::set_names();
+            date_default_timezone_set('America/Tegucigalpa'); // Configuración de la zona horaria
             $sql="SELECT * FROM tbl_clientes WHERE Estado = 'activo'";
             $sql= $conexion->prepare($sql);
             $sql->execute();
-            return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);                
+            $resultados = $sql->fetchALL(PDO::FETCH_ASSOC);
+        
+            // Formatear la fecha en cada resultado
+            foreach ($resultados as &$resultado) {
+                $fecha_dt = new DateTime($resultado['Fecha_nacimiento']);  
+                $fecha_dt->setTimezone(new DateTimeZone('America/Tegucigalpa'));
+                $fecha_formateada = $fecha_dt->format('d-m-Y');
+                $resultado['Fecha_nacimiento'] = $fecha_formateada;
+            }
+        
+            return $resultados;              
         }
 
         public function verficaDNI($DNI){   //Buscar por cualquier campo

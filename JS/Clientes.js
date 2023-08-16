@@ -218,9 +218,6 @@ function ActualizarCliente(IdCliente){
     fechaNacimiento=document.querySelector("#Fecha_nacimiento").value;
     dni=document.querySelector("#DNI").value;
 
-    console.log(nombre);
-    console.log(fechaNacimiento);
-    console.log(dni);
 
     if ( nombre == "" ||fechaNacimiento == "" ||dni == "" ) {
          swal.fire("Atención", "Todos los campos son obligatorios.", "error");
@@ -273,29 +270,19 @@ function ActualizarCliente(IdCliente){
             });
           }
         },
-        error: function (textStatus, errorThrown) {
-          Swal.fire({
-            title: "LISTO",
-            text: "Cliente actualizado",
-            icon: "success",
-          }).then(() => {
-            window.location.reload();
-          });
-          
-        },
     });
 }
 
 
 function EliminarCliente(idCliente) {
     Swal.fire({
-      title: "¿Eliminar Cliente?",
-      text: "Estas Seguro que quieres Eliminar el cliente, esta acción es irreversible",
+      title: "¿Eliminar cliente?",
+      text: "¿Está seguro que desea eliminar el cliente? Esta acción es irreversible",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Si, Eliminar!",
+      confirmButtonText: "Sí, eliminar",
     }).then((result) => { 
       if (result.isConfirmed) {
         var datosCliente = {
@@ -310,7 +297,7 @@ function EliminarCliente(idCliente) {
           success: function (response) {
             Swal.fire({
               title: "Eliminado",
-              text: "Cliente eliminado Correctamente.",
+              text: "Cliente eliminado correctamente.",
               icon: "success",
               timer: 4000,
               willClose: () => {
@@ -321,7 +308,7 @@ function EliminarCliente(idCliente) {
           error: function(textStatus, errorThrown){
             Swal.fire({
               title: "Lo sentimos",
-              text: "Los datos no pueden ser eliminados.",
+              text: "El cliente no puedo ser eliminado.",
               icon: "warning",
               timer: 4000,
               willClose: () => {

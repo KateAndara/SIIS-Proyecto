@@ -258,21 +258,34 @@
             event.preventDefault();
         });
 
-        // Obtiene la fecha y hora actual en la zona horaria "America/Tegucigalpa"
+        // Obtener la fecha actual
         var now = new Date();
+
+        // Restar 6 meses a la fecha actual
+        var sixMonthsAgo = new Date();
+        sixMonthsAgo.setMonth(now.getMonth() - 6);
+
+        // Convertir la fecha a una cadena en formato "YYYY-MM-DD"
+        var formattedSixMonthsAgo = sixMonthsAgo.toISOString().split('T')[0];
+
+        // Establecer el valor mínimo del campo de fecha a 6 meses antes en la zona horaria local
+        document.getElementById('Fecha').setAttribute('min', formattedSixMonthsAgo);
+
+        // Obtener la fecha y hora actual en la zona horaria "America/Tegucigalpa"
         var timeZoneOffset = -360; // Offset en minutos para "America/Tegucigalpa"
         var timeZoneDifference = timeZoneOffset * 60 * 1000; // Convertir minutos a milisegundos
         var localDateTime = new Date(now.getTime() + timeZoneDifference);
-        
-        // Convierte la fecha y hora local a una cadena en formato "YYYY-MM-DD"
+
+        // Convertir la fecha y hora local a una cadena en formato "YYYY-MM-DD"
         var formattedDate = localDateTime.toISOString().split('T')[0];
 
-        // Establece el valor del campo de fecha al valor actual en la zona horaria local
+        // Establecer el valor del campo de fecha al valor actual en la zona horaria local
         document.getElementById('Fecha').value = formattedDate;
 
-        // Establece la fecha máxima seleccionable en el campo de entrada de fecha
+        // Establecer la fecha máxima seleccionable en el campo de entrada de fecha
         document.getElementById('Fecha').setAttribute('max', formattedDate);
     </script>
+
 
     <script>
         function mostrarDiv() {
