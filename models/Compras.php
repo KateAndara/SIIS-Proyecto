@@ -32,17 +32,16 @@
             return $resultado=$sql->fetch(PDO::FETCH_ASSOC);
         }
         
-        public function registrar_bitacora($id_usuario, $id_objeto, $accion, $descripcion){
-            $conexion= parent::Conexion();
+       public function registrar_bitacora($id_usuario, $id_objeto, $accion, $descripcion) {
+            $conexion = parent::Conexion();
             parent::set_names();
             
-            $sql="INSERT INTO tbl_ms_bitacora (Id_Usuario, Id_Objeto, Fecha, Accion, Descripcion) 
-                  VALUES (:id_usuario, :id_objeto, :fecha, :accion, :descripcion)";
-            $stmt= $conexion->prepare($sql);
-            $fecha = date("Y-m-d H:i:s");
+            $sql = "INSERT INTO tbl_ms_bitacora (Id_Usuario, Id_Objeto, Fecha, Accion, Descripcion) 
+                    VALUES (:id_usuario, :id_objeto, CURRENT_TIMESTAMP(), :accion, :descripcion)";
+            
+            $stmt = $conexion->prepare($sql);
             $stmt->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
             $stmt->bindParam(":id_objeto", $id_objeto, PDO::PARAM_INT);
-            $stmt->bindParam(":fecha", $fecha, PDO::PARAM_STR);
             $stmt->bindParam(":accion", $accion, PDO::PARAM_STR);
             $stmt->bindParam(":descripcion", $descripcion, PDO::PARAM_STR);
             $stmt->execute();

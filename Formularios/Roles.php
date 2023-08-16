@@ -189,12 +189,12 @@ function getModal(string $nameModal, $data)
                 </div>
                 <div class="col-12">
                     <form class="InsertRol" >
-                        <label for="Id_Rol" hidden>ID ROL</label>
+                        <!--<label for="Id_Rol" hidden>ID ROL</label>-->
                         <input type="number" id="Id_Rol" class="form-control" placeholder="Ingrese el código del rol"hidden>
                         <label for="">ROL</label>
-                        <input type="text" id="Rol" class="form-control" placeholder="Ingrese el rol"onkeyup="this.value=this.value.toUpperCase()"oninput="validarEntrada(this)" >
+                        <input type="text" id="Rol" class="form-control" placeholder="Ingrese el rol"onkeyup="this.value=this.value.toUpperCase()"oninput="validarEntrada(this)"autocomplete="off" onpaste="return false;" >
                         <label for="">DESCRIPCIÓN</label>
-                        <input type="text" id="Descripcion" class="form-control" placeholder="Ingrese la descripción del rol"onkeyup="this.value=this.value.toUpperCase()"oninput="validarEntrada(this)">
+                        <input type="text" id="Descripcion" class="form-control" placeholder="Ingrese la descripción del rol"onkeyup="this.value=this.value.toUpperCase()"oninput="validarEntrada(this)"autocomplete="off" onpaste="return false;">
                         <hr>
                         <div id="btnagregarRol">
                             <!--<input type="submit" id="btnagregar" onclick="AgregarRol()" value="Agregar Rol" class="btn btn-success">-->

@@ -5,6 +5,7 @@
         public function get_Bitacoras(){
             $conexion = parent::Conexion();
             parent::set_names();
+            date_default_timezone_set('America/Tegucigalpa'); // Configuración de la zona horaria
             $sql = "SELECT t1.*, t2.Usuario, t3.Objeto
             FROM tbl_ms_bitacora t1                              
             JOIN tbl_ms_usuarios t2 ON t1.Id_Usuario = t2.Id_Usuario
