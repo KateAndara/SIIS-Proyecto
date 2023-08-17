@@ -88,13 +88,20 @@ session_start();
                 echo json_encode("Producto actualizado");
             break;
             case "DeleteProducto":
-                $idproducto = $body["Id_Producto"];
+                $Id_Producto = $body["Id_Producto"];
                 $producto_eliminado = $productos->productoeliminar($Id_Producto);
-                $datos=$productos->delete_producto($body["Id_Producto"]);
-                $varsesion = $_SESSION['usuario'];
-                $Id_Usuario = intval($productos->get_user($varsesion));
-                $productos->registrar_bitacora($Id_Usuario, 34, 'Eliminar', 'Se eliminó el Producto: '.$producto_eliminado);
-                echo json_encode("Producto eliminado");
+                
+                if ($producto_eliminado !== "El producto con Id_Producto = $Id_Producto no existe.") {
+                    // Si el producto existe, procede con la eliminación y el registro en la bitácora.
+                    $datos = $productos->delete_producto($Id_Producto);
+                    $varsesion = $_SESSION['usuario'];
+                    $Id_Usuario = intval($productos->get_user($varsesion));
+                    $productos->registrar_bitacora($Id_Usuario, 34, 'Eliminar', 'Se eliminó el Producto: ' . $producto_eliminado);
+                    echo json_encode("Producto eliminado");
+                } else {
+                    // Si el producto no existe, envía un mensaje adecuado.
+                    echo json_encode("El producto no existe, no se pudo eliminar.");
+                }
             break;
             //Datos de otra tabla
             case "GetTipoProductos":
