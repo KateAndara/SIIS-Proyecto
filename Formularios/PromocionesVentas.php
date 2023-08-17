@@ -114,13 +114,13 @@
                         Agregar Promoción
                     </h3>
                 </div>
-                    <!-- inicio -->
+                           <!-- inicio -->
                 <div class="col-6">
     <form class="InsertPromocion">
-        <label for="">NOMBRE DE LA PROMOCION</label>
-        <input type="text" id="Nombre_Promocion" class="form-control" placeholder="Ingrese el nombre de la promoción" maxlength="30">
-        <p id="mensajeCaracteres" style="display: none;">Llegaste al límite de 30 caracteres.</p>
-        <script>
+    <label for="Nombre_Promocion">NOMBRE DE LA PROMOCION</label>
+<input type="text" id="Nombre_Promocion" class="form-control" placeholder="Ingrese el nombre de la promoción" maxlength="30">
+<p id="mensajeCaracteres" style="display: none;">Llegaste al límite de 30 caracteres.</p>
+<script>
 const inputNombrePromocion = document.getElementById("Nombre_Promocion");
 const mensajeCaracteres = document.getElementById("mensajeCaracteres");
 
@@ -130,8 +130,11 @@ inputNombrePromocion.addEventListener("input", function() {
   } else {
     mensajeCaracteres.style.display = "none";
   }
+
+  inputNombrePromocion.value = inputNombrePromocion.value.toUpperCase();
 });
 </script>
+
 
 
 <label for="Precio_Venta">PRECIO DE VENTA</label>
@@ -152,11 +155,94 @@ function checkInputLength() {
 }
 </script>
         
-        <label for="">FECHA DE INICIO DE LA OFERTA</label>
-        <input type="date" id="Fecha_inicio" class="form-control">
-        
-        <label for="">FECHA FINAL DE LA OFERTA</label>
-        <input type="date" id="Fecha_final" class="form-control">
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selección de Fecha</title>
+</head>
+<body>
+    <label for="Fecha_inicio">FECHA DE INICIO DE LA OFERTA</label>
+    <input type="date" id="Fecha_inicio" class="form-control">
+
+    <label for="Fecha_final">FECHA FINAL DE LA OFERTA</label>
+    <input type="date" id="Fecha_final" class="form-control">
+
+    <script>
+        function setMinAndDefaultValue(inputId) {
+            var input = document.getElementById(inputId);
+
+            var fechaActual = new Date();
+            var mes = fechaActual.getMonth() + 1;
+            var dia = fechaActual.getDate();
+            
+            if (mes < 10) {
+                mes = "0" + mes;
+            }
+            if (dia < 10) {
+                dia = "0" + dia;
+            }
+            
+            var fechaFormateada = fechaActual.getFullYear() + "-" + mes + "-" + dia;
+
+            input.min = fechaFormateada;
+            input.value = fechaFormateada;
+        }
+
+// Define una variable para rastrear si la alerta ya ha sido mostrada
+var alertShown = false;
+
+function validateDates() {
+    var fechaInicio = new Date(document.getElementById("Fecha_inicio").value);
+    var fechaFinal = new Date(document.getElementById("Fecha_final").value);
+
+    if (fechaInicio > fechaFinal) {
+        if (!alertShown) {
+            // Crear la alerta
+            var alertDiv = document.createElement("div");
+            alertDiv.id = "customAlert";
+            alertDiv.style.backgroundColor = "red";
+            alertDiv.style.color = "white";
+            alertDiv.style.padding = "10px";
+            alertDiv.style.borderRadius = "5px";
+            alertDiv.style.textAlign = "center";
+            alertDiv.style.fontWeight = "bold";
+            alertDiv.textContent = "La fecha de inicio debe ser menor que la fecha final. Ingresa la fecha final primero";
+
+            document.body.insertBefore(alertDiv, document.body.firstChild);
+
+            // Marcar la alerta como mostrada
+            alertShown = true;
+        }
+
+        setMinAndDefaultValue("Fecha_inicio");
+        setMinAndDefaultValue("Fecha_final");
+    } else {
+        // Si la fecha es válida, ocultar la alerta si estaba visible
+        var existingAlert = document.getElementById("customAlert");
+        if (existingAlert) {
+            existingAlert.style.display = "none";
+            alertShown = false;
+        }
+    }
+}
+
+
+
+        setMinAndDefaultValue("Fecha_inicio");
+        setMinAndDefaultValue("Fecha_final");
+
+        document.getElementById("Fecha_inicio").addEventListener("change", validateDates);
+        document.getElementById("Fecha_final").addEventListener("change", validateDates);
+    </script>
+</body>
+</html>
+
+
+       
         <br>
         <div id="btnagregarPromocion">
             <input type="submit" id="btnagregar" onclick="AgregarPromocion()" value="Agregar Promoción" class="btn btn-success" disabled>
@@ -167,20 +253,20 @@ function checkInputLength() {
         const form = document.querySelector('.InsertPromocion');
         const nombrePromocionInput = document.getElementById('Nombre_Promocion');
         const precioVentaInput = document.getElementById('Precio_Venta');
-        const fechaInicioInput = document.getElementById('Fecha_inicio');
+        /* const fechaInicioInput = document.getElementById('Fecha_inicio');*/
         const fechaFinalInput = document.getElementById('Fecha_final');
         const addButton = document.getElementById('btnagregar');
         
         const checkFields = () => {
             const nombrePromocionValue = nombrePromocionInput.value.trim();
             const precioVentaValue = precioVentaInput.value.trim();
-            const fechaInicioValue = fechaInicioInput.value;
+            /*const fechaInicioValue = fechaInicioInput.value;*/
             const fechaFinalValue = fechaFinalInput.value;
             
             addButton.disabled =
                 nombrePromocionValue === '' ||
                 precioVentaValue === '' ||
-                fechaInicioValue === '' ||
+               /* fechaInicioValue === '' ||*/
                 fechaFinalValue === '';
         };
         
@@ -191,6 +277,7 @@ function checkInputLength() {
         
         document.getElementById('btncancelar').onclick = function () {
             location.href = "http://localhost/SIIS-PROYECTO/Formularios/PromocionesVentas.php";
+            
         };
     </script>
 </div>
