@@ -29,12 +29,33 @@
             break;
 
             case "InsertProductoTerminadoMP":
-                $datos = $proceso->insert_productoTerminadoMP($body["Id_Producto"], $body["Cantidad"]);
-                echo json_encode("Se agregó el producto terminado");
+                $cantidad=$body['Cantidad'];
+                $idMP=$body['Id_Producto'];
+
+                $ValCantidad=$proceso->validarCantidadDeMPEnInventario($idMP, $cantidad);
+                
+                if ($ValCantidad) {
+                    $arrResponse = array("status" => false, "msg" => 'Cantidad insuficiente en inventario de la materia prima seleccionada');
+                }else{
+                    $datos = $proceso->insert_productoTerminadoMP($body["Id_Producto"], $body["Cantidad"]);
+                    $arrResponse = array("status" => true, "msg" => 'Materia prima agregada');
+                }
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE);  
+                
             break;
             case "InsertProductoTerminadoMPEditandoProceso":
-                $datos = $proceso->insert_productoTerminadoMPEditandoProceso($body["Id_Producto"], $body["Cantidad"], $body["Id_Proceso_Produccion"]);
-                echo json_encode("Se agregó el producto terminado");
+                $cantidad=$body['Cantidad'];
+                $idMP=$body['Id_Producto'];
+
+                $ValCantidad=$proceso->validarCantidadDeMPEnInventario($idMP, $cantidad);
+                
+                if ($ValCantidad) {
+                    $arrResponse = array("status" => false, "msg" => 'Cantidad insuficiente en inventario de la materia prima seleccionada');
+                }else{
+                    $datos = $proceso->insert_productoTerminadoMPEditandoProceso($body["Id_Producto"], $body["Cantidad"], $body["Id_Proceso_Produccion"]);
+                    $arrResponse = array("status" => true, "msg" => 'Materia prima agregada');
+                }
+                echo json_encode($arrResponse, JSON_UNESCAPED_UNICODE); 
             break;
             case "InsertProductoTerminadoFinal":
                 $datos=$proceso->insert_productoTerminadoFinal($body["Id_Producto"],$body["Cantidad"]);

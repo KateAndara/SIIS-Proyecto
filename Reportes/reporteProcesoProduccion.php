@@ -48,22 +48,31 @@ $arrProceso['DatosEmpresa']=$resultado;
 $data=$arrProceso;
 
 use Spipu\Html2Pdf\Html2Pdf;
-    ob_end_clean();
-    $html = getfile("../Reportes/reporteProcesoProduccionHtml",$data);
-    $html2pdf = new Html2Pdf('L','letter','es','true','UTF-8');
-    $html2pdf->writeHTML($html);
-    // Agregar pie de página
-    date_default_timezone_set('America/Tegucigalpa');
-    $fecha = date('d/m/Y H:i:s');
-    $pagina_actual = $html2pdf->pdf->getPage();
-    $paginas_totales = $html2pdf->pdf->getNumPages();
-    $numero_br = 20;
-    $br_tags = '';
-    for ($i = 0; $i < $numero_br; $i++) {
-    $br_tags .= '<br>';
-    }
-    $html2pdf->writeHTML("$br_tags<div style='position: fixed; bottom: 10px; right: 10px;'>Generado el $fecha - Página $pagina_actual de $paginas_totales</div>", true, false, true, false, '');
-    $html2pdf->output('Reporte de Produccións-.pdf');
+
+ob_end_clean();
+$html = getFile("../Reportes/reporteProcesoProduccionHtml", $data);
+$html2pdf = new Html2Pdf('L', 'letter', 'es', 'true', 'UTF-8');
+
+// Reduce el margen inferior para acercar el contenido al pie de página
+$html2pdf->pdf->SetMargins(10, 10, 10);
+
+$html2pdf->writeHTML($html);
+
+date_default_timezone_set('America/Tegucigalpa');
+$fecha = date('d/m/Y H:i:s');
+$pagina_actual = $html2pdf->pdf->getPage();
+$paginas_totales = $html2pdf->pdf->getNumPages();
+
+// Controla el espacio vertical en el pie de página
+$espacio_pie = 5; 
+
+$html2pdf->writeHTML("
+    <div style='position: absolute; bottom: {$espacio_pie}px; left: 10px;'>
+        Generado el $fecha - Página $pagina_actual de $paginas_totales
+    </div>
+", true, false, true, false, '');
+
+$html2pdf->output('Reporte de Producción.pdf');
         
 
 ?>

@@ -217,6 +217,21 @@ session_start();
             return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
         }
 
+        public function validarCantidadDeMPEnInventario($Id_Producto, $Cantidad) {
+            $conectar = parent::conexion();
+            parent::set_names();
+        
+            // validar la existencia de materia prima en el inventario 
+            $sql_existencia = "SELECT * FROM tbl_inventario WHERE Id_Producto = ? AND Existencia < ?";
+            $stmt_existencia = $conectar->prepare($sql_existencia);
+            $stmt_existencia->bindValue(1, $Id_Producto);
+            $stmt_existencia->bindValue(2, $Cantidad);
+            $stmt_existencia->execute();
+            $resultado = $stmt_existencia->fetchAll(PDO::FETCH_ASSOC);
+        
+            return $resultado;
+        }                     
+
         public function get_productosTerminados(){    
             $conexion= parent::Conexion();
             parent::set_names();

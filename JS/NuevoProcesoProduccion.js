@@ -59,31 +59,28 @@ function AgregarProductoTerminadoMP(event){
         data: datosProductoTerminadoJson,
         datatype: 'JSON',
         contentType: 'application/json',
-        success: function(response){
-            console.log(response);
-            Swal.fire({
-                title: 'Producto Agregado',
-                icon: 'success',
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'Aceptar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    CargarProductosTerminadosMP();
-                    document.querySelector("#Select_ProductoMP").value = ""; // limpiar el valor seleccionado
-                    document.querySelector("#Cantidad").value = ""; // limpiar el valor ingresado
-                    document.querySelector(".InsertProductoTerminado").reset(); // resetear el formulario
-                }
-            });
+        success: function (reponse) {
+            if (reponse.status) {
+                CargarProductosTerminadosMP(); // Cargar productos
+                document.querySelector("#Select_ProductoMP").value = ""; // Limpiar el campo de selección
+                document.querySelector("#Cantidad").value = ""; // Limpiar el campo de cantidad
+                document.querySelector(".InsertProductoTerminado").reset(); // Resetear el formulario
+        
+                swal.fire({
+                    text: reponse.msg,
+                    icon: "success",
+                    confirmButtonText: "Aceptar",
+                    closeOnConfirm: false,
+                });
+            } else {
+                swal.fire({
+                    text: reponse.msg,
+                    icon: "error",
+                    confirmButtonText: "Aceptar",
+                    closeOnConfirm: false,
+                });
+            }
         },
-
-        error: function(textStatus, errorThrown){
-            Swal.fire({
-                title: 'Error al agregar producto',
-                icon: 'error',
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'Aceptar'
-            });
-        }
     });
 }
 
@@ -131,32 +128,29 @@ function AgregarProductoTerminadoMPEditandoProceso(event, idProceso){
         data: datosProductoTerminadoJson,
         datatype: 'JSON',
         contentType: 'application/json',
-        success: function(response){
-            console.log(response);
-            Swal.fire({
-                title: 'Producto Agregado',
-                icon: 'success',
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'Aceptar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    CargarProductosTerminadosMP();
-                    document.querySelector("#Select_ProductoMP").value = ""; // limpiar el valor seleccionado
-                    document.querySelector("#Cantidad").value = ""; // limpiar el valor ingresado
-                    document.querySelector(".InsertProductoTerminado").reset(); // resetear el formulario
-                    CargarProductosTerminadosMPEditandoProceso(idProceso);
-                }
-            });
+        success: function (reponse) {
+            if (reponse.status) {
+                CargarProductosTerminadosMP();
+                document.querySelector("#Select_ProductoMP").value = ""; // limpiar el valor seleccionado
+                document.querySelector("#Cantidad").value = ""; // limpiar el valor ingresado
+                document.querySelector(".InsertProductoTerminado").reset(); // resetear el formulario
+                CargarProductosTerminadosMPEditandoProceso(idProceso);
+        
+                swal.fire({
+                    text: reponse.msg,
+                    icon: "success",
+                    confirmButtonText: "Aceptar",
+                    closeOnConfirm: false,
+                });
+            } else {
+                swal.fire({
+                    text: reponse.msg,
+                    icon: "error",
+                    confirmButtonText: "Aceptar",
+                    closeOnConfirm: false,
+                });
+            }
         },
-
-        error: function(textStatus, errorThrown){
-            Swal.fire({
-                title: 'Error al agregar producto',
-                icon: 'error',
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'Aceptar'
-            });
-        }
     });
 }
 
