@@ -117,6 +117,7 @@
                            <!-- inicio -->
                 <div class="col-6">
     <form class="InsertPromocion">
+   
     <label for="Nombre_Promocion">NOMBRE DE LA PROMOCION</label>
 <input type="text" id="Nombre_Promocion" class="form-control" placeholder="Ingrese el nombre de la promoción" maxlength="30">
 <p id="mensajeCaracteres" style="display: none;">Llegaste al límite de 30 caracteres.</p>
@@ -125,16 +126,18 @@ const inputNombrePromocion = document.getElementById("Nombre_Promocion");
 const mensajeCaracteres = document.getElementById("mensajeCaracteres");
 
 inputNombrePromocion.addEventListener("input", function() {
-  if (inputNombrePromocion.value.length === 30) {
+  // Remove special characters and keep only letters, numbers, and spaces
+  const cleanedValue = inputNombrePromocion.value.replace(/[^a-zA-Z0-9 ]/g, "");
+  
+  if (cleanedValue.length === 30) {
     mensajeCaracteres.style.display = "block";
   } else {
     mensajeCaracteres.style.display = "none";
   }
 
-  inputNombrePromocion.value = inputNombrePromocion.value.toUpperCase();
+  inputNombrePromocion.value = cleanedValue.toUpperCase();
 });
 </script>
-
 
 
 <label for="Precio_Venta">PRECIO DE VENTA</label>
