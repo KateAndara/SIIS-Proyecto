@@ -21,6 +21,13 @@ $(document).ready(function(){
         
         success: function(reponse){
             var MisItems = reponse;
+            var secuencia = 1; // Agregar una variable para la secuencia de números
+            
+            // Recorrer los datos y agregar la secuencia de números
+            for (i = 0; i < MisItems.length; i++) {
+                MisItems[i].Numero = secuencia;
+                secuencia++;
+            }
             // Si la tabla ya ha sido inicializada previamente, destruye la instancia
             if ($.fn.DataTable.isDataTable('#TablaPromocionesProductos')) {
                 $('#TablaPromocionesProductos').DataTable().destroy();
@@ -32,7 +39,7 @@ $(document).ready(function(){
                    url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json",
                  },
                  columns: [
-                   { data: "Id_Promocion_Producto" },
+                   { data: "Numero" },
                    { data: "Nombre" },
                    { data: "Nombre_Promocion" },
                    { data: "Cantidad" },
@@ -138,7 +145,8 @@ function CargarPromocionProducto(idPromocion){
         success: function(reponse){
             var MisItems = reponse;
             //Muestra el id junto con su título que se encuentra oculto en el Agregar.
-            $('#Id_Promocion_Producto').removeAttr('hidden'); // ID
+            
+           document.getElementById('Id_Tipo_Movimiento').style.display = 'none';
             $('label[for="Id_Promocion_Producto"]').removeAttr('hidden'); //Título
         
             $('#Id_Promocion_Producto').val(MisItems[0].Id_Promocion_Producto).prop('readonly', true);  // Propiedad para que no se pueda modificar el campo.
