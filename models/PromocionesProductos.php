@@ -4,24 +4,26 @@
         public function get_promocionesProductos() {
             $conexion = parent::Conexion();
             parent::set_names();
-        
-            $sql = "SELECT a.Id_Promocion_Producto, c.Nombre AS Nombre, b.Nombre_Promocion, a.Cantidad 
+            
+            $sql = "SELECT a.Id_Promocion_Producto, c.Nombre AS NombreProducto, b.Nombre_Promocion, a.Cantidad 
                     FROM tbl_promocion_producto a 
                     INNER JOIN tbl_promociones b ON a.Id_Promocion = b.Id_Promocion
-                    INNER JOIN tbl_productos c ON a.Id_Producto = c.Id_Producto";
-        
+                    INNER JOIN tbl_productos c ON a.Id_Producto = c.Id_Producto
+                    WHERE b.Estado = 'activo' AND a.Estado = 'activo'";
+            
             $stmt = $conexion->prepare($sql);
             $stmt->execute();
             $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
+            
             return $resultado;
         }
+              
 
         public function insert_promocionProducto($Id_Producto, $Id_Promocion, $Cantidad){
             $conectar= parent::conexion();
             parent::set_names();
-            $sql="INSERT INTO tbl_promocion_producto(Id_Producto, Id_Promocion, Cantidad)
-            VALUES (?,?,?);";
+            $sql="INSERT INTO tbl_promocion_producto(Id_Producto, Id_Promocion, Cantidad, Estado)
+            VALUES (?,?,?,'activo');";
             $sql = $conectar->prepare($sql);
             $sql->bindValue(1, $Id_Producto);
             $sql->bindValue(2, $Id_Promocion);
@@ -57,30 +59,30 @@
         public function delete_promocionProducto($Id_Promocion_Producto){
             $conectar= parent::conexion();
             parent::set_names();
-            $sql = "DELETE FROM tbl_promocion_producto WHERE Id_Promocion_Producto =?";
+            $sql = "UPDATE tbl_promocion_producto SET Estado = 'inactivo' WHERE Id_Promocion_Producto =?";
             $sql=$conectar->prepare($sql);
             $sql->bindvalue(1, $Id_Promocion_Producto);
             $sql->execute();
-            return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
+            return true;
         }
 
         public function get_productosTerminados(){    
-            $conexion= parent::Conexion();
+            $conexion = parent::Conexion();
             parent::set_names();
-            $sql = "SELECT * FROM tbl_productos WHERE Id_Tipo_Producto = 1"; //El "1" es porque el tipo de producto 1, es Terminado.          
-            $sql= $conexion->prepare($sql);
+            $sql = "SELECT * FROM tbl_productos WHERE Id_Tipo_Producto = 1 AND Estado = 'activo'";
+            $sql = $conexion->prepare($sql);
             $sql->execute();
-            return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
+            return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
         }
-
+        
         public function get_promociones(){    
-            $conexion= parent::Conexion();
+            $conexion = parent::Conexion();
             parent::set_names();
-            $sql = "SELECT * FROM tbl_promociones";           
-            $sql= $conexion->prepare($sql);
+            $sql = "SELECT * FROM tbl_promociones WHERE Estado = 'activo'";
+            $sql = $conexion->prepare($sql);
             $sql->execute();
-            return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
-        }
+            return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
+        }        
 
        public function registrar_bitacora($id_usuario, $id_objeto, $accion, $descripcion) {
             $conexion = parent::Conexion();

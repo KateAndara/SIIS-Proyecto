@@ -108,14 +108,14 @@
                     <form class="InsertPromocionProducto" >
                        
                         <input type="number" id="Id_Promocion_Producto" class="form-control" placeholder="Ingrese el código de la promoción"hidden>
-                        <label for="">SELECCIONE UN PRODUCTO</label> 
+                        <label id="producto" for="">SELECCIONE UN PRODUCTO</label> 
                                 <br>
 
                                 <select id="Select_ProductoFinal" name="Select_ProductoFinal" style="width: 100%" class="select2">
                                     <!-- <option value="">Seleccione un producto</option> -->
                                     
                                 </select>
-                        <label for="">SELECCIONE UNA PROMOCIÓN</label> 
+                        <label id="promocion" for="">SELECCIONE UNA PROMOCIÓN</label> 
                                 <br>
 
                                 <select id="Select_Promocion" name="Select_Promocion" style="width: 100%" class="select2">
@@ -125,7 +125,7 @@
                        
                        <label for="Cantidad">CANTIDAD</label>
 <input type="number" id="Cantidad" class="form-control" placeholder="Ingrese la cantidad de productos que tendrán esta promoción" 
-       min="0" oninput="checkInputLength()">
+       min="0" oninput="checkInputLength()" autocomplete="off" onpaste="return false;">
 <p id="lengthMessage" ></p>
 
 <script>

@@ -40,18 +40,19 @@ $(document).ready(function(){
                  },
                  columns: [
                    { data: "Numero" },
-                   { data: "Nombre" },
+                   { data: "NombreProducto" },
                    { data: "Nombre_Promocion" },
                    { data: "Cantidad" },
+                   { data: "options" },
                    
-
+                    /* 
                    { 
                                data: null, 
                                render: function ( data, type, row ) {
                                  return '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarPromocionProducto(\'' + row.Id_Promocion_Producto + '\'); mostrarFormulario();">Editar</button>' +
                                         '<button class="rounded" style="background-color: #FF0000; color: white; display: inline-block; width: 67px;" onclick="EliminarPromocionProducto(\'' + row.Id_Promocion_Producto + '\')">Eliminar</button>';
                                }
-                    }       
+                    }    */    
                  ],
                });
         }
@@ -60,31 +61,42 @@ $(document).ready(function(){
 }
 
 function AgregarPromocion(event){
-     // Validar que el campo Cantidad no esté vacío
-     if ($('#Cantidad').val() === '') {
+    event.preventDefault();
+    // Validar que se haya seleccionado un producto
+    if ($('#Select_ProductoFinal').val() === "") {
         Swal.fire({
-            title: 'Error',
-            text: 'El campo Cantidad no puede estar vacío',
+            title: 'No ha seleccionado un producto',
             icon: 'error',
             confirmButtonColor: '#3085d6',
             confirmButtonText: 'Aceptar'
         });
-        event.preventDefault();
         return;
     }
 
-    // Validar que el campo Cantidad solo contenga números
-    if (!$.isNumeric($('#Cantidad').val())) {
+    // Validar que se haya seleccionado un producto
+    if ($('#Select_Promocion').val() === "") {
         Swal.fire({
-            title: 'Error',
-            text: 'El campo Cantidad solo puede contener números',
+            title: 'No ha seleccionado una promoción',
             icon: 'error',
             confirmButtonColor: '#3085d6',
             confirmButtonText: 'Aceptar'
         });
-        event.preventDefault();
         return;
     }
+
+     // Validar que la cantidad sea un número mayor a 0
+     if (!(/^\d+$/.test($('#Cantidad').val())) || parseInt($('#Cantidad').val()) <= 0) {
+        Swal.fire({
+            title: 'Ingrese una cantidad de promoción válida',
+            text: 'La cantidad debe ser un número entero mayor a 0.',
+            icon: 'error',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Aceptar'
+        });
+        document.querySelector("#Cantidad").value = ""; // limpiar el valor ingresado
+        return;
+    }
+   
 
     var datosPromocionProducto = {
         Id_Producto: $('#Select_ProductoFinal').val(),
@@ -99,35 +111,35 @@ function AgregarPromocion(event){
         data: datosPromocionProductoJson,
         datatype: 'JSON',
         contentType: 'application/json',
-        success: function(response){
-            console.log(response);
-            Swal.fire({
-                title: 'Promoción a Producto Agregada',
-                icon: 'success',
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'Aceptar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    CargarPromocionesProductos();
-                    document.querySelector("#Select_ProductoFinal").value = ""; // limpiar el valor seleccionado
-                    document.querySelector("#Select_Promocion").value = ""; // limpiar el valor seleccionado
-                    document.querySelector("#Cantidad").value = ""; // limpiar el valor ingresado
-                }
-            });
+        success: function(reponse){
+            console.log(reponse.status);
+              swal.fire({
+                title: "LISTO",
+                text: "Promoción a producto agregada",
+                icon: "success",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                timer: 3000,
+                willClose: () => {
+                  window.location.reload();
+                },
+              });
         },
-
         error: function(textStatus, errorThrown){
-            Swal.fire({
-                title: 'Error al agregar promoción',
-                text: textStatus + errorThrown,
-                icon: 'error',
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'Aceptar'
-            });
-        }
+            swal.fire({
+                title: "LISTO",
+                text: "Promoción a producto agregada",
+                icon: "success",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                timer: 3000,
+                willClose: () => {
+                  window.location.reload();
+                },
+              });
+        },
     });
 }
-
 
 
 function CargarPromocionProducto(idPromocion){
@@ -145,16 +157,28 @@ function CargarPromocionProducto(idPromocion){
         success: function(reponse){
             var MisItems = reponse;
             //Muestra el id junto con su título que se encuentra oculto en el Agregar.
-            
-           document.getElementById('Id_Tipo_Movimiento').style.display = 'none';
+          
+            document.getElementById('Id_Promocion_Producto').style.display = 'none';
+
             $('label[for="Id_Promocion_Producto"]').removeAttr('hidden'); //Título
         
             $('#Id_Promocion_Producto').val(MisItems[0].Id_Promocion_Producto).prop('readonly', true);  // Propiedad para que no se pueda modificar el campo.
-            $('#Select_ProductoFinal').val(MisItems[0].Id_Producto).prop('readonly', true).prop('disabled', true);
-            $('#Select_Promocion').val(MisItems[0].Id_Promocion).prop('readonly', true).prop('disabled', true);
+           
+            // Configurar el valor seleccionado en el select2 #Select_ProductoFinal
+            $('#Select_ProductoFinal').val(MisItems[0].Id_Producto).trigger('change');
+
+            // Configurar el valor seleccionado en el select2 #Select_Promocion
+            $('#Select_Promocion').val(MisItems[0].Id_Promocion);
+
+            // Mantener la deshabilitación de la edición para #Select_ProductoFinal y #Select_Promocion
+            $('#Select_ProductoFinal, #Select_Promocion').prop('readonly', true).prop('disabled', true);
+
+            // Reinicializar ambos select2 después de aplicar las configuraciones
+            $("#Select_ProductoFinal, #Select_Promocion").select2();
+
             $('#Cantidad').val(MisItems[0].Cantidad);
             //Usar el mismo botón de agregar con la funcionalidad de actualizar.
-            var btnactualizar = '<input type="submit" id="btn_actualizar" onclick="ActualizarPromocionProducto(' +MisItems[0].Id_Promocion_Producto+')"'+
+            var btnactualizar = '<input type="submit" id="btn_actualizar" onclick="ActualizarPromocionProducto(' +MisItems[0].Id_Promocion_Producto+ ', event)"' +
             'value="Actualizar Promoción a Producto" class="btn btn-primary"> <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button></input>';
             $('#btnagregarPromocion').html(btnactualizar);
             $('#btncancelar').click(function(){ //Cancela la acción
@@ -164,40 +188,30 @@ function CargarPromocionProducto(idPromocion){
             var titulo = '<div class="Col-12" id="titulo">'+
             '<h3 style="color: black;">Editar Promoción del producto</h3></div>';
             $('#titulo').html(titulo); 
+            // Cambiar el título del label con el ID "producto".
+            var nuevoTituloProducto = 'Producto';
+            $('#producto').text(nuevoTituloProducto);
 
-            // Agrega la clase "select2" al select de ProductoFinal y Promocion
-            $('#Select_ProductoFinal, #Select_Promocion').addClass('select2');
-            // Inicializa los select2
-            $('.select2').select2();
+            // Cambiar el título del label con el ID "promocion".
+            var nuevoTituloPromocion = 'Promoción';
+            $('#promocion').text(nuevoTituloPromocion);
         }
     });
 }
 
 
-function ActualizarPromocionProducto(idPromocionProducto){
-    // Validar que el campo Cantidad no esté vacío
-    if ($('#Cantidad').val() === '') {
+function ActualizarPromocionProducto(idPromocionProducto, event){
+    event.preventDefault();
+    // Validar que la cantidad sea un número mayor a 0
+    if (!(/^\d+$/.test($('#Cantidad').val())) || parseInt($('#Cantidad').val()) <= 0) {
         Swal.fire({
-            title: 'Error',
-            text: 'El campo Cantidad no puede estar vacío',
+            title: 'Ingrese una cantidad de promoción válida',
+            text: 'La cantidad debe ser un número entero mayor a 0.',
             icon: 'error',
             confirmButtonColor: '#3085d6',
             confirmButtonText: 'Aceptar'
         });
-        event.preventDefault();
-        return;
-    }
-
-    // Validar que el campo Cantidad solo contenga números
-    if (!$.isNumeric($('#Cantidad').val())) {
-        Swal.fire({
-            title: 'Error',
-            text: 'El campo Cantidad solo puede contener números',
-            icon: 'error',
-            confirmButtonColor: '#3085d6',
-            confirmButtonText: 'Aceptar'
-        });
-        event.preventDefault();
+        document.querySelector("#Cantidad").value = ""; // limpiar el valor ingresado
         return;
     }
     
@@ -220,31 +234,32 @@ function ActualizarPromocionProducto(idPromocionProducto){
         datatype: 'JSON',
         contentType: 'application/json',
         success: function(reponse){
-            console.log(reponse);
-            Swal.fire({
-                title: 'Promoción Actualizada',
-                icon: 'success',
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'Aceptar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    CargarPromocionesProductos();
-                    document.querySelector("#Select_ProductoFinal").value = ""; // limpiar el valor seleccionado
-                    document.querySelector("#Select_Promocion").value = ""; // limpiar el valor seleccionado
-                    document.querySelector("#Cantidad").value = ""; // limpiar el valor ingresado
-                }
-            });
+            console.log(reponse.status);
+              swal.fire({
+                title: "LISTO",
+                text: "Promoción actualizada",
+                icon: "success",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                timer: 3000,
+                willClose: () => {
+                  window.location.reload();
+                },
+              });
         },
-
         error: function(textStatus, errorThrown){
-            Swal.fire({
-                title: 'Error',
-                text: 'Error al actualizar promoción' + textStatus + errorThrown,
-                icon: 'error',
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'Aceptar'
-            });
-        }
+            swal.fire({
+                title: "LISTO",
+                text: "Promoción actualizada",
+                icon: "success",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                timer: 3000,
+                willClose: () => {
+                  window.location.reload();
+                },
+              });
+        },
     });
 }
 
@@ -284,13 +299,18 @@ function EliminarPromocionProducto(idPromocionProducto){
                     });
                 },
                 error: function(textStatus, errorThrown){
-                    Swal.fire({
-                        title: 'Error al eliminar promoción',
-                        icon: 'error',
-                        confirmButtonColor: '#3085d6',
-                        confirmButtonText: 'Aceptar'
-                    });
-                }
+                    swal.fire({
+                        title: "LISTO",
+                        text: "Promoción eliminada",
+                        icon: "success",
+                        confirmButtonText: "Aceptar",
+                        closeOnConfirm: false,
+                        timer: 3000,
+                        willClose: () => {
+                          window.location.reload();
+                        },
+                      });
+                },
             });
         } else {
             Swal.fire({
