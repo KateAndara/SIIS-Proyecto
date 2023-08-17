@@ -97,16 +97,16 @@
             $sql->execute();
             return $resultado=$sql->fetch(PDO::FETCH_ASSOC);                
         }
-        public function get_promociones(){    
-            $conexion= parent::Conexion();
+        public function get_promociones() {    
+            $conexion = parent::Conexion();
             parent::set_names();
-            $sql="SELECT p.* FROM `tbl_promociones` p;";          
-            $sql= $conexion->prepare($sql);
-    
-
+            $sql = "SELECT p.* FROM `tbl_promociones` p WHERE p.Estado = 'activo';";
+            $sql = $conexion->prepare($sql);
+        
             $sql->execute();
-            return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
+            return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
         }
+        
 
         public function get_productosPromo($idPromocion){    
             $conexion= parent::Conexion();
