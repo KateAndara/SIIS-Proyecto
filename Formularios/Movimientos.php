@@ -52,10 +52,19 @@ $id=$_GET['id'];
                     </h3>
                 </div>
             </div>
+
+            <div class="d-flex justify-content-end">
+                <a href=" javascript:history.back()" class="btn btn-danger" >
+                    Atras
+                </a>
+             </div>
+           
+             
             <div style="margin: 0 18px;">
                 <button class="rounded" style="background-color: #fff; color: dark; float: right;"onclick="generarReporte('tableMovimientos','REPORTE DE LOS MOVIMIENTOS DEL PRODUCTO',60)">Generar PDF</button>
             </div>
-
+            <div>
+                            
             <div class="box-body">
                 <div class="table table-responsive">
                 <table class="table table-hover" id="tableMovimientos" style="width: 100%;">
