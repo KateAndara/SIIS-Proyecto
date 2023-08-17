@@ -114,31 +114,87 @@
                         Agregar Promoción
                     </h3>
                 </div>
+                    <!-- inicio -->
                 <div class="col-6">
-                    <form class="InsertPromocion">
-                       
-                        <label for="Id_Promocion" hidden>ID PROMOCION</label>
-                        <input type="number" id="Id_Promocion" class="form-control" placeholder="Ingrese el código de la promoción"hidden>
-                        <label for="">NOMBRE DE LA PROMOCION</label>
-                        <input type="text" id="Nombre_Promocion" class="form-control" placeholder="Ingrese el nombre de la promoción">
-                        <label for="">PRECIO DE VENTA</label>
-                        <input type="number" id="Precio_Venta" class="form-control" placeholder="Ingrese el precio de venta de la promoción ">
-                        <label for="">FECHA DE INICIO DE LA OFERTA</label>
-                        <input type="date" id="Fecha_inicio" class="form-control">
-                        <label for="">FECHA FINAL DE LA OFERTA</label>
-                        <input type="date" id="Fecha_final" class="form-control">
-                        <hr>
-                        <div id="btnagregarPromocion">
-                            <input type="submit" id="btnagregar" onclick="AgregarPromocion()" value="Agregar Promocion" class="btn btn-success">
-                            <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button>
-                        </div>
-                    </form>
-                    <script> //Cancela la acción
-                    document.getElementById("btncancelar").onclick = function() {
-                        location.href = "http://localhost/SIIS-PROYECTO/Formularios/PromocionesVentas.php";
-                    };
-                    </script>
-                </div>
+    <form class="InsertPromocion">
+        <label for="">NOMBRE DE LA PROMOCION</label>
+        <input type="text" id="Nombre_Promocion" class="form-control" placeholder="Ingrese el nombre de la promoción" maxlength="30">
+        <p id="mensajeCaracteres" style="display: none;">Llegaste al límite de 30 caracteres.</p>
+        <script>
+const inputNombrePromocion = document.getElementById("Nombre_Promocion");
+const mensajeCaracteres = document.getElementById("mensajeCaracteres");
+
+inputNombrePromocion.addEventListener("input", function() {
+  if (inputNombrePromocion.value.length === 30) {
+    mensajeCaracteres.style.display = "block";
+  } else {
+    mensajeCaracteres.style.display = "none";
+  }
+});
+</script>
+
+
+<label for="Precio_Venta">PRECIO DE VENTA</label>
+<input type="number" id="Precio_Venta" class="form-control" placeholder="Ingrese el precio de venta de la promoción" min="0" oninput="checkInputLength()">
+<p id="lengthMessage" ></p>
+
+<script>
+function checkInputLength() {
+  var inputField = document.getElementById("Precio_Venta");
+  var lengthMessage = document.getElementById("lengthMessage");
+  
+  if (inputField.value.length > 20) {
+    inputField.value = inputField.value.substring(0, 20);
+    lengthMessage.textContent = "Máximo de 20 caracteres alcanzado.";
+  } else {
+    lengthMessage.textContent = "";
+  }
+}
+</script>
+        
+        <label for="">FECHA DE INICIO DE LA OFERTA</label>
+        <input type="date" id="Fecha_inicio" class="form-control">
+        
+        <label for="">FECHA FINAL DE LA OFERTA</label>
+        <input type="date" id="Fecha_final" class="form-control">
+        <br>
+        <div id="btnagregarPromocion">
+            <input type="submit" id="btnagregar" onclick="AgregarPromocion()" value="Agregar Promoción" class="btn btn-success" disabled>
+            <button type="button" id="btncancelar" class="btn btn-secondary">Cancelar</button>
+        </div>
+    </form>
+    <script>
+        const form = document.querySelector('.InsertPromocion');
+        const nombrePromocionInput = document.getElementById('Nombre_Promocion');
+        const precioVentaInput = document.getElementById('Precio_Venta');
+        const fechaInicioInput = document.getElementById('Fecha_inicio');
+        const fechaFinalInput = document.getElementById('Fecha_final');
+        const addButton = document.getElementById('btnagregar');
+        
+        const checkFields = () => {
+            const nombrePromocionValue = nombrePromocionInput.value.trim();
+            const precioVentaValue = precioVentaInput.value.trim();
+            const fechaInicioValue = fechaInicioInput.value;
+            const fechaFinalValue = fechaFinalInput.value;
+            
+            addButton.disabled =
+                nombrePromocionValue === '' ||
+                precioVentaValue === '' ||
+                fechaInicioValue === '' ||
+                fechaFinalValue === '';
+        };
+        
+        nombrePromocionInput.addEventListener('input', checkFields);
+        precioVentaInput.addEventListener('input', checkFields);
+        fechaInicioInput.addEventListener('input', checkFields);
+        fechaFinalInput.addEventListener('input', checkFields);
+        
+        document.getElementById('btncancelar').onclick = function () {
+            location.href = "http://localhost/SIIS-PROYECTO/Formularios/PromocionesVentas.php";
+        };
+    </script>
+</div>
+ <!-- Fin-->
             </div>
         </div>
     </div>
