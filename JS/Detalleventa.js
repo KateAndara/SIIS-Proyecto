@@ -14,6 +14,13 @@ function CargarDetalles(){
         datatype: 'JSON',
         success: function(reponse){
             var MisItems = reponse;
+            var secuencia = 1; // Agregar una variable para la secuencia de números
+            
+            // Recorrer los datos y agregar la secuencia de números
+            for (i = 0; i < MisItems.length; i++) {
+                MisItems[i].Numero = secuencia;
+                secuencia++;
+            }
             // Si la tabla ya ha sido inicializada previamente, destruye la instancia
             if ($.fn.DataTable.isDataTable('#TablaDetalles')) {
              $('#TablaDetalles').DataTable().destroy();
@@ -25,7 +32,7 @@ function CargarDetalles(){
                     "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json"
                   },
                   columns: [
-                    { data: 'Id_Detalle_Venta' },
+                    { data: "Numero" },
                     { data: 'Nombre' },
                     { data: 'Id_Venta' },
                     { data: 'Cantidad' },

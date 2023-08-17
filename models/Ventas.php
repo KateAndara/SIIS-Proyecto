@@ -146,13 +146,16 @@
         }
         
         public function get_descuentos(){    
-            $conexion= parent::Conexion();
+            $conexion = parent::Conexion();
             parent::set_names();
-            $sql="SELECT * FROM tbl_descuentos where Id_Descuento!=0";          
-            $sql= $conexion->prepare($sql);
+        
+            $sql = "SELECT * FROM tbl_descuentos WHERE Estado = 'activo' AND Id_Descuento != 0";          
+            $sql = $conexion->prepare($sql);
             $sql->execute();
-            return $resultado=$sql->fetchALL(PDO::FETCH_ASSOC);
+        
+            return $resultado = $sql->fetchAll(PDO::FETCH_ASSOC);
         }
+        
         public function get_descuento($idDescuento){    
             $conexion= parent::Conexion();
             parent::set_names();
