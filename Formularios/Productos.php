@@ -120,25 +120,24 @@
                 </div>
                 <div class="col-12">
                     <form class="InsertProducto">
-                        <label for="Id_Producto" hidden>ID PRODUCTO</label>
                         <input type="number" id="Id_Producto" class="form-control" placeholder="Ingrese el código del producto "hidden>                            
-                        <label for="">ID TIPO DE PRODUCTO</label>
+                        <label for="">TIPO DE PRODUCTO</label>
                         <select id="Select_TipoProducto" class="form-control">
                             <option value="">Seleccione un tipo producto</option>
                         </select>                                                               
                         <label for="">NOMBRE</label>
-                        <input type="text" id="Nombre" class="form-control" placeholder="Ingrese el nombre del producto" onkeyup="this.value=this.value.toUpperCase()">
+                        <input type="text" id="Nombre" class="form-control" placeholder="Ingrese el nombre del producto" onkeyup="this.value=this.value.toUpperCase()" autocomplete="off" onpaste="return false;">
                         <label for="">UNIDAD MEDIDA</label>
-                        <input type="text" id="Unidad_medida" class="form-control" placeholder="Ingrese unidad medida del producto" onkeyup="this.value=this.value.toUpperCase()">
+                        <input type="text" id="Unidad_medida" class="form-control" placeholder="Ingrese unidad medida del producto" onkeyup="this.value=this.value.toUpperCase() "autocomplete="off" onpaste="return false;">
                         <label for="">PRECIO</label>
-                        <input type="number" id="Precio" class="form-control" placeholder="Ingrese el precio del producto" step="0.01">
+                        <input type="number" id="Precio" class="form-control" placeholder="Ingrese el precio del producto" step="0.01"autocomplete="off" onpaste="return false;">
                         <label for="">CANTIDAD MAXIMA </label>
-                        <input type="number" id="Cantidad_maxima" class="form-control" placeholder="Ingrese la cantidad maxima del producto">
+                        <input type="number" id="Cantidad_maxima" class="form-control" placeholder="Ingrese la cantidad maxima del producto "autocomplete="off" onpaste="return false;">
                         <label for="">CANTIDAD MINIMA</label>
-                        <input type="number" id="Cantidad_minima" class="form-control" placeholder="Ingrese la cantidad minima producto">
+                        <input type="number" id="Cantidad_minima" class="form-control" placeholder="Ingrese la cantidad minima producto"autocomplete="off" onpaste="return false;">
                         <hr>
                         <div id="btnagregarProducto">
-                            <input type="submit" id="btnagregar" onclick="AgregarProducto()" value="Agregar Producto" class="btn btn-success">
+                            <a id="btnagregar" onclick="AgregarProducto()" value="Agregar Producto" class="btn btn-success">Agregar Producto</a>
                             <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button>
                         </div>
                     </form>

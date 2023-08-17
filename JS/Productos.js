@@ -103,27 +103,36 @@ function CargarProductos(){
     });
 }*/
 
-function AgregarProducto(){
+function AgregarProducto() {
     var nombre = $('#Nombre').val();
     var unidad_medida = $('#Unidad_medida').val();
     var precio = $('#Precio').val();
+    var cantidad_maxima = $('#Cantidad_maxima').val();
+    var cantidad_minima = $('#Cantidad_minima').val();
 
-    //Patrones de validación
-    var patronNombre = /^[a-zA-Z0-9\s]+$/; //Letras, espacios y números
-    var patronPrecio = /^\d+(\.\d{1,2})?$/; //Solo números decimales
+    // Patrones de validación
+    var patronNombre = /^[a-zA-Z0-9\s]+$/; // Letras, espacios y números
+    var patronUnidadMedida = /^[a-zA-Z0-9\s]+$/; // Letras, espacios y números en unidad de medida
+    var patronCantidad = /^\d+$/; // Solo números enteros positivos
 
-    //Validaciones
-    if(nombre.trim() == "" || unidad_medida.trim() == "" || precio.trim() == ""){
-        alert("Por favor complete todos los campos.");
+    // Validaciones
+    if (nombre.trim() === "" || unidad_medida.trim() === "" || precio.trim() === "" || cantidad_maxima.trim() === "" || cantidad_minima.trim() === "") {
+        swal.fire("Campos incompletos", "Por favor complete todos los campos.", "warning");
         return false;
-    } else if(!patronNombre.test(nombre)){
-        alert("El nombre solo debe contener letras, espacios y números.");
+    } else if (!patronNombre.test(nombre)) {
+        swal.fire("Nombre inválido", "El nombre solo debe contener letras, espacios y números.", "warning");
         return false;
-    } else if(!patronNombre.test(unidad_medida)){
-        alert("La unidad de medida solo debe contener letras, espacios y números.");
+    } else if (!patronUnidadMedida.test(unidad_medida)) {
+        swal.fire("Unidad de medida inválida", "La unidad de medida solo debe contener letras, espacios y números.", "warning");
         return false;
-    } else if(!patronPrecio.test(precio)){
-        alert("El precio debe ser un número decimal.");
+    } else if (isNaN(parseFloat(precio)) || parseFloat(precio) <= 0) {
+        swal.fire("Precio inválido", "El precio debe ser un número decimal mayor que cero.", "warning");
+        return false;
+    } else if (!patronCantidad.test(cantidad_maxima) || parseInt(cantidad_maxima) <= 0) {
+        swal.fire("Cantidad máxima inválida", "La cantidad máxima debe ser un número entero mayor que cero.", "warning");
+        return false;
+    } else if (!patronCantidad.test(cantidad_minima) || parseInt(cantidad_minima) <= 0) {
+        swal.fire("Cantidad mínima inválida", "La cantidad mínima debe ser un número entero mayor que cero.", "warning");
         return false;
     }
 
@@ -132,27 +141,44 @@ function AgregarProducto(){
         Nombre: nombre,
         Unidad_medida: unidad_medida,
         Precio: precio,
-        Cantidad_maxima: $('#Cantidad_maxima').val(),
-        Cantidad_minima: $('#Cantidad_minima').val()
+        Cantidad_maxima: cantidad_maxima,
+        Cantidad_minima: cantidad_minima
     };
-    var datosProductoJson= JSON.stringify(datosProducto);
+
+    var datosProductoJson = JSON.stringify(datosProducto);
 
     $.ajax({
-        url:UrlInsertarProducto,
+        url: UrlInsertarProducto,
         type: 'POST',
         data: datosProductoJson,
-        datatype: 'JSON',
+        dataType: 'json',
         contentType: 'application/json',
-        success: function(reponse){
-            console.log(reponse);
-            alert('Producto Agregado');
+        success: function(response) {
+            console.log(response);
+            swal.fire({
+                title: "LISTO!",
+                text: "Producto agregado con éxito",
+                icon: "success",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                timer: 3000,
+                willClose: () => {
+                  window.location.reload();
+                },
+              });
         },
-
         error: function(textStatus, errorThrown){
-            alert('Error al agregar producto' + textStatus + errorThrown);
-        }
+            swal.fire({
+                title: "Error!",
+                text: "Error al guardar el producto",
+                icon: "error",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                timer: 4000,
+               
+              });
+        },
     });
-    alert('Aviso');
 }
 
 function CargarProducto(idProducto){ //Función que trae los campos que se eligieron editar.
@@ -180,8 +206,8 @@ function CargarProducto(idProducto){ //Función que trae los campos que se eligi
             $('#Cantidad_maxima').val(MisItems[0].Cantidad_maxima);
             $('#Cantidad_minima').val(MisItems[0].Cantidad_minima);
             //Usar el mismo botón de agregar con la funcionalidad de actualizar.
-            var btnactualizar = '<input type="submit" id="btn_actualizar" onclick="ActualizarProducto(' +MisItems[0].Id_Producto+')"'+
-            'value="Actualizar Producto" class="btn btn-primary"> <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button></input>';
+            var btnactualizar = '<a id="btn_actualizar" onclick="ActualizarProducto(' +MisItems[0].Id_Producto+')"'+
+            'value="Actualizar Producto" class="btn btn-primary">Actualizar Producto</a> <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button></input>';
             $('#btnagregarProducto').html(btnactualizar);
             $('#btncancelar').click(function(){ //Cancela la acción
                 location.href = "http://localhost/SIIS-PROYECTO/Formularios/Productos.php";
@@ -195,26 +221,35 @@ function CargarProducto(idProducto){ //Función que trae los campos que se eligi
 }
 
 function ActualizarProducto(idProducto){
-     var nombre = $('#Nombre').val();
+    var nombre = $('#Nombre').val();
     var unidad_medida = $('#Unidad_medida').val();
     var precio = $('#Precio').val();
+    var cantidad_maxima = $('#Cantidad_maxima').val();
+    var cantidad_minima = $('#Cantidad_minima').val();
 
-    //Patrones de validación
-    var patronNombre = /^[a-zA-Z0-9\s]+$/; //Letras, espacios y números
-    var patronPrecio = /^\d+(\.\d{1,2})?$/; //Solo números decimales
+    // Patrones de validación
+    var patronNombre = /^[a-zA-Z0-9\s]+$/; // Letras, espacios y números
+    var patronUnidadMedida = /^[a-zA-Z0-9\s]+$/; // Letras, espacios y números en unidad de medida
+    var patronCantidad = /^\d+$/; // Solo números enteros positivos
 
-    //Validaciones
-    if(nombre.trim() == "" || unidad_medida.trim() == "" || precio.trim() == ""){
-        alert("Por favor complete todos los campos.");
+    // Validaciones
+    if (nombre.trim() === "" || unidad_medida.trim() === "" || precio.trim() === "" || cantidad_maxima.trim() === "" || cantidad_minima.trim() === "") {
+        swal.fire("Campos incompletos", "Por favor complete todos los campos.", "warning");
         return false;
-    } else if(!patronNombre.test(nombre)){
-        alert("El nombre solo debe contener letras, espacios y números.");
+    } else if (!patronNombre.test(nombre)) {
+        swal.fire("Nombre inválido", "El nombre solo debe contener letras, espacios y números.", "warning");
         return false;
-    } else if(!patronNombre.test(unidad_medida)){
-        alert("La unidad de medida solo debe contener letras, espacios y números.");
+    } else if (!patronUnidadMedida.test(unidad_medida)) {
+        swal.fire("Unidad de medida inválida", "La unidad de medida solo debe contener letras, espacios y números.", "warning");
         return false;
-    } else if(!patronPrecio.test(precio)){
-        alert("El precio debe ser un número decimal.");
+    } else if (isNaN(parseFloat(precio)) || parseFloat(precio) <= 0) {
+        swal.fire("Precio inválido", "El precio debe ser un número decimal mayor que cero.", "warning");
+        return false;
+    } else if (!patronCantidad.test(cantidad_maxima) || parseInt(cantidad_maxima) <= 0) {
+        swal.fire("Cantidad máxima inválida", "La cantidad máxima debe ser un número entero mayor que cero.", "warning");
+        return false;
+    } else if (!patronCantidad.test(cantidad_minima) || parseInt(cantidad_minima) <= 0) {
+        swal.fire("Cantidad mínima inválida", "La cantidad mínima debe ser un número entero mayor que cero.", "warning");
         return false;
     }
     var datosProducto={
@@ -234,16 +269,32 @@ function ActualizarProducto(idProducto){
         data: datosProductoJson,
         datatype: 'JSON',
         contentType: 'application/json',
-        success: function(reponse){
-            console.log(reponse);
-            alert('Producto actualizado');
+        success: function(response) {
+            console.log(response);
+            swal.fire({
+                title: "LISTO!",
+                text: "Producto actualizado con éxito",
+                icon: "success",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                timer: 3000,
+                willClose: () => {
+                  window.location.reload();
+                },
+              });
         },
-
         error: function(textStatus, errorThrown){
-            alert('Error al actualizar producto' + textStatus + errorThrown);
-        }
+            swal.fire({
+                title: "Error!",
+                text: "Error al actualizar el producto",
+                icon: "error",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                timer: 4000,
+               
+              });
+        },
     });
-    alert('Aviso');
 }
 
 function EliminarProducto(idProducto){
@@ -269,10 +320,21 @@ function EliminarProducto(idProducto){
             data: datosProductoJson,
             datatype: 'JSON',
             contentType: 'application/json',
-            success: function(reponse){
+            success: function (response) {
                 //Swal.fire("Cancelada!", "Compra Cancelada Correctamente.", "success");
                 Swal.fire({
-                    title: "Cancelada",
+                  title: "LISTO",
+                  text: "Producto eliminado correctamente",
+                  icon: "success",
+                  timer: 3000,
+                  willClose: () => {
+                    location.reload();
+                  },
+                });
+              },
+              error: function(textStatus, errorThrown){
+                Swal.fire({
+                    title: "LISTO",
                     text: "Producto eliminado correctamente",
                     icon: "success",
                     timer: 3000,
@@ -280,14 +342,6 @@ function EliminarProducto(idProducto){
                       location.reload();
                     },
                   });
-                },
-                error: function(textStatus, errorThrown){
-                  Swal.fire({
-                      title: 'Este producto no puede ser eliminado',
-                      icon: 'error',
-                      confirmButtonColor: '#3085d6',
-                      confirmButtonText: 'Aceptar'
-                    });
             }
             });
           }
@@ -305,7 +359,7 @@ function CargarTipoProducto(){
             var opciones='';
             
             for(i=0; i<MisItems.length; i++){ //Muestra Id y nombre
-                opciones += '<option value="' + MisItems[i].Id_Tipo_Producto + '">' + ' ID ' + MisItems[i].Id_Tipo_Producto + ' - ' + MisItems[i].Nombre_tipo + '</option>';
+                opciones += '<option value="' + MisItems[i].Id_Tipo_Producto + '">'  + MisItems[i].Id_Tipo_Producto + ' - ' + MisItems[i].Nombre_tipo + '</option>';
             }
             $('#Select_TipoProducto').html(opciones);
         }

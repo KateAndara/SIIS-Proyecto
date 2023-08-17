@@ -99,8 +99,8 @@
         public function insert_producto($Id_Tipo_Producto, $Nombre, $Unidad_medida, $Precio, $Cantidad_maxima, $Cantidad_minima){
             $conectar= parent::conexion();
             parent::set_names();
-            $sql="INSERT INTO tbl_productos(Id_Tipo_Producto, Nombre, Unidad_medida, Precio, Cantidad_maxima, Cantidad_minima)
-            VALUES (?,?,?,?,?,?);";
+            $sql="INSERT INTO tbl_productos(Id_Tipo_Producto, Nombre, Unidad_medida, Precio, Cantidad_maxima, Cantidad_minima, Estado)
+            VALUES (?,?,?,?,?,?,'activo');";
             $sql=$conectar->prepare($sql);            
             $sql->bindValue(1, $Id_Tipo_Producto);
             $sql->bindValue(2, $Nombre);
@@ -140,7 +140,7 @@
         public function delete_producto($Id_Producto){
             $conectar= parent::conexion();
             parent::set_names();
-            $sql = "DELETE FROM tbl_productos WHERE Id_Producto =?";
+            $sql="UPDATE tbl_productos SET Estado = 'inactivo' WHERE Id_Producto =?";
             $sql=$conectar->prepare($sql);
             $sql->bindvalue(1, $Id_Producto);
             $sql->execute();
