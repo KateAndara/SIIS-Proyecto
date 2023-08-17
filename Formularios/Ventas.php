@@ -78,7 +78,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css
                     <table class="table table-hover" id="TableVentas">
                         <thead>
                             <tr>
-                                <th>ID </th>
+                                <th>N°</th>
                                 <th>CLIENTE</th>
                                 <!-- <th>USUARIO</th> -->
                                 <th>ESTADO</th>
