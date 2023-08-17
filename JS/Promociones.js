@@ -19,6 +19,13 @@ function CargarPromociones(){
         datatype: 'JSON',
         success: function(reponse){
             var MisItems = reponse;
+            var secuencia = 1; // Agregar una variable para la secuencia de números
+            
+            // Recorrer los datos y agregar la secuencia de números
+            for (i = 0; i < MisItems.length; i++) {
+                MisItems[i].Numero = secuencia;
+                secuencia++;
+            }
             // Si la tabla ya ha sido inicializada previamente, destruye la instancia
             if ($.fn.DataTable.isDataTable('#TablaPromociones')) {
              $('#TablaPromociones').DataTable().destroy();
@@ -30,7 +37,7 @@ function CargarPromociones(){
                 url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json",
               },
               columns: [
-                { data: "Id_Promocion" },
+                { data: "Numero" },
                 { data: "Nombre_Promocion" },
                 { data: "Precio_Venta" },
                 { data: "Fecha_inicio" },
@@ -88,7 +95,8 @@ function BuscarPromociones(NombrePromocion){
 */
 
 
-function AgregarPromocion(){
+function AgregarPromocion(event){
+    event.preventDefault();
     var datosPromocion = {
     Nombre_Promocion: $('#Nombre_Promocion').val(),
     Cantidad: $('#Cantidad').val(),
@@ -106,15 +114,31 @@ function AgregarPromocion(){
         datatype: 'JSON',
         contentType: 'application/json',
         success: function(reponse){
-            console.log(reponse);
-            alert('Promoción Agregada');
+            console.log(reponse.status);
+              swal.fire({
+                title: "LISTO",
+                text: "Promoción agregada",
+                icon: "success",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                timer: 3000,
+                willClose: () => {
+                  window.location.reload();
+                },
+              });
         },
-
         error: function(textStatus, errorThrown){
-            alert('Error al agregar promoción' + textStatus + errorThrown);
-        }
+            swal.fire({
+                title: "Error",
+                text: "No se pudo agregar promoción",
+                icon: "error",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                timer: 4000,
+               
+              });
+        },
     });
-    alert('Aviso');
 }
 
 function CargarPromocion(idPromocion){ //Función que trae los campos que se eligieron editar.
@@ -140,7 +164,7 @@ function CargarPromocion(idPromocion){ //Función que trae los campos que se eli
             $('#Fecha_inicio').val(MisItems[0].Fecha_inicio);
             $('#Fecha_final').val(MisItems[0].Fecha_final);
             //Usar el mismo botón de agregar con la funcionalidad de actualizar.
-            var btnactualizar = '<input type="submit" id="btn_actualizar" onclick="ActualizarPromocion(' +MisItems[0].Id_Promocion+')"'+
+            var btnactualizar = '<input type="submit" id="btn_actualizar" onclick="ActualizarPromocion(' +MisItems[0].Id_Promocion+ ', event)"' +
             'value="Actualizar Promoción" class="btn btn-primary"> <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button></input>';
             $('#btnagregarPromocion').html(btnactualizar);
             $('#btncancelar').click(function(){ //Cancela la acción
@@ -154,7 +178,8 @@ function CargarPromocion(idPromocion){ //Función que trae los campos que se eli
     });
 }
 
-function ActualizarPromocion(idPromocion){
+function ActualizarPromocion(idPromocion, event){
+    event.preventDefault();
     var datosPromocion={
     Id_Promocion: idPromocion,
     Nombre_Promocion: $('#Nombre_Promocion').val(),
@@ -171,15 +196,31 @@ function ActualizarPromocion(idPromocion){
         datatype: 'JSON',
         contentType: 'application/json',
         success: function(reponse){
-            console.log(reponse);
-            alert('Promoción Actualizada');
+            console.log(reponse.status);
+              swal.fire({
+                title: "LISTO",
+                text: "Promoción actualizada",
+                icon: "success",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                timer: 3000,
+                willClose: () => {
+                  window.location.reload();
+                },
+              });
         },
-
         error: function(textStatus, errorThrown){
-            alert('Error al actualizar promoción' + textStatus + errorThrown);
-        }
+            swal.fire({
+                title: "Error",
+                text: "No se pudo actualizar promoción",
+                icon: "error",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                timer: 4000,
+               
+              });
+        },
     });
-    alert('Aviso');
 }
 
 function EliminarPromocion(idPromocion){
@@ -208,7 +249,7 @@ function EliminarPromocion(idPromocion){
             //Swal.fire("Cancelada!", "Compra Cancelada Correctamente.", "success");
             Swal.fire({
                 title: "Cancelada",
-                text: "Promoción eliminado correctamente",
+                text: "Promoción eliminada correctamente",
                 icon: "success",
                 timer: 3000,
                 willClose: () => {

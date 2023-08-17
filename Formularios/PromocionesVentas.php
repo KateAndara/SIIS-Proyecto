@@ -119,7 +119,7 @@
     <form class="InsertPromocion">
    
     <label for="Nombre_Promocion">NOMBRE DE LA PROMOCION</label>
-<input type="text" id="Nombre_Promocion" class="form-control" placeholder="Ingrese el nombre de la promoción" maxlength="30">
+<input type="text" id="Nombre_Promocion" class="form-control" placeholder="Ingrese el nombre de la promoción" maxlength="30" autocomplete="off" onpaste="return false;">
 <p id="mensajeCaracteres" style="display: none;">Llegaste al límite de 30 caracteres.</p>
 <script>
 const inputNombrePromocion = document.getElementById("Nombre_Promocion");
@@ -140,8 +140,8 @@ inputNombrePromocion.addEventListener("input", function() {
 </script>
 
 
-<<label for="Precio_Venta">PRECIO DE VENTA</label>
-<input type="text" id="Precio_Venta" class="form-control" placeholder="Ingrese el precio de venta de la promoción" oninput="validateInput()">
+<label for="Precio_Venta">PRECIO DE VENTA</label>
+<input type="text" id="Precio_Venta" class="form-control" placeholder="Ingrese el precio de venta de la promoción" oninput="validateInput()"autocomplete="off" onpaste="return false;">
 <p id="formatMessage"></p>
 
 <script>
@@ -261,7 +261,7 @@ function validateDates() {
        
         <br>
         <div id="btnagregarPromocion">
-            <input type="submit" id="btnagregar" onclick="AgregarPromocion()" value="Agregar Promoción" class="btn btn-success" disabled>
+            <input type="submit" id="btnagregar" onclick="AgregarPromocion(event)" value="Agregar Promoción" class="btn btn-success" disabled>
             <button type="button" id="btncancelar" class="btn btn-secondary">Cancelar</button>
         </div>
     </form>

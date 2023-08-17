@@ -1,15 +1,32 @@
 <?php
     class Promociones extends Conectar{
 
-        public function get_promociones(){                 //Si se nececita mostrar nombre en vez de ID.         
-            $conexion= parent::Conexion();
+        public function get_promociones(){                      
+            $conexion = parent::Conexion();
             parent::set_names();
-            $sql="SELECT * 
-                  FROM tbl_promociones WHERE Estado = 'activo'";
-            $sql= $conexion->prepare($sql);
-            $sql->execute();
-            return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);                
+            date_default_timezone_set('America/Tegucigalpa'); // Configuración de la zona horaria
+            
+            $sql = "SELECT * FROM tbl_promociones WHERE Estado = 'activo'";
+            $stmt = $conexion->prepare($sql);
+            $stmt->execute();
+            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+            // Formatear las fechas en cada resultado
+            foreach ($resultados as &$resultado) {
+                $fecha_inicio_dt = new DateTime($resultado['Fecha_inicio']);  
+                $fecha_inicio_dt->setTimezone(new DateTimeZone('America/Tegucigalpa'));
+                $fecha_inicio_formateada = $fecha_inicio_dt->format('d-m-Y');
+                $resultado['Fecha_inicio'] = $fecha_inicio_formateada;
+        
+                $fecha_final_dt = new DateTime($resultado['Fecha_final']);  
+                $fecha_final_dt->setTimezone(new DateTimeZone('America/Tegucigalpa'));
+                $fecha_final_formateada = $fecha_final_dt->format('d-m-Y');
+                $resultado['Fecha_final'] = $fecha_final_formateada;
+            }
+            
+            return $resultados;                
         }
+        
 
         public function get_promocion($busqueda){  //Buscar por nombre y id               
             $conectar = parent::Conexion();
