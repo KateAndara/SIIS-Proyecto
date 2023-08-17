@@ -122,8 +122,25 @@
                                     <!-- <option value="">Seleccione una promoción</option> -->
                                     
                                 </select>
-                        <label for="">CANTIDAD</label>
-                        <input type="text" id="Cantidad" class="form-control" placeholder="Ingrese la cantidad de productos que tendrán esta promoción">
+                       
+                       <label for="Cantidad">CANTIDAD</label>
+<input type="number" id="Cantidad" class="form-control" placeholder="Ingrese la cantidad de productos que tendrán esta promoción" 
+       min="0" oninput="checkInputLength()">
+<p id="lengthMessage" ></p>
+
+<script>
+function checkInputLength() {
+  var inputField = document.getElementById("Cantidad");
+  var lengthMessage = document.getElementById("lengthMessage");
+  
+  if (inputField.value.length > 20) {
+    inputField.value = inputField.value.substring(0, 20);
+    lengthMessage.textContent = "Máximo de 20 caracteres alcanzado.";
+  } else {
+    lengthMessage.textContent = "";
+  }
+}
+</script>
                         <hr>
                         <div id="btnagregarPromocion">
                             <input type="submit" id="btnagregar" onclick="AgregarPromocion(event)" value="Agregar Promoción al producto" class="btn btn-success">
