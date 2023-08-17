@@ -91,7 +91,7 @@
                     <table id="TablaPromociones" class="table table-hover">
                         <thead>
                             <tr>
-                                <th>ID </th>
+                                <th>N° </th>
                                 <th>NOMBRE</th>
                                 <th>PRECIO DE VENTA</th>
                                 <th>FECHA INICIO</th>
