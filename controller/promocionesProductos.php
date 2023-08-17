@@ -24,16 +24,40 @@
 
             case "GetPromocionesProductos":
                 $datos=$promocionesproductos->get_promocionesProductos();
-                //Bitácora
+                //ciclo for para insertar los botontes en cada opción
+                for ($i=0; $i < count($datos); $i++) { 
 
-                $varsesion = $_SESSION['usuario'];
-                $Id_Usuario = intval($promocionesproductos->get_user($varsesion));
+                    //variable de los botones
+                    $btnView = '';
+                    $btnEdit = '';
+                    $btnDelete = '';
 
-                if (!isset($_SESSION['ingreso_registrado_pantalla_promocionesproductos'])) {
-                    $promocionesproductos->registrar_bitacora($Id_Usuario, 54, 'Ingresar', 'Se ingresó a la pantalla de promociones de productos ');
+                    
 
-                    // Marcar que el ingreso ha sido registrado para esta pantalla de ventas
-                    $_SESSION['ingreso_registrado_pantalla_promocionesproductos'] = true;
+                    //si permisos es igual a Permiso_actualizacion de update crea el boton
+                    if($_SESSION['permisosMod']['u']){
+                        $btnEdit = '<button class="rounded" style="background-color: #2D7AC0; color: white; display: inline-block; width: 67px;" onclick="CargarPromocionProducto(\'' .$datos[$i]['Id_Promocion_Producto']. '\'); mostrarFormulario();">Editar</button>';
+                    }
+                        //si permisos es igual a Permiso_eliminacion de delete crea el boton
+
+                    if($_SESSION['permisosMod']['d']){
+                        $btnDelete='<button class="rounded" style="background-color: #FF0000; color: white; display: inline-block; width: 67px;" onclick="EliminarPromocionProducto(\'' .$datos[$i]['Id_Promocion_Producto'].  '\')">Eliminar</button>';
+                    }
+                    
+                    //unimos los botontes
+                    $datos[$i]['options'] = '<div class="text-center">'.$btnView.' '.$btnEdit.' '.$btnDelete.'</div>';
+                    
+                    //Bitácora
+
+                    $varsesion = $_SESSION['usuario'];
+                    $Id_Usuario = intval($promocionesproductos->get_user($varsesion));
+
+                    if (!isset($_SESSION['ingreso_registrado_pantalla_promocionesproductos'])) {
+                        $promocionesproductos->registrar_bitacora($Id_Usuario, 54, 'Ingresar', 'Se ingresó a la pantalla de promociones de productos ');
+
+                        // Marcar que el ingreso ha sido registrado para esta pantalla de ventas
+                        $_SESSION['ingreso_registrado_pantalla_promocionesproductos'] = true;
+                    }
                 }
                 echo json_encode($datos);
             break;

@@ -17,6 +17,13 @@ function CargarDescuentos(){
         datatype: 'JSON',
         success: function(reponse){
             var MisItems = reponse;
+            var secuencia = 1; // Agregar una variable para la secuencia de números
+            
+            // Recorrer los datos y agregar la secuencia de números
+            for (i = 0; i < MisItems.length; i++) {
+                MisItems[i].Numero = secuencia;
+                secuencia++;
+            }
             // Si la tabla ya ha sido inicializada previamente, destruye la instancia
             if ($.fn.DataTable.isDataTable('#TablaDescuentos')) {
              $('#TablaDescuentos').DataTable().destroy();
@@ -28,7 +35,7 @@ function CargarDescuentos(){
                 url: "//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json",
               },
               columns: [
-                { data: "Id_Descuento" },
+                { data: 'Numero' }, // Mostrar la secuencia de números
                 { data: "Nombre_descuento" },
                 { data: "Porcentaje" },
                 { data: "options" },
@@ -81,29 +88,65 @@ function BuscarDescuentos(Nombredescuento){
 
 */
 
-function AgregarDescuento(){
+function AgregarDescuento() {
+    var nombreDescuento = $('#Nombre_descuento').val();
+    var porcentajeDescuento = $('#Porcentaje_a_descontar').val();
+
+    // Validar campos vacíos
+    if (nombreDescuento.trim() === '' || porcentajeDescuento.trim() === '') {
+        Swal.fire('Error', 'Por favor, complete todos los campos.', 'error');
+        return; // Detener la ejecución si hay campos vacíos
+    }
+
+    // Validación de Nombre_descuento (solo letras y espacios)
+    if (!/^[a-zA-Z\s]+$/.test(nombreDescuento)) {
+        Swal.fire('Error', 'El nombre de descuento solo debe contener letras y espacios.', 'error');
+        return; // Detener la ejecución si la validación falla
+    }
+
+    // Validación de Porcentaje_a_descontar (solo formato numérico con % opcional)
+    if (!/^\d+(\.\d+)?%?$/.test(porcentajeDescuento)) {
+        Swal.fire('Error', 'El porcentaje de descuento debe ser numérico.', 'error');
+        return; // Detener la ejecución si la validación falla
+    }
+
     var datosDescuento = {
-    Nombre_descuento: $('#Nombre_descuento').val(),
-    Porcentaje_a_descontar: $('#Porcentaje_a_descontar').val()
+        Nombre_descuento: nombreDescuento,
+        Porcentaje_a_descontar: porcentajeDescuento
     };
-    var datosDescuentoJson= JSON.stringify(datosDescuento);
+    var datosDescuentoJson = JSON.stringify(datosDescuento);
 
     $.ajax({
-        url:UrlInsertarDescuentos,
+        url: UrlInsertarDescuentos,
         type: 'POST',
         data: datosDescuentoJson,
-        datatype: 'JSON',
+        dataType: 'JSON',
         contentType: 'application/json',
-        success: function(reponse){
-            console.log(reponse);
-            alert('Descuento Agregado');
+        success: function(response) {
+            console.log(response.status);
+            swal.fire({
+                title: "LISTO!",
+                text: "Descuento agregado con éxito",
+                icon: "success",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                timer: 3000,
+                willClose: () => {
+                    window.location.reload();
+                },
+            });
         },
-
-        error: function(textStatus, errorThrown){
-            alert('Error al agregar descuento' + textStatus + errorThrown);
-        }
+        error: function(textStatus, errorThrown) {
+            swal.fire({
+                title: "Error!",
+                text: "Error al guardar el Descuento",
+                icon: "error",
+                confirmButtonText: "Aceptar",
+                closeOnConfirm: false,
+                timer: 4000,
+            });
+        },
     });
-    alert('Aviso');
 }
 
 function CargarDescuento(IdDescuento){ //Función que trae los campos que se eligieron editar.
@@ -129,8 +172,8 @@ function CargarDescuento(IdDescuento){ //Función que trae los campos que se eli
             $('#Porcentaje_a_descontar').val(MisItems[0].Porcentaje_a_descontar);
             
             //Usar el mismo botón de agregar con la funcionalidad de actualizar.
-            var btnactualizar = '<input type="submit" id="btn_actualizar" onclick="ActualizarDescuento(' +MisItems[0].Id_Descuento+')"'+
-            'value="Actualizar Descuento" class="btn btn-primary"> <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button></input>';
+            var btnactualizar = '<a id="btn_actualizar" onclick="ActualizarDescuento(' +MisItems[0].Id_Descuento+')"'+
+            'value="Actualizar Descuento" class="btn btn-primary">Actualizar Descuento</a><button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button></input>';
             $('#btnagregarDescuento').html(btnactualizar);
             $('#btncancelar').click(function(){ //Cancela la acción
                 location.href = "http://localhost/SIIS-PROYECTO/Formularios/Descuentos.php";
@@ -144,11 +187,32 @@ function CargarDescuento(IdDescuento){ //Función que trae los campos que se eli
     });
 }
 
-function ActualizarDescuento(IdDescuento){
-    var datosDescuento={
-    Id_Descuento: IdDescuento,
-    Nombre_descuento: $('#Nombre_descuento').val(),
-    Porcentaje_a_descontar: $('#Porcentaje_a_descontar').val()
+function ActualizarDescuento(IdDescuento) {
+    var nombreDescuento = $('#Nombre_descuento').val();
+    var porcentajeDescuento = $('#Porcentaje_a_descontar').val();
+
+    // Validar campos vacíos
+    if (nombreDescuento.trim() === '' || porcentajeDescuento.trim() === '') {
+        Swal.fire('Error', 'Por favor, complete todos los campos.', 'error');
+        return; // Detener la ejecución si hay campos vacíos
+    }
+
+    // Validación de Nombre_descuento (solo letras y espacios)
+    if (!/^[a-zA-Z\s]+$/.test(nombreDescuento)) {
+        Swal.fire('Error', 'El nombre de descuento solo debe contener letras y espacios.', 'error');
+        return; // Detener la ejecución si la validación falla
+    }
+
+    // Validación de Porcentaje_a_descontar (solo formato numérico con % opcional)
+    if (!/^\d+(\.\d+)?%?$/.test(porcentajeDescuento)) {
+        Swal.fire('Error', 'El porcentaje de descuento debe ser numérico.', 'error');
+        return; // Detener la ejecución si la validación falla
+    }
+
+    var datosDescuento = {
+        Id_Descuento: IdDescuento,
+        Nombre_descuento: nombreDescuento,
+        Porcentaje_a_descontar: porcentajeDescuento
     };
     var datosDescuentoJson = JSON.stringify(datosDescuento);
 
@@ -156,19 +220,29 @@ function ActualizarDescuento(IdDescuento){
         url: UrlActualizarDescuentos,
         type: 'PUT',
         data: datosDescuentoJson,
-        datatype: 'JSON',
+        dataType: 'JSON',
         contentType: 'application/json',
-        success: function(reponse){
-            console.log(reponse);
-            alert('Descuento Actualizado');
+        success: function(response){
+            console.log(response);
+            swal.fire({
+                title: "Éxito",
+                text: "Descuento actualizado correctamente.",
+                icon: "success"
+            }).then(function() {
+              window.location.reload();
+  
+            });
         },
-
         error: function(textStatus, errorThrown){
-            alert('Error al actualizar descuento' + textStatus + errorThrown);
+            swal.fire({
+                title: "Error",
+                text: "Error al actualizar el descuento.",
+                icon: "error"
+            });
         }
     });
-    alert('Aviso');
 }
+
 
 function EliminarDescuento(IdDescuento){
     Swal.fire({
@@ -195,7 +269,7 @@ function EliminarDescuento(IdDescuento){
         success: function(reponse){
             //Swal.fire("Cancelada!", "Compra Cancelada Correctamente.", "success");
             Swal.fire({
-                title: "Cancelada",
+                title: "LISTO",
                 text: "Decuento eliminado correctamente",
                 icon: "success",
                 timer: 3000,

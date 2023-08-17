@@ -90,7 +90,7 @@ ob_start();
                     <table class="table table-hover" id="TablaDescuentos">
                         <thead>
                             <tr>
-                                <th>ID DESCUENTO</th>
+                                <th>N°</th>
                                 <th>NOMBRE DE DESCUENTO</th>
                                 <th>PORCENTAJE A DESCONTAR</th>                                
                                 <th>OPCIONES</th>                   
@@ -114,12 +114,12 @@ ob_start();
                 <div class="col-12">
                     <form class="InsertDescuento">  
                         <label for="">NOMBRE DESCUENTO</label>
-                        <input type="text" id="Nombre_descuento" class="form-control" placeholder="Ingrese el nombre del descuento"onkeyup="this.value=this.value.toUpperCase()">
+                        <input type="text" id="Nombre_descuento" class="form-control" placeholder="Ingrese el nombre del descuento"onkeyup="this.value=this.value.toUpperCase()"autocomplete="off" onpaste="return false;">
                         <label for="">PORCENTAJE A DESCONTAR</label>
-                        <input type="number" id="Porcentaje_a_descontar" class="form-control" placeholder="Ingrese el porcentaje a descontar">
+                        <input type="number" id="Porcentaje_a_descontar" class="form-control" placeholder="Ingrese el porcentaje a descontar"onkeyup="this.value=this.value.toUpperCase()"autocomplete="off" onpaste="return false;">
                         <hr>
                         <div id="btnagregarDescuento">
-                            <input type="submit" id="btnagregar" onclick="AgregarDescuento()" value="Agregar Descuento" class="btn btn-success">
+                            <a id="btnagregar" onclick="AgregarDescuento()" value="Agregar Descuento" class="btn btn-success">Agregar Descuento</a>
                             <button type="button" id="btncancelar"  class="btn btn-secondary">Cancelar</button>
                         </div>
                     </form>
@@ -136,6 +136,8 @@ ob_start();
 
 <!-- JavaScript Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>
+<script src="
+https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js
+"></script>
 </body>
 </html>

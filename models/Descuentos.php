@@ -14,7 +14,8 @@
             $conexion= parent::Conexion();
             parent::set_names();
             $sql="SELECT Id_Descuento, Nombre_descuento, concat(Porcentaje_a_descontar,' ', '%') AS Porcentaje
-                  FROM tbl_descuentos";
+                  FROM tbl_descuentos
+                  WHERE Estado = 'activo'";
             $sql= $conexion->prepare($sql);
             $sql->execute();
             return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);                
@@ -67,8 +68,8 @@
         public function insert_descuento($Nombre_descuento, $Porcentaje_a_descontar){
             $conectar= parent::conexion();
             parent::set_names();
-            $sql="INSERT INTO tbl_descuentos(Nombre_descuento, Porcentaje_a_descontar)
-            VALUES (?,?);";
+            $sql="INSERT INTO tbl_descuentos(Nombre_descuento, Porcentaje_a_descontar, Estado)
+            VALUES (?,?, 'activo');";
             $sql=$conectar->prepare($sql);
             $sql->bindValue(1, $Nombre_descuento);
             $sql->bindValue(2, $Porcentaje_a_descontar);
@@ -91,7 +92,7 @@
         public function delete_descuento($Id_Descuento){
             $conectar= parent::conexion();
             parent::set_names();
-            $sql = "DELETE FROM tbl_descuentos WHERE Id_Descuento =?";
+            $sql = "UPDATE tbl_descuentos SET Estado = 'inactivo' WHERE Id_Descuento =?";
             $sql=$conectar->prepare($sql);
             $sql->bindvalue(1, $Id_Descuento);
             $sql->execute();

@@ -29,7 +29,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.3/datatables.min.js"></script>
     <script src="../JS/Detalleventa.js"></script>
-    <script src="../Reportes/Reporte.js"></script>
+    <script src="../Reportes/ReporteH.js"></script>
     <link href="../CSS/datatable.css" rel="stylesheet">
      <!-- Última versión de jspdf -->
      <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
@@ -84,7 +84,7 @@
                     <table id="TablaDetalles" class="table table-hover">
                         <thead>
                             <tr>
-                                <th>ID </th>
+                                <th>N° </th>
                                 <th>NOMBRE DEL PRODUCTO</th>
                                 <th>N° DE VENTA</th>
                                 <th>CANTIDAD</th>
