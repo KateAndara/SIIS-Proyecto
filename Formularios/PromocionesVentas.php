@@ -140,25 +140,38 @@ inputNombrePromocion.addEventListener("input", function() {
 </script>
 
 
-<label for="Precio_Venta">PRECIO DE VENTA</label>
-<input type="number" id="Precio_Venta" class="form-control" placeholder="Ingrese el precio de venta de la promoción" min="0" oninput="checkInputLength()">
-<p id="lengthMessage" ></p>
+<<label for="Precio_Venta">PRECIO DE VENTA</label>
+<input type="text" id="Precio_Venta" class="form-control" placeholder="Ingrese el precio de venta de la promoción" oninput="validateInput()">
+<p id="formatMessage"></p>
 
 <script>
-function checkInputLength() {
+function validateInput() {
   var inputField = document.getElementById("Precio_Venta");
-  var lengthMessage = document.getElementById("lengthMessage");
+  var formatMessage = document.getElementById("formatMessage");
   
-  if (inputField.value.length > 20) {
-    inputField.value = inputField.value.substring(0, 20);
-    lengthMessage.textContent = "Máximo de 20 caracteres alcanzado.";
+  // Eliminar todos los caracteres que no sean dígitos o el punto decimal
+  var cleanInput = inputField.value.replace(/[^\d.]/g, "");
+  
+  // Verificar si el punto decimal aparece más de una vez
+  if ((cleanInput.match(/\./g) || []).length > 1) {
+    cleanInput = cleanInput.substring(0, cleanInput.lastIndexOf("."));
+  }
+  
+  // Limitar la longitud del valor a 20 caracteres
+  if (cleanInput.length > 20) {
+    cleanInput = cleanInput.substring(0, 20);
+  }
+  
+  // Actualizar el valor del campo con la entrada limpia
+  inputField.value = cleanInput;
+  
+  if (cleanInput.length === 20) {
+    formatMessage.textContent = "Máximo de 20 caracteres numéricos alcanzado.";
   } else {
-    lengthMessage.textContent = "";
+    formatMessage.textContent = "";
   }
 }
 </script>
-        
-
 
 <!DOCTYPE html>
 <html lang="es">
