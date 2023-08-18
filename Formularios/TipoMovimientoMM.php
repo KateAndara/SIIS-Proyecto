@@ -115,7 +115,7 @@
                         <input type="number" id="Id_Tipo_Movimiento" class="form-control" placeholder="Ingrese el código del tipo de movimiento"hidden>
                         
                         <label for="">NOMBRE TIPO MOVIMIENTO</label>
-                        <input type="text" id="Descripcion"   class="form-control" placeholder="Ingrese El Nombre Del Tipo De Movimiento" oninput="validarEntrada(this)" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                        <input type="text" id="Descripcion"  autocomplete="off" class="form-control" placeholder="Ingrese El Nombre Del Tipo De Movimiento" oninput="validarEntrada(this)" onkeyup="javascript:this.value=this.value.toUpperCase();">
                         <hr>
 
                         <div id="btnagregarTipoMovimiento">

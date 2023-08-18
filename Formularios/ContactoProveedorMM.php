@@ -132,7 +132,7 @@
                         <input id="Select_Proveedor" type="text" class="form-control" value="<?php echo isset($_GET['id']) ? $_GET['id'] : 'null'; ?>" readonly>
                         <label for="">CONTACTO</label>
 
-                        <input type="text" id="Contacto" class="form-control" placeholder="Ingrese ingrese la información del contacto" oninput="validarEntrada(this)">
+                        <input type="text" id="Contacto" autocomplete="off" class="form-control" placeholder="Ingrese ingrese la información del contacto" oninput="validarEntrada(this)">
                         <hr>
                         <div id="btnagregarContactoProveedor">
                             <a  id="btnagregar" onclick="AgregarContactoProveedorMM()" value="Agregar Contacto Del Proveedor" class="btn btn-success">Agregar Contacto Del Proveedor</a>

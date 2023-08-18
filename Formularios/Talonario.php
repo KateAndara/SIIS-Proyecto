@@ -125,7 +125,7 @@ date_default_timezone_set('America/Tegucigalpa');
                             <div class="col-12 mt-2 row">
                                     <div class="col-12">
                                     <label for="">NUMERO CAI</label>
-                                    <input type="text" maxlength="60"  pattern="^[\d-]+$" id="CAI" class="form-control " placeholder="Ingrese el numero Cai" oninput="validarEntrada(this)">
+                                    <input type="text" maxlength="60" autocomplete="off"  pattern="^[\d-]+$" id="CAI" class="form-control " placeholder="Ingrese el numero Cai" oninput="validarEntrada(this)">
                                     </div>
                                  
                                 </div>

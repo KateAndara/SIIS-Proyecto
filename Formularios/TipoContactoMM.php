@@ -117,7 +117,7 @@
                         <input type="number" id="Id_Tipo_Contacto" class="form-control" placeholder="Ingrese el código del tipo de  contacto"hidden>
                         
                         <label for="">NOMBRE DEL TIPO CONTACTO</label>
-                        <input type="text" id="Nombre_tipo_contacto" class="form-control" placeholder="Ingrese El Nombre Del Tipo Contacto"  oninput="validarEntrada(this)" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                        <input type="text" id="Nombre_tipo_contacto" autocomplete="off" class="form-control" placeholder="Ingrese El Nombre Del Tipo Contacto"  oninput="validarEntrada(this)" onkeyup="javascript:this.value=this.value.toUpperCase();">
                         <hr>
 
                         <div id="btnagregarTipoContacto">

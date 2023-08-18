@@ -108,7 +108,7 @@
                         <input type="number" id="Id_Especie" class="form-control" placeholder="Ingrese el código de la especie"hidden>
                         
                         <label for="">NOMBRE DE LA ESPECIE</label>
-                        <input type="text" id="Nombre_Especie" onkeyup="javascript:this.value=this.value.toUpperCase();"  autofocus require class="form-control" placeholder="Ingrese El Nombre De la Especie" oninput="validarEntrada(this)">
+                        <input type="text" id="Nombre_Especie" autocomplete="off" onkeyup="javascript:this.value=this.value.toUpperCase();"  autofocus require class="form-control" placeholder="Ingrese El Nombre De la Especie" oninput="validarEntrada(this)">
                         <hr>
 
                         <div id="btnagregarEspecie">

@@ -116,7 +116,7 @@
                         <input type="number" id="Id_Estado_Proceso" class="form-control" placeholder="Ingrese el código del  estado del proceso"hidden>
                         
                         <label for="">NOMBRE DE ESTADO DEL PROCESO</label>
-                        <input type="text" id="Descripcion"  autofocus require class="form-control" placeholder="Ingrese El Nombre Del estado del proceso" oninput="validarEntrada(this)" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                        <input type="text" id="Descripcion"  autocomplete="off" autofocus require class="form-control" placeholder="Ingrese El Nombre Del estado del proceso" oninput="validarEntrada(this)" onkeyup="javascript:this.value=this.value.toUpperCase();">
                         <hr>
 
                         <div id="btnagregarEstadoProceso">

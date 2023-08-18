@@ -115,7 +115,7 @@
                         <input type="number" id="Id_Cargo" class="form-control" placeholder="Ingrese el código del  cargo"hidden>
                         
                         <label for="">NOMBRE DEL CARGO</label>
-                        <input type="text" id="Nombre_cargo" onkeyup="javascript:this.value=this.value.toUpperCase();"  autofocus require class="form-control" placeholder="Ingrese El Nombre Del Cargo" oninput="validarEntrada(this)">
+                        <input type="text" id="Nombre_cargo" onkeyup="javascript:this.value=this.value.toUpperCase();"  autofocus require class="form-control" autocomplete="off" placeholder="Ingrese El Nombre Del Cargo" oninput="validarEntrada(this)">
                         <hr>
 
                         <div id="btnagregarCargo">

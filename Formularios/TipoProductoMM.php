@@ -116,7 +116,7 @@
                         <input type="number" id="Id_Tipo_Producto" class="form-control" placeholder="Ingrese el tipo del producto"hidden>
                         
                         <label for="">NOMBRE TIPO DE PRODUCTO </label>
-                        <input type="text" id="Nombre_tipo" class="form-control" placeholder="Ingrese El Nombre Del Tipo De Producto" oninput="validarEntrada(this)" onkeyup="javascript:this.value=this.value.toUpperCase();">
+                        <input type="text" id="Nombre_tipo" autocomplete="off" class="form-control" placeholder="Ingrese El Nombre Del Tipo De Producto" oninput="validarEntrada(this)" onkeyup="javascript:this.value=this.value.toUpperCase();">
                         <hr>
 
                         <div id="btnagregarTipoProducto">
